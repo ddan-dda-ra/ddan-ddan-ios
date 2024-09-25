@@ -13,9 +13,11 @@
 		362864A12C89CA2000029452 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 362864982C89CA1F00029452 /* Pretendard-Bold.otf */; };
 		362864A82C89D64100029452 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362864A72C89D64100029452 /* Font.swift */; };
 		362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
+		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1C92CA4842700BEBCE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36BAF1C82CA4842700BEBCE7 /* Assets.xcassets */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36BAF1CF2CA4919C00BEBCE7 /* HomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */; };
+		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
 		F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */; };
 		F8311F992C7060E8000455ED /* GreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8311F982C7060E8000455ED /* GreenButton.swift */; };
 		F859C0482C7068DF007B886A /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F859C0472C7068DF007B886A /* SignUpData.swift */; };
@@ -45,9 +47,11 @@
 		362864A72C89D64100029452 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
+		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1C82CA4842700BEBCE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
+		36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F8311F982C7060E8000455ED /* GreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenButton.swift; sourceTree = "<group>"; };
 		F859C0472C7068DF007B886A /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
@@ -101,6 +105,23 @@
 				362864962C89CA1F00029452 /* Pretendard-SemiBold.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		36BAF1CB2CA48B9600BEBCE7 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		36C1FE082CA4A83D007CA188 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */,
+				36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		F8311F952C7060B3000455ED /* Components */ = {
@@ -161,6 +182,7 @@
 				362864AF2C89E76200029452 /* Info.plist */,
 				362864902C89BF9900029452 /* Resource */,
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
+				36C1FE082CA4A83D007CA188 /* Home */,
 				F8AB332F2C2EAD2E00BC16C9 /* OnboardingView.swift */,
 				F89A2EBA2C7C80AF00FE3A36 /* Util */,
 				F8311F9A2C7068C4000455ED /* Entity */,
@@ -277,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */,
 				F859C04A2C706A2D007B886A /* SignUpEggView.swift in Sources */,
 				F8FD4FB02C7A0FF600147C4F /* SignUpCalorieViewModel.swift in Sources */,
 				F8AB33302C2EAD2E00BC16C9 /* OnboardingView.swift in Sources */,
@@ -292,6 +315,7 @@
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
 				F85C2BA02C4CBF6B002E2237 /* DialogView.swift in Sources */,
+				36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */,
 				F8C8E71F2C42AFD00052EA9F /* HealthKitManager.swift in Sources */,
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,
 			);
@@ -429,7 +453,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DDanDDan/Preview Content\"";
-				DEVELOPMENT_TEAM = L3B9L4FDBB;
+				DEVELOPMENT_TEAM = 65NSM7Z327;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DDanDDan/Info.plist;
@@ -466,7 +490,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DDanDDan/Preview Content\"";
-				DEVELOPMENT_TEAM = L3B9L4FDBB;
+				DEVELOPMENT_TEAM = 65NSM7Z327;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DDanDDan/Info.plist;
