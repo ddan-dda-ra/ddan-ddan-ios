@@ -5,7 +5,7 @@
 //  Created by 이지희 on 9/26/24.
 //
 
-import Foundation
+import SwiftUI
 
 struct HomeModel {
   let petType: PetType
@@ -22,4 +22,10 @@ enum PetType {
   case greenHam
   case purpleDog
   case bluePenguin
+}
+
+struct ListItem {
+  let image: Image
+  let title: String
+  let content: String
 }
