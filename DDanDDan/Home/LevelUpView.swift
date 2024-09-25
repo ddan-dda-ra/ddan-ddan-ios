@@ -17,6 +17,7 @@ struct LevelUpView: View {
       Color(.backgroundBlack)
       VStack {
         Text("3일 내내 운동을\n열심히 하셨네요!")
+          .multilineTextAlignment(.center)
           .font(.neoDunggeunmo24)
           .foregroundStyle(.white)
           .padding(.top, 124)
