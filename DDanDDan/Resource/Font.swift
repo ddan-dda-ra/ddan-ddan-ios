@@ -10,9 +10,11 @@ import SwiftUI
 extension Font {
   ///neoDunggeunmo
   static let neoDunggeunmo14: Font = .custom("NeoDunggeunmoPro-Regular", size: 14)
+  static let neoDunggeunmo16: Font = .custom("NeoDunggeunmoPro-Regular", size: 16)
   static let neoDunggeunmo22: Font = .custom("NeoDunggeunmoPro-Regular", size: 22)
   static let neoDunggeunmo24: Font = .custom("NeoDunggeunmoPro-Regular", size: 24)
   static let neoDunggeunmo42: Font = .custom("NeoDunggeunmoPro-Regular", size: 42)
+  static let neoDunggeunmo48: Font = .custom("NeoDunggeunmoPro-Regular", size: 48)
   static let neoDunggeunmo52: Font = .custom("NeoDunggeunmoPro-Regular", size: 52)
   
   /// heading
