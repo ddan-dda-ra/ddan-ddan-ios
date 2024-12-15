@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
     static var allCases: [SettingPath] {
@@ -129,7 +130,8 @@ struct SectionView: View {
             case .updateNickname:
                 UpdateNicknameView(coordinator: coordinator, viewModel: UpdateNicknameViewModel(nickname: UserDefaultValue.nickName, repository: SettingRepository()))
             case .updateCalorie:
-                UpdateCalorieView(viewModel: UpdateCalorieViewModel(repository: SettingRepository()), coordinator: coordinator)
+                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
             case .updateTerms:
                 SettingTermView(coordinator: coordinator)
             case .deleteUser:
