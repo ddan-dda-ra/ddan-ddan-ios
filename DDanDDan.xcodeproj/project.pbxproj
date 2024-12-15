@@ -67,7 +67,6 @@
 		36465DC72CFDF11600784E8A /* puppy_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DB72CFDF11600784E8A /* puppy_level1_play+eat.json */; };
 		36465DC82CFDF11600784E8A /* puppy_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DBA2CFDF11600784E8A /* puppy_level3_default.json */; };
 		36465DC92CFDF11600784E8A /* puppy_level2_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DB92CFDF11600784E8A /* puppy_level2_play+eat.json */; };
-		36465E2F2D030AFE00784E8A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 36465E2E2D030AFE00784E8A /* Config.xcconfig */; };
 		364B37962D03916C00E72BFF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37952D03916C00E72BFF /* LoginView.swift */; };
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
@@ -147,6 +146,8 @@
 		F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */; };
 		F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */; };
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
+		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
+		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,7 +245,6 @@
 		36465DBD2CFDF11600784E8A /* puppy_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level4_play+eat.json"; sourceTree = "<group>"; };
 		36465DBE2CFDF11600784E8A /* puppy_level5_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = puppy_level5_default.json; sourceTree = "<group>"; };
 		36465DBF2CFDF11600784E8A /* puppy_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level5_play+eat.json"; sourceTree = "<group>"; };
-		36465E2E2D030AFE00784E8A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		364B37952D03916C00E72BFF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		364B37972D04781900E72BFF /* Adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Adjusted+.swift"; sourceTree = "<group>"; };
 		367A796A2CDCB2060055771B /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
@@ -323,6 +323,7 @@
 		F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTermView.swift; sourceTree = "<group>"; };
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +355,7 @@
 			files = (
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
+				F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */,
 				F8C10C0D2C5782720037D6A5 /* KakaoSDK in Frameworks */,
 				F8C10C112C5782720037D6A5 /* KakaoSDKCommon in Frameworks */,
 				F8C10C0F2C5782720037D6A5 /* KakaoSDKAuth in Frameworks */,
@@ -775,6 +777,7 @@
 		F8AB33212C2EAD2E00BC16C9 = {
 			isa = PBXGroup;
 			children = (
+				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
 				F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */,
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
 				3692E0582CF00CBA0079D2B8 /* DdanDdan_Watch Watch AppTests */,
@@ -800,7 +803,6 @@
 		F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */ = {
 			isa = PBXGroup;
 			children = (
-				36465E2E2D030AFE00784E8A /* Config.xcconfig */,
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
 				367A79722CDD092A0055771B /* AppCoordinator.swift */,
 				362864902C89BF9900029452 /* Resource */,
@@ -917,6 +919,7 @@
 				F8C10C102C5782720037D6A5 /* KakaoSDKCommon */,
 				F8C10C122C5782720037D6A5 /* KakaoSDKUser */,
 				36465D742CF7F28100784E8A /* Lottie */,
+				F9E421792D0ED657005A5795 /* ComposableArchitecture */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -961,6 +964,7 @@
 				F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
+				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = F8AB332B2C2EAD2E00BC16C9 /* Products */;
 			projectDirPath = "";
@@ -1049,7 +1053,7 @@
 				36465D882CF7F39200784E8A /* cat_level3_default.json in Resources */,
 				362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */,
 				3628649D2C89CA2000029452 /* Pretendard-Regular.otf in Resources */,
-				36465E2F2D030AFE00784E8A /* Config.xcconfig in Resources */,
+				F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */,
 				3628649C2C89CA2000029452 /* Pretendard-Medium.otf in Resources */,
 				F8758CF32C8EE1F60038CCBB /* Assets.xcassets in Resources */,
 				362864A12C89CA2000029452 /* Pretendard-Bold.otf in Resources */,
@@ -1350,7 +1354,7 @@
 		};
 		F8AB33362C2EAD2F00BC16C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36465E2E2D030AFE00784E8A /* Config.xcconfig */;
+			baseConfigurationReference = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1415,7 +1419,7 @@
 		};
 		F8AB33372C2EAD2F00BC16C9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36465E2E2D030AFE00784E8A /* Config.xcconfig */;
+			baseConfigurationReference = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1638,6 +1642,14 @@
 				version = 2.22.6;
 			};
 		};
+		F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1670,6 +1682,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		F9E421792D0ED657005A5795 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
