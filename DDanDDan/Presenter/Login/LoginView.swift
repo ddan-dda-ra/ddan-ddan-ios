@@ -46,7 +46,7 @@ struct LoginView: View {
                     }
                 }
                 .padding(.bottom, 40)
-                TransparentOverlayView(isPresented: $viewModel.showToast, isDimView: false) {
+                TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                     VStack {
                         ToastView(message: viewModel.toastMessage)
                     }
