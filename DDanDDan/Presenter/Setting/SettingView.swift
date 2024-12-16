@@ -128,7 +128,9 @@ struct SectionView: View {
         .navigationDestination(for: SettingPath.self) { path in
             switch path {
             case .updateNickname:
-                UpdateNicknameView(coordinator: coordinator, viewModel: UpdateNicknameViewModel(nickname: UserDefaultValue.nickName, repository: SettingRepository()))
+                UpdateNicknameView(coordinator: coordinator, 
+                                   store: Store(initialState: UpdateNicknameReducer.State(),
+                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
             case .updateCalorie:
                 UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
                                                                          reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))

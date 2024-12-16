@@ -120,9 +120,9 @@
 		F8758CEF2C8EDF630038CCBB /* DialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CEE2C8EDF630038CCBB /* DialogView.swift */; };
 		F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
 		F8758CF32C8EE1F60038CCBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
-		F8773BBD2CA541F4009A608F /* UpdateNicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */; };
+		F8773BBD2CA541F4009A608F /* UpdateNicknameReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */; };
 		F8773BC02CA54A02009A608F /* UpdateCalorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */; };
-		F8773BC22CA54E49009A608F /* UpdateCalorieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */; };
+		F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */; };
 		F88663CC2CC8ED14008DB860 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663CB2CC8ED14008DB860 /* NetworkManager.swift */; };
 		F88663CF2CC8ED65008DB860 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663CE2CC8ED65008DB860 /* NetworkError.swift */; };
 		F88663D12CC8EDD4008DB860 /* UserNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663D02CC8EDD4008DB860 /* UserNetwork.swift */; };
@@ -300,9 +300,9 @@
 		F8758CEE2C8EDF630038CCBB /* DialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogView.swift; sourceTree = "<group>"; };
 		F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		F8758CF22C8EE1F60038CCBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameViewModel.swift; sourceTree = "<group>"; };
+		F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameReducer.swift; sourceTree = "<group>"; };
 		F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieView.swift; sourceTree = "<group>"; };
-		F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieViewModel.swift; sourceTree = "<group>"; };
+		F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieReducer.swift; sourceTree = "<group>"; };
 		F88663CB2CC8ED14008DB860 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F88663CE2CC8ED65008DB860 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F88663D02CC8EDD4008DB860 /* UserNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetwork.swift; sourceTree = "<group>"; };
@@ -703,7 +703,7 @@
 			isa = PBXGroup;
 			children = (
 				F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */,
-				F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */,
+				F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */,
 			);
 			path = UpdateNickname;
 			sourceTree = "<group>";
@@ -712,7 +712,7 @@
 			isa = PBXGroup;
 			children = (
 				F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */,
-				F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */,
+				F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */,
 			);
 			path = UpdateCalorie;
 			sourceTree = "<group>";
@@ -1117,7 +1117,7 @@
 				360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */,
 				360E6B362CEBC5F10059661E /* SplashView.swift in Sources */,
 				36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */,
-				F8773BC22CA54E49009A608F /* UpdateCalorieViewModel.swift in Sources */,
+				F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */,
 				36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */,
 				F88FC6E12CCF64150033D4C9 /* MainPet.swift in Sources */,
 				F84B21C52C90227A009FE6F3 /* SettingView.swift in Sources */,
@@ -1144,7 +1144,7 @@
 				367A797A2CDD6D410055771B /* ImageDialogView.swift in Sources */,
 				F809E2FC2CBD06A1001BE099 /* UserManager.swift in Sources */,
 				367A79762CDD544A0055771B /* PetArchiveViewModel.swift in Sources */,
-				F8773BBD2CA541F4009A608F /* UpdateNicknameViewModel.swift in Sources */,
+				F8773BBD2CA541F4009A608F /* UpdateNicknameReducer.swift in Sources */,
 				F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */,
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
