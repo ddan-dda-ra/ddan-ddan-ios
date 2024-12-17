@@ -55,7 +55,7 @@ struct UpdateCalorieView: View {
                     
                     GreenButton(action: {
                         viewStore.send(.requestUpdate)
-                    }, title: "변경 완료", disabled: .constant(false))
+                    }, title: "변경 완료", disabled: false)
                 }
                 TransparentOverlayView(isPresented: !viewStore.toastMessage.isEmpty, isDimView: false) {
                     VStack {

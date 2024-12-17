@@ -50,7 +50,7 @@ struct DeleteUserConfirmView: View {
                         coordinator.setRoot(to: .login)
                         
                     }
-                }, title: "탈퇴하기", disabled: Binding(get: { !isChecked }, set: {_ in}))
+                }, title: "탈퇴하기", disabled: !isChecked)
             }
         }
         .navigationBarHidden(true)

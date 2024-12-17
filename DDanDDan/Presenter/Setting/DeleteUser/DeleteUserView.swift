@@ -45,7 +45,7 @@ struct DeleteUserView: View {
                 Spacer()
                 GreenButton(action: {
                     coordinator.push(to: .deleteUserConfirm(reasons: selectedReason))
-                }, title: "탈퇴하기", disabled: .constant(selectedReason.isEmpty))
+                }, title: "탈퇴하기", disabled: selectedReason.isEmpty)
                 .padding(.bottom, 20)
             }
         }
