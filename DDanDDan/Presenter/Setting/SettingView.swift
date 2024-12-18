@@ -21,7 +21,7 @@ enum SettingPath: Hashable, CaseIterable {
 //    case notification
     case updateTerms
     case deleteUser
-    case deleteUserConfirm(reasons: Set<String>)
+    case deleteUserConfirm(store: StoreOf<DeleteUserReducer>)
     case logout
     
     var description: String {
@@ -137,9 +137,9 @@ struct SectionView: View {
             case .updateTerms:
                 SettingTermView(coordinator: coordinator)
             case .deleteUser:
-                DeleteUserView(coordinator: coordinator)
-            case .deleteUserConfirm(let reasons):
-                DeleteUserConfirmView(viewModel: DeleteUserViewModel(repository: SettingRepository()), coordinator: coordinator, selectedReason: reasons)
+                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+            case .deleteUserConfirm(let store):
+                DeleteUserConfirmView(coordinator: coordinator, store: store)
             case .logout:
                 EmptyView()
             }

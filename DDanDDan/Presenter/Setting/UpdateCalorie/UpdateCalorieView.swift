@@ -69,6 +69,7 @@ struct UpdateCalorieView: View {
                 }
             }
         }
+        .navigationBarHidden(true)
     }
 }
 

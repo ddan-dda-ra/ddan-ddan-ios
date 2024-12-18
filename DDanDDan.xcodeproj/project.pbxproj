@@ -109,7 +109,7 @@
 		F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7322CB384F8004FF1F2 /* SettingTermView.swift */; };
 		F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7352CB38861004FF1F2 /* WebView.swift */; };
 		F80DF7392CB3DA2C004FF1F2 /* DeleteUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */; };
-		F80DF73B2CB3DA38004FF1F2 /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */; };
+		F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */; };
 		F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */; };
 		F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */; };
 		F8311F992C7060E8000455ED /* GreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8311F982C7060E8000455ED /* GreenButton.swift */; };
@@ -289,7 +289,7 @@
 		F80DF7322CB384F8004FF1F2 /* SettingTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTermView.swift; sourceTree = "<group>"; };
 		F80DF7352CB38861004FF1F2 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserView.swift; sourceTree = "<group>"; };
-		F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewModel.swift; sourceTree = "<group>"; };
+		F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserReducer.swift; sourceTree = "<group>"; };
 		F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameView.swift; sourceTree = "<group>"; };
 		F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F8311F982C7060E8000455ED /* GreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenButton.swift; sourceTree = "<group>"; };
@@ -637,7 +637,7 @@
 			children = (
 				F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */,
 				F809E2FD2CBD0841001BE099 /* DeleteUserConfirmView.swift */,
-				F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */,
+				F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */,
 			);
 			path = DeleteUser;
 			sourceTree = "<group>";
@@ -1149,7 +1149,7 @@
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
 				36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */,
-				F80DF73B2CB3DA38004FF1F2 /* DeleteUserViewModel.swift in Sources */,
+                F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
 				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
