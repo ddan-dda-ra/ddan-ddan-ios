@@ -37,7 +37,7 @@ struct SignUpSuccessView<ViewModel: SignUpViewModelProtocol>: View {
                         coordinator.triggerHomeUpdate()
                         coordinator.setRoot(to: .home)
                     }
-                }, title: "시작하기", disabled: .constant(false))
+                }, title: "시작하기", disabled: false)
             }
         }
         .navigationBarHidden(true)

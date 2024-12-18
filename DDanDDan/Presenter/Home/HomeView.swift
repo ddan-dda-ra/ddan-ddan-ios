@@ -56,7 +56,7 @@ struct HomeView: View {
             .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
             .padding(.bottom, isSEDevice ? 24 : 60.adjustedHeight)
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 800.adjustedHeight, alignment: .center)
-            TransparentOverlayView(isPresented: $viewModel.showToast) {
+            TransparentOverlayView(isPresented: viewModel.showToast) {
                 VStack {
                     ToastView(message: viewModel.toastMessage)
                 }
@@ -66,7 +66,7 @@ struct HomeView: View {
                 .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
                 .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 250)
             }
-            TransparentOverlayView(isPresented: $viewModel.isPresentEarnFood) {
+            TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
                     show: $viewModel.isPresentEarnFood,
                     image: .eatGraphic,
@@ -84,16 +84,20 @@ struct HomeView: View {
                         petType: viewModel.homePetModel.petType
                     )
                     )
+                    viewModel.isLevelUp = false
                 }
             }
             .onChange(of: viewModel.isMaxLevel) { newValue in
                 if newValue {
                     coordinator.push( to: .newPet)
+                    
+                    viewModel.isMaxLevel = false
                 }
             }
             .onChange(of: viewModel.isGoalMet) { newValue in
                 if newValue {
                     coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
+                    viewModel.isGoalMet = false
                 }
             }
             .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
@@ -179,7 +183,7 @@ extension HomeView {
                     .animation(.easeInOut(duration: 0.3).delay(0.1), value: viewModel.showBubble)
                     .transition(.opacity)
                     .frame(minWidth: 75, maxWidth: 167, minHeight: 56)
-                    .offset(y: 16.adjustedHeight)
+                    .offset(y: viewModel.showBubble ? 10.adjustedHeight : 16)
                 petImage
                     .onTapGesture {
                         viewModel.showRandomBubble(type: .normal)
@@ -194,7 +198,7 @@ extension HomeView {
             if (viewModel.homePetModel.petType != .bluePenguin) {
                 if viewModel.isPlayingSpecialAnimation {
                     LottieView(animation: .named(viewModel.currentLottieAnimation))
-                        .playing(loopMode: .playOnce)
+                        .playing(loopMode: .loop)
                         .frame(width: 100.adjusted, height: 100.adjusted)
                 } else {
                     LottieView(animation: .named(viewModel.homePetModel.petType.lottieString(level: viewModel.homePetModel.level)))

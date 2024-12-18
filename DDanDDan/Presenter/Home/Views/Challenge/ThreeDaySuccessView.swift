@@ -38,7 +38,7 @@ struct ThreeDaySuccessView: View {
                 Spacer()
                 GreenButton(action: {
                     coordinator.pop()
-                }, title: "획득하기", disabled: .constant(false))
+                }, title: "획득하기", disabled: false)
                 .padding(.bottom, 44)
             }
         }

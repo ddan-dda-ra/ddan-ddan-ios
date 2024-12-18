@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct GreenButton: View {
-    @Binding public var disabled: Bool
+    public let disabled: Bool
     private let action: () -> Void, title: String
     private let greenColor = Color(red: 19/255, green: 230/255, blue: 149/255)
     private let greyColor = Color(red: 41/255, green: 41/255, blue: 41/255)
-    init(action: @escaping () -> Void, title: String, disabled: Binding<Bool>) {
+    init(action: @escaping () -> Void, title: String, disabled: Bool) {
         self.action = action
         self.title = title
-        self._disabled = disabled
+        self.disabled = disabled
     }
     var body: some View {
         Button {

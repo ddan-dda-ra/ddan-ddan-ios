@@ -27,6 +27,7 @@ final class NewPetViewModel: ObservableObject {
             let mainPetResult = await homeRepository.updateMainPet(petId: pet.id)
             switch mainPetResult {
             case .success(_):
+                await coordinator.triggerHomeUpdate()
                 await coordinator.pop()
             case .failure(let error):
                 print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")

@@ -74,7 +74,7 @@ public struct SignUpTermView<ViewModel: SignUpViewModelProtocol>: View {
                     
                     GreenButton(action: {
                         coordinator.push(to: .nickname)
-                    }, title: "시작하기", disabled: $buttonDisabled)
+                    }, title: "시작하기", disabled: buttonDisabled)
                     
                 }
             } 

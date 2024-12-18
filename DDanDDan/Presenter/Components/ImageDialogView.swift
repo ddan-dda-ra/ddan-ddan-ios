@@ -32,18 +32,20 @@ struct ImageDialogView: View {
                         .font(.subTitle1_semibold14)
                         .foregroundStyle(Color.textBodyTeritary)
                 }
-                Button(buttonTitle) {
+                Button {
                     withAnimation {
                         show.toggle()
                         buttonHandler?()
                     }
+                } label: {
+                    Text(buttonTitle)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .font(.heading6_semibold16)
+                        .background(Color.buttonGreen)
+                        .foregroundColor(.black)
+                        .padding(20)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(height: 56)
-                .font(.heading6_semibold16)
-                .background(Color.buttonGreen)
-                .foregroundColor(.black)
-                .padding(20)
             }
             .frame(width: 308, height: 278)
             .background(Color.backgroundGray)

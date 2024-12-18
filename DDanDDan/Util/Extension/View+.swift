@@ -28,11 +28,11 @@ extension UIScreen {
 }
 
 struct TransparentOverlayView<Content: View>: View {
-    @Binding var isPresented: Bool
+    let isPresented: Bool
     let content: Content
     
-    init(isPresented: Binding<Bool>, @ViewBuilder content: () -> Content) {
-        self._isPresented = isPresented
+    init(isPresented: Bool, @ViewBuilder content: () -> Content) {
+        self.isPresented = isPresented
         self.content = content()
     }
     

@@ -120,7 +120,7 @@ final class HomeViewModel: ObservableObject {
         guard homePetModel.feedCount > 0 else {
             DispatchQueue.main.async { [weak self] in
                 self?.toastMessage = "먹이가 부족해요!"
-                self?.triggerHapticFeedback(style: .warning)
+              self?.triggerHapticFeedback(style: .warning)
                 self?.showToastMessage()
             }
             return
@@ -265,7 +265,7 @@ final class HomeViewModel: ObservableObject {
                         self.isDailyGoalMet = true
                     } else {
                         self.earnFood = dailyInfo.user.foodQuantity - self.homePetModel.feedCount
-                        self.isPresentEarnFood = true
+                        self.isPresentEarnFood = self.earnFood > 0 /// 얻은 먹이가 양수일 때만 다이얼로그 띄움
                     }
                 }
                 
@@ -274,7 +274,7 @@ final class HomeViewModel: ObservableObject {
                         guard let self else { return }
                         DispatchQueue.main.async {
                             self.threeDaysTotalKcal = Int(totalKcal)
-                            self.isGoalMet = true
+                            self.isGoalMet = dailyInfo.user.toyQuantity - self.homePetModel.toyCount > 0
                         }
                     }
                 }

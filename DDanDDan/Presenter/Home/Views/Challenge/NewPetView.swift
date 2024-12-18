@@ -27,7 +27,7 @@ struct NewPetView: View {
                     Task {
                         await viewModel.createRandomPet()
                     }
-                }, title: "시작하기", disabled: .constant(false))
+                }, title: "시작하기", disabled: false)
                 .padding(.bottom, 44)
             }
         }

@@ -74,7 +74,7 @@ struct PetArchiveView: View {
                     } else {
                         viewModel.showToastMessage()
                     }
-                }, title: "선택 완료", disabled: .constant(false))
+                }, title: "선택 완료", disabled: false)
                 .padding(.bottom, 44)
             }
             if viewModel.showToast {
