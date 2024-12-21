@@ -49,13 +49,38 @@ final class PetArchiveViewModel: ObservableObject {
         
         if case .success(let petArchive) = petArchiveModel {
             UserDefaultValue.userId = petArchive.ownerUserId
-            DispatchQueue.main.async { [weak self] in
-                self?.petList = petArchive.pets
-                let petCount = petArchive.pets.count
-                self?.gridItemCount = max(9, Int(ceil(Double(petCount) / 3.0)) * 3)
+            await updatePetList(with: petArchive.pets)
+            
+            // 모든 펫의 level과 exp가 최대치인지 확인 후 새로운 펫 추가
+            if checkIsMaxLevel(pets: petArchive.pets) {
+                await addNewRandomPet()
             }
         }
     }
+    
+   
+    private func checkIsMaxLevel(pets: [Pet]) -> Bool {
+        // 모든 펫이 최대치인지 확인
+        pets.allSatisfy { $0.expPercent >= 100 && $0.level == 5 }
+    }
+
+    private func addNewRandomPet() async {
+       let newRandomPet = await homeRepository.addNewRandomPet()
+        if case .success(let newPet) = newRandomPet {
+            petList.append(newPet)
+        }
+    }
+    
+    private func updatePetList(with pets: [Pet]) async {
+        let petCount = pets.count
+        let gridItemCount = max(9, Int(ceil(Double(petCount) / 3.0)) * 3)
+        
+        await MainActor.run { [weak self] in
+            self?.petList = pets
+            self?.gridItemCount = gridItemCount
+        }
+    }
+
     
     func selectMainPet(id: String) async {
         let result = await homeRepository.updateMainPet(petId: id)
