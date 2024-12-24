@@ -24,10 +24,11 @@ struct PetArchiveView: View {
             
             VStack {
                 CustomNavigationBar(
-                    title: "펫 보관함",leftButtonImage: Image(.arrow), leftButtonAction: {
+                    title: "펫 보관함",
+                    leftButtonImage: Image(.arrow),
+                    leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 .padding(.bottom, 28)
                 HStack {

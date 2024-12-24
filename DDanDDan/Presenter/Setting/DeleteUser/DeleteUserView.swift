@@ -21,12 +21,10 @@ struct DeleteUserView: View {
             Color.backgroundBlack.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
                 CustomNavigationBar(
-                    title: "",
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 Text("탈퇴하는 이유가\n무엇인가요?")
                     .font(.neoDunggeunmo24)

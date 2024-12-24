@@ -21,8 +21,7 @@ struct UpdateNicknameView<ViewModel: UpdateNicknameViewModelProtocol>: View {
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 VStack(alignment: .leading) {
                     
