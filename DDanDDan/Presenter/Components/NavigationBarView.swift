@@ -14,6 +14,25 @@ struct CustomNavigationBar: View {
     var rightButtonImage: Image?
     var rightButtonAction: (() -> Void)? = nil
     var buttonSize: Int
+    var navigationBarHeight: CGFloat
+    
+    init(
+        title: String = "",
+        leftButtonImage: Image? = nil,
+        leftButtonAction: (() -> Void)? = nil,
+        rightButtonImage: Image? = nil,
+        rightButtonAction: (() -> Void)? = nil,
+        buttonSize: Int = 24,
+        navigationBarHeight: CGFloat = 48
+    ) {
+        self.title = title
+        self.leftButtonImage = leftButtonImage
+        self.leftButtonAction = leftButtonAction
+        self.rightButtonImage = rightButtonImage
+        self.rightButtonAction = rightButtonAction
+        self.buttonSize = buttonSize
+        self.navigationBarHeight = navigationBarHeight
+    }
     
     var body: some View {
         ZStack {
@@ -28,7 +47,7 @@ struct CustomNavigationBar: View {
                             .resizable()
                             .scaledToFit()
                     }
-                    .frame(width: buttonSize.adjustedWidth, height: buttonSize.adjusted)
+                    .frame(width: buttonSize.adjusted, height: buttonSize.adjusted)
                 } else {
                     Spacer()
                         .frame(width: buttonSize.adjusted)
@@ -57,6 +76,6 @@ struct CustomNavigationBar: View {
             }
             .padding(.horizontal, 20)
         }
-        .frame(height: 40)
+        .frame(height: navigationBarHeight)
     }
 }

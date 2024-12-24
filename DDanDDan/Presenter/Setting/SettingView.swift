@@ -58,8 +58,7 @@ struct SettingView: View {
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 VStack(spacing: 8) {
                     SectionView(items: SettingPath.topSection, notificationState: $notificationState, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
