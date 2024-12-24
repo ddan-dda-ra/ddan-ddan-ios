@@ -42,9 +42,9 @@ struct HomeView: View {
                     navigationBarHeight: 30
                 )
                 kcalView
-                    .padding(.bottom, isSEDevice ? 24 : 0.adjusted)
+                    .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
                 petBackgroundView
-                    .padding(.bottom, isSEDevice ? 15 : 28.adjusted)
+                    .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 levelView
                     .padding(.bottom, 10.adjusted)
@@ -63,7 +63,7 @@ struct HomeView: View {
                     insertion: .move(edge: .top).combined(with: .opacity),
                     removal: .opacity)) // 사라질 때는 페이드 아웃만
                 .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 100.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
             }
             TransparentOverlayView(isPresented: $viewModel.isPresentEarnFood) {
                 ImageDialogView(
@@ -156,13 +156,13 @@ extension HomeView {
         HStack(alignment: .lastTextBaseline,spacing: 4) {
             Text("\(viewModel.currentKcal)")
                 .font(.neoDunggeunmo52)
-                .foregroundStyle(.white)
+                .foregroundStyle(.textHeadlinePrimary)
             Text("/")
                 .font(.neoDunggeunmo42)
-                .foregroundStyle(.white)
+                .foregroundStyle(.textHeadlinePrimary)
             Text("\(viewModel.homePetModel.goalKcal) kcal")
                 .font(.neoDunggeunmo22)
-                .foregroundStyle(.white)
+                .foregroundStyle(.textHeadlinePrimary)
         }
         .frame(height: 52.adjusted)
     }
@@ -177,7 +177,7 @@ extension HomeView {
                 viewModel.homePetModel.petType.backgroundImage
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: 400.adjusted)
+                    .frame(height: 370.adjusted)
             }
             VStack {
                 Image(viewModel.bubbleImage)
@@ -191,7 +191,7 @@ extension HomeView {
                         viewModel.showRandomBubble(type: .normal)
                     }
             }
-            .offset(y: isSEDevice ? 35.adjusted : 63.adjustedHeight)
+            .offset(y: isSEDevice ? 45.adjusted : 55.adjustedHeight)
         }
     }
     
@@ -214,7 +214,8 @@ extension HomeView {
             HStack {
                 Text("LV.\(viewModel.homePetModel.level)")
                     .font(.neoDunggeunmo14)
-                    .padding(4.adjusted)
+                    .padding(.vertical, 4.adjusted)
+                    .padding(.horizontal, 6.adjustedWidth)
                     .foregroundStyle(.white)
                     .background(.borderGray)
                     .cornerRadius(4)

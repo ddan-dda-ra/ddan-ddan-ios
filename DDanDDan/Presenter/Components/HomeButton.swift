@@ -31,8 +31,8 @@ struct HomeButton: View {
           .font(.body3_regular12)
           .foregroundStyle(.textBodyTeritary)
       }
-      .padding(.vertical, 12)
-      .padding(.horizontal, 43)
+      .padding(.vertical, 12.adjusted)
+      .padding(.horizontal, 10.adjusted)
     }
     .overlay(
         RoundedRectangle(cornerRadius: 8)
