@@ -36,8 +36,6 @@ struct PetArchiveView: View {
                         ForEach(0..<viewModel.gridItemCount, id: \.self) { index in
                             ZStack {
                                 let pet = viewModel.petList[safe: index]
-                                
-                                // UserDefaults에서 저장된 petId와 비교하여 border 색상 설정
                                 RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
                                     .stroke(viewModel.selectedIndex == index ? Color.buttonGreen : Color.clear, lineWidth: 4)
                                     .background(
@@ -59,7 +57,11 @@ struct PetArchiveView: View {
                                 }
                             }
                             .onTapGesture {
-                                viewModel.toggleSelection(for: index)
+                                if viewModel.petList[safe: index] == nil {
+                                    viewModel.showToastMessage()
+                                } else {
+                                    viewModel.toggleSelection(for: index)
+                                }
                             }
                         }
                     }

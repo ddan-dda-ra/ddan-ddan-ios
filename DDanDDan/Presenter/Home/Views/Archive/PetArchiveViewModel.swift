@@ -48,13 +48,21 @@ final class PetArchiveViewModel: ObservableObject {
         let petArchiveModel = await homeRepository.getPetArchive()
         
         if case .success(let petArchive) = petArchiveModel {
+            await selectedFirstPetIndex(pets: petArchive.pets)
+
             UserDefaultValue.userId = petArchive.ownerUserId
             await updatePetList(with: petArchive.pets)
             
-            // 모든 펫의 level과 exp가 최대치인지 확인 후 새로운 펫 추가
             if checkIsMaxLevel(pets: petArchive.pets) {
                 await addNewRandomPet()
             }
+        }
+    }
+    
+    @MainActor
+    private func selectedFirstPetIndex(pets: [Pet]) {
+        selectedIndex = pets.firstIndex {
+            $0.id == UserDefaultValue.petId
         }
     }
     
