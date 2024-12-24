@@ -29,6 +29,8 @@
 		362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		363CC4462CCAD06E00D2EE47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
 		363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */; };
+		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
+		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
 		36465D802CF7F39200784E8A /* cat_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D772CF7F39200784E8A /* cat_level1_play+eat.json */; };
 		36465D812CF7F39200784E8A /* cat_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7B2CF7F39200784E8A /* cat_level3_play+eat.json */; };
@@ -69,7 +71,6 @@
 		364B37962D03916C00E72BFF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37952D03916C00E72BFF /* LoginView.swift */; };
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
-		3650CCCE2CCAA22B00ED5967 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362864A72C89D64100029452 /* Font.swift */; };
 		3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
 		367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796A2CDCB2060055771B /* HomeRepository.swift */; };
 		367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796C2CDCB30A0055771B /* PetArchiveModel.swift */; };
@@ -209,6 +210,7 @@
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
 		36465D792CF7F39200784E8A /* cat_level2_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level2_play+eat.json"; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				F8758CF22C8EE1F60038CCBB /* Assets.xcassets */,
 				362864912C89BFA700029452 /* Fonts */,
 				362864A72C89D64100029452 /* Font.swift */,
+				36448A882D1AAFEB005CFC8C /* WatchFont.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -1060,12 +1063,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */,
 				3692E0532CF00CB70079D2B8 /* WatchConnectivityManager.swift in Sources */,
 				3692E0542CF00CB70079D2B8 /* ContentView.swift in Sources */,
 				3692E0552CF00CB70079D2B8 /* WatchViewModel.swift in Sources */,
 				3692E0562CF00CB70079D2B8 /* DdanDdan_WatchApp.swift in Sources */,
 				36465DB42CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
-				3650CCCE2CCAA22B00ED5967 /* Font.swift in Sources */,
 				3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1141,6 +1144,7 @@
 				F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */,
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
+				36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */,
 				F80DF73B2CB3DA38004FF1F2 /* DeleteUserViewModel.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
