@@ -22,16 +22,17 @@ struct HomeButton: View {
         .cornerRadius(8)
       VStack {
         Text(buttonTitle)
+          .lineSpacing(8)
           .font(.heading6_semibold16)
           .foregroundStyle(.white)
-          .lineSpacing(6)
+          .padding(.bottom, 0.5)
         Text("\(count)개 보유")
+          .lineSpacing(10)
           .font(.body3_regular12)
           .foregroundStyle(.textBodyTeritary)
-          .lineSpacing(8)
       }
-      .padding(.vertical, 12)
-      .padding(.horizontal, 43)
+      .padding(.vertical, 12.adjusted)
+      .padding(.horizontal, 10.adjusted)
     }
     .overlay(
         RoundedRectangle(cornerRadius: 8)

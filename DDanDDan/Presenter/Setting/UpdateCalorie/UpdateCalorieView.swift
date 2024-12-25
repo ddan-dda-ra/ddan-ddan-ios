@@ -21,8 +21,7 @@ struct UpdateCalorieView: View {
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 Text("하루 목표 칼로리를\n설정해 주세요")
                     .font(.neoDunggeunmo24)

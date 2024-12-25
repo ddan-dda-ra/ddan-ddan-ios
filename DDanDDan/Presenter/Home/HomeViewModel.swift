@@ -72,15 +72,14 @@ final class HomeViewModel: ObservableObject {
     
     @MainActor
     func updateLottieAnimation(for action: LottieMode) async throws {
-        guard !isPlayingSpecialAnimation else { return } // 이미 애니메이션이 재생 중인 경우 무시
+        guard !isPlayingSpecialAnimation else { return }
         
         isPlayingSpecialAnimation = true
         currentLottieAnimation = homePetModel.petType.lottieString(level: homePetModel.level, mode: action)
-        generator.impactOccurred(intensity: 1.0)
-        
-        // 햅틱 지속 효과 (반복적으로 발생)
-        let hapticDuration: Double = 1.0 // 햅틱 효과 지속 시간 (초)
-        let interval: UInt64 = 100_000_000 // 0.1초 간격 (나노초)
+
+        // 햅틱
+        let hapticDuration: Double = 1.0
+        let interval: UInt64 = 100_000_000
         let repeatCount = Int(hapticDuration / (Double(interval) / 1_000_000_000))
         
         for _ in 0..<repeatCount {
@@ -89,11 +88,15 @@ final class HomeViewModel: ObservableObject {
         }
         
         
-        try await  Task.sleep(for: .milliseconds(1600))
-        generator.prepare()
+        await withCheckedContinuation { continuation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) { [weak self] in
+                self?.isPlayingSpecialAnimation = false
+                self?.currentLottieAnimation = ""
+                continuation.resume()
+            }
+        }
         
-        self.isPlayingSpecialAnimation = false
-        self.currentLottieAnimation = "" // 초기 상태로 복구
+        generator.prepare()
     }
     
     @MainActor
@@ -195,9 +198,11 @@ final class HomeViewModel: ObservableObject {
         if self.homePetModel.level != petData.pet.level {
             self.homePetModel.level = petData.pet.level
             self.isLevelUp = true
+            self.isPlayingSpecialAnimation = false
         }
         
         if petData.pet.level == 5 && petData.pet.expPercent == 100 && !isMaxLevel {
+            self.isPlayingSpecialAnimation = false
             self.isMaxLevel = true
         }
         

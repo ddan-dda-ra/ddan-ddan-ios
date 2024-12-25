@@ -38,14 +38,12 @@ struct SettingTermView: View {
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 List(SettingTerm.allCases, id: \.self) { item in
                     NavigationLink(destination: WebView(url: item.urlString)) {
                         Text(item.description)
                     }
-                    .frame(minHeight: 48)
                     .foregroundStyle(Color.textHeadlinePrimary)
                     .listRowBackground(Color.backgroundBlack)
                     .listRowSeparator(.hidden)
