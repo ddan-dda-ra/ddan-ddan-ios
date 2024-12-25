@@ -22,12 +22,12 @@ struct HomeButton: View {
         .cornerRadius(8)
       VStack {
         Text(buttonTitle)
-          .lineSpacing(6)
+          .lineSpacing(8)
           .font(.heading6_semibold16)
           .foregroundStyle(.white)
           .padding(.bottom, 0.5)
         Text("\(count)개 보유")
-          .lineSpacing(8)
+          .lineSpacing(10)
           .font(.body3_regular12)
           .foregroundStyle(.textBodyTeritary)
       }
