@@ -55,7 +55,7 @@ struct HomeView: View {
             .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
             .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
-            TransparentOverlayView(isPresented: $viewModel.showToast, isDimView: false) {
+            TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
                     ToastView(message: viewModel.toastMessage)
                 }
@@ -65,7 +65,7 @@ struct HomeView: View {
                 .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
             }
-            TransparentOverlayView(isPresented: $viewModel.isPresentEarnFood) {
+            TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
                     show: $viewModel.isPresentEarnFood,
                     image: .eatGraphic,

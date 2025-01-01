@@ -28,16 +28,16 @@ extension UIScreen {
 }
 
 struct TransparentOverlayView<Content: View>: View {
-    @Binding var isPresented: Bool
+    let isPresented: Bool
     var isDimView: Bool
     let content: Content
     
     init(
-        isPresented: Binding<Bool>,
+        isPresented: Bool,
         isDimView: Bool = true,
         @ViewBuilder content: () -> Content
     ) {
-        self._isPresented = isPresented
+        self.isPresented = isPresented
         self.isDimView = isDimView
         self.content = content()
     }

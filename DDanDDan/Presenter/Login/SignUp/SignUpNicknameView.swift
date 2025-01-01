@@ -47,7 +47,7 @@ public struct SignUpNicknameView<ViewModel: SignUpViewModelProtocol>: View {
                             
                         }
                     }
-                }, title: "다음", disabled: $buttonDisabled)
+                }, title: "다음", disabled: buttonDisabled)
                 .onChange(of: nickname) { newValue in
                     buttonDisabled = nickname.isEmpty
                 }

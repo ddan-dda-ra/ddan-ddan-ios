@@ -39,7 +39,7 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
                         }
                     }
                   
-                }, title: "다음", disabled: $buttonDisabled)
+                }, title: "다음", disabled: buttonDisabled)
                 .onChange(of: selectedEgg) { newValue in
                     buttonDisabled = selectedEgg == nil
                 }
