@@ -8,6 +8,10 @@
 import SwiftUI
 import HealthKit
 
+#if DEBUG
+import FLEX
+#endif
+
 import Lottie
 
 enum HomePath: Hashable {
@@ -108,7 +112,9 @@ struct HomeView: View {
                 }
             }
             .task {
-                // 이거 쓰기
+#if DEBUG
+                FLEXManager.shared.showExplorer()
+#endif
             }
             
         }
