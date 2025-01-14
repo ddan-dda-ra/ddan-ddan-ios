@@ -181,9 +181,9 @@ final class HomeViewModel: ObservableObject {
         case .serverError(_, let code):
             generator.impactOccurred()
             toastMessage = code == "PE003" ? "성장이 끝난 펫이에요!" : "오류가 발생했습니다: \(code)"
+            showToastMessage()
         default: break
         }
-        showToastMessage()
     }
     
     @MainActor
@@ -309,7 +309,6 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-    
     
     /// 토스트 메시지 관련 메서드
     private func showToastMessage() {
