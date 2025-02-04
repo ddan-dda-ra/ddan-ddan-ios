@@ -150,6 +150,7 @@
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
+		F9F7EF032D5183B40029BA9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +327,7 @@
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -807,6 +809,7 @@
 		F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */ = {
 			isa = PBXGroup;
 			children = (
+				F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */,
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
 				367A79722CDD092A0055771B /* AppCoordinator.swift */,
 				362864902C89BF9900029452 /* Resource */,
@@ -1042,6 +1045,7 @@
 				36465DC72CFDF11600784E8A /* puppy_level1_play+eat.json in Resources */,
 				36465DC82CFDF11600784E8A /* puppy_level3_default.json in Resources */,
 				36465DC92CFDF11600784E8A /* puppy_level2_play+eat.json in Resources */,
+				F9F7EF032D5183B40029BA9F /* GoogleService-Info.plist in Resources */,
 				36465DA52CFA414400784E8A /* hamster_level1_default.json in Resources */,
 				36465DA62CFA414400784E8A /* hamster_level2_play+eat.json in Resources */,
 				36465DA72CFA414400784E8A /* hamster_level1_play+eat.json in Resources */,

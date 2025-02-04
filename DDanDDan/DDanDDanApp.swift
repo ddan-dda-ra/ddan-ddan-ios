@@ -17,7 +17,8 @@ struct DDanDDanApp: App {
     @StateObject var user = UserManager.shared
     @StateObject private var appCoordinator = AppCoordinator()
     private let watchConnection = WatchConnectivityManager.shared
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     init() {
         KakaoSDK.initSDK(appKey: Config.kakaoKey)
     }
