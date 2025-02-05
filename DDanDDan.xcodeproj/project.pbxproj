@@ -31,6 +31,7 @@
 		363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */; };
 		3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3641954D2D4D18890065C400 /* FirebaseAnalytics */; };
 		364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3641954F2D4D18890065C400 /* FirebaseMessaging */; };
+		364195632D53A5E80065C400 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 364195622D53A5E80065C400 /* GoogleService-Info.plist */; };
 		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
@@ -150,7 +151,6 @@
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
-		F9F7EF032D5183B40029BA9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -214,6 +214,7 @@
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		364195622D53A5E80065C400 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
@@ -327,7 +328,6 @@
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -784,6 +784,7 @@
 			isa = PBXGroup;
 			children = (
 				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
+				364195622D53A5E80065C400 /* GoogleService-Info.plist */,
 				F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */,
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
 				3692E0582CF00CBA0079D2B8 /* DdanDdan_Watch Watch AppTests */,
@@ -809,7 +810,6 @@
 		F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */ = {
 			isa = PBXGroup;
 			children = (
-				F9F7EF022D5183B40029BA9F /* GoogleService-Info.plist */,
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
 				367A79722CDD092A0055771B /* AppCoordinator.swift */,
 				362864902C89BF9900029452 /* Resource */,
@@ -1045,7 +1045,7 @@
 				36465DC72CFDF11600784E8A /* puppy_level1_play+eat.json in Resources */,
 				36465DC82CFDF11600784E8A /* puppy_level3_default.json in Resources */,
 				36465DC92CFDF11600784E8A /* puppy_level2_play+eat.json in Resources */,
-				F9F7EF032D5183B40029BA9F /* GoogleService-Info.plist in Resources */,
+				364195632D53A5E80065C400 /* GoogleService-Info.plist in Resources */,
 				36465DA52CFA414400784E8A /* hamster_level1_default.json in Resources */,
 				36465DA62CFA414400784E8A /* hamster_level2_play+eat.json in Resources */,
 				36465DA72CFA414400784E8A /* hamster_level1_play+eat.json in Resources */,
