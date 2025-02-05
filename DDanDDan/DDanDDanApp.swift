@@ -16,8 +16,10 @@ import FirebaseMessaging
 struct DDanDDanApp: App {
     @StateObject var user = UserManager.shared
     @StateObject private var appCoordinator = AppCoordinator()
-    private let watchConnection = WatchConnectivityManager.shared
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    private let watchConnection = WatchConnectivityManager.shared
 
     init() {
         KakaoSDK.initSDK(appKey: Config.kakaoKey)
@@ -71,7 +73,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     /// APNS 토큰과 등록 토큰 매핑
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let token = deviceToken.reduce("") {
+            $0 + String(format: "%02X", $1)
+        }
+        print(token)
+        
+        print("여기 출력 되나요?")
         Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error.localizedDescription)
     }
     
 }
