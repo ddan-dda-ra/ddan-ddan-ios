@@ -11,7 +11,7 @@ import Alamofire
 
 public final class TokenInterceptor: Interceptor {
     
-    private let maxRetryCount = 1
+    private let maxRetryCount = 3
     private var retryCounts: [URLRequest: Int] = [:]
     
     public override func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
