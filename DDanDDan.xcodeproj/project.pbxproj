@@ -29,6 +29,7 @@
 		362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		363CC4462CCAD06E00D2EE47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
 		363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */; };
+		364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 364195A12D6199D60065C400 /* Config_dev.xcconfig */; };
 		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
@@ -211,6 +212,7 @@
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		364195A12D6199D60065C400 /* Config_dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_dev.xcconfig; sourceTree = "<group>"; };
 		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 			isa = PBXGroup;
 			children = (
 				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
+				364195A12D6199D60065C400 /* Config_dev.xcconfig */,
 				F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */,
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
 				3692E0582CF00CBA0079D2B8 /* DdanDdan_Watch Watch AppTests */,
@@ -1042,6 +1045,7 @@
 				36465DB22CFA46EB00784E8A /* cat_level1_default.json in Resources */,
 				36465DA92CFA414400784E8A /* hamster_level2_default.json in Resources */,
 				36465DAA2CFA414400784E8A /* hamster_level4_play+eat.json in Resources */,
+				364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */,
 				36465D802CF7F39200784E8A /* cat_level1_play+eat.json in Resources */,
 				36465D812CF7F39200784E8A /* cat_level3_play+eat.json in Resources */,
 				36465D822CF7F39200784E8A /* cat_level4_default.json in Resources */,
@@ -1354,7 +1358,7 @@
 		};
 		F8AB33362C2EAD2F00BC16C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */;
+			baseConfigurationReference = 364195A12D6199D60065C400 /* Config_dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1506,8 +1510,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = inc.ddanddan.DDanDDan;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = inc.ddanddan.DDanDDan.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development inc.ddanddan.DDanDDan";
