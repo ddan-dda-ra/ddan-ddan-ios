@@ -97,7 +97,7 @@ extension AppDelegate: MessagingDelegate{
         print("---- receive fcmToken ----")
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         print(dataDict)
-        // TODO: 서버 저장 필요 시 서버로 전송
+        UserDefaultValue.deviceToken = fcmToken
     }
 }
 

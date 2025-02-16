@@ -14,6 +14,7 @@ actor UserManager: ObservableObject {
     @MainActor public var kakaoToken: String?
     @MainActor public var appleToken: String?
     private var refreshToken: String? = UserDefaultValue.refreshToken
+    private var deviceToken: String? = UserDefaultValue.refreshToken
     @MainActor private var isOnboardingComplete: Bool = UserDefaultValue.isOnboardingComplete
     
     private init() {
