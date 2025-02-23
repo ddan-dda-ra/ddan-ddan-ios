@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
     static var allCases: [SettingPath] {
@@ -20,7 +21,7 @@ enum SettingPath: Hashable, CaseIterable {
 //    case notification
     case updateTerms
     case deleteUser
-    case deleteUserConfirm(reasons: Set<String>)
+    case deleteUserConfirm(store: StoreOf<DeleteUserReducer>)
     case logout
     
     var description: String {
@@ -58,8 +59,7 @@ struct SettingView: View {
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 VStack(spacing: 8) {
                     SectionView(items: SettingPath.topSection, notificationState: $notificationState, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
@@ -128,15 +128,18 @@ struct SectionView: View {
         .navigationDestination(for: SettingPath.self) { path in
             switch path {
             case .updateNickname:
-                UpdateNicknameView(coordinator: coordinator, viewModel: UpdateNicknameViewModel(nickname: UserDefaultValue.nickName, repository: SettingRepository()))
+                UpdateNicknameView(coordinator: coordinator, 
+                                   store: Store(initialState: UpdateNicknameReducer.State(),
+                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
             case .updateCalorie:
-                UpdateCalorieView(viewModel: UpdateCalorieViewModel(repository: SettingRepository()), coordinator: coordinator)
+                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
             case .updateTerms:
                 SettingTermView(coordinator: coordinator)
             case .deleteUser:
-                DeleteUserView(coordinator: coordinator)
-            case .deleteUserConfirm(let reasons):
-                DeleteUserConfirmView(viewModel: DeleteUserViewModel(repository: SettingRepository()), coordinator: coordinator, selectedReason: reasons)
+                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+            case .deleteUserConfirm(let store):
+                DeleteUserConfirmView(coordinator: coordinator, store: store)
             case .logout:
                 EmptyView()
             }

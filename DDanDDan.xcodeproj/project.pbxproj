@@ -29,6 +29,9 @@
 		362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		363CC4462CCAD06E00D2EE47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
 		363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */; };
+		364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 364195A12D6199D60065C400 /* Config_dev.xcconfig */; };
+		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
+		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
 		36465D802CF7F39200784E8A /* cat_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D772CF7F39200784E8A /* cat_level1_play+eat.json */; };
 		36465D812CF7F39200784E8A /* cat_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7B2CF7F39200784E8A /* cat_level3_play+eat.json */; };
@@ -65,11 +68,9 @@
 		36465DC72CFDF11600784E8A /* puppy_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DB72CFDF11600784E8A /* puppy_level1_play+eat.json */; };
 		36465DC82CFDF11600784E8A /* puppy_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DBA2CFDF11600784E8A /* puppy_level3_default.json */; };
 		36465DC92CFDF11600784E8A /* puppy_level2_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465DB92CFDF11600784E8A /* puppy_level2_play+eat.json */; };
-		36465E2F2D030AFE00784E8A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 36465E2E2D030AFE00784E8A /* Config.xcconfig */; };
 		364B37962D03916C00E72BFF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37952D03916C00E72BFF /* LoginView.swift */; };
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
-		3650CCCE2CCAA22B00ED5967 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362864A72C89D64100029452 /* Font.swift */; };
 		3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
 		367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796A2CDCB2060055771B /* HomeRepository.swift */; };
 		367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796C2CDCB30A0055771B /* PetArchiveModel.swift */; };
@@ -109,7 +110,7 @@
 		F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7322CB384F8004FF1F2 /* SettingTermView.swift */; };
 		F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7352CB38861004FF1F2 /* WebView.swift */; };
 		F80DF7392CB3DA2C004FF1F2 /* DeleteUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */; };
-		F80DF73B2CB3DA38004FF1F2 /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */; };
+		F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */; };
 		F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */; };
 		F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */; };
 		F8311F992C7060E8000455ED /* GreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8311F982C7060E8000455ED /* GreenButton.swift */; };
@@ -120,9 +121,9 @@
 		F8758CEF2C8EDF630038CCBB /* DialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CEE2C8EDF630038CCBB /* DialogView.swift */; };
 		F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
 		F8758CF32C8EE1F60038CCBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
-		F8773BBD2CA541F4009A608F /* UpdateNicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */; };
+		F8773BBD2CA541F4009A608F /* UpdateNicknameReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */; };
 		F8773BC02CA54A02009A608F /* UpdateCalorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */; };
-		F8773BC22CA54E49009A608F /* UpdateCalorieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */; };
+		F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */; };
 		F88663CC2CC8ED14008DB860 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663CB2CC8ED14008DB860 /* NetworkManager.swift */; };
 		F88663CF2CC8ED65008DB860 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663CE2CC8ED65008DB860 /* NetworkError.swift */; };
 		F88663D12CC8EDD4008DB860 /* UserNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88663D02CC8EDD4008DB860 /* UserNetwork.swift */; };
@@ -146,6 +147,8 @@
 		F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */; };
 		F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */; };
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
+		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
+		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,6 +212,8 @@
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		364195A12D6199D60065C400 /* Config_dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_dev.xcconfig; sourceTree = "<group>"; };
+		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
 		36465D792CF7F39200784E8A /* cat_level2_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level2_play+eat.json"; sourceTree = "<group>"; };
@@ -242,7 +247,6 @@
 		36465DBD2CFDF11600784E8A /* puppy_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level4_play+eat.json"; sourceTree = "<group>"; };
 		36465DBE2CFDF11600784E8A /* puppy_level5_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = puppy_level5_default.json; sourceTree = "<group>"; };
 		36465DBF2CFDF11600784E8A /* puppy_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level5_play+eat.json"; sourceTree = "<group>"; };
-		36465E2E2D030AFE00784E8A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		364B37952D03916C00E72BFF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		364B37972D04781900E72BFF /* Adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Adjusted+.swift"; sourceTree = "<group>"; };
 		367A796A2CDCB2060055771B /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
@@ -287,7 +291,7 @@
 		F80DF7322CB384F8004FF1F2 /* SettingTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTermView.swift; sourceTree = "<group>"; };
 		F80DF7352CB38861004FF1F2 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserView.swift; sourceTree = "<group>"; };
-		F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewModel.swift; sourceTree = "<group>"; };
+		F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserReducer.swift; sourceTree = "<group>"; };
 		F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameView.swift; sourceTree = "<group>"; };
 		F827E5582C748CBC00C5B320 /* SignUpNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F8311F982C7060E8000455ED /* GreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenButton.swift; sourceTree = "<group>"; };
@@ -298,9 +302,9 @@
 		F8758CEE2C8EDF630038CCBB /* DialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogView.swift; sourceTree = "<group>"; };
 		F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		F8758CF22C8EE1F60038CCBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameViewModel.swift; sourceTree = "<group>"; };
+		F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameReducer.swift; sourceTree = "<group>"; };
 		F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieView.swift; sourceTree = "<group>"; };
-		F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieViewModel.swift; sourceTree = "<group>"; };
+		F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCalorieReducer.swift; sourceTree = "<group>"; };
 		F88663CB2CC8ED14008DB860 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F88663CE2CC8ED65008DB860 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F88663D02CC8EDD4008DB860 /* UserNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetwork.swift; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 		F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTermView.swift; sourceTree = "<group>"; };
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +357,7 @@
 			files = (
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
+				F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */,
 				F8C10C0D2C5782720037D6A5 /* KakaoSDK in Frameworks */,
 				F8C10C112C5782720037D6A5 /* KakaoSDKCommon in Frameworks */,
 				F8C10C0F2C5782720037D6A5 /* KakaoSDKAuth in Frameworks */,
@@ -384,6 +390,7 @@
 				F8758CF22C8EE1F60038CCBB /* Assets.xcassets */,
 				362864912C89BFA700029452 /* Fonts */,
 				362864A72C89D64100029452 /* Font.swift */,
+				36448A882D1AAFEB005CFC8C /* WatchFont.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -632,7 +639,7 @@
 			children = (
 				F80DF7382CB3DA2C004FF1F2 /* DeleteUserView.swift */,
 				F809E2FD2CBD0841001BE099 /* DeleteUserConfirmView.swift */,
-				F80DF73A2CB3DA38004FF1F2 /* DeleteUserViewModel.swift */,
+				F80DF73A2CB3DA38004FF1F2 /* DeleteUserReducer.swift */,
 			);
 			path = DeleteUser;
 			sourceTree = "<group>";
@@ -698,7 +705,7 @@
 			isa = PBXGroup;
 			children = (
 				F811A21D2C9D5A3200176086 /* UpdateNicknameView.swift */,
-				F8773BBC2CA541F4009A608F /* UpdateNicknameViewModel.swift */,
+				F8773BBC2CA541F4009A608F /* UpdateNicknameReducer.swift */,
 			);
 			path = UpdateNickname;
 			sourceTree = "<group>";
@@ -707,7 +714,7 @@
 			isa = PBXGroup;
 			children = (
 				F8773BBF2CA54A02009A608F /* UpdateCalorieView.swift */,
-				F8773BC12CA54E49009A608F /* UpdateCalorieViewModel.swift */,
+				F8773BC12CA54E49009A608F /* UpdateCalorieReducer.swift */,
 			);
 			path = UpdateCalorie;
 			sourceTree = "<group>";
@@ -772,6 +779,8 @@
 		F8AB33212C2EAD2E00BC16C9 = {
 			isa = PBXGroup;
 			children = (
+				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
+				364195A12D6199D60065C400 /* Config_dev.xcconfig */,
 				F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */,
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
 				3692E0582CF00CBA0079D2B8 /* DdanDdan_Watch Watch AppTests */,
@@ -797,7 +806,6 @@
 		F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */ = {
 			isa = PBXGroup;
 			children = (
-				36465E2E2D030AFE00784E8A /* Config.xcconfig */,
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
 				367A79722CDD092A0055771B /* AppCoordinator.swift */,
 				362864902C89BF9900029452 /* Resource */,
@@ -914,6 +922,7 @@
 				F8C10C102C5782720037D6A5 /* KakaoSDKCommon */,
 				F8C10C122C5782720037D6A5 /* KakaoSDKUser */,
 				36465D742CF7F28100784E8A /* Lottie */,
+				F9E421792D0ED657005A5795 /* ComposableArchitecture */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -958,6 +967,7 @@
 				F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
+				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = F8AB332B2C2EAD2E00BC16C9 /* Products */;
 			projectDirPath = "";
@@ -1035,6 +1045,7 @@
 				36465DB22CFA46EB00784E8A /* cat_level1_default.json in Resources */,
 				36465DA92CFA414400784E8A /* hamster_level2_default.json in Resources */,
 				36465DAA2CFA414400784E8A /* hamster_level4_play+eat.json in Resources */,
+				364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */,
 				36465D802CF7F39200784E8A /* cat_level1_play+eat.json in Resources */,
 				36465D812CF7F39200784E8A /* cat_level3_play+eat.json in Resources */,
 				36465D822CF7F39200784E8A /* cat_level4_default.json in Resources */,
@@ -1046,7 +1057,7 @@
 				36465D882CF7F39200784E8A /* cat_level3_default.json in Resources */,
 				362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */,
 				3628649D2C89CA2000029452 /* Pretendard-Regular.otf in Resources */,
-				36465E2F2D030AFE00784E8A /* Config.xcconfig in Resources */,
+				F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */,
 				3628649C2C89CA2000029452 /* Pretendard-Medium.otf in Resources */,
 				F8758CF32C8EE1F60038CCBB /* Assets.xcassets in Resources */,
 				362864A12C89CA2000029452 /* Pretendard-Bold.otf in Resources */,
@@ -1060,12 +1071,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */,
 				3692E0532CF00CB70079D2B8 /* WatchConnectivityManager.swift in Sources */,
 				3692E0542CF00CB70079D2B8 /* ContentView.swift in Sources */,
 				3692E0552CF00CB70079D2B8 /* WatchViewModel.swift in Sources */,
 				3692E0562CF00CB70079D2B8 /* DdanDdan_WatchApp.swift in Sources */,
 				36465DB42CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
-				3650CCCE2CCAA22B00ED5967 /* Font.swift in Sources */,
 				3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1110,7 +1121,7 @@
 				360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */,
 				360E6B362CEBC5F10059661E /* SplashView.swift in Sources */,
 				36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */,
-				F8773BC22CA54E49009A608F /* UpdateCalorieViewModel.swift in Sources */,
+				F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */,
 				36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */,
 				F88FC6E12CCF64150033D4C9 /* MainPet.swift in Sources */,
 				F84B21C52C90227A009FE6F3 /* SettingView.swift in Sources */,
@@ -1137,11 +1148,12 @@
 				367A797A2CDD6D410055771B /* ImageDialogView.swift in Sources */,
 				F809E2FC2CBD06A1001BE099 /* UserManager.swift in Sources */,
 				367A79762CDD544A0055771B /* PetArchiveViewModel.swift in Sources */,
-				F8773BBD2CA541F4009A608F /* UpdateNicknameViewModel.swift in Sources */,
+				F8773BBD2CA541F4009A608F /* UpdateNicknameReducer.swift in Sources */,
 				F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */,
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
-				F80DF73B2CB3DA38004FF1F2 /* DeleteUserViewModel.swift in Sources */,
+				36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */,
+                F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
 				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
@@ -1346,7 +1358,7 @@
 		};
 		F8AB33362C2EAD2F00BC16C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36465E2E2D030AFE00784E8A /* Config.xcconfig */;
+			baseConfigurationReference = 364195A12D6199D60065C400 /* Config_dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1411,7 +1423,7 @@
 		};
 		F8AB33372C2EAD2F00BC16C9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36465E2E2D030AFE00784E8A /* Config.xcconfig */;
+			baseConfigurationReference = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1498,8 +1510,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = inc.ddanddan.DDanDDan;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = inc.ddanddan.DDanDDan.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development inc.ddanddan.DDanDDan";
@@ -1544,7 +1556,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = inc.ddanddan.DDanDDan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1634,6 +1646,14 @@
 				version = 2.22.6;
 			};
 		};
+		F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1666,6 +1686,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		F9E421792D0ED657005A5795 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

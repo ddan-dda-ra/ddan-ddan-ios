@@ -19,31 +19,29 @@ final class SplashViewModel: ObservableObject {
     }
     
     func performInitialSetup() async {
-        async let userInfo = homeRepository.getUserInfo()
-        async let petInfo = homeRepository.getMainPetInfo()
-        
         do {
-            let userData = try await unwrapResult(userInfo)
-            let petData = try await unwrapResult(petInfo)
-            
+            let userData = try await unwrapResult(homeRepository.getUserInfo())
+
             DispatchQueue.main.async {
                 self.coordinator.userInfo = userData
-                self.coordinator.petInfo = petData
-                
                 UserDefaultValue.userId = userData.id
+                UserDefaultValue.purposeKcal = userData.purposeCalorie
+            }
+
+            let petData = try await unwrapResult(homeRepository.getMainPetInfo())
+
+            DispatchQueue.main.async {
+                self.coordinator.petInfo = petData
                 UserDefaultValue.petType = petData.mainPet.type.rawValue
                 UserDefaultValue.petId = petData.mainPet.id
-                UserDefaultValue.purposeKcal = userData.purposeCalorie
                 UserDefaultValue.level = petData.mainPet.level
-                
+
                 let info: [String: Any] = [
                     "purposeKcal": userData.purposeCalorie,
                     "petType": petData.mainPet.type.rawValue,
                     "level": petData.mainPet.level
                 ]
-                
                 WatchConnectivityManager.shared.transferUserInfo(info: info)
-                
                 self.coordinator.setRoot(to: .home)
             }
         } catch {

@@ -35,7 +35,7 @@ struct LevelUpView: View {
                 Spacer()
                 GreenButton(action: {
                     coordinator.pop()
-                }, title: "성장하기", disabled: .constant(false))
+                }, title: "성장하기", disabled: false)
                 .padding(.bottom, 44)
             }
         }

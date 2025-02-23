@@ -24,10 +24,11 @@ struct PetArchiveView: View {
             
             VStack {
                 CustomNavigationBar(
-                    title: "펫 보관함",leftButtonImage: Image(.arrow), leftButtonAction: {
+                    title: "펫 보관함",
+                    leftButtonImage: Image(.arrow),
+                    leftButtonAction: {
                         coordinator.pop()
-                    },
-                    buttonSize: 24
+                    }
                 )
                 .padding(.bottom, 28)
                 HStack {
@@ -35,8 +36,6 @@ struct PetArchiveView: View {
                         ForEach(0..<viewModel.gridItemCount, id: \.self) { index in
                             ZStack {
                                 let pet = viewModel.petList[safe: index]
-                                
-                                // UserDefaults에서 저장된 petId와 비교하여 border 색상 설정
                                 RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
                                     .stroke(viewModel.selectedIndex == index ? Color.buttonGreen : Color.clear, lineWidth: 4)
                                     .background(
@@ -58,7 +57,11 @@ struct PetArchiveView: View {
                                 }
                             }
                             .onTapGesture {
-                                viewModel.toggleSelection(for: index)
+                                if viewModel.petList[safe: index] == nil {
+                                    viewModel.showToastMessage()
+                                } else {
+                                    viewModel.toggleSelection(for: index)
+                                }
                             }
                         }
                     }
@@ -74,7 +77,7 @@ struct PetArchiveView: View {
                     } else {
                         viewModel.showToastMessage()
                     }
-                }, title: "선택 완료", disabled: .constant(false))
+                }, title: "선택 완료", disabled: false)
                 .padding(.bottom, 44)
             }
             if viewModel.showToast {
@@ -88,7 +91,7 @@ struct PetArchiveView: View {
                     insertion: .move(edge: .top).combined(with: .opacity),
                     removal: .opacity))
                 .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjusted)
             }
         }
         .navigationBarHidden(true)

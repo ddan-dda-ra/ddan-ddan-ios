@@ -51,7 +51,7 @@ struct SignUpCalorieView<ViewModel: SignUpViewModelProtocol>: View {
                         await viewModel.updateCalorie(calorie: calorie)
                         coordinator.push(to: .egg)
                     }
-                }, title: "다음", disabled: .constant(false))
+                }, title: "다음", disabled: false)
             }
             .navigationBarHidden(true)
         }
