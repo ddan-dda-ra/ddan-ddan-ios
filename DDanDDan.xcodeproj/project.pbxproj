@@ -29,6 +29,9 @@
 		362864BA2C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		363CC4462CCAD06E00D2EE47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8758CF22C8EE1F60038CCBB /* Assets.xcassets */; };
 		363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */; };
+		3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3641954D2D4D18890065C400 /* FirebaseAnalytics */; };
+		364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3641954F2D4D18890065C400 /* FirebaseMessaging */; };
+		364195632D53A5E80065C400 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 364195622D53A5E80065C400 /* GoogleService-Info.plist */; };
 		364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 364195A12D6199D60065C400 /* Config_dev.xcconfig */; };
 		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
@@ -212,6 +215,7 @@
 		362864AF2C89E76200029452 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NeoDunggeunmoPro-Regular.ttf"; sourceTree = "<group>"; };
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		364195622D53A5E80065C400 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		364195A12D6199D60065C400 /* Config_dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_dev.xcconfig; sourceTree = "<group>"; };
 		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
@@ -355,6 +359,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */,
+				3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */,
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
 				F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */,
@@ -780,6 +786,7 @@
 			isa = PBXGroup;
 			children = (
 				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
+				364195622D53A5E80065C400 /* GoogleService-Info.plist */,
 				364195A12D6199D60065C400 /* Config_dev.xcconfig */,
 				F8AB332C2C2EAD2E00BC16C9 /* DDanDDan */,
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
@@ -923,6 +930,8 @@
 				F8C10C122C5782720037D6A5 /* KakaoSDKUser */,
 				36465D742CF7F28100784E8A /* Lottie */,
 				F9E421792D0ED657005A5795 /* ComposableArchitecture */,
+				3641954D2D4D18890065C400 /* FirebaseAnalytics */,
+				3641954F2D4D18890065C400 /* FirebaseMessaging */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -968,6 +977,7 @@
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
 				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = F8AB332B2C2EAD2E00BC16C9 /* Products */;
 			projectDirPath = "";
@@ -1038,6 +1048,7 @@
 				36465DC72CFDF11600784E8A /* puppy_level1_play+eat.json in Resources */,
 				36465DC82CFDF11600784E8A /* puppy_level3_default.json in Resources */,
 				36465DC92CFDF11600784E8A /* puppy_level2_play+eat.json in Resources */,
+				364195632D53A5E80065C400 /* GoogleService-Info.plist in Resources */,
 				36465DA52CFA414400784E8A /* hamster_level1_default.json in Resources */,
 				36465DA62CFA414400784E8A /* hamster_level2_play+eat.json in Resources */,
 				36465DA72CFA414400784E8A /* hamster_level1_play+eat.json in Resources */,
@@ -1622,6 +1633,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
 		36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -1657,6 +1676,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3641954D2D4D18890065C400 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		3641954F2D4D18890065C400 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		36465D742CF7F28100784E8A /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */;

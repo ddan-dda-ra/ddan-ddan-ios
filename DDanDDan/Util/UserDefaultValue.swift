@@ -13,7 +13,9 @@ public struct UserDefaultValue {
     static public var acessToken: String?
     @UserDefault(key: "refreshToken", defaultValue: nil)
     static public var refreshToken: String?
-    
+    @UserDefault(key: "deviceToken", defaultValue: nil)
+    static public var deviceToken: String?
+
     @UserDefault(key: "isOnboardingComplete", defaultValue: false)
     static public var isOnboardingComplete: Bool
     @UserDefault(key: "requestAuthDone", defaultValue: false)

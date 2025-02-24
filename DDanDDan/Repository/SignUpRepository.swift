@@ -36,7 +36,8 @@ public struct SignUpRepository: SignUpRepositoryProtocol {
     }
     
     public func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
-        await authNetwork.login(token: token, tokenType: tokenType)
+        let deviceToken = UserDefaultValue.deviceToken
+        return await authNetwork.login(token: token, tokenType: tokenType, deviceToken: deviceToken)
     }
     
     public func addPet(petType: PetType) async -> Result<Pet, NetworkError> {
