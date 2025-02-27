@@ -30,9 +30,9 @@ struct HomeView: View {
                 .ignoresSafeArea(edges: [.vertical])
             VStack(alignment: .center) {
                 CustomNavigationBar(
-                    leftButtonImage: Image(.iconDocs),
+                    leftButtonImage: Image(.iconRank),
                     leftButtonAction: {
-                        coordinator.push(to: .petArchive)
+                       //TODO: 랭킹 진입
                     },
                     rightButtonImage: Image(.iconSetting),
                     rightButtonAction: {
@@ -131,26 +131,6 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    /// 네비게이션 바
-    var navigationBar: some View {
-        HStack(alignment: .center) {
-            Button(action: {
-                coordinator.push(to: .petArchive)
-            }) {
-                Image(.iconDocs)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-            Spacer()
-            Button(action: {
-                coordinator.push(to: .setting)
-            }) {
-                Image(.iconSetting)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-        }
-        .frame(height: 30.adjusted)
-        .background(.blue)
-    }
     
     var kcalView: some View {
         HStack(alignment: .lastTextBaseline,spacing: 4) {
