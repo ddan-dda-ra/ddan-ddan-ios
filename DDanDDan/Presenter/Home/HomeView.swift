@@ -201,7 +201,7 @@ extension HomeView {
                     .cornerRadius(4)
                 Spacer()
                 Text(String(format: "%.0f%%", viewModel.homePetModel.exp))
-                    .font(.subTitle1_semibold14)
+                    .font(.neoDunggeunmo16)
                     .foregroundStyle(.white)
             }
             .padding(.bottom, 8)
