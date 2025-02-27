@@ -234,17 +234,17 @@ extension HomeView {
     
     var actionButtonView: some View {
         HStack(spacing: 12.adjusted) {
-            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount)
+            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount, image: .iconFeed)
                 .onTapGesture {
                     viewModel.feedPet()
                 }
-            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount)
+            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount, image: .iconToy)
                 .onTapGesture {
                     viewModel.playWithPet()
                 }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 66)
+        .frame(height: 95)
     }
 }
 
