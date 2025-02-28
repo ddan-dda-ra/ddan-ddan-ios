@@ -21,7 +21,7 @@ public final class TokenInterceptor: Interceptor {
             return
         }
         
-        var currentRetryCount = retryCounts[request.request ?? URLRequest(url: URL(string: "about:blank")!)] ?? 0
+        let currentRetryCount = retryCounts[request.request ?? URLRequest(url: URL(string: "about:blank")!)] ?? 0
         
         if currentRetryCount >= maxRetryCount {
             print("🔻 최대 재시도 횟수 초과: 로그아웃 처리")
