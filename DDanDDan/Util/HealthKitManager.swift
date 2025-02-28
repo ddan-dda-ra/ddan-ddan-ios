@@ -60,6 +60,19 @@ class HealthKitManager: ObservableObject {
         }
         
         healthStore.execute(query)
+        Task {
+            await enableBackgroundMode()
+        }
+    }
+    
+    func enableBackgroundMode() async {
+        guard let healthStore = healthStore else { return }
+        
+        do {
+            try await healthStore.enableBackgroundDelivery(for: energyBurnedType, frequency: .hourly)
+        } catch let error {
+            print("Failed to enableBackgroundDelivery \(error)")
+        }
     }
     
     func readActiveEnergyBurned(completion: @escaping (Double) -> Void) {
