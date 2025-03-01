@@ -33,6 +33,8 @@
 		364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3641954F2D4D18890065C400 /* FirebaseMessaging */; };
 		364195632D53A5E80065C400 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 364195622D53A5E80065C400 /* GoogleService-Info.plist */; };
 		364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 364195A12D6199D60065C400 /* Config_dev.xcconfig */; };
+		364195A52D72DAD80065C400 /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364195A42D72DAD80065C400 /* RankView.swift */; };
+		364195A72D72F0430065C400 /* RankNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364195A62D72F0430065C400 /* RankNetwork.swift */; };
 		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
@@ -218,6 +220,8 @@
 		363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 		364195622D53A5E80065C400 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		364195A12D6199D60065C400 /* Config_dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_dev.xcconfig; sourceTree = "<group>"; };
+		364195A42D72DAD80065C400 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
+		364195A62D72F0430065C400 /* RankNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankNetwork.swift; sourceTree = "<group>"; };
 		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
@@ -424,6 +428,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		364195A32D72DAC70065C400 /* Rank */ = {
+			isa = PBXGroup;
+			children = (
+				364195A42D72DAD80065C400 /* RankView.swift */,
+			);
+			path = Rank;
+			sourceTree = "<group>";
+		};
 		36465D762CF7F37700784E8A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,6 +514,7 @@
 		367A79702CDD08950055771B /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				364195A32D72DAC70065C400 /* Rank */,
 				36F6E7EC2CEE45D600B395FB /* Splash */,
 				F8311F952C7060B3000455ED /* Components */,
 				F8C10C142C57950D0037D6A5 /* Login */,
@@ -738,6 +751,7 @@
 				367A796E2CDCBC210055771B /* PathString.swift */,
 				367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */,
 				36F6E7EA2CEE411D00B395FB /* Config.swift */,
+				364195A62D72F0430065C400 /* RankNetwork.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1135,6 +1149,7 @@
 				F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */,
 				360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */,
 				360E6B362CEBC5F10059661E /* SplashView.swift in Sources */,
+				364195A72D72F0430065C400 /* RankNetwork.swift in Sources */,
 				36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */,
 				F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */,
 				36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */,
@@ -1173,6 +1188,7 @@
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
 				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
 				36465DB52CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
+				364195A52D72DAD80065C400 /* RankView.swift in Sources */,
 				F80DF7392CB3DA2C004FF1F2 /* DeleteUserView.swift in Sources */,
 				F88663CC2CC8ED14008DB860 /* NetworkManager.swift in Sources */,
 				F8773BC02CA54A02009A608F /* UpdateCalorieView.swift in Sources */,
