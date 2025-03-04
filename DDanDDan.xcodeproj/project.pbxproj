@@ -35,6 +35,7 @@
 		364195A22D6199D60065C400 /* Config_dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 364195A12D6199D60065C400 /* Config_dev.xcconfig */; };
 		364195A52D72DAD80065C400 /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364195A42D72DAD80065C400 /* RankView.swift */; };
 		364195A72D72F0430065C400 /* RankNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364195A62D72F0430065C400 /* RankNetwork.swift */; };
+		364195AA2D72F11D0065C400 /* Rank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364195A92D72F11D0065C400 /* Rank.swift */; };
 		36448A892D1AAFEB005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36465D752CF7F28100784E8A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D742CF7F28100784E8A /* Lottie */; };
@@ -222,6 +223,7 @@
 		364195A12D6199D60065C400 /* Config_dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_dev.xcconfig; sourceTree = "<group>"; };
 		364195A42D72DAD80065C400 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
 		364195A62D72F0430065C400 /* RankNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankNetwork.swift; sourceTree = "<group>"; };
+		364195A92D72F11D0065C400 /* Rank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rank.swift; sourceTree = "<group>"; };
 		36448A882D1AAFEB005CFC8C /* WatchFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFont.swift; sourceTree = "<group>"; };
 		36465D772CF7F39200784E8A /* cat_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "cat_level1_play+eat.json"; sourceTree = "<group>"; };
 		36465D782CF7F39200784E8A /* cat_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cat_level2_default.json; sourceTree = "<group>"; };
@@ -432,6 +434,14 @@
 			isa = PBXGroup;
 			children = (
 				364195A42D72DAD80065C400 /* RankView.swift */,
+			);
+			path = Rank;
+			sourceTree = "<group>";
+		};
+		364195A82D72F1110065C400 /* Rank */ = {
+			isa = PBXGroup;
+			children = (
+				364195A92D72F11D0065C400 /* Rank.swift */,
 			);
 			path = Rank;
 			sourceTree = "<group>";
@@ -682,6 +692,7 @@
 		F8311F9A2C7068C4000455ED /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				364195A82D72F1110065C400 /* Rank */,
 				F88FC6DD2CCF3BED0033D4C9 /* Pet */,
 				F88663CD2CC8ED5A008DB860 /* Error */,
 				F809E2F82CBD05E4001BE099 /* User */,
@@ -1175,6 +1186,7 @@
 				F88FC6DF2CCF3BF70033D4C9 /* Pet.swift in Sources */,
 				36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */,
 				367A79DD2CE4B65D0055771B /* TokenInterceptor.swift in Sources */,
+				364195AA2D72F11D0065C400 /* Rank.swift in Sources */,
 				367A797A2CDD6D410055771B /* ImageDialogView.swift in Sources */,
 				F809E2FC2CBD06A1001BE099 /* UserManager.swift in Sources */,
 				367A79762CDD544A0055771B /* PetArchiveViewModel.swift in Sources */,
