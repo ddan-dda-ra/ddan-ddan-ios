@@ -19,8 +19,9 @@ struct HomeButton: View {
     
     var body: some View {
         ZStack {
-            Color(.backgroundGray)
-                .cornerRadius(8)
+            Image(.feedButtonFrame)
+                .resizable()
+                .scaledToFill()
             VStack {
                 Image(image)
                 HStack {
@@ -39,10 +40,6 @@ struct HomeButton: View {
             .padding(.vertical, 12.adjusted)
             .padding(.horizontal, 10.adjusted)
         }
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.borderGray, lineWidth: 4)
-        )
-        .cornerRadius(8)
+        
     }
 }

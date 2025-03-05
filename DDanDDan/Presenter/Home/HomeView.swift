@@ -47,7 +47,7 @@ struct HomeView: View {
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 levelView
-                    .padding(.bottom, 10.adjusted)
+                    .padding(.bottom, 12.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 actionButtonView
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
