@@ -10,28 +10,37 @@ import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
     static var allCases: [SettingPath] {
-        [.updateNickname, .updateCalorie, .updateTerms, .deleteUser, .logout]
+        [.petArchive, .updateNickname, .updateCalorie, .notification, .updateTerms, .deleteUser, .logout]
     }
     
-    static var topSection: [SettingPath] { [.updateNickname, updateCalorie] }
+    static var myInfoSection: [SettingPath] { [.petArchive, .updateNickname, updateCalorie] }
+    static var notificationSection: [SettingPath] { [.notification] }
     static var bottomSection: [SettingPath] { [.updateTerms, .deleteUser, .logout] }
     
+    case petArchive
     case updateNickname
     case updateCalorie
-//    case notification
+    case notification
     case updateTerms
     case deleteUser
     case deleteUserConfirm(store: StoreOf<DeleteUserReducer>)
     case logout
     
-    var description: String {
+    var title: String {
         switch self {
+        case .petArchive: "펫 보관함"
         case .updateNickname: "내 별명 수정"
         case .updateCalorie: "목표 칼로리 수정"
-//        case .notification: "푸시 알림"
+        case .notification: "전체 푸시 알림"
         case .updateTerms: "약관 및 개인정보 처리 동의"
         case .deleteUser: "탈퇴하기"
         case .logout: "로그아웃"
+        default: ""
+        }
+    }
+    var description: String {
+        switch self {
+        case .petArchive: "같이 운동할 펫을 설정할 수 있어요"
         default: ""
         }
     }
@@ -52,20 +61,21 @@ struct SettingView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Color.backgroundGray.edgesIgnoringSafeArea(.all)
+            Color.backgroundBlack.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 0) {
                 CustomNavigationBar(
-                    title: "설정",
+                    title: "마이 페이지",
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
                         coordinator.pop()
                     }
                 )
-                VStack(spacing: 8) {
-                    SectionView(items: SettingPath.topSection, notificationState: $notificationState, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
-                    
-                    SectionView(items: SettingPath.bottomSection, notificationState: $notificationState, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
-                }
+                
+                roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection)
+                roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection)
+                
+                SectionView(items: SettingPath.bottomSection, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
+                
                 Text("앱 버전 \(appVersion)")
                     .font(.body3_regular12)
                     .foregroundStyle(.iconGray)
@@ -85,80 +95,134 @@ struct SettingView: View {
         .navigationBarHidden(true)
     }
     
+    @ViewBuilder
+    func roundButtonSection(title: String, items: [SettingPath]) -> some View {
+        VStack(alignment: .leading, spacing: 0){
+            Text(title)
+                .foregroundStyle(.textBodyTeritary)
+                .font(.body2_regular14)
+                .padding(.bottom, 12)
+            ForEach(items, id:\.self) { section in
+                RoundButtonSectionItem(item: section, coordinator: coordinator, notificationState: $notificationState)
+                    .padding(.bottom, 12)
+            }
+        }
+        
+        .padding(.horizontal, 8)
+    }
 }
 
+extension SettingView {
+ 
+    struct RoundButtonSectionItem: View {
+        let item: SettingPath
+        let coordinator: AppCoordinator
+        @Binding var notificationState: Bool
 
-struct SectionView: View {
-    let items: [SettingPath]
-    @Binding var notificationState: Bool
-    @Binding var showLogoutDialog: Bool
-    let coordinator: AppCoordinator
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            ForEach(items, id: \.self) { item in
-                Button(action: {
-                    handleAction(for: item)
-                }) {
-                    HStack {
-                        Text(item.description)
+        var body: some View {
+            Button(action: {
+                
+                handleAction(for: item)
+            }, label: {
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.title)
+                            .foregroundStyle(.textHeadlinePrimary)
                             .font(.heading6_semibold16)
-                        Spacer()
-//                        if item == .notification {
-//                            Button {
-//                                notificationState.toggle()
-//                            } label: {
-//                                Image(notificationState ? .toggleOn : .toggleOff)
-//                            }
-//                            .buttonStyle(.plain)
-//                        } else {
-                            Image(.arrowRight)
-//                        }
+                        if !item.description.isEmpty {
+                            Text(item.description)
+                                .foregroundStyle(.textBodyTeritary)
+                                .font(.body2_regular14)
+                        }
                     }
-                    .padding(.horizontal, 20)
-//                    .padding(.vertical, 14)
-                    .frame(height: 46)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.backgroundBlack)
+                    Spacer()
+                    if item == .notification {
+                        Toggle(isOn: $notificationState, label: {})
+                    } else {
+                        Image(.arrowRight)
+                    }
                 }
-                .buttonStyle(.plain)
-                .foregroundStyle(.white)
-            }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+            })
+            .background(.backgroundGray)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+
         }
-        .navigationDestination(for: SettingPath.self) { path in
-            switch path {
-            case .updateNickname:
-                UpdateNicknameView(coordinator: coordinator, 
-                                   store: Store(initialState: UpdateNicknameReducer.State(),
-                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
-            case .updateCalorie:
-                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
-                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
-            case .updateTerms:
-                SettingTermView(coordinator: coordinator)
-            case .deleteUser:
-                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
-            case .deleteUserConfirm(let store):
-                DeleteUserConfirmView(coordinator: coordinator, store: store)
-            case .logout:
-                EmptyView()
+        
+        private func handleAction(for item: SettingPath) {
+            switch item {
+            case .notification:
+                notificationState.toggle()
+                break
+            default:
+                coordinator.push(to: item)
             }
         }
     }
     
-    private func handleAction(for item: SettingPath) {
-        switch item {
-//        case .notification:
-//            // TODO: 푸시 알림 설정
-//            break
-        case .logout:
-            showLogoutDialog.toggle()
-        default:
-            coordinator.push(to: item)
+    struct SectionView: View {
+        let items: [SettingPath]
+        @Binding var showLogoutDialog: Bool
+        let coordinator: AppCoordinator
+        
+        var body: some View {
+            VStack(spacing: 0) {
+                ForEach(items, id: \.self) { item in
+                    Button(action: {
+                        handleAction(for: item)
+                    }) {
+                        HStack {
+                            Text(item.title)
+                                .font(.heading6_semibold16)
+                                .foregroundStyle(.white)
+                            Spacer()
+                            Image(.arrowRight)
+                        }
+                        .padding(.horizontal, 20)
+                        .frame(height: 46)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.backgroundBlack)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.white)
+                }
+            }
+            .navigationDestination(for: SettingPath.self) { path in
+                switch path {
+                case .petArchive:
+                    PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+                case .updateNickname:
+                    UpdateNicknameView(coordinator: coordinator,
+                                       store: Store(initialState: UpdateNicknameReducer.State(),
+                                                    reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
+                case .updateCalorie:
+                    UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                             reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
+                case .updateTerms:
+                    SettingTermView(coordinator: coordinator)
+                case .deleteUser:
+                    DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+                case .deleteUserConfirm(let store):
+                    DeleteUserConfirmView(coordinator: coordinator, store: store)
+                default:
+                    EmptyView()
+                }
+            }
+        }
+        
+        private func handleAction(for item: SettingPath) {
+            switch item {
+            case .logout:
+                showLogoutDialog.toggle()
+            default:
+                coordinator.push(to: item)
+            }
         }
     }
 }
-
 #Preview {
     SettingView(coordinator: AppCoordinator())
 }
+

@@ -12,7 +12,6 @@ import Lottie
 
 enum HomePath: Hashable {
     case setting
-    case petArchive
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
@@ -116,8 +115,6 @@ struct HomeView: View {
             switch path {
             case .setting:
                 SettingView(coordinator: coordinator)
-            case .petArchive:
-                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
