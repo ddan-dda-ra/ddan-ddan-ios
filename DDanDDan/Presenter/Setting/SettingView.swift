@@ -48,8 +48,10 @@ enum SettingPath: Hashable, CaseIterable {
 
 struct SettingView: View {
     @ObservedObject public var coordinator: AppCoordinator
-    @State private var notificationState = true
-    @State private var showLogoutDialog = false
+    @Perception.Bindable public var store: StoreOf<SettingViewReducer>
+
+//    @State private var notificationState = true
+//    @State private var showLogoutDialog = false
     var appVersion: String {
         if let dictionary = Bundle.main.infoDictionary,
            let version = dictionary["CFBundleShortVersionString"] as? String {
@@ -74,7 +76,7 @@ struct SettingView: View {
                 roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection)
                 roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection)
                 
-                SectionView(items: SettingPath.bottomSection, showLogoutDialog: $showLogoutDialog, coordinator: coordinator)
+                SectionView(items: SettingPath.bottomSection, showLogoutDialog: $store.showLogoutDialog.sending(\.showLogoutDialog), coordinator: coordinator)
                 
                 Text("앱 버전 \(appVersion)")
                     .font(.body3_regular12)
@@ -82,8 +84,9 @@ struct SettingView: View {
                     .frame(height: 46)
                     .padding(.leading, 20)
             }
-            .transparentFullScreenCover(isPresented: $showLogoutDialog) {
-                DialogView(show: $showLogoutDialog, title: "정말 로그아웃 하시겠습니까?", description: "", rightButtonTitle: "로그아웃", leftButtonTitle: "취소") {
+            .transparentFullScreenCover(isPresented: $store.showLogoutDialog.sending(\.showLogoutDialog)) {
+                DialogView(show: $store.showLogoutDialog.sending(\.showLogoutDialog),
+                           title: "정말 로그아웃 하시겠습니까?", description: "", rightButtonTitle: "로그아웃", leftButtonTitle: "취소") {
                     Task {
                         await UserManager.shared.logout()
                         coordinator.triggerHomeUpdate()
@@ -93,6 +96,29 @@ struct SettingView: View {
             }
         }
         .navigationBarHidden(true)
+        .navigationDestination(for: SettingPath.self) { path in
+            switch path {
+            case .petArchive:
+                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+            case .updateNickname:
+                UpdateNicknameView(coordinator: coordinator,
+                                   store: Store(initialState: UpdateNicknameReducer.State(),
+                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
+            case .updateCalorie:
+                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
+            case .updateTerms:
+                SettingTermView(coordinator: coordinator)
+            case .deleteUser:
+                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+            case .deleteUserConfirm(let store):
+                DeleteUserConfirmView(coordinator: coordinator, store: store)
+            default:
+                EmptyView()
+            }
+            
+        }
+        
     }
     
     @ViewBuilder
@@ -103,8 +129,10 @@ struct SettingView: View {
                 .font(.body2_regular14)
                 .padding(.bottom, 12)
             ForEach(items, id:\.self) { section in
-                RoundButtonSectionItem(item: section, coordinator: coordinator, notificationState: $notificationState)
-                    .padding(.bottom, 12)
+                WithPerceptionTracking {
+                    RoundButtonSectionItem(item: section, coordinator: coordinator, notificationState: $store.notificationState.sending(\.toggleNotification))
+                        .padding(.bottom, 12)
+                }
             }
         }
         
@@ -170,44 +198,25 @@ extension SettingView {
         var body: some View {
             VStack(spacing: 0) {
                 ForEach(items, id: \.self) { item in
-                    Button(action: {
-                        handleAction(for: item)
-                    }) {
-                        HStack {
-                            Text(item.title)
-                                .font(.heading6_semibold16)
-                                .foregroundStyle(.white)
-                            Spacer()
-                            Image(.arrowRight)
+                    WithPerceptionTracking {
+                        Button(action: {
+                            handleAction(for: item)
+                        }) {
+                            HStack {
+                                Text(item.title)
+                                    .font(.heading6_semibold16)
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Image(.arrowRight)
+                            }
+                            .padding(.horizontal, 20)
+                            .frame(height: 46)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.backgroundBlack)
                         }
-                        .padding(.horizontal, 20)
-                        .frame(height: 46)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.backgroundBlack)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(.white)
                     }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(.white)
-                }
-            }
-            .navigationDestination(for: SettingPath.self) { path in
-                switch path {
-                case .petArchive:
-                    PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
-                case .updateNickname:
-                    UpdateNicknameView(coordinator: coordinator,
-                                       store: Store(initialState: UpdateNicknameReducer.State(),
-                                                    reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
-                case .updateCalorie:
-                    UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
-                                                                             reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
-                case .updateTerms:
-                    SettingTermView(coordinator: coordinator)
-                case .deleteUser:
-                    DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
-                case .deleteUserConfirm(let store):
-                    DeleteUserConfirmView(coordinator: coordinator, store: store)
-                default:
-                    EmptyView()
                 }
             }
         }
@@ -223,6 +232,6 @@ extension SettingView {
     }
 }
 #Preview {
-    SettingView(coordinator: AppCoordinator())
+    SettingView(coordinator: AppCoordinator(), store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer() }))
 }
 

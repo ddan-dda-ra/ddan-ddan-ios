@@ -152,6 +152,7 @@
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
+		F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -330,6 +331,7 @@
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -689,6 +691,7 @@
 			isa = PBXGroup;
 			children = (
 				F84B21C42C90227A009FE6F3 /* SettingView.swift */,
+				F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */,
 				F80DF7372CB3DA1C004FF1F2 /* DeleteUser */,
 				F80DF7342CB384FB004FF1F2 /* SettingTerm */,
 				F8773BBE2CA549EE009A608F /* UpdateCalorie */,
@@ -1113,6 +1116,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */,
 				367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */,
 				36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */,
 				36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */,
@@ -1164,7 +1168,7 @@
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
 				36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */,
-                F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
+				F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
 				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
