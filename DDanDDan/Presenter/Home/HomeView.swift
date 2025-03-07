@@ -30,9 +30,9 @@ struct HomeView: View {
                 .ignoresSafeArea(edges: [.vertical])
             VStack(alignment: .center) {
                 CustomNavigationBar(
-                    leftButtonImage: Image(.iconDocs),
+                    leftButtonImage: Image(.iconRank),
                     leftButtonAction: {
-                        coordinator.push(to: .petArchive)
+                       //TODO: 랭킹 진입
                     },
                     rightButtonImage: Image(.iconSetting),
                     rightButtonAction: {
@@ -47,7 +47,7 @@ struct HomeView: View {
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 levelView
-                    .padding(.bottom, 10.adjusted)
+                    .padding(.bottom, 12.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 actionButtonView
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
@@ -131,26 +131,6 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    /// 네비게이션 바
-    var navigationBar: some View {
-        HStack(alignment: .center) {
-            Button(action: {
-                coordinator.push(to: .petArchive)
-            }) {
-                Image(.iconDocs)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-            Spacer()
-            Button(action: {
-                coordinator.push(to: .setting)
-            }) {
-                Image(.iconSetting)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-        }
-        .frame(height: 30.adjusted)
-        .background(.blue)
-    }
     
     var kcalView: some View {
         HStack(alignment: .lastTextBaseline,spacing: 4) {
@@ -221,7 +201,7 @@ extension HomeView {
                     .cornerRadius(4)
                 Spacer()
                 Text(String(format: "%.0f%%", viewModel.homePetModel.exp))
-                    .font(.subTitle1_semibold14)
+                    .font(.neoDunggeunmo16)
                     .foregroundStyle(.white)
             }
             .padding(.bottom, 8)
@@ -254,17 +234,17 @@ extension HomeView {
     
     var actionButtonView: some View {
         HStack(spacing: 12.adjusted) {
-            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount)
+            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount, image: .iconFeed)
                 .onTapGesture {
                     viewModel.feedPet()
                 }
-            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount)
+            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount, image: .iconToy)
                 .onTapGesture {
                     viewModel.playWithPet()
                 }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 66)
+        .frame(height: 95)
     }
 }
 

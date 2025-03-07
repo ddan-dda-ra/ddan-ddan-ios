@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Icon__system_line-1.png",
+      "filename" : "Icon__Character.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Icon__system_line@2x-1.png",
+      "filename" : "Icon__Character@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Icon__system_line@3x-1.png",
+      "filename" : "Icon__Character@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
