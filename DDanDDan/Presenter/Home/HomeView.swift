@@ -9,12 +9,14 @@ import SwiftUI
 import HealthKit
 import ComposableArchitecture
 import Lottie
+import ComposableArchitecture
 
 enum HomePath: Hashable {
     case setting
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
+    case ranking
 }
 
 struct HomeView: View {
@@ -31,7 +33,7 @@ struct HomeView: View {
                 CustomNavigationBar(
                     leftButtonImage: Image(.iconRank),
                     leftButtonAction: {
-                       //TODO: 랭킹 진입
+                        coordinator.push(to: .ranking)
                     },
                     rightButtonImage: Image(.iconSetting),
                     rightButtonAction: {
@@ -115,6 +117,12 @@ struct HomeView: View {
             switch path {
             case .setting:
                 SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
+            case .petArchive:
+                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+            case .ranking:
+                RankView(store: Store(initialState: RankFeature.State()) {
+                    RankFeature()
+                }, coordinator: coordinator)
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:

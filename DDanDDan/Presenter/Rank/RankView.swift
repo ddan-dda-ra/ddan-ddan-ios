@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 struct RankView: View {
     let store: StoreOf<RankFeature>
+    @ObservedObject var coordinator: AppCoordinator
     
     var body: some View {
         WithPerceptionTracking {
@@ -20,7 +21,7 @@ struct RankView: View {
                     CustomNavigationBar(
                         title: "월간 랭킹",
                         leftButtonImage: Image(.arrow)) {
-                            //TODO: 뒤로가기
+                            coordinator.pop()
                         }
                     CustomTabView(
                         store: Store(initialState: TabFeature.State(), reducer: { TabFeature() }), views: [
@@ -29,10 +30,10 @@ struct RankView: View {
                         ]
                     )
                     .padding(.horizontal, 20)
-                    Spacer()
                 }
             }
             .navigationBarHidden(true)
+            .ignoresSafeArea(.all, edges: .bottom)
         }
     }
 }
@@ -42,5 +43,5 @@ struct RankView: View {
         store: Store(initialState: RankFeature.State(),
                      reducer: {
                          RankFeature()
-                     }))
+                     }), coordinator: .init())
 }
