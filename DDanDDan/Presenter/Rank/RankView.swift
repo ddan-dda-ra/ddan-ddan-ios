@@ -7,12 +7,40 @@
 
 import SwiftUI
 
+import ComposableArchitecture
+
 struct RankView: View {
+    let store: StoreOf<RankFeature>
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        WithPerceptionTracking {
+            ZStack {
+                Color(.backgroundBlack)
+                VStack {
+                    CustomNavigationBar(
+                        title: "월간 랭킹",
+                        leftButtonImage: Image(.arrow)) {
+                            //TODO: 뒤로가기
+                        }
+                    CustomTabView(
+                        store: Store(initialState: TabFeature.State(), reducer: { TabFeature() }), views: [
+                            .kcal: AnyView(RankContentsView(tabType: .kcal)),
+                            .goal:  AnyView(RankContentsView(tabType: .goal))
+                        ]
+                    )
+                    .padding(.horizontal, 20)
+                    Spacer()
+                }
+            }
+            .navigationBarHidden(true)
+        }
     }
 }
 
 #Preview {
-    RankView()
+    RankView(
+        store: Store(initialState: RankFeature.State(),
+                     reducer: {
+                         RankFeature()
+                     }))
 }

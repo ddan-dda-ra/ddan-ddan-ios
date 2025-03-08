@@ -97,6 +97,7 @@
 		3692E0592CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E0572CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift */; };
 		3692E05D2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */; };
 		3692E05E2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */; };
+		369F16EC2D7CADD50039ED3A /* RankFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EB2D7CADD50039ED3A /* RankFeature.swift */; };
 		369F16EE2D7CB4B40039ED3A /* ToolKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */; };
 		369F16F02D7CC11C0039ED3A /* RankContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */; };
 		369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F12D7CC1280039ED3A /* CustomTabView.swift */; };
@@ -283,6 +284,7 @@
 		3692E0572CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppTests.swift; sourceTree = "<group>"; };
 		3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		369F16EB2D7CADD50039ED3A /* RankFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankFeature.swift; sourceTree = "<group>"; };
 		369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolKitView.swift; sourceTree = "<group>"; };
 		369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankContentsView.swift; sourceTree = "<group>"; };
 		369F16F12D7CC1280039ED3A /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				364195A42D72DAD80065C400 /* RankView.swift */,
+				369F16EB2D7CADD50039ED3A /* RankFeature.swift */,
 				369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */,
 			);
 			path = Rank;
@@ -1193,6 +1196,7 @@
 				363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */,
 				36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */,
 				367A79732CDD092A0055771B /* AppCoordinator.swift in Sources */,
+				369F16EC2D7CADD50039ED3A /* RankFeature.swift in Sources */,
 				36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */,
 				F88FC6DF2CCF3BF70033D4C9 /* Pet.swift in Sources */,
 				36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */,
