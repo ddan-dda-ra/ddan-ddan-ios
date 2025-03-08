@@ -12,6 +12,7 @@ extension Font {
     static let neoDunggeunmo14: Font = .custom("NeoDunggeunmoPro-Regular", size: 14.adjusted)
     static let neoDunggeunmo22: Font = .custom("NeoDunggeunmoPro-Regular", size: 22.adjusted)
     static let neoDunggeunmo24: Font = .custom("NeoDunggeunmoPro-Regular", size: 24.adjusted)
+    static let neoDunggeunmo32: Font = .custom("NeoDunggeunmoPro-Regular", size: 32.adjusted)
     static let neoDunggeunmo42: Font = .custom("NeoDunggeunmoPro-Regular", size: 42.adjusted)
     static let neoDunggeunmo52: Font = .custom("NeoDunggeunmoPro-Regular", size: 52.adjusted)
   
@@ -26,6 +27,7 @@ extension Font {
   
   /// body
     static let body1_regular16: Font = .custom("Pretendard-Regular", size: 16.adjusted)
+    static let body1_bold16: Font = .custom("Pretendard-Bold", size: 16.adjusted)
     static let body2_regular14: Font = .custom("Pretendard-Regular", size: 14.adjusted)
     static let body3_regular12: Font = .custom("Pretendard-Regular", size: 12.adjusted)
 }
