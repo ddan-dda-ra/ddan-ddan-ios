@@ -114,7 +114,7 @@ struct HomeView: View {
         .navigationDestination(for: HomePath.self) { path in
             switch path {
             case .setting:
-                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer() }))
+                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:

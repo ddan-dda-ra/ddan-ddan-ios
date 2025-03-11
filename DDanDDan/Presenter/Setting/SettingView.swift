@@ -242,6 +242,6 @@ extension SettingView {
     }
 }
 #Preview {
-    SettingView(coordinator: AppCoordinator(), store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer() }))
+    SettingView(coordinator: AppCoordinator(), store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
 }
 
