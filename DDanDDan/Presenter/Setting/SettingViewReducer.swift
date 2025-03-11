@@ -8,20 +8,18 @@
 import Foundation
 import ComposableArchitecture
 
-@Reducer
-struct SettingViewReducer {
+struct SettingViewReducer: Reducer {
     enum Action {
         case toggleNotification(Bool)
         case showLogoutDialog(Bool)
     }
     
-    @ObservableState
     struct State: Equatable {
         var notificationState: Bool = UserDefaultValue.pushNotification
         var showLogoutDialog = false
     }
     
-    var body: some ReducerOf<Self> {
+    var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .toggleNotification:
