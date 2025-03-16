@@ -26,3 +26,16 @@ public struct Ranking: Decodable {
         case userName, mainPetType, petLevel, totalCalories, totalSucceededDays
     }
 }
+
+
+public enum CriteriaType: String {
+    case TOTAL_CALORIES = "TOTAL_CALORIES"
+    case TOTAL_SUCCEEDED_DAYS = "TOTAL_SUCCEEDED_DAYS"
+}
+
+public enum PeriodType: String {
+    case DAILY = "DAILY"
+    case WEEKLY = "WEEKLY"
+    case MONTHLY = "MONTHLY"
+    case YEARLY = "YEARLY"
+}
