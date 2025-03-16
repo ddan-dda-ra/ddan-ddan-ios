@@ -6,3 +6,27 @@
 //
 
 import Foundation
+
+import Alamofire
+
+public struct RankNetwork {
+    private let manager = NetworkManager(interceptor: TokenInterceptor())
+    
+    // MARK: - GET
+    public func fetchRankInfo(accessToken: String, criteria: String, periodType: String) async -> Result<RankInfo, NetworkError> {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+        
+        let parameters: Parameters = [
+            "criteria": criteria,
+            "periodType": periodType
+        ]
+        
+        return await manager.request(
+            url: PathString.Rank.rank + "",
+            method: .get,
+            headers: headers,
+            parameters: parameters,
+            encoding: URLEncoding.queryString
+        )
+    }
+}
