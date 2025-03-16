@@ -33,12 +33,6 @@ final class AppCoordinator: ObservableObject {
     @StateObject var user = UserManager.shared
     
     @Published var shouldUpdateHomeView = false
-
-    func determineRootView() {
-        if let _ = user.accessToken {
-            rootView = user.isSignUpRequired() ? .signUp : .home
-        }
-    }
     
     func setRoot(to path: AppPath) {
         navigationPath.removeLast(navigationPath.count)
