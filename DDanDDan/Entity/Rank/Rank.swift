@@ -8,22 +8,27 @@
 import Foundation
 
 // MARK: - RankDTO
-public struct RankInfo: Decodable {
+public struct RankInfo: Decodable, Equatable {
     let criteria, periodType: String
     let ranking: [Ranking]
     let myRanking: Ranking
 }
 
 // MARK: - Ranking
-public struct Ranking: Decodable {
+public struct Ranking: Decodable, Equatable {
     let rank: Int
-    let userID, userName, mainPetType: String
+    let userID, userName: String
+    let mainPetType: PetType
     let petLevel, totalCalories, totalSucceededDays: Int
 
     enum CodingKeys: String, CodingKey {
         case rank
         case userID = "userId"
         case userName, mainPetType, petLevel, totalCalories, totalSucceededDays
+    }
+    
+     public static func == (lhs: Ranking, rhs: Ranking) -> Bool {
+        return lhs.rank == rhs.rank
     }
 }
 
