@@ -17,6 +17,10 @@ extension View {
             .background(TransparentBackground())
         }
     }
+    
+    public func particalCornerRadius(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
 }
 
 extension UIScreen {
@@ -64,4 +68,24 @@ struct TransparentBackground: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+/// 상단 모서리 Rect를 만들기 위한 Radius Corner
+public struct RoundedCorner: Shape {
+    public var radius: CGFloat = .infinity
+    public var corners: UIRectCorner = .allCorners
+    
+    public init(radius: CGFloat, corners: UIRectCorner) {
+        self.radius = radius
+        self.corners = corners
+    }
+    
+    public func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
 }
