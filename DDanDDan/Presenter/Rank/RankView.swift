@@ -23,13 +23,18 @@ struct RankView: View {
                         leftButtonImage: Image(.arrow)) {
                             coordinator.pop()
                         }
-                    CustomTabView(
-                        store: Store(initialState: TabFeature.State(), reducer: { TabFeature() }), views: [
-                            .kcal: AnyView(RankContentsView(tabType: .kcal)),
-                            .goal:  AnyView(RankContentsView(tabType: .goal))
-                        ]
-                    )
-                    .padding(.horizontal, 20)
+                    WithPerceptionTracking {
+                        CustomTabView(
+                            store: Store(
+                                initialState: TabFeature.State(),
+                                reducer: { TabFeature() }
+                            ),
+                            views: [
+                                .kcal: AnyView(RankContentsView(tabType: .kcal, store: store)),
+                                .goal: AnyView(RankContentsView(tabType: .goal, store: store))
+                            ]
+                        )
+                    }
                 }
             }
             .navigationBarHidden(true)
@@ -40,8 +45,10 @@ struct RankView: View {
 
 #Preview {
     RankView(
-        store: Store(initialState: RankFeature.State(),
-                     reducer: {
-                         RankFeature()
-                     }), coordinator: .init())
+        store: Store(
+            initialState: RankFeature.State(selectedTab: .kcal),
+            reducer: {
+                RankFeature()
+            }
+        ), coordinator: .init())
 }
