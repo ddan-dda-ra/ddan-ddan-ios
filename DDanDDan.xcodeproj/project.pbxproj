@@ -419,7 +419,6 @@
 			isa = PBXGroup;
 			children = (
 				360E6B3D2CEDF8010059661E /* LevelUp */,
-				367A79692CDCAB560055771B /* Archive */,
 				367A79682CDCAB4D0055771B /* Challenge */,
 			);
 			path = Views;
@@ -690,6 +689,7 @@
 		F84B21C32C902270009FE6F3 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				367A79692CDCAB560055771B /* Archive */,
 				F84B21C42C90227A009FE6F3 /* SettingView.swift */,
 				F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */,
 				F80DF7372CB3DA1C004FF1F2 /* DeleteUser */,

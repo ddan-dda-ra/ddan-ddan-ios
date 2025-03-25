@@ -10,7 +10,8 @@ import HealthKit
 
 final class PetArchiveViewModel: ObservableObject {
     private let homeRepository: HomeRepositoryProtocol
-    
+    private var firstSelectedIndex: Int? = nil
+
     @Published var petList: [Pet] = []
     @Published var selectedIndex: Int? = nil
     @Published var petId: String = ""
@@ -18,6 +19,10 @@ final class PetArchiveViewModel: ObservableObject {
     @Published var showToast = false
     @Published var gridItemCount: Int = 9
     
+    var isButtonDisable: Bool {
+        guard let firstSelectedIndex, let selectedIndex else { return true }
+        return firstSelectedIndex == selectedIndex
+    }
     
     init(repository: HomeRepositoryProtocol) {
         self.homeRepository = repository
@@ -64,6 +69,7 @@ final class PetArchiveViewModel: ObservableObject {
         selectedIndex = pets.firstIndex {
             $0.id == UserDefaultValue.petId
         }
+        firstSelectedIndex = selectedIndex
     }
     
    
