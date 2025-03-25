@@ -21,7 +21,7 @@ struct RankFeature {
     }
     
     enum Action: Equatable {
-        case selectTab(Tab)
+        case onAppear
         case loadKcalRanking
         case loadGoalRanking
         case setKcalRanking(RankInfo)
@@ -33,12 +33,15 @@ struct RankFeature {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case let .selectTab(tab):
-                state.selectedTab = tab
-                return .run { send in
-                    await tab == .kcal ? send(.loadKcalRanking) : send(.loadGoalRanking)
-                }
+            case .onAppear:
+                state.isLoading = true
+                print("onAppear")
+                return .concatenate(
+                    .send(.loadKcalRanking),
+                    .send(.loadGoalRanking)
+                )
             case .loadKcalRanking:
+                print("loadKcalRanking")
                 state.isLoading = true
                 return .run { send in
                     let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
@@ -52,9 +55,10 @@ struct RankFeature {
                 }
                 
             case .loadGoalRanking:
+                print("loadGoalRanking")
                 state.isLoading = true
                 return .run { send in
-                    let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
+                    let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
                     
                     switch result {
                     case .success(let rank):
@@ -64,16 +68,19 @@ struct RankFeature {
                     }
                 }
             case .setKcalRanking(let rankings):
+                print("setKcalRanking")
                 state.kcalRanking = rankings
                 state.isLoading = false
                 return .none
                 
             case .setGoalRanking(let rankings):
+                print("setGoalRanking")
                 state.goalRanking = rankings
                 state.isLoading = false
                 return .none
                 
             case .setLoading(let isLoading):
+                print("setLoading")
                 state.isLoading = isLoading
                 return .none
                 

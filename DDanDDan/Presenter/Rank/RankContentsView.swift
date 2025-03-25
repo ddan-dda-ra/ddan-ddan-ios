@@ -12,11 +12,7 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var textWidth: CGFloat = 0
     @State private var showTooltip = false
-    var tabType: Tab {
-        didSet {
-            store.send(.selectTab(tabType))
-        }
-    }
+    var tabType: Tab
     
     let store: StoreOf<RankFeature>
     
@@ -78,19 +74,18 @@ struct RankContentsView: View {
                         .scrollIndicators(.hidden)
                         myRankView
                     }
-                    .onAppear {
-                        store.send(.selectTab(tabType))
+                }
+                
+                if store.isLoading {
+                    WithPerceptionTracking {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .foregroundStyle(.textButtonAlternative)
+                            .background(Color.backgroundBlack)
                     }
                 }
             }
             
-            if store.isLoading {
-                WithPerceptionTracking {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .foregroundStyle(.textButtonAlternative)
-                }
-            }
         }
     }
 }
@@ -111,6 +106,7 @@ extension RankContentsView {
     
     var rankView: some View {
         let ranking = (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
+        print(ranking)
         
         return HStack {
             WithPerceptionTracking {

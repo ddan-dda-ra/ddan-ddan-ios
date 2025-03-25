@@ -13,6 +13,12 @@ struct RankView: View {
     let store: StoreOf<RankFeature>
     @ObservedObject var coordinator: AppCoordinator
     
+    init(store: StoreOf<RankFeature>, coordinator: AppCoordinator) {
+        self.store = store
+        self.coordinator = coordinator
+        store.send(.onAppear)
+    }
+    
     var body: some View {
         WithPerceptionTracking {
             ZStack {
@@ -36,6 +42,9 @@ struct RankView: View {
                         )
                     }
                 }
+            }
+            .onAppear {
+                store.send(.onAppear)
             }
             .navigationBarHidden(true)
             .ignoresSafeArea(.all, edges: .bottom)
