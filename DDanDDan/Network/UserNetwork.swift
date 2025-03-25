@@ -71,6 +71,18 @@ public struct UserNetwork {
             )
     }
     
+    public func patchPushNotification(accessToken: String, isOn: Bool) async -> Result<EmptyEntity, NetworkError> {
+        let parameter: Parameters = ["isAppPushOn": isOn]
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+        return await manager.request(
+            url: PathString.User.userSetting,
+            method: .patch,
+            headers: headers,
+            parameters: parameter,
+            encoding: JSONEncoding.default
+            )
+    }
+    
     // MARK: - POST
     
     public func setMainPet(accessToken: String, petID: String) async -> Result<MainPet, NetworkError> {

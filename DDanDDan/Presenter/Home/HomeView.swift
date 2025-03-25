@@ -7,12 +7,11 @@
 
 import SwiftUI
 import HealthKit
-
+import ComposableArchitecture
 import Lottie
 
 enum HomePath: Hashable {
     case setting
-    case petArchive
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
@@ -115,9 +114,7 @@ struct HomeView: View {
         .navigationDestination(for: HomePath.self) { path in
             switch path {
             case .setting:
-                SettingView(coordinator: coordinator)
-            case .petArchive:
-                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:

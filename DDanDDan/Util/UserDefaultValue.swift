@@ -45,6 +45,11 @@ public struct UserDefaultValue {
     @UserDefault(key: "currentKcal", defaultValue: 0)
     static public var currentKcal: Double
     
+    // Setting
+    @UserDefault(key: "pushNotification", defaultValue: false)
+    static public var pushNotification: Bool
+
+    
 }
 
 @propertyWrapper
