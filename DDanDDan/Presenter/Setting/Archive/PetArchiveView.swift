@@ -82,7 +82,7 @@ struct PetArchiveView: View {
             }
             if viewModel.showToast {
                 VStack {
-                    ToastView(message: "새로운 펫을 준비중이에요")
+                    ToastView(message: "새로운 펫을 준비중이에요", toastType: .info)
                         .onTapGesture {
                             viewModel.hideToastMessage()
                         }

@@ -59,7 +59,7 @@ struct UpdateCalorieView: View {
                 }
                 TransparentOverlayView(isPresented: !viewStore.toastMessage.isEmpty, isDimView: false) {
                     VStack {
-                        ToastView(message: viewStore.toastMessage)
+                        ToastView(message: viewStore.toastMessage, toastType: .info)
                     }
                     .transition(.asymmetric(
                         insertion: .move(edge: .top).combined(with: .opacity),

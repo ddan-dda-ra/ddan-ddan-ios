@@ -48,7 +48,7 @@ struct LoginView: View {
                 .padding(.bottom, 40)
                 TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                     VStack {
-                        ToastView(message: viewModel.toastMessage)
+                        ToastView(message: viewModel.toastMessage, toastType: .info)
                     }
                     .transition(.asymmetric(
                         insertion: .move(edge: .top).combined(with: .opacity),
