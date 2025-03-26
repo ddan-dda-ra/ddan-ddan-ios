@@ -171,7 +171,7 @@ extension RankContentsView {
     }
     
     func rankListItemView(rank: Ranking, index: Int) -> some View {
-        let isMyRank: Bool = rank.rank == (tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank)
+        let isMyRank: Bool = rank.userID == (tabType == .kcal ? store.kcalRanking?.myRanking.userID : store.goalRanking?.myRanking.userID)
         
        return HStack(alignment: .center, spacing: 0) {
             Text("\(index + 1)")
