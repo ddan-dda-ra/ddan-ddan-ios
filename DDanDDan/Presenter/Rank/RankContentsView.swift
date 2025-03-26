@@ -267,6 +267,47 @@ extension RankContentsView {
                 
             }
             .padding(.horizontal, 20)
+
+struct RankCard: View {
+    let ranking: Ranking
+    let tabType: Tab
+
+    var body: some View {
+        ZStack {
+            VStack {
+                Image(ranking.mainPetType.image(for: ranking.petLevel))
+                    .resizable()
+                    .frame(width: 64, height: 64)
+                    .padding(.bottom, 10)
+                VStack {
+                    Text(ranking.userName)
+                        .font(.body2_regular14)
+                        .foregroundStyle(Color.textBodyTeritary)
+                        .frame(width: 82)
+                        .lineLimit(1)
+                        .lineSpacing(24)
+                    Text(tabType == .kcal ? "\(ranking.totalCalories)kcal" : "\(ranking.totalSucceededDays)일")
+                        .font(.body1_bold16)
+                        .foregroundStyle(Color.textButtonAlternative)
+                }
+            }
+            .frame(width: 98.adjustedWidth, height: 152.adjustedHeight)
+            .background(Color.backgroundGray)
+            .cornerRadius(8)
+
+            getCrownImage(for: ranking.rank)
+                .offset(y: -76.adjustedHeight)
+        }
+        .padding(.horizontal, 6)
+    }
+    
+    
+    func getCrownImage(for index: Int) -> Image {
+        switch index {
+        case 1: return Image(.iconCrownFirst)
+        case 2: return Image(.iconCrownSecond)
+        case 3: return Image(.iconCrownThrid)
+        default: return Image(.iconCrownFirst) // 기본값
         }
     }
 }
