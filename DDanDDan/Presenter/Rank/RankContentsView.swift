@@ -104,7 +104,7 @@ extension RankContentsView {
     var rankContainerView: some View {
         WithPerceptionTracking {
             VStack {
-                rankView
+                topRankView
                     .padding(.bottom, 20)
                 rankListView
                     .frame(maxWidth: .infinity)
@@ -113,57 +113,31 @@ extension RankContentsView {
         .frame(maxWidth: .infinity)
     }
     
-    var rankView: some View {
+    var topRankView: some View {
         let ranking = (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
-        print(ranking)
+        let sortedRanking = ranking.prefix(3).sorted(by: { $0.rank < $1.rank })
         
-        return HStack {
-            WithPerceptionTracking {
-                ForEach(Array(ranking.prefix(3)), id: \.rank) { ranking in
-                    ZStack {
-                        VStack {
-                            Image(ranking.mainPetType.image(for: ranking.petLevel))
-                                .resizable()
-                                .frame(width: 64, height: 64)
-                                .padding(.bottom, 10)
-                            VStack {
-                                Text(ranking.userName)
-                                    .font(.body2_regular14)
-                                    .foregroundStyle(Color.textBodyTeritary)
-                                    .frame(width: 82)
-                                    .lineLimit(1)
-                                    .lineSpacing(24)
-                                Text("\(ranking.totalCalories)kcal")
-                                    .font(.body1_bold16)
-                                    .foregroundStyle(Color.textButtonAlternative)
-                            }
-                        }
-                        .frame(width: 98, height: 152)
-                        .background(Color.buttonAlternative)
-                        .cornerRadius(8)
-                        
-                        getCrownImage(for: ranking.rank)
-                            .offset(y: -76)
-                    }
-                    .padding(.horizontal, 10)
+        return HStack(alignment: .center, spacing: 12) {
+            if sortedRanking.count == 3 {
+                RankCard(ranking: sortedRanking[1], tabType: tabType)
+
+                RankCard(ranking: sortedRanking[0], tabType: tabType)
+                    .offset(y: -19)
+
+                RankCard(ranking: sortedRanking[2], tabType: tabType)
+            } else {
+                ForEach(sortedRanking, id: \.rank) { ranking in
+                    RankCard(ranking: ranking, tabType: tabType)
                 }
             }
-            .frame(height: 205)
-            .frame(maxWidth: .infinity)
         }
+        .frame(height: 205.adjustedHeight)
+        .frame(maxWidth: .infinity)
     }
-    
-    func getCrownImage(for index: Int) -> Image {
-        switch index {
-        case 0: return Image(.iconCrownFirst)
-        case 1: return Image(.iconCrownSecond)
-        case 2: return Image(.iconCrownThrid)
-        default: return Image(.iconCrownFirst) // 기본값
-        }
-    }
+
     
     var rankListView: some View {
-        let rankers = (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
+        let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
         
         return WithPerceptionTracking {
             ScrollView {
