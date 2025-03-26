@@ -207,10 +207,9 @@ extension RankContentsView {
     
     
     var myRankView: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             Rectangle()
-                .frame(height: 100)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 100.adjustedHeight)
                 .particalCornerRadius(16, corners: .topLeft)
                 .particalCornerRadius(16, corners: .topRight)
                 .foregroundStyle(.borderGray)
@@ -250,6 +249,11 @@ extension RankContentsView {
                 
             }
             .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 32)
+        }
+    }
+}
 
 struct RankCard: View {
     let ranking: Ranking
