@@ -207,12 +207,12 @@ extension RankContentsView {
             
             Spacer()
             
-            Text("\(rank.totalCalories)")
+           Text(tabType == .kcal ? "\(rank.totalCalories)" : "\(rank.totalSucceededDays)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body1_bold16)
                 .padding(.trailing, 2)
             
-            Text("kcal")
+           Text(tabType == .kcal ? "kcal" : "일")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body2_regular14)
         }
@@ -261,7 +261,7 @@ extension RankContentsView {
                 Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.totalCalories : store.goalRanking?.myRanking.totalSucceededDays) ?? 0))
                     .font(.body1_bold16)
                     .foregroundStyle(.textButtonAlternative)
-                Text("kcal")
+                Text(self.tabType == .kcal ? "kcal" : "일")
                     .font(.body1_regular16)
                     .foregroundStyle(.textButtonAlternative)
                 
