@@ -24,7 +24,7 @@ struct RankContentsView: View {
                     WithPerceptionTracking {
                         ScrollView {
                             VStack(alignment: .leading) {
-                                Text("2025년 5월 기준")
+                                Text(setDateCirteria())
                                     .font(.body2_regular14)
                                     .foregroundStyle(.textBodyTeritary)
                                     .padding(.leading, 20)
@@ -87,6 +87,15 @@ struct RankContentsView: View {
             }
             
         }
+    }
+    
+    func setDateCirteria() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 설정
+        dateFormatter.dateFormat = "yyyy년 M월 기준"
+
+        let dateCriteria = dateFormatter.string(from: Date())
+        return dateCriteria
     }
 }
 
