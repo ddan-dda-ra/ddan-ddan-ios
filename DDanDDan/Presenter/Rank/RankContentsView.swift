@@ -58,7 +58,7 @@ struct RankContentsView: View {
                                     ZStack {
                                         if showTooltip {
                                             ToolKitView(textString: tabType.toolKitMessage)
-                                                .offset(x: textWidth / 2 - 20)
+                                                .offset(x: textWidth / 2)
                                         }
                                     }
                                     .frame(height: 32)
@@ -299,6 +299,13 @@ struct RankCard: View {
     }
 }
 
-//#Preview {
-//    RankContentsView(tabType: .goal, store: <#StoreOf<RankFeature>#>)
-//}
+#Preview {
+    RankContentsView(
+        tabType: .goal,
+        store: Store(
+        initialState: RankFeature.State(selectedTab: .kcal),
+        reducer: {
+            RankFeature()
+        }
+    ))
+}
