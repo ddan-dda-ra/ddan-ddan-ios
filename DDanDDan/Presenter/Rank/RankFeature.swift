@@ -35,13 +35,11 @@ struct RankFeature {
             switch action {
             case .onAppear:
                 state.isLoading = true
-                print("onAppear")
                 return .concatenate(
                     .send(.loadKcalRanking),
                     .send(.loadGoalRanking)
                 )
             case .loadKcalRanking:
-                print("loadKcalRanking")
                 state.isLoading = true
                 return .run { send in
                     let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
@@ -55,7 +53,6 @@ struct RankFeature {
                 }
                 
             case .loadGoalRanking:
-                print("loadGoalRanking")
                 state.isLoading = true
                 return .run { send in
                     let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
@@ -68,19 +65,16 @@ struct RankFeature {
                     }
                 }
             case .setKcalRanking(let rankings):
-                print("setKcalRanking")
                 state.kcalRanking = rankings
                 state.isLoading = false
                 return .none
                 
             case .setGoalRanking(let rankings):
-                print("setGoalRanking")
                 state.goalRanking = rankings
                 state.isLoading = false
                 return .none
                 
             case .setLoading(let isLoading):
-                print("setLoading")
                 state.isLoading = isLoading
                 return .none
                 
