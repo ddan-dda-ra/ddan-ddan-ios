@@ -168,8 +168,9 @@ extension RankContentsView {
                     .frame(width: 48, height: 48)
                 Image(rank.mainPetType.image(for: rank.petLevel))
                     .resizable()
-                    .frame(width: 42, height: 42)
-                    .offset(y: -3)
+                    .frame(width: 38, height: 38)
+                    .offset(y: rank.petLevel > 3 ? 0 : -3)
+                    .padding(3)
             }
             .padding(.trailing, 12)
             
