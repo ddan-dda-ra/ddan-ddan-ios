@@ -35,10 +35,10 @@ struct RankFeature {
             switch action {
             case .onAppear:
                 state.isLoading = true
-                return .concatenate(
-                    .send(.loadKcalRanking),
-                    .send(.loadGoalRanking)
-                )
+                return .run { send in
+                    await send(.loadKcalRanking)
+                    await send(.loadGoalRanking)
+                }
             case .loadKcalRanking:
                 state.isLoading = true
                 return .run { send in
