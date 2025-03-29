@@ -35,13 +35,13 @@ struct RankFeature {
             switch action {
             case .onAppear:
                 state.isLoading = true
-                return .run { send in
-                    await send(.loadKcalRanking)
-                    await send(.loadGoalRanking)
-                }
+                return .concatenate(
+                    .send(.loadGoalRanking),
+                    .send(.loadKcalRanking)
+                )
             case .loadKcalRanking:
-                state.isLoading = true
                 return .run { send in
+                    await send(.setLoading(true))
                     let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
                     
                     switch result {
@@ -53,8 +53,8 @@ struct RankFeature {
                 }
                 
             case .loadGoalRanking:
-                state.isLoading = true
                 return .run { send in
+                    await send(.setLoading(true))
                     let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
                     
                     switch result {
@@ -66,13 +66,11 @@ struct RankFeature {
                 }
             case .setKcalRanking(let rankings):
                 state.kcalRanking = rankings
-                state.isLoading = false
-                return .none
+                return .send(.setLoading(false))
                 
             case .setGoalRanking(let rankings):
                 state.goalRanking = rankings
-                state.isLoading = false
-                return .none
+                return .send(.setLoading(false))
                 
             case .setLoading(let isLoading):
                 state.isLoading = isLoading
@@ -80,9 +78,7 @@ struct RankFeature {
                 
             case .setError(let error):
                 state.errorMessage = error
-                state.isLoading = false
-                
-                return .none
+                return .send(.setLoading(false))
             }
         }
         
