@@ -40,30 +40,9 @@ struct RankFeature {
                     .send(.loadKcalRanking)
                 )
             case .loadKcalRanking:
-                return .run { send in
-                    await send(.setLoading(true))
-                    let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
-                    
-                    switch result {
-                    case .success(let rank):
-                        await send(.setKcalRanking(rank))
-                    case .failure(let failure):
-                        await send(.setError(failure.description))
-                    }
-                }
-                
+                return fetchKcalRanking()
             case .loadGoalRanking:
-                return .run { send in
-                    await send(.setLoading(true))
-                    let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
-                    
-                    switch result {
-                    case .success(let rank):
-                        await send(.setGoalRanking(rank))
-                    case .failure(let failure):
-                        await send(.setError(failure.description))
-                    }
-                }
+                return fetchGoalRanking()
             case .setKcalRanking(let rankings):
                 state.kcalRanking = rankings
                 return .send(.setLoading(false))
@@ -81,6 +60,34 @@ struct RankFeature {
                 return .send(.setLoading(false))
             }
         }
-        
     }
+    
+    private func fetchKcalRanking() -> Effect<Action> {
+        return .run { send in
+            await send(.setLoading(true))
+            let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
+
+            switch result {
+            case .success(let rank):
+                await send(.setKcalRanking(rank))
+            case .failure(let failure):
+                await send(.setError(failure.description))
+            }
+        }
+    }
+
+    private func fetchGoalRanking() -> Effect<Action> {
+        return .run { send in
+            await send(.setLoading(true))
+            let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
+
+            switch result {
+            case .success(let rank):
+                await send(.setGoalRanking(rank))
+            case .failure(let failure):
+                await send(.setError(failure.description))
+            }
+        }
+    }
+
 }
