@@ -117,8 +117,6 @@ struct HomeView: View {
             switch path {
             case .setting:
                 SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
-            case .petArchive:
-                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
             case .ranking:
                 RankView(store: Store(initialState: RankFeature.State()) {
                     RankFeature()
