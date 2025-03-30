@@ -57,16 +57,11 @@ struct UpdateCalorieView: View {
                         viewStore.send(.requestUpdate)
                     }, title: "변경 완료", disabled: false)
                 }
-                TransparentOverlayView(isPresented: !viewStore.toastMessage.isEmpty, isDimView: false) {
-                    VStack {
-                        ToastView(message: viewStore.toastMessage, toastType: .info)
-                    }
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .top).combined(with: .opacity),
-                        removal: .opacity))
-                    .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewStore.toastMessage)
-                    .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 250)
+                VStack {
+                    Spacer()
+                    ToastView(message: viewStore.toastMessage, toastType: .info, isPresented: !viewStore.toastMessage.isEmpty)
                 }
+                .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 200.adjustedHeight)
             }
         }
         .navigationBarHidden(true)

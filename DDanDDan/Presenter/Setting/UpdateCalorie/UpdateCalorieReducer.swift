@@ -54,7 +54,7 @@ struct UpdateCalorieReducer: Reducer {
             } else {
                 state.toastMessage = message
                 return .run { send in
-                    try? await Task.sleep(nanoseconds: 2_000_000_000)
+                    try? await Task.sleep(nanoseconds: 2_500_000_000)
                     await send(.removeToastMessage)
                 }
             }

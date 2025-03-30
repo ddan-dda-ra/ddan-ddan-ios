@@ -18,6 +18,9 @@ final class PetArchiveViewModel: ObservableObject {
     @Published var isSelectedMainPet: Bool = false
     @Published var showToast = false
     @Published var gridItemCount: Int = 9
+    @Published var toastMessage: String = "새로운 펫을 준비 중이에요!"
+    
+
     
     var isButtonDisable: Bool {
         guard let firstSelectedIndex, let selectedIndex else { return true }
@@ -109,7 +112,7 @@ final class PetArchiveViewModel: ObservableObject {
     
     func showToastMessage() {
         showToast = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
             self?.hideToastMessage()
         }
     }

@@ -58,13 +58,9 @@ struct HomeView: View {
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
-                    ToastView(message: viewModel.toastMessage, toastType: .info)
+                    ToastView(message: viewModel.toastMessage, toastType: .info, isPresented: viewModel.showToast)
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity)) // 사라질 때는 페이드 아웃만
-                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
             }
             TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
