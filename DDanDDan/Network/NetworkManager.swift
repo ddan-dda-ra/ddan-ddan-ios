@@ -40,6 +40,8 @@ public struct NetworkManager {
             print("🔹 Parameters: \(parameters)")
         }
         
+        AnalyticsManager.shared.logEvent(event: NetworkEvent.request(url: url.absoluteString, header: headers?.description, params: parameters?.description))
+       
         let result = await session.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
             .validate(statusCode: 200..<401)
             .serializingData()
