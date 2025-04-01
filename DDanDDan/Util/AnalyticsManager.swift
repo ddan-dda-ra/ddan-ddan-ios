@@ -15,6 +15,10 @@ class AnalyticsManager {
     public func logEvent(event: AnalyticsEvent) {
         Analytics.logEvent(event.title, parameters: event.parameter)
     }
+    
+    public func setUserProperty(property: UserProperty) {
+        Analytics.setUserProperty(property.value, forName: property.name)
+    }
 }
 
 protocol AnalyticsEvent {
@@ -22,21 +26,21 @@ protocol AnalyticsEvent {
     var parameter: [String: Any] { get }
 }
 
-enum NetworkEvent: AnalyticsEvent {
-    case onError(ServerErrorResponse)
+public enum UserProperty {
+    case userID(String)
+    case userName(String)
     
-    var title: String {
+    var name: String {
         switch self {
-        case .onError: "network_error"
+        case .userID: return "user_id"
+        case .userName: return "user_name"
         }
     }
     
-    var parameter: [String : Any] {
+    var value: String? {
         switch self {
-        case let .onError(response):
-            return ["messege": response.message, "code": response.code]
+        case .userID(let id): return id
+        case .userName(let name): return name
         }
     }
-    
-    
 }

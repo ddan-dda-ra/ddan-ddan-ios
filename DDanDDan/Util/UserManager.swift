@@ -39,6 +39,8 @@ actor UserManager: ObservableObject {
         UserDefaultValue.acessToken = loginData.accessToken
         UserDefaultValue.refreshToken = loginData.refreshToken
         UserDefaultValue.isOnboardingComplete = loginData.isOnboardingComplete
+        AnalyticsManager.shared.setUserProperty(property: .userID(loginData.user.id))
+        AnalyticsManager.shared.setUserProperty(property: .userName(loginData.user.name))
         await MainActor.run {
             isOnboardingComplete = loginData.isOnboardingComplete
             accessToken = loginData.accessToken

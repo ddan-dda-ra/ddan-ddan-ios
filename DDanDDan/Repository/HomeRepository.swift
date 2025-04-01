@@ -40,6 +40,8 @@ public struct HomeRepository: HomeRepositoryProtocol {
 
         
         return result.map { userData in
+            AnalyticsManager.shared.setUserProperty(property: .userID(userData.id))
+            AnalyticsManager.shared.setUserProperty(property: .userName(userData.name))
             UserDefaultValue.nickName = userData.name
             return HomeUserInfo(
                 id: userData.id,
