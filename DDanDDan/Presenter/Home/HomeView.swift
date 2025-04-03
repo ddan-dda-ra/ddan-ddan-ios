@@ -58,7 +58,7 @@ struct HomeView: View {
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
-                    ToastView(message: viewModel.toastMessage, toastType: .info, isPresented: viewModel.showToast)
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
             }

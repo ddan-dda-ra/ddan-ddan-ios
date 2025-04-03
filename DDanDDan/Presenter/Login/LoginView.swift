@@ -46,11 +46,12 @@ struct LoginView: View {
                 }
             }
             .padding(.bottom, 40)
-            VStack {
-                Spacer()
-                ToastView(message: viewModel.toastMessage, toastType: .info, isPresented: viewModel.showToast)
+            TransparentOverlayView(isPresented: viewModel.showToast) {
+                VStack {
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
+                }
+                .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 150)
             }
-            .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 150)
         }
     }
     

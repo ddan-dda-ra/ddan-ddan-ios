@@ -10,10 +10,9 @@ struct ToastView: View {
     let message: String
     let toastType: ToastType
     @State private var offsetY: CGFloat = 40
-    @State var isPresented: Bool
+    @State private var opacity: CGFloat = 40
 
     var body: some View {
-        if isPresented {
             ZStack {
                 Color(.toastElevationLevel03)
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
@@ -36,20 +35,19 @@ struct ToastView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
             .offset(y: offsetY)
+            .opacity(opacity)
             .onAppear {
                 withAnimation(.easeOut(duration: 0.3)) {
                     offsetY = 0
+                    opacity = 1
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     withAnimation(.easeOut(duration: 0.3)) {
                         offsetY = 20
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        isPresented = false
+                        opacity = 0
                     }
                 }
             }
-        }
     }
 }
 
@@ -82,5 +80,5 @@ enum ToastType {
 }
 
 #Preview {
-    ToastView(message: "새로운 펫을 준비중이에요!", toastType: .ready, isPresented: true)
+    ToastView(message: "새로운 펫을 준비중이에요!", toastType: .ready)
 }

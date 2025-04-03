@@ -75,7 +75,7 @@ struct RankContentsView: View {
                         myRankView
                         TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
                             VStack {
-                                ToastView(message: store.state.toastMessage, toastType: .info, isPresented: store.state.showToast)
+                                ToastView(message: store.state.toastMessage, toastType: .info)
                             }
                             .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
                         }
