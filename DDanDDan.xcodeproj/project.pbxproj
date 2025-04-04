@@ -158,8 +158,10 @@
 		F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */; };
 		F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */; };
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
+		F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90329EB2D96A071004A8360 /* AnalyticsManager.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
+		F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */; };
 		F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */; };
 /* End PBXBuildFile section */
 
@@ -346,7 +348,9 @@
 		F8C10C192C57970B0037D6A5 /* SignUpTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTermView.swift; sourceTree = "<group>"; };
 		F8FD4FAD2C7A09F900147C4F /* SignUpCalorieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCalorieView.swift; sourceTree = "<group>"; };
 		F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		F90329EB2D96A071004A8360 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEvent.swift; sourceTree = "<group>"; };
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -818,6 +822,8 @@
 			children = (
 				367A79A92CDE07900055771B /* Extension */,
 				F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */,
+				F90329EB2D96A071004A8360 /* AnalyticsManager.swift */,
+				F9F56EDB2D9B6E710085E266 /* Event */,
 				F809E2FB2CBD06A1001BE099 /* UserManager.swift */,
 				F85C2BA32C4CD651002E2237 /* UserDefaultValue.swift */,
 				363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */,
@@ -886,6 +892,14 @@
 				F88663DD2CC9E69D008DB860 /* SignUp */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		F9F56EDB2D9B6E710085E266 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */,
+			);
+			path = Event;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1173,6 +1187,7 @@
 				367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */,
 				F809E2FA2CBD05F5001BE099 /* UserData.swift in Sources */,
 				362864A82C89D64100029452 /* Font.swift in Sources */,
+				F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */,
 				F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */,
 				360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */,
 				360E6B362CEBC5F10059661E /* SplashView.swift in Sources */,
@@ -1195,6 +1210,7 @@
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
 				F88663D32CC8EE29008DB860 /* AuthNetwork.swift in Sources */,
+				F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */,
 				F859C0482C7068DF007B886A /* SignUpData.swift in Sources */,
 				363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */,
 				36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */,
