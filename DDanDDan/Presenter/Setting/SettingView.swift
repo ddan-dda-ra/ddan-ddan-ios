@@ -79,8 +79,11 @@ struct SettingView: View {
                     
                     roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection,
                                        notificationState: notificationStateBinding)
-                    roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection, 
+                    .padding(.top, 12)
+                    
+                    roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection,
                                        notificationState: notificationStateBinding)
+                    .padding(.top, 16)
                     
                     SectionView(items: SettingPath.bottomSection,
                                 showLogoutDialog: logoutDialogBinding,
@@ -133,7 +136,7 @@ struct SettingView: View {
     
     @ViewBuilder
     func roundButtonSection(title: String, items: [SettingPath], notificationState: Binding<Bool>) -> some View {
-        VStack(alignment: .leading, spacing: 0){
+        VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .foregroundStyle(.textBodyTeritary)
                 .font(.body2_regular14)
@@ -145,8 +148,7 @@ struct SettingView: View {
                 }
             }
         }
-        
-        .padding(.horizontal, 8)
+        .padding(.horizontal, 20)
     }
 }
 
@@ -207,6 +209,9 @@ extension SettingView {
         
         var body: some View {
             VStack(spacing: 0) {
+                Rectangle()
+                    .fill(.backgroundGray)
+                    .frame(height: 8)
                 ForEach(items, id: \.self) { item in
                     WithPerceptionTracking {
                         Button(action: {
@@ -229,6 +234,7 @@ extension SettingView {
                     }
                 }
             }
+            .padding(.top, 16)
         }
         
         private func handleAction(for item: SettingPath) {
