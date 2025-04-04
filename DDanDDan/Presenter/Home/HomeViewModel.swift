@@ -314,8 +314,10 @@ final class HomeViewModel: ObservableObject {
     /// 토스트 메시지 관련 메서드
     private func showToastMessage() {
         showToast = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.hideToastMessage()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+            withAnimation(.easeInOut(duration: 0.3)) {
+                self?.hideToastMessage()
+            }
         }
     }
     

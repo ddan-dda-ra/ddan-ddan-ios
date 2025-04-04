@@ -80,18 +80,11 @@ struct PetArchiveView: View {
                 }, title: "선택 완료", disabled: viewModel.isButtonDisable)
                 .padding(.bottom, 44)
             }
-            if viewModel.showToast {
+            TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
-                    ToastView(message: "새로운 펫을 준비중이에요")
-                        .onTapGesture {
-                            viewModel.hideToastMessage()
-                        }
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity))
-                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjusted)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
             }
         }
         .navigationBarHidden(true)

@@ -54,7 +54,6 @@ struct TransparentOverlayView<Content: View>: View {
                     .transition(.identity)
             }
         }
-        .animation(nil, value: isPresented)
     }
 }
 

@@ -12,6 +12,8 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var textWidth: CGFloat = 0
     @State private var showTooltip = false
+    @State private var contentOffset = CGPoint.zero
+    @State private var reachToBottom = false
     var tabType: Tab
     
     let store: StoreOf<RankFeature>
@@ -63,9 +65,7 @@ struct RankContentsView: View {
                                     }
                                     .frame(height: 32)
                                 }
-                                WithPerceptionTracking {
-                                    rankContainerView
-                                }
+                                rankContainerView
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -73,8 +73,15 @@ struct RankContentsView: View {
                         .frame(maxWidth: .infinity)
                         .scrollIndicators(.hidden)
                         myRankView
+                        TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
+                            VStack {
+                                ToastView(message: store.state.toastMessage, toastType: .info)
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
+                        }
                     }
                 }
+                
                 
                 if store.isLoading {
                     WithPerceptionTracking {
@@ -93,7 +100,7 @@ struct RankContentsView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 설정
         dateFormatter.dateFormat = "yyyy년 M월 기준"
-
+        
         let dateCriteria = dateFormatter.string(from: Date())
         return dateCriteria
     }
@@ -120,10 +127,10 @@ extension RankContentsView {
         return HStack(alignment: .center, spacing: 12) {
             if sortedRanking.count == 3 {
                 RankCard(ranking: sortedRanking[1], tabType: tabType)
-
+                
                 RankCard(ranking: sortedRanking[0], tabType: tabType)
                     .offset(y: -19)
-
+                
                 RankCard(ranking: sortedRanking[2], tabType: tabType)
             } else {
                 ForEach(sortedRanking, id: \.rank) { ranking in
@@ -134,21 +141,30 @@ extension RankContentsView {
         .frame(height: 205.adjustedHeight)
         .frame(maxWidth: .infinity)
     }
-
+    
     
     var rankListView: some View {
         let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
+        let totalCount = store.kcalRanking?.ranking.count ?? 0
         
         return WithPerceptionTracking {
-            ScrollView {
-                WithPerceptionTracking{
-                    LazyVStack(spacing: 0) {
-                        ForEach(rankers.indices, id: \.self) { index in
-                            rankListItemView(rank: rankers[index], index: index)
-                        }
+            CustomScrollView(
+                frameHeight: CGFloat(48 * rankers.count),
+                contentOffset: $contentOffset,
+                reachToBottom: $reachToBottom
+            ) {_ in
+                LazyVStack(spacing: 0) {
+                    ForEach(rankers.indices, id: \.self) { index in
+                        rankListItemView(rank: rankers[index], index: index)
                     }
                 }
-                .padding(.bottom, 100)
+                .padding(.bottom, 100.adjustedHeight)
+            }
+            .onChange(of: reachToBottom) {  isReached in
+                print(contentOffset)
+                if isReached {
+                    store.send(.setShowToast(isReached, totalCount < 100 ? "랭킹이 아직 \(totalCount)등까지 밖에 없어요" : "랭킹은 100등까지만 노출해요"))
+                }
             }
         }
     }
@@ -156,7 +172,7 @@ extension RankContentsView {
     func rankListItemView(rank: Ranking, index: Int) -> some View {
         let isMyRank: Bool = rank.userID == (tabType == .kcal ? store.kcalRanking?.myRanking.userID : store.goalRanking?.myRanking.userID)
         
-       return HStack(alignment: .center, spacing: 0) {
+        return HStack(alignment: .center, spacing: 0) {
             Text("\(index + 1)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.neoDunggeunmo16)
@@ -191,12 +207,12 @@ extension RankContentsView {
             
             Spacer()
             
-           Text(tabType == .kcal ? "\(rank.totalCalories)" : "\(rank.totalSucceededDays)")
+            Text(tabType == .kcal ? "\(rank.totalCalories)" : "\(rank.totalSucceededDays)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body1_bold16)
                 .padding(.trailing, 2)
             
-           Text(tabType == .kcal ? "kcal" : "일")
+            Text(tabType == .kcal ? "kcal" : "일")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body2_regular14)
         }
@@ -204,6 +220,7 @@ extension RankContentsView {
         .frame(minWidth: 320, maxWidth: .infinity)
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
+        
     }
     
     
@@ -259,7 +276,7 @@ extension RankContentsView {
 struct RankCard: View {
     let ranking: Ranking
     let tabType: Tab
-
+    
     var body: some View {
         ZStack {
             VStack {
@@ -282,7 +299,7 @@ struct RankCard: View {
             .frame(width: 98.adjustedWidth, height: 152.adjustedHeight)
             .background(Color.backgroundGray)
             .cornerRadius(8)
-
+            
             getCrownImage(for: ranking.rank)
                 .offset(y: -76.adjustedHeight)
         }
@@ -304,9 +321,9 @@ struct RankCard: View {
     RankContentsView(
         tabType: .goal,
         store: Store(
-        initialState: RankFeature.State(selectedTab: .kcal),
-        reducer: {
-            RankFeature()
-        }
-    ))
+            initialState: RankFeature.State(selectedTab: .kcal),
+            reducer: {
+                RankFeature()
+            }
+        ))
 }
