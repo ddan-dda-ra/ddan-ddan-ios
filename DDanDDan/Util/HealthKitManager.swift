@@ -54,10 +54,12 @@ class HealthKitManager: ObservableObject {
        
         let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { fetchCalories, completionHandler, error in
             guard error == nil else { return }
+            let goalKcal = UserDefaults.standard.integer(forKey: "purposeKcal")
             
+            //TODO: UserDefaults error 수정 필요
             // 변화가 있을 때 새로운 데이터를 가져옴
             self.readActiveEnergyBurned { kcal in
-                if Int(kcal) >= UserDefaultValue.purposeKcal {
+                if Int(kcal) >= goalKcal {
                     self.sendGoalAchievedNotification()
                 }
                 completion(kcal)
