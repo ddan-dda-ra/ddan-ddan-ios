@@ -25,6 +25,9 @@ struct RankContentsView: View {
                     Color(.backgroundBlack)
                     WithPerceptionTracking {
                         ScrollView {
+extension RankContentsView {
+    
+    var headerView: some View {
                             VStack(alignment: .leading) {
                                 Text(setDateCirteria())
                                     .font(.body2_regular14)
@@ -62,51 +65,11 @@ struct RankContentsView: View {
                                             ToolKitView(textString: tabType.toolKitMessage)
                                                 .offset(x: textWidth / 2)
                                         }
-                                    }
-                                    .frame(height: 32)
-                                }
-                                rankContainerView
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                        .padding(.top, 24)
-                        .frame(maxWidth: .infinity)
-                        .scrollIndicators(.hidden)
-                        myRankView
-                        TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
-                            VStack {
-                                ToastView(message: store.state.toastMessage, toastType: .info)
-                            }
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
-                        }
-                    }
                 }
-                
-                
-                if store.isLoading {
-                    WithPerceptionTracking {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .foregroundStyle(.textButtonAlternative)
-                            .background(Color.backgroundBlack)
-                    }
-                }
+                .frame(height: 32)
             }
-            
         }
     }
-    
-    func setDateCirteria() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 설정
-        dateFormatter.dateFormat = "yyyy년 M월 기준"
-        
-        let dateCriteria = dateFormatter.string(from: Date())
-        return dateCriteria
-    }
-}
-
-extension RankContentsView {
     
     var rankContainerView: some View {
         WithPerceptionTracking {
