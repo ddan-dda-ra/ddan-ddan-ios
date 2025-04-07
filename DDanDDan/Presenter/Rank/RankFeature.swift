@@ -16,6 +16,7 @@ struct RankFeature {
         var selectedTab: Tab = .kcal
         var kcalRanking: RankInfo?
         var goalRanking: RankInfo?
+        var totalRankCount: Int?
         var isLoading: Bool = false
         var errorMessage: String?
         var showToast: Bool = false
@@ -48,21 +49,18 @@ struct RankFeature {
                 return fetchGoalRanking()
             case .setKcalRanking(let rankings):
                 state.kcalRanking = rankings
+                state.totalRankCount = rankings.ranking.count
                 return .send(.setLoading(false))
-                
             case .setGoalRanking(let rankings):
                 state.goalRanking = rankings
                 return .send(.setLoading(false))
-                
             case .setLoading(let isLoading):
                 state.isLoading = isLoading
                 return .none
-                
             case .setError(let error):
                 state.errorMessage = error
                 return .send(.setLoading(false))
             case let .setShowToast(showToast, toastMessage):
-                print("🔥 setShowToast called with", showToast, toastMessage)
                 state.showToast = showToast
                 state.toastMessage = toastMessage
                 if showToast {
