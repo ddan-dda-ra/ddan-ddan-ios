@@ -12,59 +12,98 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var textWidth: CGFloat = 0
     @State private var showTooltip = false
-    @State private var contentOffset = CGPoint.zero
-    @State private var reachToBottom = false
     var tabType: Tab
     
     let store: StoreOf<RankFeature>
     
     var body: some View {
-        WithPerceptionTracking {
-            ZStack {
+        ZStack {
+            Color(.backgroundBlack)
+            WithPerceptionTracking {
                 ZStack(alignment: .bottom) {
-                    Color(.backgroundBlack)
                     WithPerceptionTracking {
-                        ScrollView {
+                        CustomScrollView {
+                                VStack(alignment: .leading) {
+                                    headerView
+                                    rankContainerView
+                                }
+                        } onBottomReached: {
+                            guard let totalRankCount = store.totalRankCount else { return }
+                            store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+                        }
+                    }
+                    myRankView
+                    TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
+                        VStack {
+                            ToastView(message: store.state.toastMessage, toastType: .info)
+                        }
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
+                    }
+                }
+            }
+            
+            
+            if store.isLoading {
+                WithPerceptionTracking {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .foregroundStyle(.textButtonAlternative)
+                        .background(Color.backgroundBlack)
+                }
+            }
+        }
+    }
+    
+    func setDateCirteria() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 설정
+        dateFormatter.dateFormat = "yyyy년 M월 기준"
+        
+        let dateCriteria = dateFormatter.string(from: Date())
+        return dateCriteria
+    }
+}
+
 extension RankContentsView {
     
     var headerView: some View {
-                            VStack(alignment: .leading) {
-                                Text(setDateCirteria())
-                                    .font(.body2_regular14)
-                                    .foregroundStyle(.textBodyTeritary)
-                                    .padding(.leading, 20)
-                                VStack(alignment: .leading) {
-                                    HStack(alignment: .bottom){
-                                        Text(tabType.GuideTitle)
-                                            .font(.neoDunggeunmo24)
-                                            .foregroundStyle(.textButtonAlternative)
-                                            .background(
-                                                WithPerceptionTracking{
-                                                    GeometryReader { geo in
-                                                        Color.clear
-                                                            .onAppear {
-                                                                textWidth = geo.size.width
-                                                            }
-                                                    }
-                                                })
-                                            .padding(.leading, 20)
-                                        Button(
-                                            action: {
-                                                withAnimation {
-                                                    showTooltip.toggle()
-                                                }
-                                            },
-                                            label: {
-                                                Image(.iconInfomation)
-                                                    .frame(width: 20, height: 20)
-                                            }
-                                        )
-                                    }
-                                    ZStack {
-                                        if showTooltip {
-                                            ToolKitView(textString: tabType.toolKitMessage)
-                                                .offset(x: textWidth / 2)
+        VStack(alignment: .leading) {
+            Text(setDateCirteria())
+                .font(.body2_regular14)
+                .foregroundStyle(.textBodyTeritary)
+                .padding(.leading, 20)
+            VStack(alignment: .leading) {
+                HStack(alignment: .bottom){
+                    Text(tabType.GuideTitle)
+                        .font(.neoDunggeunmo24)
+                        .foregroundStyle(.textButtonAlternative)
+                        .background(
+                            WithPerceptionTracking{
+                                GeometryReader { geo in
+                                    Color.clear
+                                        .onAppear {
+                                            textWidth = geo.size.width
                                         }
+                                }
+                            })
+                        .padding(.leading, 20)
+                    Button(
+                        action: {
+                            withAnimation {
+                                showTooltip.toggle()
+                            }
+                        },
+                        label: {
+                            Image(.iconInfomation)
+                                .frame(width: 20, height: 20)
+                        }
+                    )
+                }
+                ZStack {
+                    if showTooltip {
+                        ToolKitView(textString: tabType.toolKitMessage)
+                            .offset(x: textWidth / 2)
+                    }
                 }
                 .frame(height: 32)
             }
@@ -111,24 +150,12 @@ extension RankContentsView {
         let totalCount = store.kcalRanking?.ranking.count ?? 0
         
         return WithPerceptionTracking {
-            CustomScrollView(
-                frameHeight: CGFloat(48 * rankers.count),
-                contentOffset: $contentOffset,
-                reachToBottom: $reachToBottom
-            ) {_ in
-                LazyVStack(spacing: 0) {
-                    ForEach(rankers.indices, id: \.self) { index in
-                        rankListItemView(rank: rankers[index], index: index)
-                    }
-                }
-                .padding(.bottom, 100.adjustedHeight)
-            }
-            .onChange(of: reachToBottom) {  isReached in
-                print(contentOffset)
-                if isReached {
-                    store.send(.setShowToast(isReached, totalCount < 100 ? "랭킹이 아직 \(totalCount)등까지 밖에 없어요" : "랭킹은 100등까지만 노출해요"))
+            LazyVStack(spacing: 0) {
+                ForEach(rankers.indices, id: \.self) { index in
+                    rankListItemView(rank: rankers[index], index: index)
                 }
             }
+            .padding(.bottom, 100.adjustedHeight)
         }
     }
     
@@ -191,8 +218,8 @@ extension RankContentsView {
         ZStack(alignment: .center) {
             Rectangle()
                 .frame(maxWidth: .infinity, maxHeight: 100.adjustedHeight)
-                .particalCornerRadius(16, corners: .topLeft)
-                .particalCornerRadius(16, corners: .topRight)
+                .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
+                .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                 .foregroundStyle(.borderGray)
             HStack(alignment: .center) {
                 Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
