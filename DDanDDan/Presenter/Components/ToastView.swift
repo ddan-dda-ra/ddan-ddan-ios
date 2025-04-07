@@ -14,8 +14,7 @@ struct ToastView: View {
 
     var body: some View {
             ZStack {
-                Color(.toastElevationLevel03)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                BackgroundBlurView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 HStack {
