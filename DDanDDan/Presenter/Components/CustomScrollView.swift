@@ -17,30 +17,20 @@ struct CustomScrollView<Content: View>: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                GeometryReader { _ in
-                    Color.clear
-                        .onAppear {
-                            // 토스트가 바로 뜨지 않도록 딜레이
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                hasScrolled = true
-                            }
-                        }
-                }
-                .frame(height: 0)
-
                 content()
 
-                Color.clear
+                Rectangle()
+                    .fill(Color.clear)
                     .frame(height: 1)
                     .modifier(ScrollOffsetReader())
             }
-            .padding()
         }
+        .scrollIndicators(.hidden)
         .coordinateSpace(name: "scroll")
         .onPreferenceChange(OffsetPreferenceKey.self) { maxY in
             let screenHeight = UIScreen.main.bounds.height
 
-            if hasScrolled && maxY < screenHeight + 50 && !isBottomReached {
+            if maxY < screenHeight + 50 && !isBottomReached {
                 isBottomReached = true
                 onBottomReached()
             } else if maxY > screenHeight + 100 {
