@@ -201,7 +201,7 @@ extension RankContentsView {
             
             Spacer()
             
-            Text(tabType == .kcal ? "\(rank.totalCalories)" : "\(rank.totalSucceededDays)")
+            Text(tabType == .kcal ? "\(rank.totalCalories)" : "+\(rank.totalSucceededDays)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body1_bold16)
                 .padding(.trailing, 2)
@@ -252,7 +252,7 @@ extension RankContentsView {
                     .background(Color.textHeadlinePrimary)
                     .clipShape(Circle())
                 Spacer()
-                Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.totalCalories : store.goalRanking?.myRanking.totalSucceededDays) ?? 0))
+                Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
                     .font(.body1_bold16)
                     .foregroundStyle(.textButtonAlternative)
                 Text(self.tabType == .kcal ? "kcal" : "일")
@@ -285,7 +285,7 @@ struct RankCard: View {
                         .frame(width: 82)
                         .lineLimit(1)
                         .lineSpacing(24)
-                    Text(tabType == .kcal ? "\(ranking.totalCalories)kcal" : "\(ranking.totalSucceededDays)일")
+                    Text(tabType == .kcal ? "\(ranking.totalCalories)kcal" : "+\(ranking.totalSucceededDays)일")
                         .font(.body1_bold16)
                         .foregroundStyle(Color.textButtonAlternative)
                 }
