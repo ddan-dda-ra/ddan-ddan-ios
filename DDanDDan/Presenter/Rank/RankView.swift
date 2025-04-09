@@ -16,7 +16,6 @@ struct RankView: View {
     init(store: StoreOf<RankFeature>, coordinator: AppCoordinator) {
         self.store = store
         self.coordinator = coordinator
-        store.send(.onAppear)
     }
     
     var body: some View {
@@ -43,11 +42,11 @@ struct RankView: View {
                     }
                 }
             }
-            .onAppear {
-                store.send(.onAppear)
-            }
             .navigationBarHidden(true)
             .ignoresSafeArea(.all, edges: .bottom)
+            .task {
+                store.send(.onAppear)
+            }
         }
     }
 }
