@@ -17,38 +17,40 @@ struct RankContentsView: View {
     let store: StoreOf<RankFeature>
     
     var body: some View {
-        ZStack {
-            Color(.backgroundBlack)
-            WithPerceptionTracking {
-                ZStack(alignment: .bottom) {
-                    WithPerceptionTracking {
-                        CustomScrollView {
+        WithPerceptionTracking {
+            ZStack {
+                Color(.backgroundBlack)
+                WithPerceptionTracking {
+                    ZStack(alignment: .bottom) {
+                        WithPerceptionTracking {
+                            CustomScrollView {
                                 VStack(alignment: .leading) {
                                     headerView
                                     rankContainerView
                                 }
-                        } onBottomReached: {
-                            guard let totalRankCount = store.totalRankCount else { return }
-                            store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+                            } onBottomReached: {
+                                guard let totalRankCount = store.totalRankCount else { return }
+                                store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+                            }
                         }
-                    }
-                    myRankView
-                    TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
-                        VStack {
-                            ToastView(message: store.state.toastMessage, toastType: .info)
+                        myRankView
+                        TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
+                            VStack {
+                                ToastView(message: store.state.toastMessage, toastType: .info)
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                         }
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                     }
                 }
-            }
-            
-            
-            if store.isLoading {
-                WithPerceptionTracking {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .foregroundStyle(.textButtonAlternative)
-                        .background(Color.backgroundBlack)
+                
+                
+                if store.isLoading {
+                    WithPerceptionTracking {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .foregroundStyle(.textButtonAlternative)
+                            .background(Color.backgroundBlack)
+                    }
                 }
             }
         }
