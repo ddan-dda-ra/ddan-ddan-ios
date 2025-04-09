@@ -25,6 +25,8 @@ struct RankFeature {
         var errorMessage: String?
         var showToast: Bool = false
         var toastMessage: String = ""
+        var focusedMyRankIndex: Int? = nil
+
     }
     
     enum Action: Equatable {
@@ -35,6 +37,7 @@ struct RankFeature {
         case setLoading(Bool)
         case setError(String?)
         case setShowToast(Bool, String)
+        case focusMyRank(index: Int)
     }
     
     var body: some Reducer<State, Action> {
@@ -73,6 +76,10 @@ struct RankFeature {
                     }
                 }
                 return .none
+            case let .focusMyRank(index):
+                state.focusedMyRankIndex = index
+                return .none
+
             }
         }
     }

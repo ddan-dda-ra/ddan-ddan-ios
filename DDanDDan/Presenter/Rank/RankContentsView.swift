@@ -16,21 +16,35 @@ struct RankContentsView: View {
     
     let store: StoreOf<RankFeature>
     
+    @State private var scrollToIndex: Int? = nil
+    
     var body: some View {
+        let viewStore = ViewStore(store, observe: { $0 })
+        
         WithPerceptionTracking {
             ZStack {
                 Color(.backgroundBlack)
                 WithPerceptionTracking {
                     ZStack(alignment: .bottom) {
                         WithPerceptionTracking {
-                            CustomScrollView {
-                                VStack(alignment: .leading) {
-                                    headerView
-                                    rankContainerView
+                            
+                            ScrollViewReader { proxy in
+                                CustomScrollView {
+                                    VStack(alignment: .leading) {
+                                        headerView
+                                        rankContainerView
+                                    }
+                                } onBottomReached: {
+                                    guard let totalRankCount = store.totalRankCount else { return }
+                                    store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                                 }
-                            } onBottomReached: {
-                                guard let totalRankCount = store.totalRankCount else { return }
-                                store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+                                .onChange(of: scrollToIndex) { index in
+                                    if let index {
+                                        withAnimation {
+                                            proxy.scrollTo(index, anchor: .top)
+                                        }
+                                    }
+                                }
                             }
                         }
                         myRankView
@@ -52,6 +66,10 @@ struct RankContentsView: View {
                             .background(Color.backgroundBlack)
                     }
                 }
+                
+            }
+            .onReceive(viewStore.publisher.focusedMyRankIndex) { index in
+                scrollToIndex = index
             }
         }
     }
@@ -150,12 +168,12 @@ extension RankContentsView {
     
     var rankListView: some View {
         let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
-        let totalCount = store.kcalRanking?.ranking.count ?? 0
         
         return WithPerceptionTracking {
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
                     rankListItemView(rank: rankers[index], index: index)
+                        .id(index+1)
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
@@ -263,6 +281,9 @@ extension RankContentsView {
             .padding(.horizontal, 20)
             .padding(.top, 20)
             .padding(.bottom, 32)
+        }
+        .onTapGesture {
+            store.send(.focusMyRank(index: (self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
         }
     }
 }
