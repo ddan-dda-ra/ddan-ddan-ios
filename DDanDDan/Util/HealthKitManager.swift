@@ -7,6 +7,7 @@
 
 import Foundation
 import HealthKit
+import UserNotifications
 
 class HealthKitManager: ObservableObject {
     static let shared = HealthKitManager()
@@ -50,14 +51,21 @@ class HealthKitManager: ObservableObject {
             return
         }
         
-        let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { _, _, error in
+       
+        let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { fetchCalories, completionHandler, error in
             guard error == nil else { return }
-
+            let goalKcal = UserDefaults.standard.integer(forKey: "purposeKcal")
+            
+            //TODO: UserDefaults error 수정 필요
             // 변화가 있을 때 새로운 데이터를 가져옴
             self.readActiveEnergyBurned { kcal in
+                if Int(kcal) >= goalKcal {
+                    self.sendGoalAchievedNotification()
+                }
                 completion(kcal)
             }
-        }
+            
+        } 
         
         healthStore.execute(query)
         Task {
@@ -74,6 +82,7 @@ class HealthKitManager: ObservableObject {
             print("Failed to enableBackgroundDelivery \(error)")
         }
     }
+
     
     func readActiveEnergyBurned(completion: @escaping (Double) -> Void) {
         guard let healthStore = healthStore else {
@@ -140,6 +149,16 @@ class HealthKitManager: ObservableObject {
         }
         
         healthStore.execute(query)
+    }
+    
+    private func sendGoalAchievedNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "딴딴"
+        content.body = "🎉 목표 칼로리 달성! 펫에게 줄 먹이를 받았어요."
+        content.sound = .default
+        
+        let request = UNNotificationRequest(identifier: "calorieGoalReached", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
     
 }

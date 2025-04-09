@@ -24,4 +24,8 @@ enum PathString {
     enum Auth {
         static let reissue = "/v1/auth/reissue"
     }
+    
+    enum Rank {
+        static let rank = "/v1/ranking"
+    }
 }

@@ -9,12 +9,14 @@ import SwiftUI
 import HealthKit
 import ComposableArchitecture
 import Lottie
+import ComposableArchitecture
 
 enum HomePath: Hashable {
     case setting
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
+    case ranking
 }
 
 struct HomeView: View {
@@ -31,7 +33,7 @@ struct HomeView: View {
                 CustomNavigationBar(
                     leftButtonImage: Image(.iconRank),
                     leftButtonAction: {
-                       //TODO: 랭킹 진입
+                        coordinator.push(to: .ranking)
                     },
                     rightButtonImage: Image(.iconSetting),
                     rightButtonAction: {
@@ -56,13 +58,9 @@ struct HomeView: View {
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
-                    ToastView(message: viewModel.toastMessage)
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity)) // 사라질 때는 페이드 아웃만
-                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
             }
             TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
@@ -115,6 +113,10 @@ struct HomeView: View {
             switch path {
             case .setting:
                 SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
+            case .ranking:
+                RankView(store: Store(initialState: RankFeature.State()) {
+                    RankFeature()
+                }, coordinator: coordinator)
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
