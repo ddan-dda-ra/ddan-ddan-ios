@@ -101,12 +101,11 @@ struct CustomTabView: View {
                         }
                         .onAppear {
                             viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                viewStore.send(.activateBar)
-                            }
+                            viewStore.send(.activateBar)
                         }
                     }
                     .frame(height: 56)
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 20)
                     
                     if let view = views[viewStore.selection] {
