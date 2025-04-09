@@ -17,6 +17,10 @@ struct RankFeature {
         var kcalRanking: RankInfo?
         var goalRanking: RankInfo?
         var totalRankCount: Int?
+        
+        var isKcalRankingLoaded = false
+        var isGoalRankingLoaded = false
+        
         var isLoading: Bool = false
         var errorMessage: String?
         var showToast: Bool = false
@@ -25,8 +29,7 @@ struct RankFeature {
     
     enum Action: Equatable {
         case onAppear
-        case loadKcalRanking
-        case loadGoalRanking
+        case loadRanking
         case setKcalRanking(RankInfo)
         case setGoalRanking(RankInfo)
         case setLoading(Bool)
@@ -39,21 +42,21 @@ struct RankFeature {
             switch action {
             case .onAppear:
                 state.isLoading = true
+                return .send(.loadRanking)
+            case .loadRanking:
                 return .merge(
-                    .send(.loadGoalRanking),
-                    .send(.loadKcalRanking)
+                    fetchGoalRanking(),
+                    fetchKcalRanking()
                 )
-            case .loadKcalRanking:
-                return fetchKcalRanking()
-            case .loadGoalRanking:
-                return fetchGoalRanking()
             case .setKcalRanking(let rankings):
                 state.kcalRanking = rankings
                 state.totalRankCount = rankings.ranking.count
-                return .send(.setLoading(false))
+                state.isKcalRankingLoaded = true
+                return (state.isGoalRankingLoaded ? .send(.setLoading(false)) : .none)
             case .setGoalRanking(let rankings):
                 state.goalRanking = rankings
-                return .send(.setLoading(false))
+                state.isGoalRankingLoaded = true
+                return (state.isKcalRankingLoaded ? .send(.setLoading(false)) : .none)
             case .setLoading(let isLoading):
                 state.isLoading = isLoading
                 return .none
