@@ -221,7 +221,7 @@ extension RankContentsView {
     var myRankView: some View {
         ZStack(alignment: .center) {
             Rectangle()
-                .frame(maxWidth: .infinity, maxHeight: 100.adjustedHeight)
+                .frame(maxHeight: 100.adjustedHeight)
                 .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                 .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                 .foregroundStyle(.borderGray)
