@@ -74,6 +74,7 @@ extension RankContentsView {
                 .font(.body2_regular14)
                 .foregroundStyle(.textBodyTeritary)
                 .padding(.leading, 20)
+                .padding(.top, 24)
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom){
                     Text(tabType.GuideTitle)
@@ -169,6 +170,7 @@ extension RankContentsView {
                 .foregroundStyle(.textButtonAlternative)
                 .font(.neoDunggeunmo16)
                 .frame(width: 24, alignment: .leading)
+                .padding(.trailing, 12)
             
             ZStack {
                 Circle()
