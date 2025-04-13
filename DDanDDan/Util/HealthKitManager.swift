@@ -65,18 +65,21 @@ class HealthKitManager: ObservableObject {
                 completion(kcal)
             }
             
-        }
-        
+        } 
         
         healthStore.execute(query)
+        Task {
+            await enableBackgroundMode()
+        }
+    }
+    
+    func enableBackgroundMode() async {
+        guard let healthStore = healthStore else { return }
         
-        // 백그라운드 처리를 위한 코드
-        healthStore.enableBackgroundDelivery(for: energyBurnedType, frequency: .immediate) { success, error in
-            if success {
-                print("✅ 칼로리 데이터 감지 활성화됨")
-            } else {
-                print("❌ 백그라운드 전달 설정 실패: \(error?.localizedDescription ?? "알 수 없는 오류")")
-            }
+        do {
+            try await healthStore.enableBackgroundDelivery(for: energyBurnedType, frequency: .hourly)
+        } catch let error {
+            print("Failed to enableBackgroundDelivery \(error)")
         }
     }
 
