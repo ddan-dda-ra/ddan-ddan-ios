@@ -57,65 +57,54 @@ public protocol TabTitleConvertible {
 struct CustomTabView: View {
     let store: StoreOf<TabFeature>
     let views: [Tab: AnyView]
-
+    
     var body: some View {
         WithPerceptionTracking {
             let viewStore = ViewStore(store, observe: { $0 })
-            
-            VStack {
+            VStack(spacing: 0) {
+                // 탭 선택 영역
+                HStack(spacing: 0) {
+                    ForEach(Tab.allCases, id: \.self) { tab in
+                        Button(action: {
+                            viewStore.send(.selectTab(tab))
+                        }) {
+                            Text(tab.title)
+                                .foregroundStyle(tab == store.state.selection ? Color(.white) : Color(.elevationLevel03))
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                }
+                .padding(.vertical, 15)
+
                 WithPerceptionTracking {
                     GeometryReader { geometry in
                         let tabSize = geometry.size.width / CGFloat(views.count)
-                        WithPerceptionTracking {
-                            VStack(spacing: 0) {
-                                HStack(spacing: 0) {
-                                    ForEach(Tab.allCases, id: \.self) { tab in
-                                        Button(action: {
-                                            viewStore.send(.selectTab(tab))
-                                        }) {
-                                            HStack(spacing: 0) {
-                                                Spacer()
-                                                Text(tab.title)
-                                                    .foregroundStyle(Color(.white))
-                                                Spacer()
-                                            }
-                                        }
-                                        .frame(width: tabSize)
-                                    }
-                                }
-                                .padding(.vertical, 15)
-                                
-                                ZStack(alignment: .bottom) {
-                                    Rectangle()
-                                        .fill(Color(.backgroundBlack))
-                                    HStack {
-                                        Rectangle()
-                                            .fill(Color(.lightText))
-                                            .frame(width: tabSize, height: 3)
-                                            .offset(x: viewStore.barXOffset * tabSize)
-                                            .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
-                                        Spacer()
-                                    }
-                                }
-                            }
-                        }
-                        .onAppear {
-                            viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
-                            viewStore.send(.activateBar)
-                        }
+                        Rectangle()
+                            .fill(Color(.lightText))
+                            .frame(width: tabSize, height: 3)
+                            .offset(x: viewStore.barXOffset * tabSize)
+                            .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
                     }
-                    .frame(height: 56)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 20)
-                    
-                    if let view = views[viewStore.selection] {
-                        view
-                            .transition(.slide)
-                    } else {
-                        EmptyView()
-                    }
+                    .frame(height: 3) // 딱 indicator 높이만
+                }
+                .padding(.horizontal, 20)
+                
+                Rectangle()
+                    .fill(Color(.elevationLevel03))
+                    .frame(height: 1)
+
+                if let view = views[viewStore.selection] {
+                    view
+                        .transition(.slide)
+                } else {
+                    EmptyView()
                 }
             }
+            .onAppear {
+                viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
+                viewStore.send(.activateBar)
+            }
+
         }
     }
 }
