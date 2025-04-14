@@ -38,11 +38,9 @@ struct RankContentsView: View {
                                     guard let totalRankCount = store.totalRankCount else { return }
                                     store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                                 }
-                                .onChange(of: scrollToIndex) { index in
-                                    if let index {
-                                        withAnimation {
-                                            proxy.scrollTo(index, anchor: .top)
-                                        }
+                                .onReceive(viewStore.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
+                                    withAnimation {
+                                        proxy.scrollTo(index, anchor: .top)
                                     }
                                 }
                             }
