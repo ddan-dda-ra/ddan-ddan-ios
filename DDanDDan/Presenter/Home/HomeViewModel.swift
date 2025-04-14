@@ -12,6 +12,9 @@ import HealthKit
 
 
 final class HomeViewModel: ObservableObject {
+    private struct Loading {
+        var feed: Bool = false
+    }
     @Published var homePetModel: HomeModel = .init(petType: .pinkCat, level: 4, exp: 0, goalKcal: 0, feedCount: 4, toyCount: 0)
     
     @Published var isPlayingSpecialAnimation: Bool = false
@@ -37,7 +40,7 @@ final class HomeViewModel: ObservableObject {
     
     private var petId = ""
     private var previousKcal: Int = 0
-    
+    private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
     private let homeRepository: HomeRepositoryProtocol
     
@@ -143,9 +146,10 @@ final class HomeViewModel: ObservableObject {
             showToastMessage()
             return
         }
-        
+        loadingState.feed = true
         Task {
             let result = await homeRepository.feedPet(petId: petId)
+            loadingState.feed = false
             switch result {
             case let .success(petData):
                 try await playFeedPet(petData: petData)
