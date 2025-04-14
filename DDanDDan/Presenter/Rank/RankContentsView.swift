@@ -12,72 +12,45 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var textWidth: CGFloat = 0
     @State private var showTooltip = false
-    @State private var contentOffset = CGPoint.zero
-    @State private var reachToBottom = false
     var tabType: Tab
     
     let store: StoreOf<RankFeature>
     
+    @State private var scrollToIndex: Int? = nil
+    
     var body: some View {
+        let viewStore = ViewStore(store, observe: { $0 })
+        
         WithPerceptionTracking {
             ZStack {
-                ZStack(alignment: .bottom) {
-                    Color(.backgroundBlack)
-                    WithPerceptionTracking {
-                        ScrollView {
-                            VStack(alignment: .leading) {
-                                Text(setDateCirteria())
-                                    .font(.body2_regular14)
-                                    .foregroundStyle(.textBodyTeritary)
-                                    .padding(.leading, 20)
-                                VStack(alignment: .leading) {
-                                    HStack(alignment: .bottom){
-                                        Text(tabType.GuideTitle)
-                                            .font(.neoDunggeunmo24)
-                                            .foregroundStyle(.textButtonAlternative)
-                                            .background(
-                                                WithPerceptionTracking{
-                                                    GeometryReader { geo in
-                                                        Color.clear
-                                                            .onAppear {
-                                                                textWidth = geo.size.width
-                                                            }
-                                                    }
-                                                })
-                                            .padding(.leading, 20)
-                                        Button(
-                                            action: {
-                                                withAnimation {
-                                                    showTooltip.toggle()
-                                                }
-                                            },
-                                            label: {
-                                                Image(.iconInfomation)
-                                                    .frame(width: 20, height: 20)
-                                            }
-                                        )
+                Color(.backgroundBlack)
+                WithPerceptionTracking {
+                    ZStack(alignment: .bottom) {
+                        WithPerceptionTracking {
+                            
+                            ScrollViewReader { proxy in
+                                CustomScrollView {
+                                    VStack(alignment: .leading) {
+                                        headerView
+                                        rankContainerView
                                     }
-                                    ZStack {
-                                        if showTooltip {
-                                            ToolKitView(textString: tabType.toolKitMessage)
-                                                .offset(x: textWidth / 2)
-                                        }
-                                    }
-                                    .frame(height: 32)
+                                } onBottomReached: {
+                                    guard let totalRankCount = store.totalRankCount else { return }
+                                    store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                                 }
-                                rankContainerView
+                                .onReceive(viewStore.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
+                                    withAnimation {
+                                        proxy.scrollTo(index, anchor: .top)
+                                    }
+                                }
                             }
-                            .frame(maxWidth: .infinity)
                         }
-                        .padding(.top, 24)
-                        .frame(maxWidth: .infinity)
-                        .scrollIndicators(.hidden)
                         myRankView
                         TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
                             VStack {
                                 ToastView(message: store.state.toastMessage, toastType: .info)
                             }
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                         }
                     }
                 }
@@ -91,8 +64,11 @@ struct RankContentsView: View {
                             .background(Color.backgroundBlack)
                     }
                 }
+                
             }
-            
+            .onReceive(viewStore.publisher.focusedMyRankIndex) { index in
+                scrollToIndex = index
+            }
         }
     }
     
@@ -107,6 +83,51 @@ struct RankContentsView: View {
 }
 
 extension RankContentsView {
+    
+    var headerView: some View {
+        VStack(alignment: .leading) {
+            Text(setDateCirteria())
+                .font(.body2_regular14)
+                .foregroundStyle(.textBodyTeritary)
+                .padding(.leading, 20)
+                .padding(.top, 24)
+            VStack(alignment: .leading) {
+                HStack(alignment: .bottom){
+                    Text(tabType.GuideTitle)
+                        .font(.neoDunggeunmo24)
+                        .foregroundStyle(.textButtonAlternative)
+                        .background(
+                            WithPerceptionTracking{
+                                GeometryReader { geo in
+                                    Color.clear
+                                        .onAppear {
+                                            textWidth = geo.size.width
+                                        }
+                                }
+                            })
+                        .padding(.leading, 20)
+                    Button(
+                        action: {
+                            withAnimation {
+                                showTooltip.toggle()
+                            }
+                        },
+                        label: {
+                            Image(.iconInfomation)
+                                .frame(width: 20, height: 20)
+                        }
+                    )
+                }
+                ZStack {
+                    if showTooltip {
+                        ToolKitView(textString: tabType.toolKitMessage)
+                            .offset(x: textWidth / 2)
+                    }
+                }
+                .frame(height: 32)
+            }
+        }
+    }
     
     var rankContainerView: some View {
         WithPerceptionTracking {
@@ -145,27 +166,15 @@ extension RankContentsView {
     
     var rankListView: some View {
         let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
-        let totalCount = store.kcalRanking?.ranking.count ?? 0
         
         return WithPerceptionTracking {
-            CustomScrollView(
-                frameHeight: CGFloat(48 * rankers.count),
-                contentOffset: $contentOffset,
-                reachToBottom: $reachToBottom
-            ) {_ in
-                LazyVStack(spacing: 0) {
-                    ForEach(rankers.indices, id: \.self) { index in
-                        rankListItemView(rank: rankers[index], index: index)
-                    }
-                }
-                .padding(.bottom, 100.adjustedHeight)
-            }
-            .onChange(of: reachToBottom) {  isReached in
-                print(contentOffset)
-                if isReached {
-                    store.send(.setShowToast(isReached, totalCount < 100 ? "랭킹이 아직 \(totalCount)등까지 밖에 없어요" : "랭킹은 100등까지만 노출해요"))
+            LazyVStack(spacing: 0) {
+                ForEach(rankers.indices, id: \.self) { index in
+                    rankListItemView(rank: rankers[index], index: index)
+                        .id(index+1)
                 }
             }
+            .padding(.bottom, 100.adjustedHeight)
         }
     }
     
@@ -177,6 +186,7 @@ extension RankContentsView {
                 .foregroundStyle(.textButtonAlternative)
                 .font(.neoDunggeunmo16)
                 .frame(width: 24, alignment: .leading)
+                .padding(.trailing, 12)
             
             ZStack {
                 Circle()
@@ -207,7 +217,7 @@ extension RankContentsView {
             
             Spacer()
             
-            Text(tabType == .kcal ? "\(rank.totalCalories)" : "\(rank.totalSucceededDays)")
+            Text(tabType == .kcal ? "\(rank.totalCalories)" : "+\(rank.totalSucceededDays)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.body1_bold16)
                 .padding(.trailing, 2)
@@ -227,9 +237,9 @@ extension RankContentsView {
     var myRankView: some View {
         ZStack(alignment: .center) {
             Rectangle()
-                .frame(maxWidth: .infinity, maxHeight: 100.adjustedHeight)
-                .particalCornerRadius(16, corners: .topLeft)
-                .particalCornerRadius(16, corners: .topRight)
+                .frame(maxHeight: 100.adjustedHeight)
+                .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
+                .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                 .foregroundStyle(.borderGray)
             HStack(alignment: .center) {
                 Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
@@ -258,7 +268,7 @@ extension RankContentsView {
                     .background(Color.textHeadlinePrimary)
                     .clipShape(Circle())
                 Spacer()
-                Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.totalCalories : store.goalRanking?.myRanking.totalSucceededDays) ?? 0))
+                Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
                     .font(.body1_bold16)
                     .foregroundStyle(.textButtonAlternative)
                 Text(self.tabType == .kcal ? "kcal" : "일")
@@ -269,6 +279,9 @@ extension RankContentsView {
             .padding(.horizontal, 20)
             .padding(.top, 20)
             .padding(.bottom, 32)
+        }
+        .onTapGesture {
+            store.send(.focusMyRank(index: (self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
         }
     }
 }
@@ -291,7 +304,7 @@ struct RankCard: View {
                         .frame(width: 82)
                         .lineLimit(1)
                         .lineSpacing(24)
-                    Text(tabType == .kcal ? "\(ranking.totalCalories)kcal" : "\(ranking.totalSucceededDays)일")
+                    Text(tabType == .kcal ? "\(ranking.totalCalories)kcal" : "+\(ranking.totalSucceededDays)일")
                         .font(.body1_bold16)
                         .foregroundStyle(Color.textButtonAlternative)
                 }

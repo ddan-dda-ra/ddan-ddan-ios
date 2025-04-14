@@ -8,59 +8,58 @@
 import SwiftUI
 
 struct CustomScrollView<Content: View>: View {
-    @Binding private var contentOffset: CGPoint
-    @Binding private var reachToBottom: Bool
-    
-    private let frameHeight: CGFloat
-    @State private var contentHeight = CGFloat.zero
-    @Namespace private var coordinateSpaceName: Namespace.ID
-    @ViewBuilder private var content: (ScrollViewProxy) -> Content
-    
-    init(
-        frameHeight: CGFloat,
-        contentOffset: Binding<CGPoint>,
-        reachToBottom: Binding<Bool>,
-        @ViewBuilder content: @escaping (ScrollViewProxy) -> Content
-    ) {
-        self.frameHeight = frameHeight
-        _contentOffset = contentOffset
-        _reachToBottom = reachToBottom
-        self.content = content
-    }
-    
+    let content: () -> Content
+    let onBottomReached: () -> Void
+
+    @State private var isBottomReached = false
+    @State private var hasScrolled = false
+
     var body: some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            ScrollViewReader { scrollViewProxy in
-                content(scrollViewProxy)
-                    .background {
-                        GeometryReader { geometryProxy in
-                            Color.clear
-                                .onAppear {
-                                    let contentHeight = geometryProxy.size.height
-                                    self.contentHeight = contentHeight
-                                }
-                                .preference(
-                                    key: ScrollOffsetPreferenceKey.self,
-                                    value: CGPoint(
-                                        x: -geometryProxy.frame(in: .named(coordinateSpaceName)).minX,
-                                        y: -geometryProxy.frame(in: .named(coordinateSpaceName)).minY
-                                    )
-                                )
-                        }
-                    }
+        ScrollView {
+            VStack(spacing: 0) {
+                content()
+
+                Rectangle()
+                    .fill(Color.clear)
+                    .frame(height: 1)
+                    .modifier(ScrollOffsetReader())
             }
         }
-        .coordinateSpace(name: coordinateSpaceName)
-        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-            guard contentHeight != 0 else { return }
-            let currentScrollOffset = value.y + frameHeight
-            reachToBottom = contentHeight <= currentScrollOffset
-            contentOffset = value
+        .scrollIndicators(.hidden)
+        .coordinateSpace(name: "scroll")
+        .onPreferenceChange(OffsetPreferenceKey.self) { maxY in
+            let screenHeight = UIScreen.main.bounds.height
+
+            if maxY < screenHeight + 50 && !isBottomReached {
+                isBottomReached = true
+                onBottomReached()
+            } else if maxY > screenHeight + 100 {
+                isBottomReached = false
+            }
         }
     }
 }
 
-private struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGPoint { .zero }
-    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {}
+struct OffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+struct ScrollOffsetReader: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(
+                GeometryReader { geo in
+                    Color.clear
+                        .preference(
+                            key: OffsetPreferenceKey.self,
+                            value: geo.frame(in: .named("scroll")).maxY
+                        )
+                }
+                .frame(height: 1)
+            )
+    }
 }
