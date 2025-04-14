@@ -205,7 +205,7 @@ extension RankContentsView {
                 .font(.body1_regular16)
                 .padding(.leading, 10)
             
-            Text("me")
+            Text("나")
                 .foregroundStyle(.textButtonPrimaryDefault)
                 .font(.caption1_regular11)
                 .padding(.horizontal, 6)
