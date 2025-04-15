@@ -220,7 +220,7 @@ extension SettingView {
                             HStack {
                                 Text(item.title)
                                     .font(.heading6_semibold16)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.textHeadlinePrimary)
                                 Spacer()
                                 Image(.arrowRight)
                             }
