@@ -78,7 +78,6 @@ struct PetArchiveView: View {
                         viewModel.showToastMessage()
                     }
                 }, title: "선택 완료", disabled: viewModel.isButtonDisable)
-                .padding(.bottom, 44)
             }
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
