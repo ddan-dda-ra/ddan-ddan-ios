@@ -100,7 +100,7 @@ struct HomeView: View {
                     Task {
                         await viewModel.fetchHomeInfo()
                         
-                        coordinator.shouldUpdateHomeView = false
+                        coordinator.triggerHomeUpdate(trigger: false)
                     }
                 }
             }

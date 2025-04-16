@@ -32,8 +32,9 @@ final class AppCoordinator: ObservableObject {
     
     @StateObject var user = UserManager.shared
     
-    @Published var shouldUpdateHomeView = false
+    @Published private(set) var shouldUpdateHomeView = false
     
+    @MainActor
     func setRoot(to path: AppPath) {
         navigationPath.removeLast(navigationPath.count)
         rootView = path
@@ -62,8 +63,8 @@ final class AppCoordinator: ObservableObject {
         navigationPath.append(path)
     }
     
-    func triggerHomeUpdate() {
-        shouldUpdateHomeView = true
+    func triggerHomeUpdate(trigger: Bool) {
+        shouldUpdateHomeView = trigger
     }
     
 }
