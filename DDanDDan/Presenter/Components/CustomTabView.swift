@@ -54,60 +54,53 @@ public protocol TabTitleConvertible {
 }
 
 // MARK: - CustomTabView
-struct CustomTabView: View {
+struct CustomTabView<Content: View>: View {
     let store: StoreOf<TabFeature>
-    let views: [Tab: AnyView]
-    
+    let content: (Tab) -> Content
+
     var body: some View {
         WithPerceptionTracking {
             let viewStore = ViewStore(store, observe: { $0 })
             VStack(spacing: 0) {
-                // 탭 선택 영역
                 HStack(spacing: 0) {
                     ForEach(Tab.allCases, id: \.self) { tab in
                         Button(action: {
                             viewStore.send(.selectTab(tab))
                         }) {
                             Text(tab.title)
-                                .foregroundStyle(tab == store.state.selection ? Color(.white) : Color(.elevationLevel03))
+                                .foregroundStyle(tab == viewStore.state.selection ? Color(.textHeadlinePrimary) : Color(.elevationLevel03))
                                 .frame(maxWidth: .infinity)
                         }
                     }
                 }
                 .padding(.vertical, 15)
 
-                WithPerceptionTracking {
-                    GeometryReader { geometry in
-                        let tabSize = geometry.size.width / CGFloat(views.count)
-                        Rectangle()
-                            .fill(Color(.lightText))
-                            .frame(width: tabSize, height: 3)
-                            .offset(x: viewStore.barXOffset * tabSize)
-                            .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
-                    }
-                    .frame(height: 3) // 딱 indicator 높이만
+                GeometryReader { geometry in
+                    let tabSize = geometry.size.width / CGFloat(Tab.allCases.count)
+                    Rectangle()
+                        .fill(Color(.lightText))
+                        .frame(width: tabSize, height: 3)
+                        .offset(x: viewStore.barXOffset * tabSize)
+                        .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
                 }
+                .frame(height: 3)
                 .padding(.horizontal, 20)
-                
+
                 Rectangle()
                     .fill(Color(.elevationLevel03))
                     .frame(height: 1)
 
-                if let view = views[viewStore.selection] {
-                    view
-                        .transition(.slide)
-                } else {
-                    EmptyView()
-                }
+                content(viewStore.selection)
+                    .transition(.slide)
             }
             .onAppear {
                 viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
                 viewStore.send(.activateBar)
             }
-
         }
     }
 }
+
 
 
 // MARK: - Tab Enum
