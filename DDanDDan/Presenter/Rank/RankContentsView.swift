@@ -241,47 +241,49 @@ extension RankContentsView {
                 .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                 .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                 .foregroundStyle(.borderGray)
-            HStack(alignment: .center) {
-                Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
-                    .font(.neoDunggeunmo16)
-                    .foregroundStyle(.textButtonAlternative)
+            Button {
+                store.send(.focusMyRank(index: currentRanking?.rank ?? 0))
+            } label: {
+                
+                HStack(alignment: .center) {
+                    Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
+                        .font(.neoDunggeunmo16)
+                        .foregroundStyle(.textButtonAlternative)
+                        .padding(.trailing, 12)
+                    ZStack {
+                        Circle()
+                            .fill(store.kcalRanking?.myRanking.mainPetType.color ?? .blueGraphics)
+                            .frame(width: 48, height: 48)
+                        Image(store.kcalRanking?.myRanking.mainPetType.image(for: store.kcalRanking?.myRanking.petLevel ?? 0) ?? .blueEgg)
+                            .resizable()
+                            .frame(width: 42, height: 42)
+                            .offset(y: -3)
+                    }
                     .padding(.trailing, 12)
-                ZStack {
-                    Circle()
-                        .fill(store.kcalRanking?.myRanking.mainPetType.color ?? .blueGraphics)
-                        .frame(width: 48, height: 48)
-                    Image(store.kcalRanking?.myRanking.mainPetType.image(for: store.kcalRanking?.myRanking.petLevel ?? 0) ?? .blueEgg)
-                        .resizable()
-                        .frame(width: 42, height: 42)
-                        .offset(y: -3)
+                    
+                    Text((self.tabType == .kcal ? store.kcalRanking?.myRanking.userName : store.goalRanking?.myRanking.userName) ?? "")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textBodyTeritary)
+                    Text("나")
+                        .foregroundStyle(.textButtonPrimaryDefault)
+                        .font(.caption)
+                        .padding(.horizontal, 2)
+                        .padding(.vertical, 2)
+                        .background(Color.textHeadlinePrimary)
+                        .clipShape(Circle())
+                    Spacer()
+                    Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
+                        .font(.body1_bold16)
+                        .foregroundStyle(.textButtonAlternative)
+                    Text(self.tabType == .kcal ? "kcal" : "일")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textButtonAlternative)
+                    
                 }
-                .padding(.trailing, 12)
-                
-                Text((self.tabType == .kcal ? store.kcalRanking?.myRanking.userName : store.goalRanking?.myRanking.userName) ?? "")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textBodyTeritary)
-                Text("나")
-                    .foregroundStyle(.textButtonPrimaryDefault)
-                    .font(.caption)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.textHeadlinePrimary)
-                    .clipShape(Circle())
-                Spacer()
-                Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
-                    .font(.body1_bold16)
-                    .foregroundStyle(.textButtonAlternative)
-                Text(self.tabType == .kcal ? "kcal" : "일")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textButtonAlternative)
-                
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 32)
-        }
-        .onTapGesture {
-            store.send(.focusMyRank(index: (self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
         }
     }
 }
