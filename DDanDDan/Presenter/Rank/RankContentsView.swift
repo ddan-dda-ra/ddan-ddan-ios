@@ -11,49 +11,47 @@ import ComposableArchitecture
 
 struct RankContentsView: View {
     @State private var textWidth: CGFloat = 0
-    @State private var showTooltip = false
     var tabType: Tab
     
-    let store: StoreOf<RankFeature>
+    @Perception.Bindable var store: StoreOf<RankFeature>
     
     @State private var scrollToIndex: Int? = nil
     
     var body: some View {
-        let viewStore = ViewStore(store, observe: { $0 })
-        
-        ZStack {
-            Color(.backgroundBlack)
-            WithPerceptionTracking {
+        WithPerceptionTracking {
+            ZStack {
+                Color(.backgroundBlack)
                 ZStack(alignment: .bottom) {
                     ScrollViewReader { proxy in
                         CustomScrollView {
-                            WithPerceptionTracking {
-                                VStack(alignment: .leading) {
-                                    headerView
-                                    rankContainerView
-                                }
+                            VStack(alignment: .leading) {
+                                headerView
+                                    .zIndex(10)
+                                rankContainerView
                             }
                         } onBottomReached: {
-                            guard let totalRankCount = store.totalRankCount else { return }
+                            guard let totalGoalRanking = store.totalGoalRanking else { return }
+                            guard let totalKcalRanking = store.totalKcalRanking  else { return }
+                            let totalRankCount = tabType == .goal ? totalGoalRanking : totalKcalRanking
                             store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                         }
-                        .onReceive(viewStore.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
+                        .onReceive(store.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
                             withAnimation {
                                 proxy.scrollTo(index, anchor: .top)
+                                store.send(.focusMyRank(index: 0))
                             }
                         }
                     }
                     myRankView
-                    TransparentOverlayView(isPresented: store.state.showToast, isDimView: false) {
-                        WithPerceptionTracking {
-                            VStack {
-                                ToastView(message: store.state.toastMessage, toastType: .info)
-                            }
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
+                    
+                    TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                        VStack {
+                            ToastView(message: store.toastMessage, toastType: .info)
                         }
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                     }
+                    
                 }
-                
                 
                 if store.isLoading {
                     ProgressView()
@@ -61,14 +59,13 @@ struct RankContentsView: View {
                         .foregroundStyle(.textButtonAlternative)
                         .background(Color.backgroundBlack)
                 }
-                
             }
         }
     }
     
     func setDateCirteria() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 설정
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = "yyyy년 M월 기준"
         
         let dateCriteria = dateFormatter.string(from: Date())
@@ -76,53 +73,54 @@ struct RankContentsView: View {
     }
 }
 
+
 extension RankContentsView {
     
     var headerView: some View {
-        VStack(alignment: .leading) {
-            Text(setDateCirteria())
-                .font(.body2_regular14)
-                .foregroundStyle(.textBodyTeritary)
-                .padding(.leading, 20)
-                .padding(.top, 24)
-            VStack(alignment: .leading) {
-                HStack(alignment: .bottom){
-                    Text(tabType.GuideTitle)
-                        .font(.neoDunggeunmo24)
-                        .foregroundStyle(.textButtonAlternative)
-                        .background(
-                            WithPerceptionTracking{
-                                GeometryReader { geo in
-                                    Color.clear
-                                        .onAppear {
-                                            textWidth = geo.size.width
-                                        }
+          WithPerceptionTracking {
+              VStack(alignment: .leading) {
+                  Text(setDateCirteria())
+                      .font(.body2_regular14)
+                      .foregroundStyle(.textBodyTeritary)
+                      .padding(.leading, 20)
+                      .padding(.top, 24)
+                  VStack(alignment: .leading) {
+                      WithPerceptionTracking {
+                          HStack(alignment: .bottom){
+                              Text(tabType.GuideTitle)
+                                  .font(.neoDunggeunmo24)
+                                  .foregroundStyle(.textButtonAlternative)
+                                  .background(
+                                    GeometryReader { geo in
+                                        Color.clear
+                                            .onAppear {
+                                                textWidth = geo.size.width
+                                            }
+                                    }
+                                  )
+                                  .padding(.leading, 20)
+                              Button(
+                                action: {
+                                    store.send(.setShowToolkit)
+                                },
+                                label: {
+                                    Image(.iconInfomation)
+                                        .frame(width: 20, height: 20)
                                 }
-                            })
-                        .padding(.leading, 20)
-                    Button(
-                        action: {
-                            withAnimation {
-                                showTooltip.toggle()
-                            }
-                        },
-                        label: {
-                            Image(.iconInfomation)
-                                .frame(width: 20, height: 20)
-                        }
-                    )
-                }
-                ZStack {
-                    if showTooltip {
-                        ToolKitView(textString: tabType.toolKitMessage)
-                            .offset(x: min(textWidth / 2, UIScreen.main.bounds.width - 100))
-                        
-                    }
-                }
-                .frame(height: 32)
-            }
-        }
-    }
+                              )
+                          }
+                      }
+                      ZStack {
+                          if store.showToolKit {
+                              ToolKitView(textString: tabType.toolKitMessage)
+                                  .offset(x: tabType == .kcal ? 78.adjusted : 139.adjusted, y: tabType == .kcal ? 10 : 14)
+                          }
+                      }
+                      .frame(height: 32)
+                  }
+              }
+          }
+      }
     
     var rankContainerView: some View {
         WithPerceptionTracking {
@@ -170,19 +168,22 @@ extension RankContentsView {
             
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
-                    rankListItemView(rank: rankers[index], index: index)
-                        .id(index+1)
+                    WithPerceptionTracking {
+                        rankListItemView(rank: rankers[index], index: index)
+                            .id(index+1)
+                    }
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
         }
     }
     
+    
     func rankListItemView(rank: Ranking, index: Int) -> some View {
         let isMyRank: Bool = rank.userID == (tabType == .kcal ? store.kcalRanking?.myRanking.userID : store.goalRanking?.myRanking.userID)
         
         return HStack(alignment: .center, spacing: 0) {
-            Text("\(index + 1)")
+            Text("\(rank.rank)")
                 .foregroundStyle(.textButtonAlternative)
                 .font(.neoDunggeunmo16)
                 .frame(width: 24, alignment: .leading)
@@ -241,49 +242,47 @@ extension RankContentsView {
                 .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                 .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                 .foregroundStyle(.borderGray)
-            Button {
-                store.send(.focusMyRank(index: currentRanking?.rank ?? 0))
-            } label: {
-                
-                HStack(alignment: .center) {
-                    Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
-                        .font(.neoDunggeunmo16)
-                        .foregroundStyle(.textButtonAlternative)
-                        .padding(.trailing, 12)
-                    ZStack {
-                        Circle()
-                            .fill(store.kcalRanking?.myRanking.mainPetType.color ?? .blueGraphics)
-                            .frame(width: 48, height: 48)
-                        Image(store.kcalRanking?.myRanking.mainPetType.image(for: store.kcalRanking?.myRanking.petLevel ?? 0) ?? .blueEgg)
-                            .resizable()
-                            .frame(width: 42, height: 42)
-                            .offset(y: -3)
-                    }
+            HStack(alignment: .center) {
+                Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
+                    .font(.neoDunggeunmo16)
+                    .foregroundStyle(.textButtonAlternative)
                     .padding(.trailing, 12)
-                    
-                    Text((self.tabType == .kcal ? store.kcalRanking?.myRanking.userName : store.goalRanking?.myRanking.userName) ?? "")
-                        .font(.body1_regular16)
-                        .foregroundStyle(.textBodyTeritary)
-                    Text("나")
-                        .foregroundStyle(.textButtonPrimaryDefault)
-                        .font(.caption)
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 2)
-                        .background(Color.textHeadlinePrimary)
-                        .clipShape(Circle())
-                    Spacer()
-                    Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
-                        .font(.body1_bold16)
-                        .foregroundStyle(.textButtonAlternative)
-                    Text(self.tabType == .kcal ? "kcal" : "일")
-                        .font(.body1_regular16)
-                        .foregroundStyle(.textButtonAlternative)
-                    
+                ZStack {
+                    Circle()
+                        .fill(store.kcalRanking?.myRanking.mainPetType.color ?? .blueGraphics)
+                        .frame(width: 48, height: 48)
+                    Image(store.kcalRanking?.myRanking.mainPetType.image(for: store.kcalRanking?.myRanking.petLevel ?? 0) ?? .blueEgg)
+                        .resizable()
+                        .frame(width: 42, height: 42)
+                        .offset(y: -3)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 32)
+                .padding(.trailing, 12)
+                
+                Text((self.tabType == .kcal ? store.kcalRanking?.myRanking.userName : store.goalRanking?.myRanking.userName) ?? "")
+                    .font(.body1_regular16)
+                    .foregroundStyle(.textBodyTeritary)
+                Text("나")
+                    .foregroundStyle(.textButtonPrimaryDefault)
+                    .font(.caption)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 2)
+                    .background(Color.textHeadlinePrimary)
+                    .clipShape(Circle())
+                Spacer()
+                Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
+                    .font(.body1_bold16)
+                    .foregroundStyle(.textButtonAlternative)
+                Text(self.tabType == .kcal ? "kcal" : "일")
+                    .font(.body1_regular16)
+                    .foregroundStyle(.textButtonAlternative)
+                
             }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 32)
+        }
+        .onTapGesture {
+            store.send(.focusMyRank(index: currentRanking?.rank ?? 0))
         }
     }
 }
