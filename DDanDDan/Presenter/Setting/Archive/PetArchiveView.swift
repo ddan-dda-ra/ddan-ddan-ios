@@ -78,7 +78,6 @@ struct PetArchiveView: View {
                         viewModel.showToastMessage()
                     }
                 }, title: "선택 완료", disabled: viewModel.isButtonDisable)
-                .padding(.bottom, 44)
             }
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
@@ -95,7 +94,7 @@ struct PetArchiveView: View {
         }
         .onChange(of: viewModel.isSelectedMainPet) { newValue in
             if newValue {
-                coordinator.triggerHomeUpdate()
+                coordinator.triggerHomeUpdate(trigger: true)
                 coordinator.pop()
             }
         }

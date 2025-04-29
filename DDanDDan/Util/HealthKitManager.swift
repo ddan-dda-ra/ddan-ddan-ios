@@ -60,7 +60,7 @@ class HealthKitManager: ObservableObject {
             // 변화가 있을 때 새로운 데이터를 가져옴
             self.readActiveEnergyBurned { kcal in
                 if Int(kcal) >= goalKcal {
-                    self.sendGoalAchievedNotification()
+//                    self.sendGoalAchievedNotification()
                 }
                 completion(kcal)
             }

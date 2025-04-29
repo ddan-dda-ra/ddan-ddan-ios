@@ -10,7 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RankView: View {
-    let store: StoreOf<RankFeature>
+    @Perception.Bindable var store: StoreOf<RankFeature>
     @ObservedObject var coordinator: AppCoordinator
     
     init(store: StoreOf<RankFeature>, coordinator: AppCoordinator) {
@@ -22,39 +22,38 @@ struct RankView: View {
         ZStack {
             Color(.backgroundBlack)
             VStack {
-                CustomNavigationBar(
-                    title: "월간 랭킹",
-                    leftButtonImage: Image(.arrow)) {
-                        coordinator.pop()
-                    }
                 WithPerceptionTracking {
-                    CustomTabView(
-                        store: Store(
-                            initialState: TabFeature.State(),
-                            reducer: { TabFeature() }
-                        ),
-                        views: [
-                            .kcal: AnyView(RankContentsView(tabType: .kcal, store: store)),
-                            .goal: AnyView(RankContentsView(tabType: .goal, store: store))
-                        ]
-                    )
+                    CustomNavigationBar(
+                        title: "월간 랭킹",
+                        leftButtonImage: Image(.arrow)) {
+                            coordinator.pop()
+                        }
+                    
+                    CustomTabView(store: Store(
+                        initialState: TabFeature.State(),
+                        reducer: { TabFeature() })
+                    ) { tab in
+                        WithPerceptionTracking {
+                            RankContentsView(tabType: tab, store: store)
+                        }
+                    }
                 }
             }
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.all, edges: .bottom)
-        .task {
+        .onAppear {
             store.send(.onAppear)
         }
     }
 }
 
-#Preview {
-    RankView(
-        store: Store(
-            initialState: RankFeature.State(selectedTab: .kcal),
-            reducer: {
-                RankFeature()
-            }
-        ), coordinator: .init())
-}
+//#Preview {
+//    RankView(
+//        store: Store(
+//            initialState: RankFeature.State(selectedTab: .kcal),
+//            reducer: {
+//                RankFeature()
+//            }
+//        ), coordinator: .init())
+//}

@@ -54,71 +54,62 @@ public protocol TabTitleConvertible {
 }
 
 // MARK: - CustomTabView
-struct CustomTabView: View {
-    let store: StoreOf<TabFeature>
-    let views: [Tab: AnyView]
+struct CustomTabView<Content: View>: View {
+    @Perception.Bindable var store: StoreOf<TabFeature>
+    let content: (Tab) -> Content
 
     var body: some View {
         WithPerceptionTracking {
             let viewStore = ViewStore(store, observe: { $0 })
-            
-            VStack {
-                WithPerceptionTracking {
-                    GeometryReader { geometry in
-                        let tabSize = geometry.size.width / CGFloat(views.count)
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    ForEach(Tab.allCases, id: \.self) { tab in
                         WithPerceptionTracking {
-                            VStack(spacing: 0) {
-                                HStack(spacing: 0) {
-                                    ForEach(Tab.allCases, id: \.self) { tab in
-                                        Button(action: {
-                                            viewStore.send(.selectTab(tab))
-                                        }) {
-                                            HStack(spacing: 0) {
-                                                Spacer()
-                                                Text(tab.title)
-                                                    .foregroundStyle(Color(.white))
-                                                Spacer()
-                                            }
-                                        }
-                                        .frame(width: tabSize)
-                                    }
-                                }
-                                .padding(.vertical, 15)
-                                
-                                ZStack(alignment: .bottom) {
-                                    Rectangle()
-                                        .fill(Color(.backgroundBlack))
-                                    HStack {
-                                        Rectangle()
-                                            .fill(Color(.lightText))
-                                            .frame(width: tabSize, height: 3)
-                                            .offset(x: viewStore.barXOffset * tabSize)
-                                            .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
-                                        Spacer()
-                                    }
-                                }
+                            Button(action: {
+                                viewStore.send(.selectTab(tab))
+                            }) {
+                                Text(tab.title)
+                                    .foregroundStyle(tab == viewStore.state.selection ? Color(.textHeadlinePrimary) : Color(.elevationLevel03))
+                                    .frame(maxWidth: .infinity)
                             }
                         }
-                        .onAppear {
-                            viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
-                            viewStore.send(.activateBar)
-                        }
-                    }
-                    .frame(height: 56)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 20)
-                    
-                    if let view = views[viewStore.selection] {
-                        view
-                            .transition(.slide)
-                    } else {
-                        EmptyView()
                     }
                 }
+                .padding(.vertical, 15)
+
+                WithPerceptionTracking {
+                    GeometryReader { geometry in
+                        WithPerceptionTracking {
+                            let tabSize = geometry.size.width / CGFloat(Tab.allCases.count)
+                            Rectangle()
+                                .fill(Color(.lightText))
+                                .frame(width: tabSize, height: 3)
+                                .offset(x: viewStore.barXOffset * tabSize)
+                                .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
+                        }
+                    }
+                    .frame(height: 3)
+                    .padding(.horizontal, 20)
+                }
+
+                Rectangle()
+                    .fill(Color(.elevationLevel03))
+                    .frame(height: 1)
+
+                WithPerceptionTracking {
+                    content(viewStore.selection)
+                        .transition(.slide)
+                }
+            }
+            .onAppear {
+                viewStore.send(.updateBarPosition(CGFloat(viewStore.selection.rawValue)))
+                viewStore.send(.activateBar)
             }
         }
     }
 }
+
+
 
 
 // MARK: - Tab Enum
@@ -143,7 +134,7 @@ enum Tab: Int, Identifiable, Hashable, Comparable, TabTitleConvertible, CaseIter
     var toolKitMessage: String {
         switch self {
         case .kcal: "한 달 동안 칼로리를 많이 소비한 순서에요"
-        case .goal: "한 달 동안 목표한 칼로리를 누적 달성한 순서에요"
+        case .goal: "한 달 동안 목표한 칼로리를\n누적 달성한 순서에요"
         }
     }
     

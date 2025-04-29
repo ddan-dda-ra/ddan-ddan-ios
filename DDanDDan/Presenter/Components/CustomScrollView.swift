@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import ComposableArchitecture
+
 struct CustomScrollView<Content: View>: View {
     let content: () -> Content
     let onBottomReached: () -> Void
@@ -17,12 +19,14 @@ struct CustomScrollView<Content: View>: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                content()
-
-                Rectangle()
-                    .fill(Color.clear)
-                    .frame(height: 1)
-                    .modifier(ScrollOffsetReader())
+                WithPerceptionTracking {
+                    content()
+                    
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: 1)
+                        .modifier(ScrollOffsetReader())
+                }
             }
         }
         .scrollIndicators(.hidden)
@@ -52,14 +56,16 @@ struct ScrollOffsetReader: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(
-                GeometryReader { geo in
-                    Color.clear
-                        .preference(
-                            key: OffsetPreferenceKey.self,
-                            value: geo.frame(in: .named("scroll")).maxY
-                        )
+                WithPerceptionTracking {
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(
+                                key: OffsetPreferenceKey.self,
+                                value: geo.frame(in: .named("scroll")).maxY
+                            )
+                    }
+                    .frame(height: 1)
                 }
-                .frame(height: 1)
             )
     }
 }

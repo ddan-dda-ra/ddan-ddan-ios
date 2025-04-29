@@ -77,9 +77,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let token = deviceToken.reduce("") {
             $0 + String(format: "%02X", $1)
         }
-        print(token)
-        
-        print("여기 출력 되나요?")
         Messaging.messaging().apnsToken = deviceToken
     }
     

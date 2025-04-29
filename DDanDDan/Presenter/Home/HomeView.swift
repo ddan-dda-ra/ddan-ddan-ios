@@ -40,7 +40,7 @@ struct HomeView: View {
                         coordinator.push(to: .setting)
                     },
                     buttonSize: 28,
-                    navigationBarHeight: 30
+                    navigationBarHeight: 48
                 )
                 kcalView
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
@@ -100,7 +100,7 @@ struct HomeView: View {
                     Task {
                         await viewModel.fetchHomeInfo()
                         
-                        coordinator.shouldUpdateHomeView = false
+                        coordinator.triggerHomeUpdate(trigger: false)
                     }
                 }
             }

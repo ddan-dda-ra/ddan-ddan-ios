@@ -63,7 +63,7 @@ public class LoginViewModel: NSObject, ObservableObject {
             case .success(let loginData):
                 await UserManager.shared.login(loginData: loginData)
                 DispatchQueue.main.async { [weak self] in
-                    self?.appCoordinator.triggerHomeUpdate()
+                    self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {
                         self?.appCoordinator.setRoot(to: .home)
                     } else {
