@@ -49,17 +49,14 @@ final class AppCoordinator: ObservableObject {
     }
     
     func push(to path: SignUpPath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
     func push(to path: SettingPath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
     func push(to path: HomePath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
