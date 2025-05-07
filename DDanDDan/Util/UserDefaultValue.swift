@@ -78,3 +78,34 @@ protocol OptionalProtocol {
 extension Optional: OptionalProtocol {
     var isNil: Bool { self == nil }
 }
+
+
+extension UserDefaults {
+    static var cachedRanking: CachedRankInfo? {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: CachedRankInfo.cacheKey) else {
+                return nil
+            }
+            
+            do {
+                let cachedInfo = try JSONDecoder().decode(CachedRankInfo.self, from: data)
+                return cachedInfo
+            } catch {
+                print("Error decoding cached ranking: \(error)")
+                return nil
+            }
+        }
+        set {
+            if let newValue = newValue {
+                do {
+                    let data = try JSONEncoder().encode(newValue)
+                    UserDefaults.standard.set(data, forKey: CachedRankInfo.cacheKey)
+                } catch {
+                    print("Error encoding ranking for cache: \(error)")
+                }
+            } else {
+                UserDefaults.standard.removeObject(forKey: CachedRankInfo.cacheKey)
+            }
+        }
+    }
+}
