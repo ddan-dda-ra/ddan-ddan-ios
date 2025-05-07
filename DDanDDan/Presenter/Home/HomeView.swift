@@ -9,7 +9,6 @@ import SwiftUI
 import HealthKit
 import ComposableArchitecture
 import Lottie
-import ComposableArchitecture
 
 enum HomePath: Hashable {
     case setting
@@ -22,6 +21,9 @@ enum HomePath: Hashable {
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
+    private let rankStore = Store(initialState: RankFeature.State()) {
+        RankFeature()
+    }
     
     private let isSEDevice = UIScreen.isSESizeDevice
     
@@ -104,9 +106,6 @@ struct HomeView: View {
                     }
                 }
             }
-            .task {
-                // 이거 쓰기
-            }
             
         }
         .navigationDestination(for: HomePath.self) { path in
@@ -114,9 +113,7 @@ struct HomeView: View {
             case .setting:
                 SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
             case .ranking:
-                RankView(store: Store(initialState: RankFeature.State()) {
-                    RankFeature()
-                }, coordinator: coordinator)
+                RankView(store: rankStore, coordinator: coordinator)
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
