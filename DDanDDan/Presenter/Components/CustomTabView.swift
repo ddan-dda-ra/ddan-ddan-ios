@@ -138,6 +138,13 @@ enum Tab: Int, Identifiable, Hashable, Comparable, TabTitleConvertible, CaseIter
         }
     }
     
+    var guideTitleWidth: CGFloat {
+        switch self {
+        case .kcal: return 176 / 2 - 48
+        case .goal: return 204 / 2
+        }
+    }
+    
     var id: Int {
         rawValue
     }
