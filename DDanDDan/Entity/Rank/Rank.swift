@@ -7,15 +7,27 @@
 
 import Foundation
 
+
+struct CachedRankInfo: Codable, Equatable {
+    let kcalRanking: RankInfo
+    let goalRanking: RankInfo
+    
+    static var cacheKey: String {
+        return "cached_ranking_data"
+    }
+    
+}
+
+
 // MARK: - RankDTO
-public struct RankInfo: Decodable, Equatable {
+public struct RankInfo: Codable, Equatable {
     let criteria, periodType: String
     let ranking: [Ranking]
     let myRanking: Ranking
 }
 
 // MARK: - Ranking
-public struct Ranking: Decodable, Equatable {
+public struct Ranking: Codable, Equatable {
     let rank: Int
     let userID, userName: String
     let mainPetType: PetType

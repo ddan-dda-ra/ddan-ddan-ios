@@ -13,9 +13,11 @@ struct RankFeature {
     
     @ObservableState
     struct State: Equatable {
-        var selectedTab: Tab = .kcal
         var kcalRanking: RankInfo?
         var goalRanking: RankInfo?
+        
+        var cachedRanking: CachedRankInfo?
+        
         var totalKcalRanking: Int?
         var totalGoalRanking: Int?
         
@@ -30,12 +32,13 @@ struct RankFeature {
         var showToolKit:Bool = false
         
         var focusedMyRankIndex: Int? = nil
-
+        
+        // 데이터가 이미 로드되었는지 추적하는 상태 추가
+        var isInitialLoadCompleted = false
     }
     
     enum Action: Equatable {
         case onAppear
-        case setTab(Tab)
         case loadRanking
         case rankingLoaded(kcal: RankInfo, goal: RankInfo)
         case setKcalRanking(RankInfo)
@@ -45,19 +48,41 @@ struct RankFeature {
         case setShowToast(Bool, String)
         case setShowToolkit
         case focusMyRank(index: Int)
+        case cacheRankData
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                print(state)
-                state.isLoading = true
-                return .send(.loadRanking)
-            case let .setTab(tab):
-                state.selectedTab = tab
-                return .none
+                // 이미 데이터가 로드되었으면 아무것도 하지 않음
+                if state.isInitialLoadCompleted {
+                    return .none
+                }
+                
+                // 캐시된 데이터가 있는지 확인
+                if let cachedData = UserDefaults.cachedRanking {
+                    state.cachedRanking = cachedData
+                    state.kcalRanking = cachedData.kcalRanking
+                    state.goalRanking = cachedData.goalRanking
+                    state.isKcalRankingLoaded = true
+                    state.isGoalRankingLoaded = true
+                    state.totalKcalRanking = cachedData.kcalRanking.ranking.last?.rank
+                    state.totalGoalRanking = cachedData.goalRanking.ranking.last?.rank
+                    
+                    // 캐시된 데이터를 사용하고 백그라운드에서 새로운 데이터 로드
+                    return .send(.loadRanking)
+                } else {
+                    state.isLoading = true
+                    return .send(.loadRanking)
+                }
+                
             case .loadRanking:
+                // 캐시된 데이터가 없는 경우에만 로딩 표시
+                if !state.isKcalRankingLoaded && !state.isGoalRankingLoaded {
+                    state.isLoading = true
+                }
+                
                 return .run { send in
                     async let kcal = repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
                     async let goal = repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
@@ -67,32 +92,51 @@ struct RankFeature {
                     switch (kResult, gResult) {
                     case let (.success(k), .success(g)):
                         await send(.rankingLoaded(kcal: k, goal: g))
+                        
+                        let cachedInfo = CachedRankInfo(
+                            kcalRanking: k,
+                            goalRanking: g
+                        )
+                        UserDefaults.cachedRanking = cachedInfo
+                        
                     case let (.failure(e), _), let (_, .failure(e)):
                         await send(.setError(e.description))
                     }
                 }
+                
             case .setKcalRanking(let rankings):
                 state.kcalRanking = rankings
                 state.totalKcalRanking = rankings.ranking.last?.rank
                 state.isKcalRankingLoaded = true
                 
-                return (state.isGoalRankingLoaded ? .send(.setLoading(false)) : .none)
+                if state.isGoalRankingLoaded {
+                    state.isLoading = false
+                    state.isInitialLoadCompleted = true
+                }
+                
+                return .none
+                
             case .setGoalRanking(let rankings):
                 state.goalRanking = rankings
                 state.totalGoalRanking = rankings.ranking.last?.rank
                 state.isGoalRankingLoaded = true
                 
-                return (state.isKcalRankingLoaded ? .send(.setLoading(false)) : .none)
-            case .setLoading(let isLoading):
-                state.isLoading = isLoading
-                print(state)
+                if state.isKcalRankingLoaded {
+                    state.isLoading = false
+                    state.isInitialLoadCompleted = true
+                }
                 
                 return .none
+                
+            case .setLoading(let isLoading):
+                state.isLoading = isLoading
+                return .none
+                
             case .setError(let error):
-                
                 state.errorMessage = error
+                state.isLoading = false
+                return .none
                 
-                return .send(.setLoading(false))
             case let .setShowToast(showToast, toastMessage):
                 state.showToast = showToast
                 state.toastMessage = toastMessage
@@ -103,43 +147,29 @@ struct RankFeature {
                     }
                 }
                 return .none
+                
             case .setShowToolkit:
                 state.showToolKit.toggle()
                 return .none
+                
             case let .focusMyRank(index):
                 state.focusedMyRankIndex = index
                 return .none
 
             case .rankingLoaded(kcal: let kcal, goal: let goal):
-                return .concatenate(.send(.setKcalRanking(kcal)),  .send(.setGoalRanking(goal)))
+                return .concatenate(.send(.setKcalRanking(kcal)), .send(.setGoalRanking(goal)))
+                
+            case .cacheRankData:
+                if let kcal = state.kcalRanking, let goal = state.goalRanking {
+                    let cachedInfo = CachedRankInfo(
+                        kcalRanking: kcal,
+                        goalRanking: goal
+                    )
+                    UserDefaults.cachedRanking = cachedInfo
+                    state.cachedRanking = cachedInfo
+                }
+                return .none
             }
         }
     }
-    
-    private func fetchKcalRanking() -> Effect<Action> {
-        return .run { send in
-            let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
-            
-            switch result {
-            case .success(let rank):
-                await send(.setKcalRanking(rank))
-            case .failure(let failure):
-                await send(.setError(failure.description))
-            }
-        }
-    }
-    
-    private func fetchGoalRanking() -> Effect<Action> {
-        return .run { send in
-            let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
-            
-            switch result {
-            case .success(let rank):
-                await send(.setGoalRanking(rank))
-            case .failure(let failure):
-                await send(.setError(failure.description))
-            }
-        }
-    }
-    
 }

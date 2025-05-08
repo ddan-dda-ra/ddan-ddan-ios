@@ -10,12 +10,15 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RankContentsView: View {
-    @State private var textWidth: CGFloat = 0
+    @State private var kcalGuideTextWidth: CGFloat = 173/2
+    @State private var goalGuideTextWidth: CGFloat = 196/2
+    @State private var buttonWidth: CGFloat = 0
+    
+    @State private var scrollToIndex: Int? = nil
+    
     var tabType: Tab
     
     @Perception.Bindable var store: StoreOf<RankFeature>
-    
-    @State private var scrollToIndex: Int? = nil
     
     var body: some View {
         WithPerceptionTracking {
@@ -53,7 +56,7 @@ struct RankContentsView: View {
                     
                 }
                 
-                if store.isLoading {
+                if store.isLoading && !(tabType == .kcal ? store.isKcalRankingLoaded : store.isGoalRankingLoaded) {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundStyle(.textButtonAlternative)
@@ -62,74 +65,72 @@ struct RankContentsView: View {
             }
         }
     }
-    
-    func setDateCirteria() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "yyyy년 M월 기준"
-        
-        let dateCriteria = dateFormatter.string(from: Date())
-        return dateCriteria
-    }
 }
 
 
 extension RankContentsView {
-    
     var headerView: some View {
-          WithPerceptionTracking {
-              VStack(alignment: .leading) {
-                  Text(setDateCirteria())
-                      .font(.body2_regular14)
-                      .foregroundStyle(.textBodyTeritary)
-                      .padding(.leading, 20)
-                      .padding(.top, 24)
-                  VStack(alignment: .leading) {
-                      WithPerceptionTracking {
-                          HStack(alignment: .bottom){
-                              Text(tabType.GuideTitle)
-                                  .font(.neoDunggeunmo24)
-                                  .foregroundStyle(.textButtonAlternative)
-                                  .background(
+        WithPerceptionTracking {
+            VStack(alignment: .leading) {
+                Text(setDateCirteria())
+                    .font(.body2_regular14)
+                    .foregroundStyle(.textBodyTeritary)
+                    .padding(.leading, 20)
+                    .padding(.top, 24)
+                VStack(alignment: .leading) {
+                    WithPerceptionTracking {
+                        HStack(alignment: .bottom) {
+                            Text(tabType.GuideTitle)
+                                .font(.neoDunggeunmo24)
+                                .foregroundStyle(.textButtonAlternative)
+                                .background(
                                     GeometryReader { geo in
                                         Color.clear
                                             .onAppear {
-                                                textWidth = geo.size.width
+                                                updateGuideTextWidth(width: geo.size.width)
                                             }
                                     }
-                                  )
-                                  .padding(.leading, 20)
-                              Button(
+                                )
+                                .id(tabType)
+                                .padding(.leading, 20)
+                            Button(
                                 action: {
                                     store.send(.setShowToolkit)
                                 },
                                 label: {
                                     Image(.iconInfomation)
                                         .frame(width: 20, height: 20)
+                                        .background(
+                                            GeometryReader { geo in
+                                                Color.clear
+                                                    .onAppear {
+                                                        buttonWidth = geo.size.width
+                                                    }
+                                            }
+                                        )
                                 }
-                              )
-                          }
-                      }
-                      ZStack {
-                          if store.showToolKit {
-                              ToolKitView(textString: tabType.toolKitMessage)
-                                  .offset(x: tabType == .kcal ? 78.adjusted : 139.adjusted, y: tabType == .kcal ? 10 : 14)
-                          }
-                      }
-                      .frame(height: 32)
-                  }
-              }
-          }
-      }
+                            )
+                        }
+                    }
+                    ZStack {
+                        if store.showToolKit {
+                            ToolKitView(textString: tabType.toolKitMessage)
+                                .offset(x: (tabType.guideTitleWidth + 40).adjustedWidth,
+                                        y: tabType == .kcal ? 10: 14)
+                        }
+                    }
+                    .frame(height: 32)
+                }
+            }
+        }
+    }
     
     var rankContainerView: some View {
-        WithPerceptionTracking {
-            VStack {
-                topRankView
-                    .padding(.bottom, 20)
-                rankListView
-                    .frame(maxWidth: .infinity)
-            }
+        VStack {
+            topRankView
+                .padding(.bottom, 20)
+            rankListView
+                .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
     }
@@ -295,6 +296,42 @@ extension RankContentsView {
     private var currentRankingList: [Ranking] {
         (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
     }
+    
+    func setDateCirteria() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy년 M월 기준"
+        
+        let dateCriteria = dateFormatter.string(from: Date())
+        return dateCriteria
+    }
+    
+    private func updateGuideTextWidth(width: CGFloat) {
+        if tabType == .kcal {
+            kcalGuideTextWidth = width
+        } else {
+            goalGuideTextWidth = width
+        }
+    }
+    
+    private func calculateToolkitXOffset() -> CGFloat {
+        let horizontalPadding: CGFloat = 20
+        let infoButtonWidth: CGFloat = 20
+        let spacing: CGFloat = 8
+        let textWidth: CGFloat = tabType == .kcal ? kcalGuideTextWidth : goalGuideTextWidth
+        
+        let totalWidth = textWidth + spacing + infoButtonWidth
+        
+        return horizontalPadding + (totalWidth / 2)
+    }
+
+    struct TextSizePreferenceKey: PreferenceKey {
+        static var defaultValue: CGSize = .zero
+        
+        static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+            value = nextValue()
+        }
+    }
 }
 
 
@@ -346,7 +383,7 @@ struct RankCard: View {
     RankContentsView(
         tabType: .goal,
         store: Store(
-            initialState: RankFeature.State(selectedTab: .kcal),
+            initialState: RankFeature.State(),
             reducer: {
                 RankFeature()
             }
