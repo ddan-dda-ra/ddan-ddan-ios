@@ -11,11 +11,14 @@ import Alamofire
 public struct AuthNetwork {
     private let manager = NetworkManager()
     
-    public func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
-        let parameter: Parameters = [
+    public func login(token: String, tokenType: String, deviceToken: String?) async -> Result<LoginData, NetworkError> {
+        var parameter: Parameters = [
             "token": token,
             "tokenType": tokenType
         ]
+        if let deviceToken {
+            parameter["deviceToken"] = deviceToken
+        }
         
         return await manager.request(url: "/v1/auth/login", method: .post, parameters: parameter, encoding: JSONEncoding.default)
     }

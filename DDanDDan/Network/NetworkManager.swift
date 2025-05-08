@@ -40,6 +40,8 @@ public struct NetworkManager {
             print("🔹 Parameters: \(parameters)")
         }
         
+        AnalyticsManager.shared.logEvent(event: NetworkEvent.request(url: url.absoluteString, header: headers?.description, params: parameters?.description))
+       
         let result = await session.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
             .validate(statusCode: 200..<401)
             .serializingData()
@@ -56,6 +58,7 @@ public struct NetworkManager {
                         let errorResponse = try JSONDecoder().decode(ServerErrorResponse.self, from: data)
                         print("🔹 Server Error Code: \(errorResponse.code)")
                         print("🔹 Server Error Message: \(errorResponse.message)")
+                        AnalyticsManager.shared.logEvent(event: NetworkEvent.onError(errorResponse))
                         return .failure(NetworkError.serverError(statusCode, errorResponse.code))
                     } catch {
                         return .failure(NetworkError.failToDecode(error.localizedDescription))
@@ -87,6 +90,7 @@ public struct NetworkManager {
             do {
                 let errorResponse = try JSONDecoder().decode(ServerErrorResponse.self, from: data)
                 print("🔹 400 Error - Code: \(errorResponse.code), Message: \(errorResponse.message)")
+                AnalyticsManager.shared.logEvent(event: NetworkEvent.onError(errorResponse))
                 return .failure(NetworkError.serverError(400, errorResponse.code))
             } catch {
                 print("🔹 400 Decoding Error: \(error.localizedDescription)")

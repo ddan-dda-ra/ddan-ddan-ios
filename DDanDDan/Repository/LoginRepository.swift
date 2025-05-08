@@ -15,6 +15,7 @@ public struct LoginRepository: LoginRepositoryProtocol {
     private let network = AuthNetwork()
     
     public func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
-        await network.login(token: token, tokenType: tokenType)
+        let deviceToken = UserDefaultValue.deviceToken
+        return await network.login(token: token, tokenType: tokenType, deviceToken: deviceToken)
     }
 }

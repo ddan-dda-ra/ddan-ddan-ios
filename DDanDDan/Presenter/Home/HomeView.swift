@@ -7,20 +7,23 @@
 
 import SwiftUI
 import HealthKit
-
+import ComposableArchitecture
 import Lottie
 
 enum HomePath: Hashable {
     case setting
-    case petArchive
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
+    case ranking
 }
 
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
+    private let rankStore = Store(initialState: RankFeature.State()) {
+        RankFeature()
+    }
     
     private let isSEDevice = UIScreen.isSESizeDevice
     
@@ -30,16 +33,16 @@ struct HomeView: View {
                 .ignoresSafeArea(edges: [.vertical])
             VStack(alignment: .center) {
                 CustomNavigationBar(
-                    leftButtonImage: Image(.iconDocs),
+                    leftButtonImage: Image(.iconRank),
                     leftButtonAction: {
-                        coordinator.push(to: .petArchive)
+                        coordinator.push(to: .ranking)
                     },
                     rightButtonImage: Image(.iconSetting),
                     rightButtonAction: {
                         coordinator.push(to: .setting)
                     },
                     buttonSize: 28,
-                    navigationBarHeight: 30
+                    navigationBarHeight: 48
                 )
                 kcalView
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
@@ -47,7 +50,7 @@ struct HomeView: View {
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 levelView
-                    .padding(.bottom, 10.adjusted)
+                    .padding(.bottom, 12.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 actionButtonView
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
@@ -57,13 +60,9 @@ struct HomeView: View {
             .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
-                    ToastView(message: viewModel.toastMessage)
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity)) // 사라질 때는 페이드 아웃만
-                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewModel.showToast)
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
             }
             TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
@@ -103,21 +102,18 @@ struct HomeView: View {
                     Task {
                         await viewModel.fetchHomeInfo()
                         
-                        coordinator.shouldUpdateHomeView = false
+                        coordinator.triggerHomeUpdate(trigger: false)
                     }
                 }
-            }
-            .task {
-                // 이거 쓰기
             }
             
         }
         .navigationDestination(for: HomePath.self) { path in
             switch path {
             case .setting:
-                SettingView(coordinator: coordinator)
-            case .petArchive:
-                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
+            case .ranking:
+                RankView(store: rankStore, coordinator: coordinator)
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
@@ -131,26 +127,6 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    /// 네비게이션 바
-    var navigationBar: some View {
-        HStack(alignment: .center) {
-            Button(action: {
-                coordinator.push(to: .petArchive)
-            }) {
-                Image(.iconDocs)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-            Spacer()
-            Button(action: {
-                coordinator.push(to: .setting)
-            }) {
-                Image(.iconSetting)
-            }
-            .frame(width: 28.adjusted, height: 28.adjusted)
-        }
-        .frame(height: 30.adjusted)
-        .background(.blue)
-    }
     
     var kcalView: some View {
         HStack(alignment: .lastTextBaseline,spacing: 4) {
@@ -221,7 +197,7 @@ extension HomeView {
                     .cornerRadius(4)
                 Spacer()
                 Text(String(format: "%.0f%%", viewModel.homePetModel.exp))
-                    .font(.subTitle1_semibold14)
+                    .font(.neoDunggeunmo16)
                     .foregroundStyle(.white)
             }
             .padding(.bottom, 8)
@@ -254,17 +230,17 @@ extension HomeView {
     
     var actionButtonView: some View {
         HStack(spacing: 12.adjusted) {
-            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount)
+            HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount, image: .iconFeed)
                 .onTapGesture {
                     viewModel.feedPet()
                 }
-            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount)
+            HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount, image: .iconToy)
                 .onTapGesture {
                     viewModel.playWithPet()
                 }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 66)
+        .frame(height: 95)
     }
 }
 

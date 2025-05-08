@@ -32,14 +32,9 @@ final class AppCoordinator: ObservableObject {
     
     @StateObject var user = UserManager.shared
     
-    @Published var shouldUpdateHomeView = false
-
-    func determineRootView() {
-        if let _ = user.accessToken {
-            rootView = user.isSignUpRequired() ? .signUp : .home
-        }
-    }
+    @Published private(set) var shouldUpdateHomeView = false
     
+    @MainActor
     func setRoot(to path: AppPath) {
         navigationPath.removeLast(navigationPath.count)
         rootView = path
@@ -54,22 +49,19 @@ final class AppCoordinator: ObservableObject {
     }
     
     func push(to path: SignUpPath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
     func push(to path: SettingPath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
     func push(to path: HomePath) {
-        print("push: \(path)")
         navigationPath.append(path)
     }
     
-    func triggerHomeUpdate() {
-        shouldUpdateHomeView = true
+    func triggerHomeUpdate(trigger: Bool) {
+        shouldUpdateHomeView = trigger
     }
     
 }

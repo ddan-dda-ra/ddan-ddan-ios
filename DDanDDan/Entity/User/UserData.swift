@@ -35,6 +35,8 @@ public struct DailyInfo: Decodable {
 public struct DailyUserData: Decodable {
     var user: UserData
     var dailyInfo: DailyInfo
+    var rewardedFoodQuantity: Int
+    var rewardedToyQuantity: Int
 }
 
 public struct UserPetData: Decodable {

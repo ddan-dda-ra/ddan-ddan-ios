@@ -12,12 +12,14 @@ import HealthKit
 
 
 final class HomeViewModel: ObservableObject {
+    private struct Loading {
+        var feed: Bool = false
+    }
     @Published var homePetModel: HomeModel = .init(petType: .pinkCat, level: 4, exp: 0, goalKcal: 0, feedCount: 4, toyCount: 0)
     
     @Published var isPlayingSpecialAnimation: Bool = false
 
     @Published var currentLottieAnimation: String = ""
-    @Published var isDailyGoalMet: Bool = false
     @Published var isGoalMet: Bool = false
     @Published var isMaxLevel: Bool = false
     @Published var isLevelUp: Bool = false
@@ -37,7 +39,7 @@ final class HomeViewModel: ObservableObject {
     
     private var petId = ""
     private var previousKcal: Int = 0
-    
+    private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
     private let homeRepository: HomeRepositoryProtocol
     
@@ -143,9 +145,10 @@ final class HomeViewModel: ObservableObject {
             showToastMessage()
             return
         }
-        
+        loadingState.feed = true
         Task {
             let result = await homeRepository.feedPet(petId: petId)
+            loadingState.feed = false
             switch result {
             case let .success(petData):
                 try await playFeedPet(petData: petData)
@@ -251,15 +254,8 @@ final class HomeViewModel: ObservableObject {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 
-                /// 현재 먹이 개수와 다르면 먹이 얻기
-                if self.homePetModel.feedCount != dailyInfo.user.foodQuantity {
-                    if dailyInfo.user.foodQuantity - self.homePetModel.feedCount == 3 {
-                        self.isDailyGoalMet = true
-                    } else {
-                        self.earnFood = dailyInfo.user.foodQuantity - self.homePetModel.feedCount
-                        self.isPresentEarnFood = self.earnFood > 0 /// 얻은 먹이가 양수일 때만 다이얼로그 띄움
-                    }
-                }
+                self.earnFood = dailyInfo.rewardedFoodQuantity
+                self.isPresentEarnFood = self.earnFood > 0 /// 얻은 먹이가 양수일 때만 다이얼로그 띄움
                 
                 if self.homePetModel.toyCount != dailyInfo.user.toyQuantity {
                     healthKitManager.readThreeDaysTotalKcal { [weak self] totalKcal in
@@ -314,8 +310,10 @@ final class HomeViewModel: ObservableObject {
     /// 토스트 메시지 관련 메서드
     private func showToastMessage() {
         showToast = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.hideToastMessage()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+            withAnimation(.easeInOut(duration: 0.3)) {
+                self?.hideToastMessage()
+            }
         }
     }
     
