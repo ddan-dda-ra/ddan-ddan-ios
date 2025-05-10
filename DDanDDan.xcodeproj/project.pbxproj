@@ -161,6 +161,7 @@
 		F8FD4FB02C7A0FF600147C4F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FD4FAF2C7A0FF600147C4F /* SignUpViewModel.swift */; };
 		F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90329EB2D96A071004A8360 /* AnalyticsManager.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
+		F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 		F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */; };
 		F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */; };
@@ -389,6 +390,7 @@
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
 				F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */,
 				F8C10C0D2C5782720037D6A5 /* KakaoSDK in Frameworks */,
+				F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */,
 				F8C10C112C5782720037D6A5 /* KakaoSDKCommon in Frameworks */,
 				F8C10C0F2C5782720037D6A5 /* KakaoSDKAuth in Frameworks */,
 			);
@@ -976,6 +978,7 @@
 				F8AB33272C2EAD2E00BC16C9 /* Frameworks */,
 				F8AB33282C2EAD2E00BC16C9 /* Resources */,
 				36E019932CCA830C00383318 /* Embed Watch Content */,
+				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
 			);
 			buildRules = (
 			);
@@ -992,6 +995,7 @@
 				F9E421792D0ED657005A5795 /* ComposableArchitecture */,
 				3641954D2D4D18890065C400 /* FirebaseAnalytics */,
 				3641954F2D4D18890065C400 /* FirebaseMessaging */,
+				F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -1136,6 +1140,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F9CCAF402DB2294900549DAE /* Firebase Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Firebase Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		36E019682CCA830A00383318 /* Sources */ = {
@@ -1576,6 +1603,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 65NSM7Z327;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DDanDDan/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "딴딴_DEV";
@@ -1622,6 +1650,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 65NSM7Z327;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DDanDDan/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "딴딴";
@@ -1787,6 +1816,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		F9E421792D0ED657005A5795 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
