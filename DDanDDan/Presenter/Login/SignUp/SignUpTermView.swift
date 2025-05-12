@@ -20,7 +20,9 @@ public enum SignUpPath: Hashable {
 public struct SignUpTermView<ViewModel: SignUpViewModelProtocol>: View {
     @State private var serviceTermAgree: Bool = false
     @State private var privacyTermAgree: Bool = false
-    @State private var buttonDisabled: Bool = true
+    private var buttonDisabled: Bool {
+        !serviceTermAgree || !privacyTermAgree
+    }
     @ObservedObject var viewModel: ViewModel
     @ObservedObject var coordinator: AppCoordinator
     
@@ -44,7 +46,6 @@ public struct SignUpTermView<ViewModel: SignUpViewModelProtocol>: View {
                             .padding(.bottom, 32)
                         Button {
                             let isAllAgree = serviceTermAgree && privacyTermAgree
-                            buttonDisabled = isAllAgree
                             serviceTermAgree = !isAllAgree
                             privacyTermAgree = !isAllAgree
                         } label: {
@@ -61,7 +62,7 @@ public struct SignUpTermView<ViewModel: SignUpViewModelProtocol>: View {
                         .padding(.top, 12)
                         TermButton(title: "개인정보 처리방침", imageName:privacyTermAgree ? "checkboxSelected" :"checkbox", pointTitle: "(필수)") {
                             privacyTermAgree.toggle()
-                        }viewTerm: {
+                        } viewTerm: {
                             coordinator.push(to: .viewTerm(url: "https://www.notion.so/1d544c615c44412fa51d2ecb9f98116a"))
                         }
                         .padding(.top, 12)
