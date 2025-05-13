@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ToolKitView: View {
+struct TooltipView: View {
     var textString: String = ""
     
     init(textString: String) {

@@ -98,7 +98,7 @@
 		3692E05D2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */; };
 		3692E05E2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */; };
 		369F16EC2D7CADD50039ED3A /* RankViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EB2D7CADD50039ED3A /* RankViewReducer.swift */; };
-		369F16EE2D7CB4B40039ED3A /* ToolKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */; };
+		369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16ED2D7CB4B40039ED3A /* TooltipView.swift */; };
 		369F16F02D7CC11C0039ED3A /* RankContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */; };
 		369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F12D7CC1280039ED3A /* CustomTabView.swift */; };
 		369F16F52D8707E50039ED3A /* RankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F42D8707E50039ED3A /* RankRepository.swift */; };
@@ -289,7 +289,7 @@
 		3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		369F16EB2D7CADD50039ED3A /* RankViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewReducer.swift; sourceTree = "<group>"; };
-		369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolKitView.swift; sourceTree = "<group>"; };
+		369F16ED2D7CB4B40039ED3A /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankContentsView.swift; sourceTree = "<group>"; };
 		369F16F12D7CC1280039ED3A /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		369F16F42D8707E50039ED3A /* RankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankRepository.swift; sourceTree = "<group>"; };
@@ -697,7 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				369F16F12D7CC1280039ED3A /* CustomTabView.swift */,
-				369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */,
+				369F16ED2D7CB4B40039ED3A /* TooltipView.swift */,
 				36022B722CCAA04000D360C0 /* HomeButton.swift */,
 				F8758CEE2C8EDF630038CCBB /* DialogView.swift */,
 				367A79792CDD6D410055771B /* ImageDialogView.swift */,
@@ -1208,7 +1208,7 @@
 				F85C2BA42C4CD651002E2237 /* UserDefaultValue.swift in Sources */,
 				F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */,
 				F8AB332E2C2EAD2E00BC16C9 /* DDanDDanApp.swift in Sources */,
-				369F16EE2D7CB4B40039ED3A /* ToolKitView.swift in Sources */,
+				369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */,
 				F809E2FE2CBD0841001BE099 /* DeleteUserConfirmView.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,

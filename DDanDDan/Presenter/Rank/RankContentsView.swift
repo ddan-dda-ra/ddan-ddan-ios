@@ -114,7 +114,7 @@ extension RankContentsView {
                     }
                     ZStack {
                         if store.showToolKit {
-                            ToolKitView(textString: tabType.toolKitMessage)
+                            TooltipView(textString: tabType.toolKitMessage)
                                 .offset(x: (tabType.guideTitleWidth + 40).adjustedWidth,
                                         y: tabType == .kcal ? 10: 14)
                         }
