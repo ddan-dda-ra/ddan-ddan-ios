@@ -28,9 +28,7 @@ struct TabFeature {
         Reduce { state, action in
             switch action {
             case let .selectTab(tab):
-                withAnimation {
-                    state.selection = tab
-                }
+                state.selection = tab
                 return .run { send in
                     await send(.updateBarPosition(CGFloat(tab.rawValue)))
                 }
@@ -57,7 +55,7 @@ public protocol TabTitleConvertible {
 struct CustomTabView<Content: View>: View {
     @Perception.Bindable var store: StoreOf<TabFeature>
     let content: (Tab) -> Content
-
+    
     var body: some View {
         WithPerceptionTracking {
             let viewStore = ViewStore(store, observe: { $0 })
@@ -76,7 +74,7 @@ struct CustomTabView<Content: View>: View {
                     }
                 }
                 .padding(.vertical, 15)
-
+                
                 WithPerceptionTracking {
                     GeometryReader { geometry in
                         WithPerceptionTracking {
@@ -91,7 +89,7 @@ struct CustomTabView<Content: View>: View {
                     .frame(height: 3)
                     .padding(.horizontal, 20)
                 }
-
+                
                 Rectangle()
                     .fill(Color(.elevationLevel03))
                     .frame(height: 1)
