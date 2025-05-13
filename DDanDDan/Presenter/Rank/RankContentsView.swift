@@ -18,7 +18,7 @@ struct RankContentsView: View {
     
     var tabType: Tab
     
-    @Perception.Bindable var store: StoreOf<RankFeature>
+    @Perception.Bindable var store: StoreOf<RankViewReducer>
     
     var body: some View {
         WithPerceptionTracking {
@@ -324,7 +324,7 @@ extension RankContentsView {
         
         return horizontalPadding + (totalWidth / 2)
     }
-
+    
     struct TextSizePreferenceKey: PreferenceKey {
         static var defaultValue: CGSize = .zero
         
@@ -383,9 +383,9 @@ struct RankCard: View {
     RankContentsView(
         tabType: .goal,
         store: Store(
-            initialState: RankFeature.State(),
+            initialState: RankViewReducer.State(),
             reducer: {
-                RankFeature()
+                RankViewReducer()
             }
         ))
 }
