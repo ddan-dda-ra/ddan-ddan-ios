@@ -108,6 +108,7 @@ struct SettingView: View {
                 }
             }
         }
+        .swipeBackEnabled()
         .navigationBarHidden(true)
         .navigationDestination(for: SettingPath.self) { path in
             switch path {

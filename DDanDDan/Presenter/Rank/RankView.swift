@@ -40,6 +40,7 @@ struct RankView: View {
                 }
             }
         }
+        .swipeBackEnabled()
         .navigationBarHidden(true)
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {

@@ -103,6 +103,7 @@
 		369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F12D7CC1280039ED3A /* CustomTabView.swift */; };
 		369F16F52D8707E50039ED3A /* RankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F42D8707E50039ED3A /* RankRepository.swift */; };
 		369F16F92D99A3860039ED3A /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F82D99A3850039ED3A /* CustomScrollView.swift */; };
+		36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
@@ -294,6 +295,7 @@
 		369F16F12D7CC1280039ED3A /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		369F16F42D8707E50039ED3A /* RankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankRepository.swift; sourceTree = "<group>"; };
 		369F16F82D99A3850039ED3A /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBackEnabledModifier.swift; sourceTree = "<group>"; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
@@ -707,6 +709,7 @@
 				36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */,
 				36F6E8202CEE7DE000B395FB /* CheckButton.swift */,
 				369F16F82D99A3850039ED3A /* CustomScrollView.swift */,
+				36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1204,6 +1207,7 @@
 				360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */,
 				F8311F992C7060E8000455ED /* GreenButton.swift in Sources */,
 				F88FC6E32CCF6C6A0033D4C9 /* SettingRepository.swift in Sources */,
+				36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */,
 				F8758CEF2C8EDF630038CCBB /* DialogView.swift in Sources */,
 				F85C2BA42C4CD651002E2237 /* UserDefaultValue.swift in Sources */,
 				F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */,
