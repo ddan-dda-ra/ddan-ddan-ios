@@ -10,15 +10,13 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RankContentsView: View {
-    @State private var kcalGuideTextWidth: CGFloat = 173/2
-    @State private var goalGuideTextWidth: CGFloat = 196/2
     @State private var buttonWidth: CGFloat = 0
     
     @State private var scrollToIndex: Int? = nil
     
     var tabType: Tab
     
-    @Perception.Bindable var store: StoreOf<RankFeature>
+    @Perception.Bindable var store: StoreOf<RankViewReducer>
     
     var body: some View {
         WithPerceptionTracking {
@@ -30,6 +28,7 @@ struct RankContentsView: View {
                             VStack(alignment: .leading) {
                                 headerView
                                     .zIndex(10)
+                                    .padding(.bottom, 32)
                                 rankContainerView
                             }
                         } onBottomReached: {
@@ -70,56 +69,41 @@ struct RankContentsView: View {
 
 extension RankContentsView {
     var headerView: some View {
-        WithPerceptionTracking {
+        VStack(alignment: .leading) {
+            Text(setDateCirteria())
+                .font(.body2_regular14)
+                .foregroundStyle(.textBodyTeritary)
+                .padding(.leading, 20)
+                .padding(.top, 24)
             VStack(alignment: .leading) {
-                Text(setDateCirteria())
-                    .font(.body2_regular14)
-                    .foregroundStyle(.textBodyTeritary)
-                    .padding(.leading, 20)
-                    .padding(.top, 24)
-                VStack(alignment: .leading) {
-                    WithPerceptionTracking {
-                        HStack(alignment: .bottom) {
-                            Text(tabType.GuideTitle)
-                                .font(.neoDunggeunmo24)
-                                .foregroundStyle(.textButtonAlternative)
-                                .background(
-                                    GeometryReader { geo in
-                                        Color.clear
-                                            .onAppear {
-                                                updateGuideTextWidth(width: geo.size.width)
-                                            }
-                                    }
-                                )
-                                .id(tabType)
-                                .padding(.leading, 20)
-                            Button(
-                                action: {
-                                    store.send(.setShowToolkit)
-                                },
-                                label: {
-                                    Image(.iconInfomation)
-                                        .frame(width: 20, height: 20)
-                                        .background(
-                                            GeometryReader { geo in
-                                                Color.clear
-                                                    .onAppear {
-                                                        buttonWidth = geo.size.width
-                                                    }
-                                            }
-                                        )
-                                }
-                            )
-                        }
-                    }
+                HStack(alignment: .bottom) {
+                    Text(tabType.GuideTitle)
+                        .font(.neoDunggeunmo24)
+                        .foregroundStyle(.textButtonAlternative)
+                        .id(tabType)
+                        .padding(.leading, 20)
+                    
                     ZStack {
+                        Button(
+                            action: {
+                                store.send(.setShowToolkit)
+                            },
+                            label: {
+                                Image(.iconInfomation)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                            }
+                        )
+                        .frame(width: 20, height: 24)
                         if store.showToolKit {
-                            ToolKitView(textString: tabType.toolKitMessage)
-                                .offset(x: (tabType.guideTitleWidth + 40).adjustedWidth,
-                                        y: tabType == .kcal ? 10: 14)
+                            TooltipView(textString: tabType.toolKitMessage)
+                                .fixedSize(horizontal: true, vertical: true)
+                                .offset(y: tabType == .kcal ? 38.adjusted : 48.adjusted)
+                                .alignmentGuide(.bottom) { _ in 0 }
                         }
                     }
-                    .frame(height: 32)
+                    .frame(width: 20, height: 20)
+                    .padding(.trailing, 20)
                 }
             }
         }
@@ -306,25 +290,6 @@ extension RankContentsView {
         return dateCriteria
     }
     
-    private func updateGuideTextWidth(width: CGFloat) {
-        if tabType == .kcal {
-            kcalGuideTextWidth = width
-        } else {
-            goalGuideTextWidth = width
-        }
-    }
-    
-    private func calculateToolkitXOffset() -> CGFloat {
-        let horizontalPadding: CGFloat = 20
-        let infoButtonWidth: CGFloat = 20
-        let spacing: CGFloat = 8
-        let textWidth: CGFloat = tabType == .kcal ? kcalGuideTextWidth : goalGuideTextWidth
-        
-        let totalWidth = textWidth + spacing + infoButtonWidth
-        
-        return horizontalPadding + (totalWidth / 2)
-    }
-
     struct TextSizePreferenceKey: PreferenceKey {
         static var defaultValue: CGSize = .zero
         
@@ -383,9 +348,9 @@ struct RankCard: View {
     RankContentsView(
         tabType: .goal,
         store: Store(
-            initialState: RankFeature.State(),
+            initialState: RankViewReducer.State(),
             reducer: {
-                RankFeature()
+                RankViewReducer()
             }
         ))
 }

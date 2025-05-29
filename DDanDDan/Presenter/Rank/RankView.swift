@@ -10,10 +10,10 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RankView: View {
-    @Perception.Bindable var store: StoreOf<RankFeature>
+    @Perception.Bindable var store: StoreOf<RankViewReducer>
     @ObservedObject var coordinator: AppCoordinator
     
-    init(store: StoreOf<RankFeature>, coordinator: AppCoordinator) {
+    init(store: StoreOf<RankViewReducer>, coordinator: AppCoordinator) {
         self.store = store
         self.coordinator = coordinator
     }
@@ -40,6 +40,7 @@ struct RankView: View {
                 }
             }
         }
+        .swipeBackEnabled()
         .navigationBarHidden(true)
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {

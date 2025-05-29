@@ -5,10 +5,12 @@
 //  Created by 이지희 on 3/9/25.
 //
 
+import Foundation
+
 import ComposableArchitecture
 
 @Reducer
-struct RankFeature {
+struct RankViewReducer {
     let repository = RankRepository()
     
     @ObservableState
@@ -142,7 +144,7 @@ struct RankFeature {
                 state.toastMessage = toastMessage
                 if showToast {
                     return .run { send in
-                        try await Task.sleep(nanoseconds: 2_500_000_000) // 2초 후
+                        try await Task.sleep(nanoseconds: 2_500_000_000) // 2.5초 후
                         await send(.setShowToast(false, ""))
                     }
                 }

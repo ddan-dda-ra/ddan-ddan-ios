@@ -68,7 +68,10 @@ struct UpdateCalorieView: View {
                     .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 250)
                 }
                 .onChange(of: viewStore.calorieUpdated) { value in
-                    if value { coordinator.triggerHomeUpdate(trigger: true) }
+                    Task {
+                        try await Task.sleep(for: .milliseconds(3000))
+                        if value { coordinator.triggerHomeUpdate(trigger: true) }
+                    }
                 }
             }
         }

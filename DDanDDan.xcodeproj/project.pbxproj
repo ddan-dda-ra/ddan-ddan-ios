@@ -97,12 +97,13 @@
 		3692E0592CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E0572CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift */; };
 		3692E05D2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */; };
 		3692E05E2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */; };
-		369F16EC2D7CADD50039ED3A /* RankFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EB2D7CADD50039ED3A /* RankFeature.swift */; };
-		369F16EE2D7CB4B40039ED3A /* ToolKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */; };
+		369F16EC2D7CADD50039ED3A /* RankViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EB2D7CADD50039ED3A /* RankViewReducer.swift */; };
+		369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16ED2D7CB4B40039ED3A /* TooltipView.swift */; };
 		369F16F02D7CC11C0039ED3A /* RankContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */; };
 		369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F12D7CC1280039ED3A /* CustomTabView.swift */; };
 		369F16F52D8707E50039ED3A /* RankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F42D8707E50039ED3A /* RankRepository.swift */; };
 		369F16F92D99A3860039ED3A /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F82D99A3850039ED3A /* CustomScrollView.swift */; };
+		36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
@@ -289,12 +290,13 @@
 		3692E0572CF00CBA0079D2B8 /* DdanDdan_Watch_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppTests.swift; sourceTree = "<group>"; };
 		3692E05A2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		3692E05B2CF00CBC0079D2B8 /* DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdanDdan_Watch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		369F16EB2D7CADD50039ED3A /* RankFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankFeature.swift; sourceTree = "<group>"; };
-		369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolKitView.swift; sourceTree = "<group>"; };
+		369F16EB2D7CADD50039ED3A /* RankViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewReducer.swift; sourceTree = "<group>"; };
+		369F16ED2D7CB4B40039ED3A /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankContentsView.swift; sourceTree = "<group>"; };
 		369F16F12D7CC1280039ED3A /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		369F16F42D8707E50039ED3A /* RankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankRepository.swift; sourceTree = "<group>"; };
 		369F16F82D99A3850039ED3A /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBackEnabledModifier.swift; sourceTree = "<group>"; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
@@ -452,7 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				364195A42D72DAD80065C400 /* RankView.swift */,
-				369F16EB2D7CADD50039ED3A /* RankFeature.swift */,
+				369F16EB2D7CADD50039ED3A /* RankViewReducer.swift */,
 				369F16EF2D7CC11C0039ED3A /* RankContentsView.swift */,
 			);
 			path = Rank;
@@ -699,7 +701,7 @@
 			isa = PBXGroup;
 			children = (
 				369F16F12D7CC1280039ED3A /* CustomTabView.swift */,
-				369F16ED2D7CB4B40039ED3A /* ToolKitView.swift */,
+				369F16ED2D7CB4B40039ED3A /* TooltipView.swift */,
 				36022B722CCAA04000D360C0 /* HomeButton.swift */,
 				F8758CEE2C8EDF630038CCBB /* DialogView.swift */,
 				367A79792CDD6D410055771B /* ImageDialogView.swift */,
@@ -709,6 +711,7 @@
 				36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */,
 				36F6E8202CEE7DE000B395FB /* CheckButton.swift */,
 				369F16F82D99A3850039ED3A /* CustomScrollView.swift */,
+				36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1231,11 +1234,12 @@
 				360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */,
 				F8311F992C7060E8000455ED /* GreenButton.swift in Sources */,
 				F88FC6E32CCF6C6A0033D4C9 /* SettingRepository.swift in Sources */,
+				36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */,
 				F8758CEF2C8EDF630038CCBB /* DialogView.swift in Sources */,
 				F85C2BA42C4CD651002E2237 /* UserDefaultValue.swift in Sources */,
 				F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */,
 				F8AB332E2C2EAD2E00BC16C9 /* DDanDDanApp.swift in Sources */,
-				369F16EE2D7CB4B40039ED3A /* ToolKitView.swift in Sources */,
+				369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */,
 				F809E2FE2CBD0841001BE099 /* DeleteUserConfirmView.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
@@ -1245,7 +1249,7 @@
 				363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */,
 				36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */,
 				367A79732CDD092A0055771B /* AppCoordinator.swift in Sources */,
-				369F16EC2D7CADD50039ED3A /* RankFeature.swift in Sources */,
+				369F16EC2D7CADD50039ED3A /* RankViewReducer.swift in Sources */,
 				36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */,
 				F88FC6DF2CCF3BF70033D4C9 /* Pet.swift in Sources */,
 				36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */,

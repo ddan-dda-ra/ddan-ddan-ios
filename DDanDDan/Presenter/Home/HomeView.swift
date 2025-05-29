@@ -21,8 +21,8 @@ enum HomePath: Hashable {
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
-    private let rankStore = Store(initialState: RankFeature.State()) {
-        RankFeature()
+    private let rankStore = Store(initialState: RankViewReducer.State()) {
+        RankViewReducer()
     }
     
     private let isSEDevice = UIScreen.isSESizeDevice

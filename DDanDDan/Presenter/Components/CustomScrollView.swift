@@ -14,8 +14,8 @@ struct CustomScrollView<Content: View>: View {
     let onBottomReached: () -> Void
 
     @State private var isBottomReached = false
-    @State private var hasScrolled = false
-
+    @State private var lastOffset: CGFloat = 0
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -34,12 +34,16 @@ struct CustomScrollView<Content: View>: View {
         .onPreferenceChange(OffsetPreferenceKey.self) { maxY in
             let screenHeight = UIScreen.main.bounds.height
 
-            if maxY < screenHeight + 50 && !isBottomReached {
+            let isScrollingDown = maxY < lastOffset
+
+            if maxY < screenHeight - 300, !isBottomReached, isScrollingDown {
                 isBottomReached = true
                 onBottomReached()
             } else if maxY > screenHeight + 100 {
                 isBottomReached = false
             }
+
+            lastOffset = maxY
         }
     }
 }
