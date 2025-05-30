@@ -105,6 +105,11 @@
 		369F16F92D99A3860039ED3A /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F82D99A3850039ED3A /* CustomScrollView.swift */; };
 		36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */; };
 		36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */; };
+		36A9D70F2DE9A20300A9169A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */; };
+		36A9D7102DE9A20300A9169A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */; };
+		36A9D7212DE9A20400A9169A /* DDanDDan_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		36A9D7272DE9A78600A9169A /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
+		36A9D7282DE9A93E00A9169A /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
@@ -170,6 +175,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		36A9D71F2DE9A20400A9169A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8AB33222C2EAD2E00BC16C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 36A9D70D2DE9A20300A9169A;
+			remoteInfo = DDanDDan_WidgetExtension;
+		};
 		36E0197C2CCA830C00383318 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F8AB33222C2EAD2E00BC16C9 /* Project object */;
@@ -194,6 +206,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		36A9D7052DE9A0B200A9169A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		36A9D7262DE9A20400A9169A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				36A9D7212DE9A20400A9169A /* DDanDDan_WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36E019932CCA830C00383318 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,6 +332,9 @@
 		369F16F82D99A3850039ED3A /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBackEnabledModifier.swift; sourceTree = "<group>"; };
 		36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshManager.swift; sourceTree = "<group>"; };
+		36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DDanDDan_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
@@ -361,7 +397,30 @@
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		36A9D7222DE9A20400A9169A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 36A9D70D2DE9A20300A9169A /* DDanDDan_WidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		36A9D7112DE9A20300A9169A /* DDanDDan_Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (36A9D7222DE9A20400A9169A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = DDanDDan_Widget; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		36A9D70B2DE9A20300A9169A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36A9D7102DE9A20300A9169A /* SwiftUI.framework in Frameworks */,
+				36A9D70F2DE9A20300A9169A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36E019692CCA830A00383318 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,6 +581,8 @@
 		36465D892CF7F3E200784E8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */,
+				36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -852,6 +913,7 @@
 				3692E0502CF00CB70079D2B8 /* DdanDdan_Watch Watch App */,
 				3692E0582CF00CBA0079D2B8 /* DdanDdan_Watch Watch AppTests */,
 				3692E05C2CF00CBC0079D2B8 /* DdanDdan_Watch Watch AppUITests */,
+				36A9D7112DE9A20300A9169A /* DDanDDan_Widget */,
 				F8AB332B2C2EAD2E00BC16C9 /* Products */,
 				36022B712CCAA02500D360C0 /* Recovered References */,
 				36465D892CF7F3E200784E8A /* Frameworks */,
@@ -866,6 +928,7 @@
 				36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */,
 				36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */,
 				36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */,
+				36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -916,6 +979,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		36A9D70D2DE9A20300A9169A /* DDanDDan_WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36A9D7232DE9A20400A9169A /* Build configuration list for PBXNativeTarget "DDanDDan_WidgetExtension" */;
+			buildPhases = (
+				36A9D70A2DE9A20300A9169A /* Sources */,
+				36A9D70B2DE9A20300A9169A /* Frameworks */,
+				36A9D70C2DE9A20300A9169A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				36A9D7112DE9A20300A9169A /* DDanDDan_Widget */,
+			);
+			name = DDanDDan_WidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = DDanDDan_WidgetExtension;
+			productReference = 36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		36E0196B2CCA830A00383318 /* DdanDdan_Watch Watch App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 36E019902CCA830C00383318 /* Build configuration list for PBXNativeTarget "DdanDdan_Watch Watch App" */;
@@ -923,6 +1008,7 @@
 				36E019682CCA830A00383318 /* Sources */,
 				36E019692CCA830A00383318 /* Frameworks */,
 				36E0196A2CCA830A00383318 /* Resources */,
+				36A9D7052DE9A0B200A9169A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -985,11 +1071,13 @@
 				F8AB33282C2EAD2E00BC16C9 /* Resources */,
 				36E019932CCA830C00383318 /* Embed Watch Content */,
 				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
+				36A9D7262DE9A20400A9169A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				36E0198E2CCA830C00383318 /* PBXTargetDependency */,
+				36A9D7202DE9A20400A9169A /* PBXTargetDependency */,
 			);
 			name = DDanDDan;
 			packageProductDependencies = (
@@ -1014,9 +1102,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					36A9D70D2DE9A20300A9169A = {
+						CreatedOnToolsVersion = 16.1;
+					};
 					36E0196B2CCA830A00383318 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -1057,11 +1148,20 @@
 				36E0196B2CCA830A00383318 /* DdanDdan_Watch Watch App */,
 				36E0197A2CCA830C00383318 /* DdanDdan_Watch Watch AppTests */,
 				36E019842CCA830C00383318 /* DdanDdan_Watch Watch AppUITests */,
+				36A9D70D2DE9A20300A9169A /* DDanDDan_WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		36A9D70C2DE9A20300A9169A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36A9D7282DE9A93E00A9169A /* NeoDunggeunmoPro-Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36E0196A2CCA830A00383318 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1171,6 +1271,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		36A9D70A2DE9A20300A9169A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36A9D7272DE9A78600A9169A /* WatchFont.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36E019682CCA830A00383318 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1296,6 +1404,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		36A9D7202DE9A20400A9169A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 36A9D70D2DE9A20300A9169A /* DDanDDan_WidgetExtension */;
+			targetProxy = 36A9D71F2DE9A20400A9169A /* PBXContainerItemProxy */;
+		};
 		36E0197D2CCA830C00383318 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 36E0196B2CCA830A00383318 /* DdanDdan_Watch Watch App */;
@@ -1314,6 +1427,66 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		36A9D7242DE9A20400A9169A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 65NSM7Z327;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DDanDDan_Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DDanDDan_Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "inc.ddanddan.DDanDDan.DDanDDan-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		36A9D7252DE9A20400A9169A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 65NSM7Z327;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DDanDDan_Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DDanDDan_Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "inc.ddanddan.DDanDDan.DDanDDan-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		36E019912CCA830C00383318 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1694,6 +1867,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		36A9D7232DE9A20400A9169A /* Build configuration list for PBXNativeTarget "DDanDDan_WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36A9D7242DE9A20400A9169A /* Debug */,
+				36A9D7252DE9A20400A9169A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		36E019902CCA830C00383318 /* Build configuration list for PBXNativeTarget "DdanDdan_Watch Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
