@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -110,6 +110,7 @@
 		36A9D7212DE9A20400A9169A /* DDanDDan_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36A9D7272DE9A78600A9169A /* WatchFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36448A882D1AAFEB005CFC8C /* WatchFont.swift */; };
 		36A9D7282DE9A93E00A9169A /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
+		36A9D72F2DED82AC00A9169A /* WatchSharedHomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36465DB32CFDEEFE00784E8A /* WatchSharedHomeModel.swift */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
@@ -335,9 +336,9 @@
 		36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		36A9D70E2DE9A20300A9169A /* DDanDDan_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DDanDDan_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		36A9D72E2DED7CB700A9169A /* DDanDDan_WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DDanDDan_WidgetExtension.entitlements; sourceTree = "<group>"; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
-		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
 		36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
@@ -462,14 +463,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		36022B712CCAA02500D360C0 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		360E6B3D2CEDF8010059661E /* LevelUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,6 +899,7 @@
 		F8AB33212C2EAD2E00BC16C9 = {
 			isa = PBXGroup;
 			children = (
+				36A9D72E2DED7CB700A9169A /* DDanDDan_WidgetExtension.entitlements */,
 				F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */,
 				364195622D53A5E80065C400 /* GoogleService-Info.plist */,
 				364195A12D6199D60065C400 /* Config_dev.xcconfig */,
@@ -915,7 +909,6 @@
 				3692E05C2CF00CBC0079D2B8 /* DdanDdan_Watch Watch AppUITests */,
 				36A9D7112DE9A20300A9169A /* DDanDDan_Widget */,
 				F8AB332B2C2EAD2E00BC16C9 /* Products */,
-				36022B712CCAA02500D360C0 /* Recovered References */,
 				36465D892CF7F3E200784E8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -1275,6 +1268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36A9D72F2DED82AC00A9169A /* WatchSharedHomeModel.swift in Sources */,
 				36A9D7272DE9A78600A9169A /* WatchFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1432,6 +1426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DDanDDan_WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1462,6 +1457,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DDanDDan_WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
