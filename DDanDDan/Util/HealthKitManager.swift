@@ -165,7 +165,7 @@ class HealthKitManager: ObservableObject {
     
     func saveActivityData(energy: Double) {
         let sharedDefaults = UserDefaults(suiteName: "group.com.DdanDdan")
-        sharedDefaults?.set(kcal, forKey: "ActiveEnergy")
+        sharedDefaults?.set(energy, forKey: "ActiveEnergy")
         sharedDefaults?.synchronize()
     }
 
