@@ -35,6 +35,12 @@ final class SplashViewModel: ObservableObject {
                 UserDefaultValue.petType = petData.mainPet.type.rawValue
                 UserDefaultValue.petId = petData.mainPet.id
                 UserDefaultValue.level = petData.mainPet.level
+                
+                
+                let sharedDefaults = UserDefaults(suiteName: "group.com.DdanDdan")
+                sharedDefaults?.set(petData.mainPet.type.rawValue, forKey: "petType")
+                sharedDefaults?.set(petData.mainPet.level, forKey: "petLevel")
+                sharedDefaults?.synchronize()
 
                 let info: [String: Any] = [
                     "purposeKcal": userData.purposeCalorie,

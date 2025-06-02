@@ -62,6 +62,8 @@ class HealthKitManager: ObservableObject {
                 if Int(kcal) >= goalKcal {
 //                    self.sendGoalAchievedNotification()
                 }
+                /// App Group에 데이터 저장
+                self.saveActivityData(energy: kcal)
                 completion(kcal)
             }
             
@@ -161,4 +163,10 @@ class HealthKitManager: ObservableObject {
         UNUserNotificationCenter.current().add(request)
     }
     
+    func saveActivityData(energy: Double) {
+        let sharedDefaults = UserDefaults(suiteName: "group.com.DdanDdan")
+        sharedDefaults?.set(kcal, forKey: "ActiveEnergy")
+        sharedDefaults?.synchronize()
+    }
+
 }
