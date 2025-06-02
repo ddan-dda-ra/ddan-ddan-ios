@@ -19,26 +19,6 @@ public enum PetType: String, Codable {
     case purpleDog = "DOG"
     case bluePenguin = "PENGUIN"
     
-    
-    
-    var backgroundImage: Image {
-        switch self {
-        case .pinkCat: return Image(.pinkBackground).resizable()
-        case .greenHam: return Image(.greenBackground).resizable()
-        case .purpleDog: return Image(.purpleBackground).resizable()
-        case .bluePenguin: return Image(.blueBackground).resizable()
-        }
-    }
-    
-    var seBackgroundImage: Image {
-        switch self {
-        case .pinkCat: return Image(.seBgPink).resizable()
-        case .greenHam: return Image(.seBgGreen).resizable()
-        case .purpleDog: return Image(.seBgPurple).resizable()
-        case .bluePenguin: return Image(.seBgBlue).resizable()
-        }
-    }
-    
     var color: Color  {
         switch self {
         case .pinkCat: return .pinkGraphics
@@ -78,3 +58,5 @@ public enum PetType: String, Codable {
         }
     }
 }
+
+
