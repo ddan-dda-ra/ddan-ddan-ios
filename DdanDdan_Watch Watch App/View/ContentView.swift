@@ -75,7 +75,7 @@ struct ContentView: View {
 struct DonutChartView: View {
     @Binding var targetProgress: Double
     @State private var animatedProgress: Double = 0.0
-    var lineWidth: CGFloat = 12
+    var lineWidth: CGFloat = 8
     var lineColor: Color
     
     var body: some View {
