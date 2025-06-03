@@ -121,9 +121,7 @@ extension RankContentsView {
     
     var topRankView: some View {
         WithPerceptionTracking {
-            let viewStore = ViewStore(store, observe: { $0 })
-            
-            let ranking = (tabType == .kcal ? viewStore.kcalRanking?.ranking : viewStore.goalRanking?.ranking) ?? []
+            let ranking = (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
             let sortedRanking = ranking.prefix(3).sorted(by: { $0.rank < $1.rank })
             
             return HStack(alignment: .center, spacing: 12) {
@@ -144,25 +142,20 @@ extension RankContentsView {
             .frame(maxWidth: .infinity)
         }
     }
-    
-    
+
     var rankListView: some View {
         WithPerceptionTracking {
-            let viewStore = ViewStore(store, observe: { $0 })
-            let rankers = (tabType == .kcal ? viewStore.kcalRanking?.ranking.dropFirst(3) : viewStore.goalRanking?.ranking.dropFirst(3)) ?? []
+            let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
             
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
-                    WithPerceptionTracking {
-                        rankListItemView(rank: rankers[index], index: index)
-                            .id(index+1)
-                    }
+                    rankListItemView(rank: rankers[index], index: index)
+                        .id(index+1)
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
         }
     }
-    
     
     func rankListItemView(rank: Ranking, index: Int) -> some View {
         let isMyRank: Bool = rank.userID == (tabType == .kcal ? store.kcalRanking?.myRanking.userID : store.goalRanking?.myRanking.userID)
