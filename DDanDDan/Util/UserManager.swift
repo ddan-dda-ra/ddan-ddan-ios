@@ -10,7 +10,7 @@ import Foundation
 actor UserManager: ObservableObject {
     static let shared = UserManager()
     
-    @MainActor @Published var accessToken: String? = UserDefaultValue.acessToken
+    @MainActor @Published var accessToken: String? = UserDefaultValue.accessToken
     @MainActor public var kakaoToken: String?
     @MainActor public var appleToken: String?
     @MainActor public var coordinator: AppCoordinator?
@@ -38,7 +38,7 @@ actor UserManager: ObservableObject {
     
     func login(loginData: LoginData) async {
         refreshToken = loginData.refreshToken
-        UserDefaultValue.acessToken = loginData.accessToken
+        UserDefaultValue.accessToken = loginData.accessToken
         UserDefaultValue.refreshToken = loginData.refreshToken
         UserDefaultValue.isOnboardingComplete = loginData.isOnboardingComplete
         AnalyticsManager.shared.setUserProperty(property: .userID(loginData.user.id))
@@ -53,7 +53,7 @@ actor UserManager: ObservableObject {
         refreshToken = nil
         await MainActor.run {
             accessToken = nil
-            UserDefaultValue.acessToken = nil
+            UserDefaultValue.accessToken = nil
             coordinator?.setRoot(to: .login)
         }
     }
