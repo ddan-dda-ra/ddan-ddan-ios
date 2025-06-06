@@ -13,6 +13,8 @@ actor UserManager: ObservableObject {
     @MainActor @Published var accessToken: String? = UserDefaultValue.acessToken
     @MainActor public var kakaoToken: String?
     @MainActor public var appleToken: String?
+    @MainActor public var coordinator: AppCoordinator?
+    
     private var refreshToken: String? = UserDefaultValue.refreshToken
     private var deviceToken: String? = UserDefaultValue.refreshToken
     @MainActor private var isOnboardingComplete: Bool = UserDefaultValue.isOnboardingComplete
@@ -52,6 +54,7 @@ actor UserManager: ObservableObject {
         await MainActor.run {
             accessToken = nil
             UserDefaultValue.acessToken = nil
+            coordinator?.setRoot(to: .login)
         }
     }
 }
