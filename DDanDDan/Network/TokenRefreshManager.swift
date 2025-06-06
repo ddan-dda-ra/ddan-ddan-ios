@@ -26,7 +26,7 @@ actor TokenRefreshManager {
             switch result {
             case .success(let reissueData):
                 print("🔹 토큰 재발급 완료")
-                UserDefaultValue.acessToken = reissueData.accessToken
+                UserDefaultValue.accessToken = reissueData.accessToken
                 UserDefaultValue.refreshToken = reissueData.refreshToken
                 return true
                 

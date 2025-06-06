@@ -24,7 +24,7 @@ public struct NetworkManager {
             "Content-Type": "application/json"
         ]
         
-        if !excludeAuth, let accessToken = UserDefaultValue.acessToken {
+        if !excludeAuth, let accessToken = UserDefaultValue.accessToken {
             headers["Authorization"] = "Bearer \(accessToken)"
         }
         

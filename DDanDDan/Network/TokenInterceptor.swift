@@ -23,7 +23,7 @@ public final class TokenInterceptor: RequestInterceptor {
             return
         }
         
-        if let accessToken = UserDefaultValue.acessToken {
+        if let accessToken = UserDefaultValue.accessToken {
             adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
         
