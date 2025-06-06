@@ -831,10 +831,10 @@
 		F89A2EBA2C7C80AF00FE3A36 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				F9F56EDB2D9B6E710085E266 /* Event */,
 				367A79A92CDE07900055771B /* Extension */,
 				F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */,
 				F90329EB2D96A071004A8360 /* AnalyticsManager.swift */,
-				F9F56EDB2D9B6E710085E266 /* Event */,
 				F809E2FB2CBD06A1001BE099 /* UserManager.swift */,
 				F85C2BA32C4CD651002E2237 /* UserDefaultValue.swift */,
 				363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */,

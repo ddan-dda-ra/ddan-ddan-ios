@@ -6,25 +6,45 @@
 //
 
 import Foundation
-
 import Alamofire
 
-public final class TokenInterceptor: Interceptor {
+public final class TokenInterceptor: RequestInterceptor {
     
     private let maxRetryCount = 3
-    private var retryCounts: [URLRequest: Int] = [:]
-    
-    public override func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
+    private var retryCount = 0
+    private let tokenRefreshManager = TokenRefreshManager()
+
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
+        var adaptedRequest = urlRequest
+        if let url = urlRequest.url?.absoluteString,
+           url.contains("/auth/reissue") {
+            completion(.success(adaptedRequest))
+            return
+        }
+        
+        if let accessToken = UserDefaultValue.acessToken {
+            adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+        
+        completion(.success(adaptedRequest))
+    }
+    
+    public func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        
+        print("🔹 Retry 호출된 URL: \(request.request?.url?.absoluteString ?? "unknown")")
+        
+        guard let response = request.task?.response as? HTTPURLResponse,
+                  response.statusCode == 401 else {
             completion(.doNotRetryWithError(error))
             return
         }
         
-        let currentRetryCount = retryCounts[request.request ?? URLRequest(url: URL(string: "about:blank")!)] ?? 0
+        print("🔹 Response Status Code: \(response.statusCode)")
         
-        if currentRetryCount >= maxRetryCount {
+        if retryCount >= maxRetryCount {
             print("🔻 최대 재시도 횟수 초과: 로그아웃 처리")
+            retryCount = 0
             Task {
                 await UserManager.shared.logout()
             }
@@ -32,27 +52,20 @@ public final class TokenInterceptor: Interceptor {
             return
         }
         
-        let network = AuthNetwork()
-        let refreshToken = UserDefaultValue.refreshToken
+        retryCount += 1
+        
         
         Task {
-            let result = await network.tokenReissue(refreshToken: refreshToken ?? "")
-            if case .success(let reissueData) = result {
-                print("🔹 토큰 재발급 완료 API 재시도")
-                UserDefaultValue.acessToken = reissueData.accessToken
-                UserDefaultValue.refreshToken = reissueData.refreshToken
-                
-                retryCounts[request.request ?? URLRequest(url: URL(string: "about:blank")!)] = currentRetryCount + 1
-                completion(.retry)
-            } else if case .failure(let failure) = result {
-                print("🔻 Retry Error 발생")
-                print("Error: \(failure.localizedDescription)")
-                
-                Task {
-                    await UserManager.shared.logout()
+            let refreshSuccess = await tokenRefreshManager.refresh()
+            
+            await MainActor.run {
+                if refreshSuccess {
+                    self.retryCount = 0
+                    completion(.retry)
+                } else {
+                    self.retryCount = 0
+                    completion(.doNotRetry)
                 }
-                
-                completion(.doNotRetry)
             }
         }
     }
