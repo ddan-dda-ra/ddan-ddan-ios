@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 public struct RankNetwork {
-    private let manager = NetworkManager(interceptor: TokenInterceptor())
+    private let manager = NetworkManager()
     
     // MARK: - GET
     public func fetchRankInfo(accessToken: String, criteria: String, periodType: String) async -> Result<RankInfo, NetworkError> {
