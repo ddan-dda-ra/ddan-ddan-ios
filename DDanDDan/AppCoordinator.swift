@@ -34,10 +34,11 @@ final class AppCoordinator: ObservableObject {
     
     @Published private(set) var shouldUpdateHomeView = false
     
-    @MainActor
     func setRoot(to path: AppPath) {
-        navigationPath.removeLast(navigationPath.count)
-        rootView = path
+        Task { @MainActor in
+            navigationPath.removeLast(navigationPath.count)
+            rootView = path
+        }
     }
     
     func pop() {

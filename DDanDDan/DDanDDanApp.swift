@@ -143,7 +143,8 @@ struct ContentView: View {
     @EnvironmentObject var user: UserManager
     
     var body: some View {
-        NavigationStack(path: $coordinator.navigationPath) {
+        user.coordinator = coordinator
+        return NavigationStack(path: $coordinator.navigationPath) {
             switch coordinator.rootView {
             case .splash:
                 SplashView(viewModel: SplashViewModel(coordinator: coordinator, homeRepository: HomeRepository()))
