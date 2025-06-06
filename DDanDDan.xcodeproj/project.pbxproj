@@ -104,6 +104,7 @@
 		369F16F52D8707E50039ED3A /* RankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F42D8707E50039ED3A /* RankRepository.swift */; };
 		369F16F92D99A3860039ED3A /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369F16F82D99A3850039ED3A /* CustomScrollView.swift */; };
 		36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */; };
+		36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
@@ -297,6 +298,7 @@
 		369F16F42D8707E50039ED3A /* RankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankRepository.swift; sourceTree = "<group>"; };
 		369F16F82D99A3850039ED3A /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBackEnabledModifier.swift; sourceTree = "<group>"; };
+		36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshManager.swift; sourceTree = "<group>"; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		36BAF1CE2CA4919C00BEBCE7 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 				F88663D22CC8EE29008DB860 /* AuthNetwork.swift */,
 				F88FC6DB2CCF3B110033D4C9 /* PetsNetwork.swift */,
 				367A796E2CDCBC210055771B /* PathString.swift */,
+				36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */,
 				367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */,
 				36F6E7EA2CEE411D00B395FB /* Config.swift */,
 				364195A62D72F0430065C400 /* RankNetwork.swift */,
@@ -1282,6 +1285,7 @@
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,
 				F88663D72CC8F0D2008DB860 /* LoginViewModel.swift in Sources */,
 				F88FC6DC2CCF3B110033D4C9 /* PetsNetwork.swift in Sources */,
+				36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */,
 				F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */,
 				36465DAC2CFA415200784E8A /* LottieString.swift in Sources */,
 				36F6E8212CEE7DE000B395FB /* CheckButton.swift in Sources */,
