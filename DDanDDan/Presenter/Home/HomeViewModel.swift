@@ -15,7 +15,14 @@ final class HomeViewModel: ObservableObject {
     private struct Loading {
         var feed: Bool = false
     }
-    @Published var homePetModel: HomeModel = .init(petType: .pinkCat, level: 4, exp: 0, goalKcal: 0, feedCount: 4, toyCount: 0)
+    @Published var homePetModel: HomeModel = .init(
+        petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+        level: UserDefaultValue.level,
+        exp: 0,
+        goalKcal: UserDefaultValue.purposeKcal,
+        feedCount: 0,
+        toyCount: 0
+    )
     
     @Published var isPlayingSpecialAnimation: Bool = false
 
@@ -271,7 +278,6 @@ final class HomeViewModel: ObservableObject {
                 self.homePetModel.toyCount = dailyInfo.user.toyQuantity
                 
                 UserDefaultValue.currentKcal = Double(dailyInfo.dailyInfo.calorie)
-                UserDefaultValue.date = dailyInfo.dailyInfo.date.toDate() ?? Date()
             }
         }
     }

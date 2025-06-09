@@ -12,44 +12,64 @@ public struct NetworkManager {
     private let baseURL = Config.baseURL
     private let session: Session
     
-    public init(interceptor: Interceptor? = nil) {
+    public init(withInterceptor:Bool = true) {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .returnCacheDataElseLoad
-        self.session = Session(configuration: config, interceptor: interceptor)
+        self.session = Session(configuration: config, interceptor: withInterceptor ? TokenInterceptor() : nil)
+        
     }
+    
+    private func createHeaders(excludeAuth: Bool = false, additionalHeaders: HTTPHeaders? = nil) -> HTTPHeaders {
+        var headers: HTTPHeaders = [
+            "Content-Type": "application/json"
+        ]
+        
+        if !excludeAuth, let accessToken = UserDefaultValue.accessToken {
+            headers["Authorization"] = "Bearer \(accessToken)"
+        }
+        
+        if let additionalHeaders = additionalHeaders {
+            for header in additionalHeaders {
+                headers[header.name] = header.value
+            }
+        }
+        
+        return headers
+    }
+
     
     public func request<T: Decodable>(
         url: String,
         method: HTTPMethod,
         headers: HTTPHeaders? = nil,
         parameters: Parameters? = nil,
-        encoding: ParameterEncoding = URLEncoding.default
+        encoding: ParameterEncoding = URLEncoding.default,
+        excludeAuth: Bool = false
     ) async -> Result<T, NetworkError> {
         guard let url = URL(string: baseURL + url) else {
             return .failure(NetworkError.urlError)
         }
+        let networkHeaders = createHeaders(excludeAuth: excludeAuth, additionalHeaders: headers)
         
-        // 네트워크 로그 출력
         print("\n📡 Request:")
         print("🔹 URL: \(url)")
         print("🔹 Method: \(method.rawValue)")
-        if let headers = headers {
-            print("🔹 Headers: \(headers)")
-        }
+        print("🔹 Headers: \(networkHeaders)")
+        
         if let parameters = parameters {
             print("🔹 Parameters: \(parameters)")
         }
         
-        AnalyticsManager.shared.logEvent(event: NetworkEvent.request(url: url.absoluteString, header: headers?.description, params: parameters?.description))
+        AnalyticsManager.shared.logEvent(event: NetworkEvent.request(url: url.absoluteString, header: networkHeaders.description, params: parameters?.description))
        
-        let result = await session.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
+        let result = await session.request(url, method: method, parameters: parameters, encoding: encoding, headers: networkHeaders)
             .validate(statusCode: 200..<401)
             .serializingData()
             .response
         
         // 응답 로그 출력
         print("\n📥 Response:")
-        if let error = result.error as? AFError {
+        if let error = result.error {
             print("🔹 AFError: \(error.localizedDescription)")
             
             if let statusCode = error.responseCode {

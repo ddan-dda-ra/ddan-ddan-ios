@@ -6,12 +6,10 @@
 //
 
 import SwiftUI
-
 import ComposableArchitecture
 
 struct RankContentsView: View {
     @State private var buttonWidth: CGFloat = 0
-    
     @State private var scrollToIndex: Int? = nil
     
     var tabType: Tab
@@ -30,6 +28,8 @@ struct RankContentsView: View {
                                     .zIndex(10)
                                     .padding(.bottom, 32)
                                 rankContainerView
+                                    .id(store.refreshTrigger)
+                                    .id(store.refreshTrigger)
                             }
                         } onBottomReached: {
                             guard let totalGoalRanking = store.totalGoalRanking else { return }
@@ -45,6 +45,7 @@ struct RankContentsView: View {
                         }
                     }
                     myRankView
+                        .id("myRank-\(store.refreshTrigger)") // 강제 업데이트
                     
                     TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
                         VStack {
@@ -52,10 +53,9 @@ struct RankContentsView: View {
                         }
                         .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                     }
-                    
                 }
                 
-                if store.isLoading && !(tabType == .kcal ? store.isKcalRankingLoaded : store.isGoalRankingLoaded) {
+                if store.isLoading && store.dataLoadingState != .loadingFromCache {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundStyle(.textButtonAlternative)
@@ -65,7 +65,6 @@ struct RankContentsView: View {
         }
     }
 }
-
 
 extension RankContentsView {
     var headerView: some View {
@@ -121,20 +120,24 @@ extension RankContentsView {
     
     var topRankView: some View {
         WithPerceptionTracking {
-            let ranking = (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
-            let sortedRanking = ranking.prefix(3).sorted(by: { $0.rank < $1.rank })
+            let ranking = currentRankingData
+            let sortedRanking = Array(ranking.prefix(3).sorted(by: { $0.rank < $1.rank }))
             
             return HStack(alignment: .center, spacing: 12) {
                 if sortedRanking.count == 3 {
                     RankCard(ranking: sortedRanking[1], tabType: tabType)
+                        .id("rank-\(sortedRanking[1].userID)-\(store.refreshTrigger)")
                     
                     RankCard(ranking: sortedRanking[0], tabType: tabType)
+                        .id("rank-\(sortedRanking[0].userID)-\(store.refreshTrigger)")
                         .offset(y: -19)
                     
                     RankCard(ranking: sortedRanking[2], tabType: tabType)
+                        .id("rank-\(sortedRanking[2].userID)-\(store.refreshTrigger)")
                 } else {
-                    ForEach(sortedRanking, id: \.rank) { ranking in
+                    ForEach(sortedRanking, id: \.userID) { ranking in
                         RankCard(ranking: ranking, tabType: tabType)
+                            .id("rank-\(ranking.userID)-\(store.refreshTrigger)")
                     }
                 }
             }
@@ -145,12 +148,12 @@ extension RankContentsView {
 
     var rankListView: some View {
         WithPerceptionTracking {
-            let rankers = (tabType == .kcal ? store.kcalRanking?.ranking.dropFirst(3) : store.goalRanking?.ranking.dropFirst(3)) ?? []
+            let rankers = Array(currentRankingData.dropFirst(3))
             
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
                     rankListItemView(rank: rankers[index], index: index)
-                        .id(index+1)
+                        .id("list-\(rankers[index].userID)-\(store.refreshTrigger)")
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
@@ -158,7 +161,7 @@ extension RankContentsView {
     }
     
     func rankListItemView(rank: Ranking, index: Int) -> some View {
-        let isMyRank: Bool = rank.userID == (tabType == .kcal ? store.kcalRanking?.myRanking.userID : store.goalRanking?.myRanking.userID)
+        let isMyRank: Bool = rank.userID == currentMyRanking?.userID
         
         return HStack(alignment: .center, spacing: 0) {
             Text("\(rank.rank)")
@@ -209,69 +212,71 @@ extension RankContentsView {
         .frame(minWidth: 320, maxWidth: .infinity)
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
-        
     }
     
-    
     var myRankView: some View {
-        ZStack(alignment: .center) {
-            Rectangle()
-                .frame(maxHeight: 100.adjustedHeight)
-                .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
-                .particalCornerRadius(16.adjustedHeight, corners: .topRight)
-                .foregroundStyle(.borderGray)
-            HStack(alignment: .center) {
-                Text(String((self.tabType == .kcal ? store.kcalRanking?.myRanking.rank : store.goalRanking?.myRanking.rank) ?? 0))
-                    .font(.neoDunggeunmo16)
-                    .foregroundStyle(.textButtonAlternative)
+        WithPerceptionTracking {
+            let myRanking = currentMyRanking
+            
+            ZStack(alignment: .center) {
+                Rectangle()
+                    .frame(maxHeight: 100.adjustedHeight)
+                    .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
+                    .particalCornerRadius(16.adjustedHeight, corners: .topRight)
+                    .foregroundStyle(.borderGray)
+                HStack(alignment: .center) {
+                    Text(String(myRanking?.rank ?? 0))
+                        .font(.neoDunggeunmo16)
+                        .foregroundStyle(.textButtonAlternative)
+                        .padding(.trailing, 12)
+                    ZStack {
+                        Circle()
+                            .fill(myRanking?.mainPetType.color ?? .blueGraphics)
+                            .frame(width: 48, height: 48)
+                        Image(myRanking?.mainPetType.image(for: myRanking?.petLevel ?? 0) ?? .blueEgg)
+                            .resizable()
+                            .frame(width: 42, height: 42)
+                            .offset(y: -3)
+                    }
                     .padding(.trailing, 12)
-                ZStack {
-                    Circle()
-                        .fill(store.kcalRanking?.myRanking.mainPetType.color ?? .blueGraphics)
-                        .frame(width: 48, height: 48)
-                    Image(store.kcalRanking?.myRanking.mainPetType.image(for: store.kcalRanking?.myRanking.petLevel ?? 0) ?? .blueEgg)
-                        .resizable()
-                        .frame(width: 42, height: 42)
-                        .offset(y: -3)
+                    
+                    Text(myRanking?.userName ?? "")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textBodyTeritary)
+                    Text("나")
+                        .foregroundStyle(.textButtonPrimaryDefault)
+                        .font(.caption)
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 2)
+                        .background(Color.textHeadlinePrimary)
+                        .clipShape(Circle())
+                    Spacer()
+                    Text(tabType == .kcal ? String(myRanking?.totalCalories ?? 0) : "+" + String(myRanking?.totalSucceededDays ?? 0))
+                        .font(.body1_bold16)
+                        .foregroundStyle(.textButtonAlternative)
+                    Text(tabType == .kcal ? "kcal" : "일")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textButtonAlternative)
                 }
-                .padding(.trailing, 12)
-                
-                Text((self.tabType == .kcal ? store.kcalRanking?.myRanking.userName : store.goalRanking?.myRanking.userName) ?? "")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textBodyTeritary)
-                Text("나")
-                    .foregroundStyle(.textButtonPrimaryDefault)
-                    .font(.caption)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 2)
-                    .background(Color.textHeadlinePrimary)
-                    .clipShape(Circle())
-                Spacer()
-                Text(self.tabType == .kcal ? String(store.kcalRanking?.myRanking.totalCalories ?? 0) : "+" + String(store.goalRanking?.myRanking.totalSucceededDays ?? 0))
-                    .font(.body1_bold16)
-                    .foregroundStyle(.textButtonAlternative)
-                Text(self.tabType == .kcal ? "kcal" : "일")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textButtonAlternative)
-                
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 32)
-        }
-        .onTapGesture {
-            store.send(.focusMyRank(index: currentRanking?.rank ?? 0))
+            .onTapGesture {
+                store.send(.focusMyRank(index: myRanking?.rank ?? 0))
+            }
         }
     }
 }
 
 extension RankContentsView {
-    private var currentRanking: Ranking? {
-        tabType == .kcal ? store.kcalRanking?.myRanking : store.goalRanking?.myRanking
+    // 일관된 데이터 접근을 위한 computed properties
+    private var currentRankingData: [Ranking] {
+        (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
     }
     
-    private var currentRankingList: [Ranking] {
-        (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
+    private var currentMyRanking: Ranking? {
+        tabType == .kcal ? store.kcalRanking?.myRanking : store.goalRanking?.myRanking
     }
     
     func setDateCirteria() -> String {
@@ -291,7 +296,6 @@ extension RankContentsView {
         }
     }
 }
-
 
 struct RankCard: View {
     let ranking: Ranking
@@ -326,13 +330,12 @@ struct RankCard: View {
         .padding(.horizontal, 6)
     }
     
-    
     func getCrownImage(for index: Int) -> Image {
         switch index {
         case 1: return Image(.iconCrownFirst)
         case 2: return Image(.iconCrownSecond)
         case 3: return Image(.iconCrownThrid)
-        default: return Image(.iconCrownFirst) // 기본값
+        default: return Image(.iconCrownFirst)
         }
     }
 }

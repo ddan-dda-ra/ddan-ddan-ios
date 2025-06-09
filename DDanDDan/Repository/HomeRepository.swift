@@ -130,7 +130,7 @@ public struct HomeRepository: HomeRepositoryProtocol {
         let result = await authNetwork.tokenReissue(refreshToken: refreshToken)
         switch result {
         case .success(let reissueData):
-            UserDefaultValue.acessToken = reissueData.accessToken
+            UserDefaultValue.accessToken = reissueData.accessToken
             UserDefaultValue.refreshToken = reissueData.refreshToken
             return true
         case .failure:
