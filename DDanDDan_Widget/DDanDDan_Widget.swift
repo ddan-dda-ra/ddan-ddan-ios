@@ -14,7 +14,6 @@ struct ActivityEntry: TimelineEntry {
     let petLevel: Int
 }
 
-// 2️⃣ TimelineProvider 구현 (AppGroup 데이터 읽기)
 struct ActivityProvider: TimelineProvider {
     func placeholder(in context: Context) -> ActivityEntry {
         ActivityEntry(
@@ -57,8 +56,6 @@ struct ActivityProvider: TimelineProvider {
 
 struct DDanDDan_WidgetEntryView : View {
     
-//    @ObservedObject var viewModel: WatchViewModel
-//    var entry: Provider.Entry
     var activityEntry: ActivityProvider.Entry
     
     var body: some View {
@@ -149,21 +146,6 @@ struct DDanDDan_Widget: Widget {
         .supportedFamilies([.systemSmall])
     }
 }
-
-//
-//extension ConfigurationAppIntent {
-//    fileprivate static var smiley: ConfigurationAppIntent {
-//        let intent = ConfigurationAppIntent()
-//        intent.favoriteEmoji = "😀"
-//        return intent
-//    }
-//    
-//    fileprivate static var starEyes: ConfigurationAppIntent {
-//        let intent = ConfigurationAppIntent()
-//        intent.favoriteEmoji = "🤩"
-//        return intent
-//    }
-//}
 
 //#Preview(as: .systemSmall) {
 //    DDanDDan_Widget()
