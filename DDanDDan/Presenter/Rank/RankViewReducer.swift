@@ -37,6 +37,10 @@ struct RankViewReducer {
         
         var focusedMyRankIndex: Int? = nil
         
+        var currentTab: Tab = .goal
+        
+        var kcalLoadingState: DataLoadingState = .initial
+        var goalLoadingState: DataLoadingState = .initial
     }
     
     enum DataLoadingState: Equatable {
@@ -44,11 +48,16 @@ struct RankViewReducer {
         case loadingFromCache
         case loadingFromNetwork
         case completed
+        case failed
     }
     
     enum Action: Equatable {
         case onAppear
-        case loadRanking
+        case setCurrentTab(Tab)
+        case loadRanking(Tab)
+        case loadAllRanking
+        case kcalRankingLoaded(RankInfo)
+        case goalRankingLoaded(RankInfo)
         case rankingLoaded(kcal: RankInfo, goal: RankInfo)
         case setKcalRanking(RankInfo)
         case setGoalRanking(RankInfo)
@@ -71,6 +80,9 @@ struct RankViewReducer {
                 
                 if let cachedData = UserDefaults.cachedRanking {
                     state.dataLoadingState = .loadingFromCache
+                    state.kcalLoadingState = .loadingFromCache
+                    state.goalLoadingState = .loadingFromCache
+                    
                     state.cachedRanking = cachedData
                     state.kcalRanking = cachedData.kcalRanking
                     state.goalRanking = cachedData.goalRanking
@@ -81,16 +93,66 @@ struct RankViewReducer {
                     
                     state.refreshTrigger = UUID()
                     
-                    return .send(.loadRanking)
+                    return .send(.loadAllRanking)
                 } else {
                     state.isLoading = true
                     state.dataLoadingState = .loadingFromNetwork
-                    return .send(.loadRanking)
+                    state.kcalLoadingState = .loadingFromNetwork
+                    state.goalLoadingState = .loadingFromNetwork
+                    return .send(.loadAllRanking)
                 }
                 
-            case .loadRanking:
+            case let .setCurrentTab(tab):
+                state.currentTab = tab
+                
+                let needsLoading = switch tab {
+                case .kcal:
+                    state.kcalRanking == nil || state.kcalLoadingState == .loadingFromCache
+                case .goal:
+                    state.goalRanking == nil || state.goalLoadingState == .loadingFromCache
+                }
+                
+                if needsLoading {
+                    return .send(.loadRanking(tab))
+                }
+                
+                return .none
+                
+            case let .loadRanking(tab):
+                switch tab {
+                case .kcal:
+                    state.kcalLoadingState = .loadingFromNetwork
+                case .goal:
+                    state.goalLoadingState = .loadingFromNetwork
+                }
+                
+                return .run { send in
+                    switch tab {
+                    case .kcal:
+                        let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
+                        switch result {
+                        case .success(let ranking):
+                            await send(.kcalRankingLoaded(ranking))
+                        case .failure(let error):
+                            await send(.setError(error.description))
+                        }
+                        
+                    case .goal:
+                        let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
+                        switch result {
+                        case .success(let ranking):
+                            await send(.goalRankingLoaded(ranking))
+                        case .failure(let error):
+                            await send(.setError(error.description))
+                        }
+                    }
+                }
+                
+            case .loadAllRanking:
                 if state.dataLoadingState == .loadingFromCache {
                     state.dataLoadingState = .loadingFromNetwork
+                    state.kcalLoadingState = .loadingFromNetwork
+                    state.goalLoadingState = .loadingFromNetwork
                 }
                 
                 return .run { send in
@@ -108,6 +170,48 @@ struct RankViewReducer {
                     }
                 }
                 
+            case let .kcalRankingLoaded(ranking):
+                state.kcalRanking = ranking
+                state.totalKcalRanking = ranking.ranking.last?.rank
+                state.isKcalRankingLoaded = true
+                state.kcalLoadingState = .completed
+                
+                if state.currentTab == .kcal {
+                    state.refreshTrigger = UUID()
+                }
+                
+                if let goalRanking = state.goalRanking {
+                    let cachedInfo = CachedRankInfo(
+                        kcalRanking: ranking,
+                        goalRanking: goalRanking
+                    )
+                    UserDefaults.cachedRanking = cachedInfo
+                    state.cachedRanking = cachedInfo
+                }
+                
+                return .none
+                
+            case let .goalRankingLoaded(ranking):
+                state.goalRanking = ranking
+                state.totalGoalRanking = ranking.ranking.last?.rank
+                state.isGoalRankingLoaded = true
+                state.goalLoadingState = .completed
+                
+                if state.currentTab == .goal {
+                    state.refreshTrigger = UUID()
+                }
+                
+                if let kcalRanking = state.kcalRanking {
+                    let cachedInfo = CachedRankInfo(
+                        kcalRanking: kcalRanking,
+                        goalRanking: ranking
+                    )
+                    UserDefaults.cachedRanking = cachedInfo
+                    state.cachedRanking = cachedInfo
+                }
+                
+                return .none
+                
             case .rankingLoaded(kcal: let kcal, goal: let goal):
                 state.kcalRanking = kcal
                 state.goalRanking = goal
@@ -117,6 +221,8 @@ struct RankViewReducer {
                 state.isGoalRankingLoaded = true
                 state.isLoading = false
                 state.dataLoadingState = .completed
+                state.kcalLoadingState = .completed
+                state.goalLoadingState = .completed
                 
                 state.refreshTrigger = UUID()
                 
@@ -133,7 +239,11 @@ struct RankViewReducer {
                 state.kcalRanking = rankings
                 state.totalKcalRanking = rankings.ranking.last?.rank
                 state.isKcalRankingLoaded = true
-                state.refreshTrigger = UUID()
+                state.kcalLoadingState = .completed
+                
+                if state.currentTab == .kcal {
+                    state.refreshTrigger = UUID()
+                }
                 
                 if state.isGoalRankingLoaded {
                     state.isLoading = false
@@ -146,7 +256,11 @@ struct RankViewReducer {
                 state.goalRanking = rankings
                 state.totalGoalRanking = rankings.ranking.last?.rank
                 state.isGoalRankingLoaded = true
-                state.refreshTrigger = UUID()
+                state.goalLoadingState = .completed
+                
+                if state.currentTab == .goal {
+                    state.refreshTrigger = UUID()
+                }
                 
                 if state.isKcalRankingLoaded {
                     state.isLoading = false
@@ -162,7 +276,15 @@ struct RankViewReducer {
             case .setError(let error):
                 state.errorMessage = error
                 state.isLoading = false
-                state.dataLoadingState = .completed
+                state.dataLoadingState = .failed
+                
+                switch state.currentTab {
+                case .kcal:
+                    state.kcalLoadingState = .failed
+                case .goal:
+                    state.goalLoadingState = .failed
+                }
+                
                 return .none
                 
             case let .setShowToast(showToast, toastMessage):

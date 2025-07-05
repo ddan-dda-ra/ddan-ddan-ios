@@ -28,8 +28,7 @@ struct RankContentsView: View {
                                     .zIndex(10)
                                     .padding(.bottom, 32)
                                 rankContainerView
-                                    .id(store.refreshTrigger)
-                                    .id(store.refreshTrigger)
+                                    .id("\(tabType.rawValue)-\(store.refreshTrigger)")
                             }
                         } onBottomReached: {
                             guard let totalGoalRanking = store.totalGoalRanking else { return }
@@ -45,7 +44,7 @@ struct RankContentsView: View {
                         }
                     }
                     myRankView
-                        .id("myRank-\(store.refreshTrigger)") // 강제 업데이트
+                        .id("myRank-\(tabType.rawValue)-\(store.refreshTrigger)")
                     
                     TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
                         VStack {
@@ -55,12 +54,18 @@ struct RankContentsView: View {
                     }
                 }
                 
-                if store.isLoading && store.dataLoadingState != .loadingFromCache {
+                if shouldShowLoading {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundStyle(.textButtonAlternative)
                         .background(Color.backgroundBlack)
                 }
+            }
+            .onAppear {
+                store.send(.setCurrentTab(tabType))
+            }
+            .onChange(of: tabType) { newTab in
+                store.send(.setCurrentTab(newTab))
             }
         }
     }
@@ -126,18 +131,18 @@ extension RankContentsView {
             return HStack(alignment: .center, spacing: 12) {
                 if sortedRanking.count == 3 {
                     RankCard(ranking: sortedRanking[1], tabType: tabType)
-                        .id("rank-\(sortedRanking[1].userID)-\(store.refreshTrigger)")
+                        .id("rank-\(tabType.rawValue)-\(sortedRanking[1].userID)-\(store.refreshTrigger)")
                     
                     RankCard(ranking: sortedRanking[0], tabType: tabType)
-                        .id("rank-\(sortedRanking[0].userID)-\(store.refreshTrigger)")
+                        .id("rank-\(tabType.rawValue)-\(sortedRanking[0].userID)-\(store.refreshTrigger)")
                         .offset(y: -19)
                     
                     RankCard(ranking: sortedRanking[2], tabType: tabType)
-                        .id("rank-\(sortedRanking[2].userID)-\(store.refreshTrigger)")
+                        .id("rank-\(tabType.rawValue)-\(sortedRanking[2].userID)-\(store.refreshTrigger)")
                 } else {
                     ForEach(sortedRanking, id: \.userID) { ranking in
                         RankCard(ranking: ranking, tabType: tabType)
-                            .id("rank-\(ranking.userID)-\(store.refreshTrigger)")
+                            .id("rank-\(tabType.rawValue)-\(ranking.userID)-\(store.refreshTrigger)")
                     }
                 }
             }
@@ -145,7 +150,7 @@ extension RankContentsView {
             .frame(maxWidth: .infinity)
         }
     }
-
+    
     var rankListView: some View {
         WithPerceptionTracking {
             let rankers = Array(currentRankingData.dropFirst(3))
@@ -153,7 +158,7 @@ extension RankContentsView {
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
                     rankListItemView(rank: rankers[index], index: index)
-                        .id("list-\(rankers[index].userID)-\(store.refreshTrigger)")
+                        .id("list-\(tabType.rawValue)-\(rankers[index].userID)-\(store.refreshTrigger)")
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
@@ -270,13 +275,23 @@ extension RankContentsView {
 }
 
 extension RankContentsView {
-    // 일관된 데이터 접근을 위한 computed properties
     private var currentRankingData: [Ranking] {
         (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
     }
     
     private var currentMyRanking: Ranking? {
         tabType == .kcal ? store.kcalRanking?.myRanking : store.goalRanking?.myRanking
+    }
+    
+    private var shouldShowLoading: Bool {
+        if store.isLoading && store.dataLoadingState != .loadingFromCache {
+            return true
+        }
+        
+        let currentTabData = tabType == .kcal ? store.kcalRanking : store.goalRanking
+        let currentTabLoadingState = tabType == .kcal ? store.kcalLoadingState : store.goalLoadingState
+        
+        return currentTabData == nil && currentTabLoadingState == .loadingFromNetwork
     }
     
     func setDateCirteria() -> String {
