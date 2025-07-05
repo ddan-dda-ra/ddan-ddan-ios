@@ -61,7 +61,7 @@ struct DDanDDan_WidgetEntryView : View {
     var body: some View {
         if activityEntry.petType == "" {
             Text("앱을 실행해서 활동 데이터를 가져오세요!")
-                                .font(.headline)
+                .font(.neoDunggeunmo12)
                                 .foregroundColor(.red)
                                 .multilineTextAlignment(.center)
                                 .padding()
