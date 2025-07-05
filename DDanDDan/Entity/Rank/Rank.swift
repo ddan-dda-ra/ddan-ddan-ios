@@ -15,7 +15,6 @@ struct CachedRankInfo: Codable, Equatable {
     static var cacheKey: String {
         return "cached_ranking_data"
     }
-    
 }
 
 
@@ -40,7 +39,7 @@ public struct Ranking: Codable, Equatable {
     }
     
      public static func == (lhs: Ranking, rhs: Ranking) -> Bool {
-        return lhs.rank == rhs.rank
+         return lhs.userID == rhs.userID && lhs.totalCalories == rhs.totalCalories && lhs.totalSucceededDays == rhs.totalSucceededDays
     }
 }
 
