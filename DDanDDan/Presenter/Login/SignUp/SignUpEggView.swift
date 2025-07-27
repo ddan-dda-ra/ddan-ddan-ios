@@ -50,7 +50,7 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
     }
     
     var eggGrid: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             HStack(spacing: 30) {
                 EggItem(selectedEgg: $selectedEgg, imageName: "eggPink", type: .pinkCat)
                 EggItem(selectedEgg: $selectedEgg, imageName: "eggOrange", type: .greenHam)
@@ -59,8 +59,8 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
             HStack(spacing: 30) {
                 EggItem(selectedEgg: $selectedEgg, imageName: "eggPurple", type: .purpleDog)
                 EggItem(selectedEgg: $selectedEgg, imageName: "eggBlue", type: .bluePenguin)
-                
             }
+            EggItem(selectedEgg: $selectedEgg, imageName: "eggGray", type: .grayMole)
         }.padding(.top, 75)
     }
 }
