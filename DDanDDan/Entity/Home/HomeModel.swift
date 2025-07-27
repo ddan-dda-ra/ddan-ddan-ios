@@ -28,6 +28,7 @@ extension PetType {
         case .greenHam: return Image(.greenBackground).resizable()
         case .purpleDog: return Image(.purpleBackground).resizable()
         case .bluePenguin: return Image(.blueBackground).resizable()
+        case .grayMole: return Image(.grayBackground).resizable()
         }
     }
     
@@ -37,6 +38,7 @@ extension PetType {
         case .greenHam: return Image(.seBgGreen).resizable()
         case .purpleDog: return Image(.seBgPurple).resizable()
         case .bluePenguin: return Image(.seBgBlue).resizable()
+        case .grayMole: return Image(.seBgGray).resizable()
         }
     }
     
@@ -89,6 +91,17 @@ extension PetType {
         case (.purpleDog, 4, .eatPlay): return LottieString.puppy.lv4.eatPlay
         case (.purpleDog, 5, .normal): return LottieString.puppy.lv5.normal
         case (.purpleDog, 5, .eatPlay): return LottieString.puppy.lv5.eatPlay
+            
+        case (.grayMole, 1, .normal): return LottieString.mole.lv1.normal
+        case (.grayMole, 1, .eatPlay): return LottieString.mole.lv1.eatPlay
+        case (.grayMole, 2, .normal): return LottieString.mole.lv2.normal
+        case (.grayMole, 2, .eatPlay): return LottieString.mole.lv2.eatPlay
+        case (.grayMole, 3, .normal): return LottieString.mole.lv3.normal
+        case (.grayMole, 3, .eatPlay): return LottieString.mole.lv3.eatPlay
+        case (.grayMole, 4, .normal): return LottieString.mole.lv4.normal
+        case (.grayMole, 4, .eatPlay): return LottieString.mole.lv4.eatPlay
+        case (.grayMole, 5, .normal): return LottieString.mole.lv5.normal
+        case (.grayMole, 5, .eatPlay): return LottieString.mole.lv5.eatPlay
             
         default: return LottieString.cat.lv1.normal
         }

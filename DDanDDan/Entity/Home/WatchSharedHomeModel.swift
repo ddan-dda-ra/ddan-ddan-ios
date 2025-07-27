@@ -18,6 +18,7 @@ public enum PetType: String, Codable {
     case greenHam = "HAMSTER"
     case purpleDog = "DOG"
     case bluePenguin = "PENGUIN"
+    case grayMole = "MOLE"
     
     var color: Color  {
         switch self {
@@ -25,6 +26,7 @@ public enum PetType: String, Codable {
         case .greenHam: return .greenGraphics
         case .purpleDog: return .purpleGraphics
         case .bluePenguin: return .blueGraphics
+        case .grayMole: return .grayGraphics
         }
     }
     
