@@ -33,8 +33,11 @@ struct DDanDDanApp: App {
                 .environmentObject(user)
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                        AuthController.handleOpenUrl(url: url)
+                        _ = AuthController.handleOpenUrl(url: url)
                     }
+                }
+                .task {
+                    _ = await RemoteConfigManager.shared.fetchAndActivate()
                 }
         }
     }
