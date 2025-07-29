@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
+    @State private var showUpdateAlert = false
     
     var body: some View {
         ZStack {
@@ -21,8 +22,21 @@ struct SplashView: View {
                 Image(.splashStart)
             }
         }
+        .alert("업데이트 필요", isPresented: $showUpdateAlert) {
+            Button("업데이트") {
+                if let url = RemoteConfigManager.shared.getAppStoreURL() {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text("새로운 버전이 출시되었습니다. 업데이트해주세요.")
+        }
         .onAppear {
-            viewModel.navigateToNextScreen()
+            if viewModel.checkVersionAndNavigate() {
+                showUpdateAlert = true
+            } else {
+                viewModel.navigateToNextScreen()
+            }
         }
     }
 }
