@@ -24,7 +24,7 @@ struct SplashView: View {
         }
         .alert("업데이트 필요", isPresented: $showUpdateAlert) {
             Button("업데이트") {
-                if let url = RemoteConfigManager.shared.getAppStoreURL() {
+                if let url = viewModel.getAppStoreURL() {
                     UIApplication.shared.open(url)
                 }
             }
@@ -32,7 +32,7 @@ struct SplashView: View {
             Text("새로운 버전이 출시되었습니다. 업데이트해주세요.")
         }
         .onAppear {
-            if viewModel.checkVersionAndNavigate() {
+            if viewModel.checkForceUpdate() {
                 showUpdateAlert = true
             } else {
                 viewModel.navigateToNextScreen()

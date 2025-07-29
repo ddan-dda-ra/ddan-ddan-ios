@@ -58,8 +58,24 @@ final class SplashViewModel: ObservableObject {
     }
     
     @MainActor
-    func checkVersionAndNavigate() -> Bool {
-       return RemoteConfigManager.shared.checkForceUpdate()
+    func checkForceUpdate() -> Bool {
+        guard let forceUpdateConfig = RemoteConfigManager.shared.getJsonValue(key: .forceUpdate),
+              let minAppVersionIOS = forceUpdateConfig["min_app_version_ios"] as? String,
+              let forceUpdateEnabled = forceUpdateConfig["force_update_enabled"] as? Bool else {
+                  return false
+              }
+        
+        return forceUpdateEnabled && isVersionLower(minimum: minAppVersionIOS)
+    }
+    
+    private func isVersionLower(minimum: String) -> Bool {
+        let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+
+        return current.compare(minimum, options: .numeric) == .orderedAscending
+    }
+    
+    func getAppStoreURL() -> URL? {
+        return URL(string: "https://apps.apple.com/app/id6736588896")
     }
     
     @MainActor
