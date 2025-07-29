@@ -205,6 +205,8 @@
 		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
 		F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
+		F9AF64F52E3863A400FE6777 /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */; };
+		F9AF64F72E38664100FE6777 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */; };
 		F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 		F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */; };
@@ -491,6 +493,7 @@
 		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
 		F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
+		F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEvent.swift; sourceTree = "<group>"; };
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -570,6 +573,7 @@
 				F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */,
 				F8C10C112C5782720037D6A5 /* KakaoSDKCommon in Frameworks */,
 				F8C10C0F2C5782720037D6A5 /* KakaoSDKAuth in Frameworks */,
+				F9AF64F72E38664100FE6777 /* FirebaseRemoteConfig in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1055,7 @@
 				F90329EB2D96A071004A8360 /* AnalyticsManager.swift */,
 				F809E2FB2CBD06A1001BE099 /* UserManager.swift */,
 				F85C2BA32C4CD651002E2237 /* UserDefaultValue.swift */,
+				F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */,
 				363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */,
 			);
 			path = Util;
@@ -1312,6 +1317,7 @@
 				3641954D2D4D18890065C400 /* FirebaseAnalytics */,
 				3641954F2D4D18890065C400 /* FirebaseMessaging */,
 				F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */,
+				F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -1661,6 +1667,7 @@
 				F9A845AD2E862CD00021D0FE /* CheerInfo.swift in Sources */,
 				F88663E02CCB3585008DB860 /* SignUpRepository.swift in Sources */,
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,
+				F9AF64F52E3863A400FE6777 /* RemoteConfigManager.swift in Sources */,
 				F88663D72CC8F0D2008DB860 /* LoginViewModel.swift in Sources */,
 				F88FC6DC2CCF3B110033D4C9 /* PetsNetwork.swift in Sources */,
 				F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */,
@@ -2362,6 +2369,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;

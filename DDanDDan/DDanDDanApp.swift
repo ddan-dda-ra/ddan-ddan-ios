@@ -37,10 +37,13 @@ struct DDanDDanApp: App {
                 .environmentObject(deepLinkManager)
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                        AuthController.handleOpenUrl(url: url)
+                        _ = AuthController.handleOpenUrl(url: url)
                     }
                     
                     ChottuLink.handleLink(url)
+                }
+                .task {
+                    _ = await RemoteConfigManager.shared.fetchAndActivate()
                 }
         }
     }

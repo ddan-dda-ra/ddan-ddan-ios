@@ -58,6 +58,11 @@ final class SplashViewModel: ObservableObject {
     }
     
     @MainActor
+    func checkVersionAndNavigate() -> Bool {
+       return RemoteConfigManager.shared.checkForceUpdate()
+    }
+    
+    @MainActor
     func navigateToNextScreen() {
         if !UserDefaultValue.isOnboardingComplete {
             coordinator.setRoot(to: .onboarding)
