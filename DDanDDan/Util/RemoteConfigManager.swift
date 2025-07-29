@@ -7,9 +7,9 @@
 
 import Foundation
 import FirebaseRemoteConfig
-//import FirebaseRemoteConfigSwift
 
-private enum RemoteConfigKey: String {
+
+enum RemoteConfigKey: String {
     case forceUpdate = "force_update"
 }
 
@@ -37,24 +37,8 @@ class RemoteConfigManager {
         }
     }
     
-    func checkForceUpdate() -> Bool {
-        
-        guard let forceUpdateConfig = remoteConfig.configValue(forKey: RemoteConfigKey.forceUpdate.rawValue).jsonValue as? [String: Any],
-        let minAppVersionIOS = forceUpdateConfig["min_app_version_ios"] as? String,
-        let forceUpdateEnabled = forceUpdateConfig["force_update_enabled"] as? Bool else {
-            return false
-        }
-        
-        return forceUpdateEnabled && isVersionLower(minimum: minAppVersionIOS)
+    func getJsonValue(key: RemoteConfigKey) -> [String: Any]? {
+        remoteConfig.configValue(forKey: key.rawValue).jsonValue as? [String: Any]
     }
-    
-    private func isVersionLower(minimum: String) -> Bool {
-        let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
 
-        return current.compare(minimum, options: .numeric) == .orderedAscending
-    }
-    
-    func getAppStoreURL() -> URL? {
-        return URL(string: "https://apps.apple.com/app/id6736588896")
-    }
 }
