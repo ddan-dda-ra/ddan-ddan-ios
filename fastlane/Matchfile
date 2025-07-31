@@ -4,5 +4,5 @@ storage_mode("git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 force_for_new_devices(true)
-app_identifier(["inc.ddanddan.DDanDDan", "inc.ddanddan.DDanDDan.watchkitapp", "inc.ddanddan.DDanDDan.DDanDDan-Widget"])
+app_identifier(["inc.ddanddan.DDanDDan", "inc.ddanddan.DDanDDan.watchkitapp", "inc.ddanddan.DDanDDan.DDanDDan-Widget", "inc.ddanddan.DDanDDan.watchkitapp.DdanDdan-WatchWidget"])
 username("he929e@gmail.com")
