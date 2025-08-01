@@ -28,7 +28,7 @@ public struct NetworkManager {
         }
         
         if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            headers["App-Version"] = appVersion
+            headers["X-iOS-Version"] = appVersion
         }
 
         
