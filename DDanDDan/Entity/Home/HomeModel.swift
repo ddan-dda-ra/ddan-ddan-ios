@@ -43,7 +43,9 @@ extension PetType {
     }
     
     func lottieString(level: Int, mode: LottieMode = .normal) -> String {
-        switch (self, level, mode) {
+        let safeLevel = min(level, 5)
+        
+        switch (self, safeLevel, mode) {
             // pinkCat Lottie
         case (.pinkCat, 1, .normal): return LottieString.cat.lv1.normal
         case (.pinkCat, 1, .eatPlay): return LottieString.cat.lv1.eatPlay
