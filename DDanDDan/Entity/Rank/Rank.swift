@@ -23,10 +23,14 @@ public struct RankInfo: Codable, Equatable {
     let criteria, periodType: String
     let ranking: [Ranking]
     let myRanking: Ranking
+    
+    
 }
 
 // MARK: - Ranking
-public struct Ranking: Codable, Equatable {
+public struct Ranking: Codable, Equatable, Identifiable {
+    public var id: String { userID }
+    
     let rank: Int
     let userID, userName: String
     let mainPetType: PetType
@@ -55,3 +59,10 @@ public enum PeriodType: String {
     case MONTHLY = "MONTHLY"
     case YEARLY = "YEARLY"
 }
+
+// MARK: - Ranking View Data
+struct TabRanking: Equatable {
+    let kcal: RankInfo
+    let goal: RankInfo
+}
+
