@@ -14,6 +14,7 @@ struct RankViewReducer {
     
     @ObservableState
     struct State: Equatable {
+        // Ranking Data
         var kcalRanking: RankInfo?
         var goalRanking: RankInfo?
         
@@ -22,25 +23,23 @@ struct RankViewReducer {
         var totalKcalRanking: Int?
         var totalGoalRanking: Int?
         
-        var isKcalRankingLoaded = false
-        var isGoalRankingLoaded = false
-        
         var dataLoadingState: DataLoadingState = .initial
-        var refreshTrigger: UUID = UUID()
-        var isLoading: Bool = false
+        var kcalLoadingState: DataLoadingState = .initial
+        var goalLoadingState: DataLoadingState = .initial
+        
         var errorMessage: String?
+        
+        var focusedMyRankIndex: Int? = nil
+        
+        var currentTab: Tab = .goal
+        
+        // UI
         
         var showToast: Bool = false
         var toastMessage: String = ""
         
         var showToolKit: Bool = false
         
-        var focusedMyRankIndex: Int? = nil
-        
-        var currentTab: Tab = .goal
-        
-        var kcalLoadingState: DataLoadingState = .initial
-        var goalLoadingState: DataLoadingState = .initial
     }
     
     enum DataLoadingState: Equatable {
@@ -53,274 +52,236 @@ struct RankViewReducer {
     
     enum Action: Equatable {
         case onAppear
-        case setCurrentTab(Tab)
-        case loadRanking(Tab)
-        case loadAllRanking
-        case kcalRankingLoaded(RankInfo)
-        case goalRankingLoaded(RankInfo)
-        case rankingLoaded(kcal: RankInfo, goal: RankInfo)
-        case setKcalRanking(RankInfo)
-        case setGoalRanking(RankInfo)
-        case setLoading(Bool)
-        case setError(String?)
-        case setShowToast(Bool, String)
-        case setShowToolkit
+        case tabChanged(Tab)
+        case refreshTapped
+        case errorDismissed
+        
+        case rankingResponse(TaskResult<TabRanking>)
+        case singleRankingResponse(Tab, TaskResult<RankInfo>)
+        
         case focusMyRank(index: Int)
-        case cacheRankData
-        case refreshData // 뷰 강제 업데이트용
+        case showToast(String)
+        case toastTimerCompleted
+        case toolkitButtonTapped
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                if state.dataLoadingState == .completed {
-                    return .none
-                }
-                
-                if let cachedData = UserDefaults.cachedRanking {
-                    state.dataLoadingState = .loadingFromCache
-                    state.kcalLoadingState = .loadingFromCache
-                    state.goalLoadingState = .loadingFromCache
-                    
-                    state.cachedRanking = cachedData
-                    state.kcalRanking = cachedData.kcalRanking
-                    state.goalRanking = cachedData.goalRanking
-                    state.isKcalRankingLoaded = true
-                    state.isGoalRankingLoaded = true
-                    state.totalKcalRanking = cachedData.kcalRanking.ranking.last?.rank
-                    state.totalGoalRanking = cachedData.goalRanking.ranking.last?.rank
-                    
-                    state.refreshTrigger = UUID()
-                    
-                    return .send(.loadAllRanking)
-                } else {
-                    state.isLoading = true
-                    state.dataLoadingState = .loadingFromNetwork
-                    state.kcalLoadingState = .loadingFromNetwork
-                    state.goalLoadingState = .loadingFromNetwork
-                    return .send(.loadAllRanking)
-                }
-                
-            case let .setCurrentTab(tab):
-                state.currentTab = tab
-                
-                let needsLoading = switch tab {
-                case .kcal:
-                    state.kcalRanking == nil || state.kcalLoadingState == .loadingFromCache
-                case .goal:
-                    state.goalRanking == nil || state.goalLoadingState == .loadingFromCache
-                }
-                
-                if needsLoading {
-                    return .send(.loadRanking(tab))
-                }
-                
+                return handlonAppeared(&state)
+            case let .tabChanged(tab):
+                return handleTabChanged(&state, tab: tab)
+            case .refreshTapped:
+                return handleRefresh(&state)
+            case .errorDismissed:
+                state.errorMessage = nil
                 return .none
-                
-            case let .loadRanking(tab):
-                switch tab {
-                case .kcal:
-                    state.kcalLoadingState = .loadingFromNetwork
-                case .goal:
-                    state.goalLoadingState = .loadingFromNetwork
-                }
-                
-                return .run { send in
-                    switch tab {
-                    case .kcal:
-                        let result = await repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
-                        switch result {
-                        case .success(let ranking):
-                            await send(.kcalRankingLoaded(ranking))
-                        case .failure(let error):
-                            await send(.setError(error.description))
-                        }
-                        
-                    case .goal:
-                        let result = await repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
-                        switch result {
-                        case .success(let ranking):
-                            await send(.goalRankingLoaded(ranking))
-                        case .failure(let error):
-                            await send(.setError(error.description))
-                        }
-                    }
-                }
-                
-            case .loadAllRanking:
-                if state.dataLoadingState == .loadingFromCache {
-                    state.dataLoadingState = .loadingFromNetwork
-                    state.kcalLoadingState = .loadingFromNetwork
-                    state.goalLoadingState = .loadingFromNetwork
-                }
-                
-                return .run { send in
-                    async let kcal = repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
-                    async let goal = repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
-
-                    let (kResult, gResult) = await (kcal, goal)
-
-                    switch (kResult, gResult) {
-                    case let (.success(k), .success(g)):
-                        await send(.rankingLoaded(kcal: k, goal: g))
-                        
-                    case let (.failure(e), _), let (_, .failure(e)):
-                        await send(.setError(e.description))
-                    }
-                }
-                
-            case let .kcalRankingLoaded(ranking):
-                state.kcalRanking = ranking
-                state.totalKcalRanking = ranking.ranking.last?.rank
-                state.isKcalRankingLoaded = true
-                state.kcalLoadingState = .completed
-                
-                if state.currentTab == .kcal {
-                    state.refreshTrigger = UUID()
-                }
-                
-                if let goalRanking = state.goalRanking {
-                    let cachedInfo = CachedRankInfo(
-                        kcalRanking: ranking,
-                        goalRanking: goalRanking
-                    )
-                    UserDefaults.cachedRanking = cachedInfo
-                    state.cachedRanking = cachedInfo
-                }
-                
-                return .none
-                
-            case let .goalRankingLoaded(ranking):
-                state.goalRanking = ranking
-                state.totalGoalRanking = ranking.ranking.last?.rank
-                state.isGoalRankingLoaded = true
-                state.goalLoadingState = .completed
-                
-                if state.currentTab == .goal {
-                    state.refreshTrigger = UUID()
-                }
-                
-                if let kcalRanking = state.kcalRanking {
-                    let cachedInfo = CachedRankInfo(
-                        kcalRanking: kcalRanking,
-                        goalRanking: ranking
-                    )
-                    UserDefaults.cachedRanking = cachedInfo
-                    state.cachedRanking = cachedInfo
-                }
-                
-                return .none
-                
-            case .rankingLoaded(kcal: let kcal, goal: let goal):
-                state.kcalRanking = kcal
-                state.goalRanking = goal
-                state.totalKcalRanking = kcal.ranking.last?.rank
-                state.totalGoalRanking = goal.ranking.last?.rank
-                state.isKcalRankingLoaded = true
-                state.isGoalRankingLoaded = true
-                state.isLoading = false
-                state.dataLoadingState = .completed
-                state.kcalLoadingState = .completed
-                state.goalLoadingState = .completed
-                
-                state.refreshTrigger = UUID()
-                
-                let cachedInfo = CachedRankInfo(
-                    kcalRanking: kcal,
-                    goalRanking: goal
-                )
-                UserDefaults.cachedRanking = cachedInfo
-                state.cachedRanking = cachedInfo
-                
-                return .none
-                
-            case .setKcalRanking(let rankings):
-                state.kcalRanking = rankings
-                state.totalKcalRanking = rankings.ranking.last?.rank
-                state.isKcalRankingLoaded = true
-                state.kcalLoadingState = .completed
-                
-                if state.currentTab == .kcal {
-                    state.refreshTrigger = UUID()
-                }
-                
-                if state.isGoalRankingLoaded {
-                    state.isLoading = false
-                    state.dataLoadingState = .completed
-                }
-                
-                return .none
-                
-            case .setGoalRanking(let rankings):
-                state.goalRanking = rankings
-                state.totalGoalRanking = rankings.ranking.last?.rank
-                state.isGoalRankingLoaded = true
-                state.goalLoadingState = .completed
-                
-                if state.currentTab == .goal {
-                    state.refreshTrigger = UUID()
-                }
-                
-                if state.isKcalRankingLoaded {
-                    state.isLoading = false
-                    state.dataLoadingState = .completed
-                }
-                
-                return .none
-                
-            case .setLoading(let isLoading):
-                state.isLoading = isLoading
-                return .none
-                
-            case .setError(let error):
-                state.errorMessage = error
-                state.isLoading = false
-                state.dataLoadingState = .failed
-                
-                switch state.currentTab {
-                case .kcal:
-                    state.kcalLoadingState = .failed
-                case .goal:
-                    state.goalLoadingState = .failed
-                }
-                
-                return .none
-                
-            case let .setShowToast(showToast, toastMessage):
-                state.showToast = showToast
-                state.toastMessage = toastMessage
-                if showToast {
-                    return .run { send in
-                        try await Task.sleep(nanoseconds: 2_500_000_000) // 2.5초 후
-                        await send(.setShowToast(false, ""))
-                    }
-                }
-                return .none
-                
-            case .setShowToolkit:
-                state.showToolKit.toggle()
-                return .none
-                
-            case let .focusMyRank(index):
+            case let .rankingResponse(result):
+                return handleRankingResponse(&state, result: result)
+            case let .singleRankingResponse(tab, result):
+                return handleSingleRankingResponse(&state, tab: tab, result: result)
+            case let .focusMyRank(index: index):
                 state.focusedMyRankIndex = index
                 return .none
-
-            case .cacheRankData:
-                if let kcal = state.kcalRanking, let goal = state.goalRanking {
-                    let cachedInfo = CachedRankInfo(
-                        kcalRanking: kcal,
-                        goalRanking: goal
-                    )
-                    UserDefaults.cachedRanking = cachedInfo
-                    state.cachedRanking = cachedInfo
-                }
+            case let .showToast(message):
+                return handleShowToast(&state, message: message)
+            case .toastTimerCompleted:
+                state.showToast = false
+                state.toastMessage = ""
                 return .none
-                
-            case .refreshData:
-                state.refreshTrigger = UUID()
+            case .toolkitButtonTapped:
+                state.showToolKit.toggle()
                 return .none
             }
         }
+    }
+}
+
+private extension RankViewReducer {
+    func handlonAppeared(_ state: inout State) -> Effect<Action> {
+        guard state.dataLoadingState != .completed else { return .none }
+        
+        // 캐시가 있으면 캐시 로딩 상태로 설정
+        if let cachedData = UserDefaults.cachedRanking {
+            loadFromCache(&state, cachedData: cachedData)
+        } else {
+            setNetworkLoading(&state)
+        }
+        
+        return loadAllRanking()
+    }
+    
+    func handleTabChanged(_ state: inout State, tab: Tab) -> Effect<Action> {
+        state.currentTab = tab
+        
+        // 해당 탭의 데이터가 없거나 캐시 상태면 로딩 필요
+        let needsLoading = switch tab {
+        case .kcal:
+            state.kcalRanking == nil || state.kcalLoadingState == .loadingFromCache
+        case .goal:
+            state.goalRanking == nil || state.goalLoadingState == .loadingFromCache
+        }
+        
+        return needsLoading ? loadSingleRanking(tab) : .none
+    }
+    
+    func handleRefresh(_ state: inout State) -> Effect<Action> {
+        // 현재 탭만 새로고침
+        setTabLoading(&state, tab: state.currentTab)
+        return loadSingleRanking(state.currentTab)
+    }
+    
+    func handleRankingResponse(_ state: inout State, result: TaskResult<TabRanking>) -> Effect<Action> {
+        switch result {
+        case let .success(TabRanking):
+            setBothRankingData(&state, kcal: TabRanking.kcal, goal: TabRanking.goal)
+            cacheRankingData(&state, kcal: TabRanking.kcal, goal: TabRanking.goal)
+            setAllCompleted(&state)
+            return .none
+            
+        case let .failure(error):
+            setError(&state, message: error.localizedDescription)
+            return .none
+        }
+    }
+    
+    func handleSingleRankingResponse(_ state: inout State, tab: Tab, result: TaskResult<RankInfo>) -> Effect<Action> {
+        switch result {
+        case let .success(ranking):
+            setRankingData(&state, tab: tab, ranking: ranking)
+            cacheIfBothLoaded(&state)
+            return .none
+            
+        case let .failure(error):
+            setTabError(&state, tab: tab, message: error.localizedDescription)
+            return .none
+        }
+    }
+    
+    func handleShowToast(_ state: inout State, message: String) -> Effect<Action> {
+        state.showToast = true
+        state.toastMessage = message
+        
+        return .run { send in
+            try await Task.sleep(nanoseconds: 2_500_000_000)
+            await send(.toastTimerCompleted)
+        }
+    }
+}
+
+// MARK: - Effect Creators
+private extension RankViewReducer {
+    
+    func loadAllRanking() -> Effect<Action> {
+        return .run { send in
+            await send(.rankingResponse(
+                TaskResult {
+                    async let kcal = repository.getRanking(criteria: .TOTAL_CALORIES, period: .MONTHLY)
+                    async let goal = repository.getRanking(criteria: .TOTAL_SUCCEEDED_DAYS, period: .MONTHLY)
+                    
+                    let (kResult, gResult) = await (kcal, goal)
+                    
+                    switch (kResult, gResult) {
+                    case let (.success(k), .success(g)):
+                        return (TabRanking(kcal: k, goal: g))
+                    case let (.failure(e), _), let (_, .failure(e)):
+                        throw e
+                    }
+                }
+            ))
+        }
+    }
+    
+    func loadSingleRanking(_ tab: Tab) -> Effect<Action> {
+        return .run { send in
+            let criteria: CriteriaType = tab == .kcal ? .TOTAL_CALORIES : .TOTAL_SUCCEEDED_DAYS
+            
+            await send(.singleRankingResponse(
+                tab,
+                TaskResult {
+                    try await repository.getRanking(criteria: criteria, period: .MONTHLY).get()
+                }
+            ))
+        }
+    }
+}
+
+private extension RankViewReducer {
+    
+    func loadFromCache(_ state: inout State, cachedData: CachedRankInfo) {
+        state.dataLoadingState = .loadingFromCache
+        state.kcalLoadingState = .loadingFromCache
+        state.goalLoadingState = .loadingFromCache
+        state.cachedRanking = cachedData
+        state.kcalRanking = cachedData.kcalRanking
+        state.goalRanking = cachedData.goalRanking
+        state.totalKcalRanking = cachedData.kcalRanking.ranking.last?.rank
+        state.totalGoalRanking = cachedData.goalRanking.ranking.last?.rank
+    }
+    
+    func setNetworkLoading(_ state: inout State) {
+        state.dataLoadingState = .loadingFromNetwork
+        state.kcalLoadingState = .loadingFromNetwork
+        state.goalLoadingState = .loadingFromNetwork
+    }
+    
+    func setTabLoading(_ state: inout State, tab: Tab) {
+        switch tab {
+        case .kcal: state.kcalLoadingState = .loadingFromNetwork
+        case .goal: state.goalLoadingState = .loadingFromNetwork
+        }
+    }
+    
+    func setBothRankingData(_ state: inout State, kcal: RankInfo, goal: RankInfo) {
+        state.kcalRanking = kcal
+        state.goalRanking = goal
+        state.totalKcalRanking = kcal.ranking.last?.rank
+        state.totalGoalRanking = goal.ranking.last?.rank
+    }
+    
+    func setRankingData(_ state: inout State, tab: Tab, ranking: RankInfo) {
+        switch tab {
+        case .kcal:
+            state.kcalRanking = ranking
+            state.totalKcalRanking = ranking.ranking.last?.rank
+            state.kcalLoadingState = .completed
+        case .goal:
+            state.goalRanking = ranking
+            state.totalGoalRanking = ranking.ranking.last?.rank
+            state.goalLoadingState = .completed
+        }
+    }
+    
+    func setAllCompleted(_ state: inout State) {
+        state.dataLoadingState = .completed
+        state.kcalLoadingState = .completed
+        state.goalLoadingState = .completed
+    }
+    
+    func setError(_ state: inout State, message: String) {
+        state.errorMessage = message
+        state.dataLoadingState = .failed
+        state.kcalLoadingState = .failed
+        state.goalLoadingState = .failed
+    }
+    
+    func setTabError(_ state: inout State, tab: Tab, message: String) {
+        state.errorMessage = message
+        switch tab {
+        case .kcal: state.kcalLoadingState = .failed
+        case .goal: state.goalLoadingState = .failed
+        }
+    }
+    
+    func cacheRankingData(_ state: inout State, kcal: RankInfo, goal: RankInfo) {
+        let cachedInfo = CachedRankInfo(kcalRanking: kcal, goalRanking: goal)
+        UserDefaults.cachedRanking = cachedInfo
+        state.cachedRanking = cachedInfo
+    }
+    
+    func cacheIfBothLoaded(_ state: inout State) {
+        guard let kcal = state.kcalRanking, let goal = state.goalRanking else { return }
+        cacheRankingData(&state, kcal: kcal, goal: goal)
     }
 }
