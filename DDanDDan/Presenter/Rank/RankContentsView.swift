@@ -17,7 +17,6 @@ struct RankContentsView: View {
     @Perception.Bindable var store: StoreOf<RankViewReducer>
     
     var body: some View {
-        WithPerceptionTracking {
             ZStack {
                 Color(.backgroundBlack)
                 ZStack(alignment: .bottom) {
@@ -28,13 +27,12 @@ struct RankContentsView: View {
                                     .zIndex(10)
                                     .padding(.bottom, 32)
                                 rankContainerView
-                                    .id("\(tabType.rawValue)-\(store.refreshTrigger)")
                             }
                         } onBottomReached: {
                             guard let totalGoalRanking = store.totalGoalRanking else { return }
                             guard let totalKcalRanking = store.totalKcalRanking  else { return }
                             let totalRankCount = tabType == .goal ? totalGoalRanking : totalKcalRanking
-                            store.send(.setShowToast(true, totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+                            store.send(.showToast(totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                         }
                         .onReceive(store.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
                             withAnimation {
@@ -44,7 +42,6 @@ struct RankContentsView: View {
                         }
                     }
                     myRankView
-                        .id("myRank-\(tabType.rawValue)-\(store.refreshTrigger)")
                     
                     TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
                         VStack {
@@ -62,13 +59,12 @@ struct RankContentsView: View {
                 }
             }
             .onAppear {
-                store.send(.setCurrentTab(tabType))
+                store.send(.tabChanged(tabType))
             }
             .onChange(of: tabType) { newTab in
-                store.send(.setCurrentTab(newTab))
+                store.send(.tabChanged(newTab))
             }
         }
-    }
 }
 
 extension RankContentsView {
@@ -90,7 +86,7 @@ extension RankContentsView {
                     ZStack {
                         Button(
                             action: {
-                                store.send(.setShowToolkit)
+                                store.send(.toolkitButtonTapped)
                             },
                             label: {
                                 Image(.iconInfomation)
@@ -131,18 +127,14 @@ extension RankContentsView {
             return HStack(alignment: .center, spacing: 12) {
                 if sortedRanking.count == 3 {
                     RankCard(ranking: sortedRanking[1], tabType: tabType)
-                        .id("rank-\(tabType.rawValue)-\(sortedRanking[1].userID)-\(store.refreshTrigger)")
                     
                     RankCard(ranking: sortedRanking[0], tabType: tabType)
-                        .id("rank-\(tabType.rawValue)-\(sortedRanking[0].userID)-\(store.refreshTrigger)")
                         .offset(y: -19)
                     
                     RankCard(ranking: sortedRanking[2], tabType: tabType)
-                        .id("rank-\(tabType.rawValue)-\(sortedRanking[2].userID)-\(store.refreshTrigger)")
                 } else {
                     ForEach(sortedRanking, id: \.userID) { ranking in
                         RankCard(ranking: ranking, tabType: tabType)
-                            .id("rank-\(tabType.rawValue)-\(ranking.userID)-\(store.refreshTrigger)")
                     }
                 }
             }
@@ -158,7 +150,6 @@ extension RankContentsView {
             LazyVStack(spacing: 0) {
                 ForEach(rankers.indices, id: \.self) { index in
                     rankListItemView(rank: rankers[index], index: index)
-                        .id("list-\(tabType.rawValue)-\(rankers[index].userID)-\(store.refreshTrigger)")
                 }
             }
             .padding(.bottom, 100.adjustedHeight)
@@ -284,7 +275,7 @@ extension RankContentsView {
     }
     
     private var shouldShowLoading: Bool {
-        if store.isLoading && store.dataLoadingState != .loadingFromCache {
+        if store.dataLoadingState != .loadingFromCache {
             return true
         }
         
