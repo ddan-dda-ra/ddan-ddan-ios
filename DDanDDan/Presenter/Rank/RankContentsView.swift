@@ -17,6 +17,7 @@ struct RankContentsView: View {
     @Perception.Bindable var store: StoreOf<RankViewReducer>
     
     var body: some View {
+        WithPerceptionTracking {
             ZStack {
                 Color(.backgroundBlack)
                 ZStack(alignment: .bottom) {
@@ -65,12 +66,13 @@ struct RankContentsView: View {
                 store.send(.tabChanged(newTab))
             }
         }
+    }
 }
 
 extension RankContentsView {
     var headerView: some View {
         VStack(alignment: .leading) {
-            Text(setDateCirteria())
+            Text(store.rankDateCirteria)
                 .font(.body2_regular14)
                 .foregroundStyle(.textBodyTeritary)
                 .padding(.leading, 20)
@@ -275,22 +277,7 @@ extension RankContentsView {
     }
     
     private var shouldShowLoading: Bool {
-        if store.dataLoadingState != .loadingFromCache {
-            return true
-        }
-        
-        let currentTabData = tabType == .kcal ? store.kcalRanking : store.goalRanking
-        let currentTabLoadingState = tabType == .kcal ? store.kcalLoadingState : store.goalLoadingState
-        
-        return currentTabData == nil && currentTabLoadingState == .loadingFromNetwork
-    }
-    
-    struct TextSizePreferenceKey: PreferenceKey {
-        static var defaultValue: CGSize = .zero
-        
-        static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-            value = nextValue()
-        }
+        store.dataLoadingState == .loadingFromNetwork
     }
 }
 
@@ -334,6 +321,13 @@ struct RankCard: View {
         case 3: return Image(.iconCrownThrid)
         default: return Image(.iconCrownFirst)
         }
+    }
+}
+struct TextSizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
     }
 }
 

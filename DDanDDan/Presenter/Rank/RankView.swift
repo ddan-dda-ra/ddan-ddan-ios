@@ -45,6 +45,7 @@ struct RankView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             store.send(.onAppear)
+            store.send(.setDateCirteria)
         }
     }
 }
