@@ -17,6 +17,7 @@ struct RankViewReducer {
         // Ranking Data
         var kcalRanking: RankInfo?
         var goalRanking: RankInfo?
+        var rankDateCirteria: String = ""
         
         var cachedRanking: CachedRankInfo?
         
@@ -58,6 +59,7 @@ struct RankViewReducer {
         
         case rankingResponse(TaskResult<TabRanking>)
         case singleRankingResponse(Tab, TaskResult<RankInfo>)
+        case setDateCirteria
         
         case focusMyRank(index: Int)
         case showToast(String)
@@ -81,6 +83,9 @@ struct RankViewReducer {
                 return handleRankingResponse(&state, result: result)
             case let .singleRankingResponse(tab, result):
                 return handleSingleRankingResponse(&state, tab: tab, result: result)
+            case .setDateCirteria:
+                state.rankDateCirteria = setDateCirteria()
+                return .none
             case let .focusMyRank(index: index):
                 state.focusedMyRankIndex = index
                 return .none
@@ -167,6 +172,15 @@ private extension RankViewReducer {
             try await Task.sleep(nanoseconds: 2_500_000_000)
             await send(.toastTimerCompleted)
         }
+    }
+    
+    func setDateCirteria() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy년 M월 기준"
+        
+        let dateCriteria = dateFormatter.string(from: Date())
+        return dateCriteria
     }
 }
 

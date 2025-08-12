@@ -285,15 +285,6 @@ extension RankContentsView {
         return currentTabData == nil && currentTabLoadingState == .loadingFromNetwork
     }
     
-    func setDateCirteria() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "yyyy년 M월 기준"
-        
-        let dateCriteria = dateFormatter.string(from: Date())
-        return dateCriteria
-    }
-    
     struct TextSizePreferenceKey: PreferenceKey {
         static var defaultValue: CGSize = .zero
         
