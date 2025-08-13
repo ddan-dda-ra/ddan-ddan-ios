@@ -15,7 +15,6 @@ struct CachedRankInfo: Codable, Equatable {
     static var cacheKey: String {
         return "cached_ranking_data"
     }
-    
 }
 
 
@@ -24,10 +23,14 @@ public struct RankInfo: Codable, Equatable {
     let criteria, periodType: String
     let ranking: [Ranking]
     let myRanking: Ranking
+    
+    
 }
 
 // MARK: - Ranking
-public struct Ranking: Codable, Equatable {
+public struct Ranking: Codable, Equatable, Identifiable {
+    public var id: String { userID }
+    
     let rank: Int
     let userID, userName: String
     let mainPetType: PetType
@@ -40,7 +43,7 @@ public struct Ranking: Codable, Equatable {
     }
     
      public static func == (lhs: Ranking, rhs: Ranking) -> Bool {
-        return lhs.rank == rhs.rank
+         return lhs.userID == rhs.userID && lhs.totalCalories == rhs.totalCalories && lhs.totalSucceededDays == rhs.totalSucceededDays
     }
 }
 
@@ -56,3 +59,10 @@ public enum PeriodType: String {
     case MONTHLY = "MONTHLY"
     case YEARLY = "YEARLY"
 }
+
+// MARK: - Ranking View Data
+struct TabRanking: Equatable {
+    let kcal: RankInfo
+    let goal: RankInfo
+}
+
