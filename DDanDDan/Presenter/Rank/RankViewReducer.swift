@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import ComposableArchitecture
 
 @Reducer
@@ -30,7 +31,7 @@ struct RankViewReducer {
         
         var errorMessage: String?
         
-        var focusedMyRankIndex: Int? = nil
+        var focusedMyRankIndex: Int?
         
         var currentTab: Tab = .goal
         
@@ -71,7 +72,7 @@ struct RankViewReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return handlonAppeared(&state)
+                return handleonAppeared(&state)
             case let .tabChanged(tab):
                 return handleTabChanged(&state, tab: tab)
             case .refreshTapped:
@@ -104,7 +105,7 @@ struct RankViewReducer {
 }
 
 private extension RankViewReducer {
-    func handlonAppeared(_ state: inout State) -> Effect<Action> {
+    func handleonAppeared(_ state: inout State) -> Effect<Action> {
         guard state.dataLoadingState != .completed else { return .none }
         
         // 캐시가 있으면 캐시 로딩 상태로 설정
