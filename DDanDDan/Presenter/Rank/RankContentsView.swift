@@ -59,9 +59,6 @@ struct RankContentsView: View {
                         .background(Color.backgroundBlack)
                 }
             }
-            .onAppear {
-                store.send(.tabChanged(tabType))
-            }
             .onChange(of: tabType) { newTab in
                 store.send(.tabChanged(newTab))
             }
