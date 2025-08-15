@@ -11,11 +11,9 @@ import ComposableArchitecture
 import Lottie
 
 enum HomePath: Hashable {
-    case setting
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType)
-    case ranking
 }
 
 struct HomeView: View {
@@ -32,19 +30,8 @@ struct HomeView: View {
             Color(.backgroundBlack)
                 .ignoresSafeArea(edges: [.vertical])
             VStack(alignment: .center) {
-                CustomNavigationBar(
-                    leftButtonImage: Image(.iconRank),
-                    leftButtonAction: {
-                        coordinator.push(to: .ranking)
-                    },
-                    rightButtonImage: Image(.iconSetting),
-                    rightButtonAction: {
-                        coordinator.push(to: .setting)
-                    },
-                    buttonSize: 28,
-                    navigationBarHeight: 48
-                )
                 kcalView
+                    .padding(.top, 32)
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
                 petBackgroundView
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
@@ -110,10 +97,6 @@ struct HomeView: View {
         }
         .navigationDestination(for: HomePath.self) { path in
             switch path {
-            case .setting:
-                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
-            case .ranking:
-                RankView(store: rankStore, coordinator: coordinator)
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
