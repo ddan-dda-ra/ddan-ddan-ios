@@ -150,8 +150,8 @@ struct ContentView: View {
                 SplashView(viewModel: SplashViewModel(coordinator: coordinator, homeRepository: HomeRepository()))
             case .signUp:
                 SignUpTermView(viewModel: SignUpViewModel(repository: SignUpRepository()), coordinator: coordinator)
-            case .home:
-                HomeView(coordinator: coordinator, viewModel: .init(repository: HomeRepository(), userInfo: coordinator.userInfo, petInfo: coordinator.petInfo))
+            case .mainTab:
+                MainTabView(coordinator: coordinator)
             case .onboarding:
                 OnboardingView(coordinator: coordinator)
             case .login:

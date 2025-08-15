@@ -65,7 +65,7 @@ public class LoginViewModel: NSObject, ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {
-                        self?.appCoordinator.setRoot(to: .home)
+                        self?.appCoordinator.setRoot(to: .mainTab)
                     } else {
                         self?.appCoordinator.setRoot(to: .signUp)
                     }

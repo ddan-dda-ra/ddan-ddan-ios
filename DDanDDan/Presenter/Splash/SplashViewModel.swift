@@ -48,7 +48,7 @@ final class SplashViewModel: ObservableObject {
                     "level": petData.mainPet.level
                 ]
                 WatchConnectivityManager.shared.transferUserInfo(info: info)
-                self.coordinator.setRoot(to: .home)
+                self.coordinator.setRoot(to: .mainTab)
             }
         } catch {
             DispatchQueue.main.async {
