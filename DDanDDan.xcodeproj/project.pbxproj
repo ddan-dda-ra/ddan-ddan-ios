@@ -198,15 +198,16 @@
 		F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90329EB2D96A071004A8360 /* AnalyticsManager.swift */; };
 		F90472E72E4F12ED005849BC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90472E62E4F12E7005849BC /* MainTabView.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
+		F99807A82EEA440C0035E6B4 /* RealtimeDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99807A72EEA440C0035E6B4 /* RealtimeDBManager.swift */; };
+		F99807AA2EEA44F30035E6B4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = F99807A92EEA44F30035E6B4 /* FirebaseDatabase */; };
 		F99F04A12E757007000D0F06 /* FriendCardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04A02E757002000D0F06 /* FriendCardReducer.swift */; };
-		F99F04FC2E7574B9000D0F06 /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04FB2E7574B7000D0F06 /* FriendCard.swift */; };
 		F9A845AA2E862BD70021D0FE /* CheerNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A845A92E862BD10021D0FE /* CheerNetwork.swift */; };
 		F9A845AD2E862CD00021D0FE /* CheerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A845AC2E862CCE0021D0FE /* CheerInfo.swift */; };
+		F9AF64F52E3863A400FE6777 /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */; };
+		F9AF64F72E38664100FE6777 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */; };
 		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
 		F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
-		F9AF64F52E3863A400FE6777 /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */; };
-		F9AF64F72E38664100FE6777 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */; };
 		F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 		F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */; };
@@ -486,14 +487,15 @@
 		F90329EB2D96A071004A8360 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F90472E62E4F12E7005849BC /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		F99807A72EEA440C0035E6B4 /* RealtimeDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDBManager.swift; sourceTree = "<group>"; };
 		F99F04A02E757002000D0F06 /* FriendCardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardReducer.swift; sourceTree = "<group>"; };
 		F99F04FB2E7574B7000D0F06 /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
 		F9A845A92E862BD10021D0FE /* CheerNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerNetwork.swift; sourceTree = "<group>"; };
 		F9A845AC2E862CCE0021D0FE /* CheerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerInfo.swift; sourceTree = "<group>"; };
+		F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
 		F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
-		F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEvent.swift; sourceTree = "<group>"; };
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -572,6 +574,7 @@
 				F8C10C0D2C5782720037D6A5 /* KakaoSDK in Frameworks */,
 				F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */,
 				F8C10C112C5782720037D6A5 /* KakaoSDKCommon in Frameworks */,
+				F99807AA2EEA44F30035E6B4 /* FirebaseDatabase in Frameworks */,
 				F8C10C0F2C5782720037D6A5 /* KakaoSDKAuth in Frameworks */,
 				F9AF64F72E38664100FE6777 /* FirebaseRemoteConfig in Frameworks */,
 			);
@@ -936,7 +939,7 @@
 			children = (
 				F9A845AB2E862CC90021D0FE /* Cheer */,
 				F99F04FA2E7574B0000D0F06 /* Friend */,
-				36BC7D032E82E9C9002B1ED5 /* Friends */,
+				36BC7D032E82E9C9002B1ED5 /* Friend */,
 				364195A82D72F1110065C400 /* Rank */,
 				F88FC6DD2CCF3BED0033D4C9 /* Pet */,
 				F88663CD2CC8ED5A008DB860 /* Error */,
@@ -1054,6 +1057,7 @@
 				F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */,
 				F90329EB2D96A071004A8360 /* AnalyticsManager.swift */,
 				F809E2FB2CBD06A1001BE099 /* UserManager.swift */,
+				F99807A72EEA440C0035E6B4 /* RealtimeDBManager.swift */,
 				F85C2BA32C4CD651002E2237 /* UserDefaultValue.swift */,
 				F9AF64F42E38639300FE6777 /* RemoteConfigManager.swift */,
 				363CC4472CCADC6A00D2EE47 /* WatchConnectivityManager.swift */,
@@ -1318,6 +1322,7 @@
 				3641954F2D4D18890065C400 /* FirebaseMessaging */,
 				F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */,
 				F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */,
+				F99807A92EEA44F30035E6B4 /* FirebaseDatabase */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -1646,6 +1651,7 @@
 				F8773BBD2CA541F4009A608F /* UpdateNicknameReducer.swift in Sources */,
 				F8758CF12C8EDF6B0038CCBB /* HealthKitManager.swift in Sources */,
 				369F16F92D99A3860039ED3A /* CustomScrollView.swift in Sources */,
+				F99807A82EEA440C0035E6B4 /* RealtimeDBManager.swift in Sources */,
 				36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */,
 				F827E5592C748CBC00C5B320 /* SignUpNicknameView.swift in Sources */,
 				36448A8B2D1AB03D005CFC8C /* WatchFont.swift in Sources */,
@@ -2369,6 +2375,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		F99807A92EEA44F30035E6B4 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
 		};
 		F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */ = {
 			isa = XCSwiftPackageProductDependency;
