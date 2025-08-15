@@ -18,8 +18,6 @@ struct RankContentsView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            ZStack {
-                Color(.backgroundBlack)
                 ZStack(alignment: .bottom) {
                     ScrollViewReader { proxy in
                         CustomScrollView {
@@ -62,7 +60,6 @@ struct RankContentsView: View {
             .onChange(of: tabType) { newTab in
                 store.send(.tabChanged(newTab))
             }
-        }
     }
 }
 

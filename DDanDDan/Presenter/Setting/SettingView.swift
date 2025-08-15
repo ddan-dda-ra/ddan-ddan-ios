@@ -73,11 +73,11 @@ struct SettingView: View {
                         Text("마이 페이지")
                             .font(.headline)
                             .foregroundColor(.white)
-                            .padding(.top, 13)
+                            .padding(.vertical, 13)
                         
                         roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection,
                                            notificationState: notificationStateBinding)
-                        .padding(.top, 24)
+                        .padding(.top, 12)
                         
                         roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection,
                                            notificationState: notificationStateBinding)
@@ -91,6 +91,7 @@ struct SettingView: View {
                             .font(.body3_regular12)
                             .foregroundStyle(.iconGray)
                             .frame(height: 46)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 20)
                     }
                     .transparentFullScreenCover(isPresented: logoutDialogBinding) {
