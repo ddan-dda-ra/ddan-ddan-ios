@@ -56,6 +56,37 @@ struct MainTabView: View {
             UITabBar.appearance().standardAppearance = appearance
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
+        .navigationDestination(for: SettingPath.self) { path in
+            switch path {
+            case .petArchive:
+                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+            case .updateNickname:
+                UpdateNicknameView(coordinator: coordinator,
+                                   store: Store(initialState: UpdateNicknameReducer.State(),
+                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
+            case .updateCalorie:
+                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
+            case .updateTerms:
+                SettingTermView(coordinator: coordinator)
+            case .deleteUser:
+                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+            case .deleteUserConfirm(let store):
+                DeleteUserConfirmView(coordinator: coordinator, store: store)
+            default:
+                EmptyView()
+            }
+        }
+        .navigationDestination(for: HomePath.self) { path in
+            switch path {
+            case .successThreeDay(let totalKcal):
+                ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
+            case .newPet:
+                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel(homeRepository: HomeRepository(), coordinator: coordinator))
+            case .upgradePet(let level, let petType):
+                LevelUpView(coordinator: coordinator, level: level, petType: petType)
+            }
+        }
     }
     
     

@@ -60,78 +60,55 @@ struct SettingView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            WithViewStore(store) { $0 } content: { viewStore in
-                
-                let logoutDialogBinding = viewStore.binding(get: \.showLogoutDialog,
-                                                            send: SettingViewReducer.Action.showLogoutDialog)
-                let notificationStateBinding = viewStore.binding(get: \.notificationState,
-                                                                 send: SettingViewReducer.Action.toggleNotification)
-                ZStack(alignment: .topLeading) {
-                    Color.backgroundBlack.edgesIgnoringSafeArea(.all)
-                    VStack(alignment: .center, spacing: 0) {
-                        Text("마이 페이지")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.vertical, 13)
-                        
-                        roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection,
-                                           notificationState: notificationStateBinding)
-                        .padding(.top, 12)
-                        
-                        roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection,
-                                           notificationState: notificationStateBinding)
-                        .padding(.top, 16)
-                        
-                        SectionView(items: SettingPath.bottomSection,
-                                    showLogoutDialog: logoutDialogBinding,
-                                    coordinator: coordinator)
-                        
-                        Text("앱 버전 \(appVersion)")
-                            .font(.body3_regular12)
-                            .foregroundStyle(.iconGray)
-                            .frame(height: 46)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 20)
-                    }
-                    .transparentFullScreenCover(isPresented: logoutDialogBinding) {
-                        
-                        DialogView(show: logoutDialogBinding,
-                                   title: "정말 로그아웃 하시겠습니까?", description: "", rightButtonTitle: "로그아웃", leftButtonTitle: "취소") {
-                            Task {
-                                await UserManager.shared.logout()
-                                coordinator.triggerHomeUpdate(trigger: true)
-                                coordinator.setRoot(to: .login)
-                            }
+        WithViewStore(store) { $0 } content: { viewStore in
+            
+            let logoutDialogBinding = viewStore.binding(get: \.showLogoutDialog,
+                                                        send: SettingViewReducer.Action.showLogoutDialog)
+            let notificationStateBinding = viewStore.binding(get: \.notificationState,
+                                                             send: SettingViewReducer.Action.toggleNotification)
+            ZStack(alignment: .topLeading) {
+                Color.backgroundBlack.edgesIgnoringSafeArea(.all)
+                VStack(alignment: .center, spacing: 0) {
+                    Text("마이 페이지")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.vertical, 13)
+                    
+                    roundButtonSection(title: "내 정보 수정", items: SettingPath.myInfoSection,
+                                       notificationState: notificationStateBinding)
+                    .padding(.top, 12)
+                    
+                    roundButtonSection(title: "알림 설정", items: SettingPath.notificationSection,
+                                       notificationState: notificationStateBinding)
+                    .padding(.top, 16)
+                    
+                    SectionView(items: SettingPath.bottomSection,
+                                showLogoutDialog: logoutDialogBinding,
+                                coordinator: coordinator)
+                    
+                    Text("앱 버전 \(appVersion)")
+                        .font(.body3_regular12)
+                        .foregroundStyle(.iconGray)
+                        .frame(height: 46)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 20)
+                }
+                .transparentFullScreenCover(isPresented: logoutDialogBinding) {
+                    
+                    DialogView(show: logoutDialogBinding,
+                               title: "정말 로그아웃 하시겠습니까?", description: "", rightButtonTitle: "로그아웃", leftButtonTitle: "취소") {
+                        Task {
+                            await UserManager.shared.logout()
+                            coordinator.triggerHomeUpdate(trigger: true)
+                            coordinator.setRoot(to: .login)
                         }
                     }
                 }
             }
-            .navigationBarHidden(true)
-            .navigationDestination(for: SettingPath.self) { path in
-                switch path {
-                case .petArchive:
-                    PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
-                case .updateNickname:
-                    UpdateNicknameView(coordinator: coordinator,
-                                       store: Store(initialState: UpdateNicknameReducer.State(),
-                                                    reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
-                case .updateCalorie:
-                    UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
-                                                                             reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
-                case .updateTerms:
-                    SettingTermView(coordinator: coordinator)
-                case .deleteUser:
-                    DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
-                case .deleteUserConfirm(let store):
-                    DeleteUserConfirmView(coordinator: coordinator, store: store)
-                default:
-                    EmptyView()
-                }
-                
-            }
         }
+        .navigationBarHidden(true)
     }
+    
     
     @ViewBuilder
     func roundButtonSection(title: String, items: [SettingPath], notificationState: Binding<Bool>) -> some View {
@@ -151,13 +128,14 @@ struct SettingView: View {
     }
 }
 
+
 extension SettingView {
- 
+    
     struct RoundButtonSectionItem: View {
         let item: SettingPath
         let coordinator: AppCoordinator
         @Binding var notificationState: Bool
-
+        
         var body: some View {
             Button(action: {
                 
@@ -187,7 +165,7 @@ extension SettingView {
             })
             .background(.backgroundGray)
             .clipShape(RoundedRectangle(cornerRadius: 8))
-
+            
         }
         
         private func handleAction(for item: SettingPath) {

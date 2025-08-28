@@ -27,85 +27,75 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color(.backgroundBlack)
-                .ignoresSafeArea(edges: [.vertical])
-            VStack(alignment: .center) {
-                kcalView
-                    .padding(.top, 32)
-                    .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
-                petBackgroundView
-                    .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
-                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                levelView
-                    .padding(.bottom, 12.adjusted)
-                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                actionButtonView
-                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-            }
-            .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
-            .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
-            .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
-            TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
-                VStack {
-                    ToastView(message: viewModel.toastMessage, toastType: .info)
+                Color(.backgroundBlack)
+                    .ignoresSafeArea(edges: [.vertical])
+                VStack(alignment: .center) {
+                    kcalView
+                        .padding(.top, 32)
+                        .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
+                    petBackgroundView
+                        .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
+                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+                    levelView
+                        .padding(.bottom, 12.adjusted)
+                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+                    actionButtonView
+                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
-            }
-            TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
-                ImageDialogView(
-                    show: $viewModel.isPresentEarnFood,
-                    image: .eatGraphic,
-                    title: "먹이를 얻었어요!",
-                    description: "사과 \(viewModel.earnFood)개",
-                    buttonTitle: "획득하기"
-                 ) {
-                    viewModel.showRandomBubble(type: .success)
+                .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
+                .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
+                .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
+                TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
+                    VStack {
+                        ToastView(message: viewModel.toastMessage, toastType: .info)
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
                 }
-            }
-            .onChange(of: viewModel.isLevelUp) { newLevel in
-                if newLevel {
-                    coordinator.push( to: .upgradePet(
-                        level: viewModel.homePetModel.level,
-                        petType: viewModel.homePetModel.petType
-                    )
-                    )
-                    viewModel.isLevelUp = false
-                }
-            }
-            .onChange(of: viewModel.isMaxLevel) { newValue in
-                if newValue {
-                    coordinator.push( to: .newPet)
-                    viewModel.isMaxLevel = false
-                }
-            }
-            .onChange(of: viewModel.isGoalMet) { newValue in
-                if newValue {
-                    coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
-                    viewModel.isGoalMet = false
-                }
-            }
-            .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
-                if shouldUpdate {
-                    Task {
-                        await viewModel.fetchHomeInfo()
-                        
-                        coordinator.triggerHomeUpdate(trigger: false)
+                TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
+                    ImageDialogView(
+                        show: $viewModel.isPresentEarnFood,
+                        image: .eatGraphic,
+                        title: "먹이를 얻었어요!",
+                        description: "사과 \(viewModel.earnFood)개",
+                        buttonTitle: "획득하기"
+                    ) {
+                        viewModel.showRandomBubble(type: .success)
                     }
                 }
+                .onChange(of: viewModel.isLevelUp) { newLevel in
+                    if newLevel {
+                        coordinator.push( to: .upgradePet(
+                            level: viewModel.homePetModel.level,
+                            petType: viewModel.homePetModel.petType
+                        )
+                        )
+                        viewModel.isLevelUp = false
+                    }
+                }
+                .onChange(of: viewModel.isMaxLevel) { newValue in
+                    if newValue {
+                        coordinator.push( to: .newPet)
+                        viewModel.isMaxLevel = false
+                    }
+                }
+                .onChange(of: viewModel.isGoalMet) { newValue in
+                    if newValue {
+                        coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
+                        viewModel.isGoalMet = false
+                    }
+                }
+                .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
+                    if shouldUpdate {
+                        Task {
+                            await viewModel.fetchHomeInfo()
+                            
+                            coordinator.triggerHomeUpdate(trigger: false)
+                        }
+                    }
+                }
+                
             }
-            
-        }
-        .navigationDestination(for: HomePath.self) { path in
-            switch path {
-            case .successThreeDay(let totalKcal):
-                ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
-            case .newPet:
-                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel(homeRepository: HomeRepository(), coordinator: coordinator))
-            case .upgradePet(let level, let petType):
-                LevelUpView(coordinator: coordinator, level: level, petType: petType)
-            }
-        }
-        .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
     }
 }
 
