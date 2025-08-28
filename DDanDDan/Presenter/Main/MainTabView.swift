@@ -10,12 +10,14 @@ import ComposableArchitecture
 enum TabType: Int, CaseIterable {
     case home = 0
     case rank = 1
-    case setting = 2
-    
+    case friends = 2
+    case setting = 3
+
     var title: String {
         switch self {
         case .home: return "홈"
         case .rank: return "랭킹"
+        case .friends: return "친구"
         case .setting: return "마이페이지"
         }
     }
@@ -24,6 +26,7 @@ enum TabType: Int, CaseIterable {
         switch self {
         case .home: return .iconTabHome
         case .rank: return .iconTabRank
+        case .friends: return .iconTabFriends
         case .setting: return .iconTabSetting
         }
     }
@@ -64,6 +67,9 @@ struct MainTabView: View {
         case .rank:
             RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer() },
                      coordinator: coordinator)
+        case .friends:
+            //TODO: 친구목록 연결
+            EmptyView()
         case .setting:
             SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
         }
