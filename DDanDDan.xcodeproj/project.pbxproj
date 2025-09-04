@@ -131,7 +131,6 @@
 		36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */; };
 		36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD32E36085700B81039 /* mole_level2_default.json */; };
 		36E0198F2CCA830C00383318 /* DdanDdan_Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */; };
 		36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7EA2CEE411D00B395FB /* Config.swift */; };
 		36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E81B2CEE4FF900B395FB /* Array+.swift */; };
 		36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */; };
@@ -391,7 +390,6 @@
 		36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DdanDdan_Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPetViewModel.swift; sourceTree = "<group>"; };
 		36F6E7EA2CEE411D00B395FB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		36F6E81B2CEE4FF900B395FB /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -663,7 +661,6 @@
 			children = (
 				36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */,
 				360E6B3B2CEDF53F0059661E /* NewPetView.swift */,
-				36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";
@@ -1546,7 +1543,6 @@
 				F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
-				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
 				36465DB52CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
 				369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */,
 				364195A52D72DAD80065C400 /* RankView.swift in Sources */,
