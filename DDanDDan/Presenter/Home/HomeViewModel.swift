@@ -21,12 +21,13 @@ final class HomeViewModel: ObservableObject {
         exp: 0,
         goalKcal: UserDefaultValue.purposeKcal,
         feedCount: 0,
-        toyCount: 0
+        toyCount: 0,
+        ticket: 0
     )
     
     @Published var isPlayingSpecialAnimation: Bool = false
-
     @Published var currentLottieAnimation: String = ""
+    
     @Published var isGoalMet: Bool = false
     @Published var isMaxLevel: Bool = false
     @Published var isLevelUp: Bool = false
@@ -70,7 +71,8 @@ final class HomeViewModel: ObservableObject {
                 exp: Double(petInfo.mainPet.expPercent),
                 goalKcal: userInfo.purposeCalorie,
                 feedCount: userInfo.foodQuantity,
-                toyCount: userInfo.toyQuantity
+                toyCount: userInfo.toyQuantity,
+                ticket: userInfo.tickets
             )
             
             self.petId = petInfo.mainPet.id
@@ -128,7 +130,8 @@ final class HomeViewModel: ObservableObject {
                 exp: Double(petInfo.mainPet.expPercent),
                 goalKcal: userInfo.purposeCalorie,
                 feedCount: userInfo.foodQuantity,
-                toyCount: userInfo.toyQuantity
+                toyCount: userInfo.toyQuantity,
+                ticket: userInfo.tickets
             )
             
             
