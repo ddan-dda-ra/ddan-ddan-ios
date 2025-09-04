@@ -120,6 +120,7 @@
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
 		36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */; };
+		36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */; };
 		36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD62E36085700B81039 /* mole_level3_play+eat.json */; };
 		36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD12E36085700B81039 /* mole_level1_default.json */; };
 		36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD92E36085700B81039 /* mole_level5_dafault.json */; };
@@ -377,6 +378,7 @@
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
 		36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveView.swift; sourceTree = "<group>"; };
+		36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ramdom_egg.json; sourceTree = "<group>"; };
 		36CADDD12E36085700B81039 /* mole_level1_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level1_default.json; sourceTree = "<group>"; };
 		36CADDD22E36085700B81039 /* mole_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level1_play+eat.json"; sourceTree = "<group>"; };
 		36CADDD32E36085700B81039 /* mole_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level2_default.json; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 		36465D762CF7F37700784E8A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */,
 				36CADDD12E36085700B81039 /* mole_level1_default.json */,
 				36CADDD22E36085700B81039 /* mole_level1_play+eat.json */,
 				36CADDD32E36085700B81039 /* mole_level2_default.json */,
@@ -1335,6 +1338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AB33352C2EAD2F00BC16C9 /* Preview Assets.xcassets in Resources */,
+				36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */,
 				36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */,
 				36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */,
 				36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */,
