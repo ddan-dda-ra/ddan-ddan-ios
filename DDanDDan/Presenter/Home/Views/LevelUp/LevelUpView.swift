@@ -20,7 +20,7 @@ struct LevelUpView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color(.backgroundBlack)
+            Color(.backgroundBlack).ignoresSafeArea()
             VStack {
                 Spacer()
                 imageView
@@ -44,10 +44,9 @@ struct LevelUpView: View {
                 GreenButton(action: {
                     coordinator.pop()
                 }, title: "성장하기", disabled: false)
-                .padding(.bottom, 44)
+                .padding(.bottom, 20)
             }
         }
-        .ignoresSafeArea()
         .navigationBarHidden(true)
     }
     
