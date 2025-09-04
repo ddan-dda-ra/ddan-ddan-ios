@@ -292,6 +292,15 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func setRandomPetToMainPet(_ petId: String) async {
+        let setMainPetResult = await homeRepository.updateMainPet(petId: petId)
+        switch setMainPetResult {
+        case .success(let pet):
+            break
+        case .failure(let error):
+            print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")
+        }
+    }
     // MARK: - Toast & Bubble
     
     @MainActor
