@@ -50,6 +50,13 @@ public struct PetsNetwork {
         )
     }
     
+    public func addGachaRandomPet(accessToken: String) async -> Result<Pet, NetworkError> {
+        return await manager.request(
+            url: PathString.Pet.randomGachaPet,
+            method: .post
+        )
+    }
+    
     public func postPetFeed(accessToken: String, petId: String) async -> Result<UserPetData, NetworkError> {
         return await manager.request(
             url: PathString.Pet.fetchPet + petId + "/food",

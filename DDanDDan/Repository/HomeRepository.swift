@@ -20,6 +20,7 @@ public protocol HomeRepositoryProtocol {
     func playPet(petId: String) async -> Result<UserPetData, NetworkError>
     func addNewPet(petType: PetType) async -> Result<Pet, NetworkError>
     func addNewRandomPet() async -> Result<Pet, NetworkError>
+    func addNewGachaRandomPet() async -> Result<Pet, NetworkError>
     
     // MARK: PATCH Method
     func updateDailyKcal(calorie: Int) async -> Result<DailyUserData, NetworkError>
@@ -48,7 +49,8 @@ public struct HomeRepository: HomeRepositoryProtocol {
                 id: userData.id,
                 purposeCalorie: userData.purposeCalorie,
                 foodQuantity: userData.foodQuantity,
-                toyQuantity: userData.toyQuantity
+                toyQuantity: userData.toyQuantity,
+                tickets: userData.tickets
             )
         }
     }
@@ -117,6 +119,14 @@ public struct HomeRepository: HomeRepositoryProtocol {
         let result = await petNetwork.addRandomPet(accessToken: accessToken)
         return result
     }
+    
+    public func addNewGachaRandomPet() async -> Result<Pet, NetworkError> {
+        guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
+        
+        let result = await petNetwork.addGachaRandomPet(accessToken: accessToken)
+        return result
+    }
+    
     
     public func updateDailyKcal(calorie: Int) async -> Result<DailyUserData, NetworkError> {
         guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
