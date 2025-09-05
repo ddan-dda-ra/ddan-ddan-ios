@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 import HealthKit
 
@@ -309,6 +310,15 @@ final class HomeViewModel: ObservableObject {
             break
         case .failure(let error):
             print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")
+    // MARK: Random Gacha Pet
+    
+    func bind(overlayVM: RandomGachaPetViewModel) {
+        overlayVM.dismissPublisher
+            .sink { [weak self] in
+                self?.showRandomGachaView = false
+            }
+            .store(in: &cancellables)
+    }
     
     @MainActor
     func tapRandomGachaButton() {
