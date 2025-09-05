@@ -120,7 +120,9 @@
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
 		36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */; };
+		36CAE0B02E69C6CB00B81039 /* RandomGachaPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */; };
 		36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */; };
+		36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */; };
 		36CAE0E42E6B160900B81039 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0E32E6B160900B81039 /* ButtonStyles.swift */; };
 		36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD62E36085700B81039 /* mole_level3_play+eat.json */; };
 		36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD12E36085700B81039 /* mole_level1_default.json */; };
@@ -379,7 +381,9 @@
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
 		36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveView.swift; sourceTree = "<group>"; };
+		36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetView.swift; sourceTree = "<group>"; };
 		36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ramdom_egg.json; sourceTree = "<group>"; };
+		36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetViewModel.swift; sourceTree = "<group>"; };
 		36CAE0E32E6B160900B81039 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		36CADDD12E36085700B81039 /* mole_level1_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level1_default.json; sourceTree = "<group>"; };
 		36CADDD22E36085700B81039 /* mole_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level1_play+eat.json"; sourceTree = "<group>"; };
@@ -796,6 +800,8 @@
 			children = (
 				36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */,
 				36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */,
+				36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */,
+				36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */,
 				36340DF12CC4DE060001AF2A /* Views */,
 			);
 			path = Home;
@@ -1523,6 +1529,7 @@
 				F8AB332E2C2EAD2E00BC16C9 /* DDanDDanApp.swift in Sources */,
 				369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */,
 				F809E2FE2CBD0841001BE099 /* DeleteUserConfirmView.swift in Sources */,
+				36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
 				F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */,
@@ -1569,6 +1576,7 @@
 				F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */,
 				36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */,
 				F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */,
+				36CAE0B02E69C6CB00B81039 /* RandomGachaPetView.swift in Sources */,
 				36465DAC2CFA415200784E8A /* LottieString.swift in Sources */,
 				36F6E8212CEE7DE000B395FB /* CheckButton.swift in Sources */,
 				367A796F2CDCBC210055771B /* PathString.swift in Sources */,
