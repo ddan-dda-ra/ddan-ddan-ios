@@ -12,9 +12,11 @@ import HealthKit
 
 
 final class HomeViewModel: ObservableObject {
+    
     private struct Loading {
         var feed: Bool = false
     }
+    
     @Published var homePetModel: HomeModel = .init(
         petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
         level: UserDefaultValue.level,
@@ -45,8 +47,15 @@ final class HomeViewModel: ObservableObject {
     @Published var showToast: Bool = false
     @Published var toastMessage: String = ""
     
+    @Published var showToolTipView: Bool = false
+    
+    @Published var enableRandomPet: Bool = false
+    @Published var showRandomGachaView: Bool = false
+    
     private var petId = ""
     private var previousKcal: Int = 0
+    private var cancellables = Set<AnyCancellable>()
+    
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
     private let homeRepository: HomeRepositoryProtocol
@@ -134,6 +143,7 @@ final class HomeViewModel: ObservableObject {
                 ticket: userInfo.tickets
             )
             
+            enableRandomPet = userInfo.tickets > 0
             
             let info: [String: Any] = [
                 "purposeKcal": userInfo.purposeCalorie,
@@ -299,6 +309,16 @@ final class HomeViewModel: ObservableObject {
             break
         case .failure(let error):
             print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")
+    
+    @MainActor
+    func tapRandomGachaButton() {
+        withAnimation(.easeInOut(duration: 0.6)) {
+            enableRandomPet = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            withAnimation(.easeInOut(duration: 0.6)) {
+                self.showRandomGachaView = true
+            }
         }
     }
     // MARK: - Toast & Bubble
@@ -317,11 +337,21 @@ final class HomeViewModel: ObservableObject {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.easeInOut(duration: 0.3)) {
+                withAnimation(.easeInOut(duration: 0.6)) {
                     self.showBubble = false
                 }
             }
         }
+    }
+    
+    @MainActor
+    func showTooltipView() {
+        showToolTipView.toggle()
+        
+//       // 첫 랜덤 가챠일 경우 표출
+//        withAnimation(.easeInOut(duration: 0.6)) {
+//            enableRandomPet.toggle()
+//        }
     }
     
     
