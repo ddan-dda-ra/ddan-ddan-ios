@@ -20,7 +20,7 @@ struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
     private let rankStore = Store(initialState: RankViewReducer.State()) {
-        RankViewReducer()
+        RankViewReducer(repository: RankRepository())
     }
     
     private let isSEDevice = UIScreen.isSESizeDevice

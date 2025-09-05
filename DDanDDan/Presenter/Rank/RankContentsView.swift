@@ -331,7 +331,7 @@ struct TextSizePreferenceKey: PreferenceKey {
         store: Store(
             initialState: RankViewReducer.State(),
             reducer: {
-                RankViewReducer()
+                RankViewReducer(repository: RankRepository())
             }
         ))
 }
