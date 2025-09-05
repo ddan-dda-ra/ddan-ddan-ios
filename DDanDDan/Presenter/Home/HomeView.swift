@@ -26,21 +26,56 @@ struct HomeView: View {
     private let isSEDevice = UIScreen.isSESizeDevice
     
     var body: some View {
-        ZStack {
-                Color(.backgroundBlack)
-                    .ignoresSafeArea(edges: [.vertical])
-                VStack(alignment: .center) {
-                    kcalView
-                        .padding(.top, 32)
-                        .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
-                    petBackgroundView
-                        .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
-                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                    levelView
-                        .padding(.bottom, 12.adjusted)
-                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                    actionButtonView
-                        .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+        ZStack(alignment: .top) {
+            Color(.backgroundBlack)
+                .ignoresSafeArea(edges: [.vertical])
+            VStack(alignment: .center) {
+                HStack {
+                    randomPetGachaButton
+                        .padding(.bottom, -20.adjustedHeight)
+                        .padding(.leading, 16.adjustedWidth)
+                    Spacer()
+                }
+                .zIndex(10)
+                
+                kcalView
+                    .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
+                petBackgroundView
+                    .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
+                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+                levelView
+                    .padding(.bottom, 12.adjusted)
+                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+                actionButtonView
+                    .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+            }
+            .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
+            .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
+            .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
+            .ignoresSafeArea(.all, edges: isSEDevice ? .all : [])
+            
+            Color(.backgroundBlack)
+                .ignoresSafeArea()
+                .opacity(viewModel.enableRandomPet ? 0.8 : 0)
+                .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+
+            VStack(alignment: .leading) {
+                HStack {
+                    randomPetGachaButton
+                        .padding(.leading, 16.adjustedWidth)
+                        .shadow(color: .white, radius: viewModel.enableRandomPet ? 32 : 0)
+                        .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+                    Spacer()
+                }
+            }
+            .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
+            .opacity(viewModel.enableRandomPet ? 1 : 0)
+            .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+
+            
+            TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
+                VStack {
+                    ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
                 .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
                 .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
@@ -51,6 +86,43 @@ struct HomeView: View {
                     }
                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
                 }
+            }
+            TransparentOverlayView(isPresented: viewModel.showRandomGachaView, isDimView: false) {
+                let randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: HomeRepository())
+                viewModel.bind(overlayVM: randomGachaPetViewModel)
+                
+                return RandomGachaPetView(viewModel: randomGachaPetViewModel)
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomGachaView)
+            }
+            .onChange(of: viewModel.isLevelUp) { newLevel in
+                if newLevel {
+                    coordinator.push( to: .upgradePet(
+                        level: viewModel.homePetModel.level,
+                        petType: viewModel.homePetModel.petType
+                    )
+                    )
+                    viewModel.isLevelUp = false
+                }
+            }
+            .onChange(of: viewModel.isMaxLevel) { newValue in
+                if newValue {
+                    coordinator.push( to: .newPet)
+                    viewModel.isMaxLevel = false
+                }
+            }
+            .onChange(of: viewModel.isGoalMet) { newValue in
+                if newValue {
+                    coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
+                    viewModel.isGoalMet = false
+                }
+            }
+            .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
+                if shouldUpdate {
+                    Task {
+                        await viewModel.fetchHomeInfo()
+                        
+                        coordinator.triggerHomeUpdate(trigger: false)
                 TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                     ImageDialogView(
                         show: $viewModel.isPresentEarnFood,
@@ -100,6 +172,38 @@ struct HomeView: View {
 }
 
 extension HomeView {
+    var randomPetGachaButton: some View {
+        ZStack(alignment: .leading) {
+            Button {
+                viewModel.enableRandomPet ? viewModel.tapRandomGachaButton() : viewModel.showTooltipView()
+            } label: {
+                viewModel.enableRandomPet ? Image(.enableRandomPetButton) :  Image(.disableRandomPetButton)
+            }
+            .frame(width: 40, height: 40)
+            .overlay {
+                // 벳지
+                ZStack {
+                    Circle()
+                        .foregroundStyle(viewModel.enableRandomPet ? .badgeRed : .borderGray)
+                        .frame(width: 20, height: 20)
+                    Text("\(viewModel.homePetModel.ticket)")
+                        .font(.neoDunggeunmo14)
+                        .foregroundStyle(.textButtonAlternative)
+                }
+                .position(x: 33, y: 32)
+            }
+            if viewModel.showToolTipView {
+                TooltipView(
+                    textString: "레벨 5까지 성장시키면\n새로운 펫을 뽑을 수 있어요",
+                    alignment: .leading
+                )
+                .fixedSize(horizontal: true, vertical: true)
+                .offset(y: 64.adjusted)
+                .alignmentGuide(.bottom) { _ in 0 }
+            }
+        }
+        .frame(height: 40)
+    }
     
     var kcalView: some View {
         HStack(alignment: .lastTextBaseline,spacing: 4) {
