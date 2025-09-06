@@ -120,6 +120,16 @@
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
 		36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */; };
+		36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD62E36085700B81039 /* mole_level3_play+eat.json */; };
+		36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD12E36085700B81039 /* mole_level1_default.json */; };
+		36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD92E36085700B81039 /* mole_level5_dafault.json */; };
+		36CADDDE2E36085700B81039 /* mole_level4_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD72E36085700B81039 /* mole_level4_default.json */; };
+		36CADDDF2E36085700B81039 /* mole_level2_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD42E36085700B81039 /* mole_level2_play+eat.json */; };
+		36CADDE02E36085700B81039 /* mole_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD52E36085700B81039 /* mole_level3_default.json */; };
+		36CADDE12E36085700B81039 /* mole_level4_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD82E36085700B81039 /* mole_level4_play+eat.json */; };
+		36CADDE22E36085700B81039 /* mole_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD22E36085700B81039 /* mole_level1_play+eat.json */; };
+		36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */; };
+		36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD32E36085700B81039 /* mole_level2_default.json */; };
 		36E0198F2CCA830C00383318 /* DdanDdan_Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */; };
 		36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7EA2CEE411D00B395FB /* Config.swift */; };
@@ -362,6 +372,16 @@
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
 		36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveView.swift; sourceTree = "<group>"; };
+		36CADDD12E36085700B81039 /* mole_level1_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level1_default.json; sourceTree = "<group>"; };
+		36CADDD22E36085700B81039 /* mole_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level1_play+eat.json"; sourceTree = "<group>"; };
+		36CADDD32E36085700B81039 /* mole_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level2_default.json; sourceTree = "<group>"; };
+		36CADDD42E36085700B81039 /* mole_level2_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level2_play+eat.json"; sourceTree = "<group>"; };
+		36CADDD52E36085700B81039 /* mole_level3_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level3_default.json; sourceTree = "<group>"; };
+		36CADDD62E36085700B81039 /* mole_level3_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level3_play+eat.json"; sourceTree = "<group>"; };
+		36CADDD72E36085700B81039 /* mole_level4_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level4_default.json; sourceTree = "<group>"; };
+		36CADDD82E36085700B81039 /* mole_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level4_play+eat.json"; sourceTree = "<group>"; };
+		36CADDD92E36085700B81039 /* mole_level5_dafault.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level5_dafault.json; sourceTree = "<group>"; };
+		36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level5_play+eat.json"; sourceTree = "<group>"; };
 		36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DdanDdan_Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -561,6 +581,16 @@
 		36465D762CF7F37700784E8A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				36CADDD12E36085700B81039 /* mole_level1_default.json */,
+				36CADDD22E36085700B81039 /* mole_level1_play+eat.json */,
+				36CADDD32E36085700B81039 /* mole_level2_default.json */,
+				36CADDD42E36085700B81039 /* mole_level2_play+eat.json */,
+				36CADDD52E36085700B81039 /* mole_level3_default.json */,
+				36CADDD62E36085700B81039 /* mole_level3_play+eat.json */,
+				36CADDD72E36085700B81039 /* mole_level4_default.json */,
+				36CADDD82E36085700B81039 /* mole_level4_play+eat.json */,
+				36CADDD92E36085700B81039 /* mole_level5_dafault.json */,
+				36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */,
 				362301E82D141B0000E0621E /* penguin_level1_default.json */,
 				362301E92D141B0000E0621E /* penguin_level1_play+eat.json */,
 				362301EA2D141B0000E0621E /* penguin_level2_default.json */,
@@ -1258,6 +1288,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AB33352C2EAD2F00BC16C9 /* Preview Assets.xcassets in Resources */,
+				36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */,
+				36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */,
+				36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */,
+				36CADDDE2E36085700B81039 /* mole_level4_default.json in Resources */,
+				36CADDDF2E36085700B81039 /* mole_level2_play+eat.json in Resources */,
+				36CADDE02E36085700B81039 /* mole_level3_default.json in Resources */,
+				36CADDE12E36085700B81039 /* mole_level4_play+eat.json in Resources */,
+				36CADDE22E36085700B81039 /* mole_level1_play+eat.json in Resources */,
+				36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */,
+				36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */,
 				3628649F2C89CA2000029452 /* Pretendard-SemiBold.otf in Resources */,
 				36465DA02CFA414400784E8A /* hamster_level5_default.json in Resources */,
 				36465DA12CFA414400784E8A /* confetti.json in Resources */,
