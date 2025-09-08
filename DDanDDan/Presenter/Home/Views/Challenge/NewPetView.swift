@@ -11,6 +11,7 @@ import Lottie
 
 struct NewPetView: View {
     @ObservedObject var coordinator: AppCoordinator
+    @ObservedObject var viewModel: NewPetViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -28,6 +29,7 @@ struct NewPetView: View {
                 Spacer()
                 GreenButton(action: {
                     coordinator.popToRoot()
+                    viewModel.tapDisMissButton()
                 }, title: "확인", disabled: false)
                 .padding(.bottom, 20)
             }
@@ -37,5 +39,5 @@ struct NewPetView: View {
 }
 
 #Preview {
-    NewPetView(coordinator: .init())
+    NewPetView(coordinator: .init(), viewModel: NewPetViewModel())
 }

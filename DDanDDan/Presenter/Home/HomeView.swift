@@ -167,7 +167,23 @@ struct HomeView: View {
                 }
                 
             }
-            .navigationBarBackButtonHidden()
+            
+        }
+        .navigationDestination(for: HomePath.self) { path in
+            switch path {
+            case .setting:
+                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
+            case .ranking:
+                RankView(store: rankStore, coordinator: coordinator)
+            case .successThreeDay(let totalKcal):
+                ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
+            case .newPet:
+                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
+            case .upgradePet(let level, let petType):
+                LevelUpView(coordinator: coordinator, level: level, petType: petType)
+            }
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
