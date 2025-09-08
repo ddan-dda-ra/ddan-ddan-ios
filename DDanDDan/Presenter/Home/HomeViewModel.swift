@@ -303,13 +303,30 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func setRandomPetToMainPet(_ petId: String) async {
-        let setMainPetResult = await homeRepository.updateMainPet(petId: petId)
-        switch setMainPetResult {
-        case .success(let pet):
-            break
-        case .failure(let error):
-            print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")
+    // MARK: CoachMark View
+    
+    func bind(overlayVM: NewPetViewModel) {
+        overlayVM.dismissPublisher
+            .sink { [weak self] in
+                self?.showRandomPetCoachMark()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func showRandomPetCoachMark() {
+        // 최대 레벨에서 돌아올 때 체크
+        if UserDefaultValue.isFirstRandomTicket {
+            UserDefaultValue.isFirstRandomTicket = false
+            
+           // 첫 랜덤 가챠일 경우 표출
+            withAnimation(.easeInOut(duration: 0.6)) {
+                enableRandomPet.toggle()
+            }
+        }
+    }
+    
+    
+    
     // MARK: Random Gacha Pet
     
     func bind(overlayVM: RandomGachaPetViewModel) {
@@ -357,11 +374,6 @@ final class HomeViewModel: ObservableObject {
     @MainActor
     func showTooltipView() {
         showToolTipView.toggle()
-        
-//       // 첫 랜덤 가챠일 경우 표출
-//        withAnimation(.easeInOut(duration: 0.6)) {
-//            enableRandomPet.toggle()
-//        }
     }
     
     
