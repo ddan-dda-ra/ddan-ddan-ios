@@ -24,9 +24,12 @@ final class RandomGachaPetViewModel: ObservableObject {
     func tapSelectButton() {
         Task {
             await selectRandomPet()
-            isSelectedRandomPet = true
+            await MainActor.run {
+                isSelectedRandomPet = true
+            }
         }
     }
+
     
     func tapGrowupButton() {
         guard let gachaResultId = gachaResult?.id else {
@@ -48,11 +51,14 @@ final class RandomGachaPetViewModel: ObservableObject {
         let randomPetResult = await homeRepository.addNewGachaRandomPet()
         switch randomPetResult {
         case .success(let pet):
-            gachaResult = pet
+            await MainActor.run {
+                gachaResult = pet
+            }
         case .failure(let error):
             print("랜덤 펫 생성에 실패했습니다 \(error.localizedDescription)")
         }
     }
+
     
     private func setRandomPetToMainPet(_ petId: String) async {
         let setMainPetResult = await homeRepository.updateMainPet(petId: petId)
