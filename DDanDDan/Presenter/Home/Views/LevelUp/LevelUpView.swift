@@ -11,11 +11,18 @@ struct LevelUpView: View {
     @ObservedObject var coordinator: AppCoordinator
     private let level: Int
     private let petType: PetType
+    private let newRandomPet: Bool
     
-    init(coordinator: AppCoordinator, level: Int, petType: PetType) {
+    init(
+        coordinator: AppCoordinator,
+        level: Int,
+        petType: PetType,
+        newRandomPet: Bool = false
+    ) {
         self.coordinator = coordinator
         self.level = level
         self.petType = petType
+        self.newRandomPet = newRandomPet
     }
     
     var body: some View {
@@ -42,7 +49,11 @@ struct LevelUpView: View {
                 }
                 Spacer()
                 GreenButton(action: {
-                    coordinator.pop()
+                    if newRandomPet {
+                        coordinator.push(to: .newPet)
+                    } else {
+                        coordinator.pop()
+                    }
                 }, title: "성장하기", disabled: false)
                 .padding(.bottom, 20)
             }
