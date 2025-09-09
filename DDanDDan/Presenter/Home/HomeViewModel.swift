@@ -51,6 +51,7 @@ final class HomeViewModel: ObservableObject {
     @Published var showToolTipView: Bool = false
     
     @Published var enableRandomPet: Bool = false
+    @Published var showRandomPetGuide: Bool = false
     @Published var showRandomGachaView: Bool = false
     
     private var petId = ""
@@ -86,6 +87,8 @@ final class HomeViewModel: ObservableObject {
             )
             
             self.petId = petInfo.mainPet.id
+            
+            enableRandomPet = userInfo.tickets > 0
         }
         
         observeHealthKitData()
@@ -223,13 +226,14 @@ final class HomeViewModel: ObservableObject {
             self.homePetModel.level = petData.pet.level
             self.isLevelUp = true
             self.isPlayingSpecialAnimation = false
+            
+            if petData.pet.level == 5 {
+                self.isPlayingSpecialAnimation = false
+                self.isMaxLevel = true
+            }
+            
         }
-        
-        if petData.pet.level == 4 && petData.pet.expPercent == 100 && !isMaxLevel {
-            self.isPlayingSpecialAnimation = false
-            self.isMaxLevel = true
-        }
-        
+
         self.showRandomBubble(type: .play)
         try await self.updateLottieAnimation(for: .eatPlay)
     }
@@ -314,13 +318,17 @@ final class HomeViewModel: ObservableObject {
     }
     
     private func showRandomPetCoachMark() {
+        withAnimation {
+            enableRandomPet = true
+        }
+        
         // 최대 레벨에서 돌아올 때 체크
         if UserDefaultValue.isFirstRandomTicket {
             UserDefaultValue.isFirstRandomTicket = false
             
            // 첫 랜덤 가챠일 경우 표출
             withAnimation(.easeInOut(duration: 0.6)) {
-                enableRandomPet.toggle()
+                showRandomPetGuide = true
             }
         }
     }
