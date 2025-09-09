@@ -60,21 +60,21 @@ struct HomeView: View {
             
             Color(.backgroundBlack)
                 .ignoresSafeArea()
-                .opacity(viewModel.enableRandomPet ? 0.8 : 0)
-                .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+                .opacity(viewModel.showRandomPetGuide ? 0.8 : 0)
+                .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
 
             VStack(alignment: .leading) {
                 HStack {
                     randomPetGachaButton
                         .padding(.leading, 16.adjustedWidth)
-                        .shadow(color: .white, radius: viewModel.enableRandomPet ? 32 : 0)
-                        .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+                        .shadow(color: .white, radius: viewModel.showRandomPetGuide ? 32 : 0)
+                        .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
                     Spacer()
                 }
             }
             .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
-            .opacity(viewModel.enableRandomPet ? 1 : 0)
-            .animation(.easeInOut(duration: 0.6), value: viewModel.enableRandomPet)
+            .opacity(viewModel.showRandomPetGuide ? 1 : 0)
+            .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
 
             
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
@@ -109,6 +109,7 @@ struct HomeView: View {
                     )
                     )
                     viewModel.isLevelUp = false
+                    viewModel.isMaxLevel = false
                 }
             }
 //            .onChange(of: viewModel.isMaxLevel) { newValue in

@@ -28,8 +28,8 @@ struct NewPetView: View {
                     .foregroundStyle(.white)
                 Spacer()
                 GreenButton(action: {
-                    coordinator.popToRoot()
                     viewModel.tapDisMissButton()
+                    coordinator.popToRoot()
                 }, title: "확인", disabled: false)
                 .padding(.bottom, 20)
             }
