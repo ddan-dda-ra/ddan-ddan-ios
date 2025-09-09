@@ -101,9 +101,14 @@ struct RandomGachaPetView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .strokeBorder(Color.borderGray, lineWidth: 4)
                 )
-            LottieView(animation: .named(LottieString.randomEgg))
-                .playing(loopMode: .loop)
-                .frame(width: 136, height: 136)
+            if viewModel.isSelectedRandomPet {
+                LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 0) ?? LottieString.randomEgg))
+                // TODO: 컨버티 로티 필요
+            } else {
+                LottieView(animation: .named(LottieString.randomEgg))
+                    .playing(loopMode: .loop)
+                    .frame(width: 136, height: 136)
+            }
         }
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
