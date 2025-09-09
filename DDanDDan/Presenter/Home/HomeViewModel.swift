@@ -337,10 +337,16 @@ final class HomeViewModel: ObservableObject {
     
     // MARK: Random Gacha Pet
     
+    @MainActor
     func bind(overlayVM: RandomGachaPetViewModel) {
         overlayVM.dismissPublisher
             .sink { [weak self] in
-                self?.showRandomGachaView = false
+                Task {
+                    await MainActor.run {
+                        self?.showRandomGachaView = false
+                    }
+                    await self?.fetchHomeInfo()
+                }
             }
             .store(in: &cancellables)
     }
@@ -348,7 +354,7 @@ final class HomeViewModel: ObservableObject {
     @MainActor
     func tapRandomGachaButton() {
         withAnimation(.easeInOut(duration: 0.6)) {
-            enableRandomPet = false
+            showRandomPetGuide = false
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             withAnimation(.easeInOut(duration: 0.6)) {
