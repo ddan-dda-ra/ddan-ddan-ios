@@ -20,6 +20,9 @@ enum HomePath: Hashable {
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
+    @StateObject var newPetViewModel = NewPetViewModel()
+
+    
     private let rankStore = Store(initialState: RankViewReducer.State()) {
         RankViewReducer(repository: RankRepository())
     }
@@ -98,6 +101,7 @@ struct HomeView: View {
             }
             .onChange(of: viewModel.isLevelUp) { newLevel in
                 if newLevel {
+                    viewModel.bind(overlayVM: newPetViewModel)
                     coordinator.push( to: .upgradePet(
                         level: viewModel.homePetModel.level,
                         petType: viewModel.homePetModel.petType,
@@ -180,9 +184,9 @@ struct HomeView: View {
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
-                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
+                NewPetView(coordinator: coordinator, viewModel: newPetViewModel)
             case .upgradePet(let level, let petType, let newRandomPet):
-                LevelUpView(coordinator: coordinator, level: level, petType: petType)
+                LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newRandomPet)
             }
         }
         .navigationBarBackButtonHidden()
