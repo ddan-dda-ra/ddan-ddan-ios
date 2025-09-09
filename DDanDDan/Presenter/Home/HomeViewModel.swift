@@ -225,7 +225,7 @@ final class HomeViewModel: ObservableObject {
             self.isPlayingSpecialAnimation = false
         }
         
-        if petData.pet.level == 5 && petData.pet.expPercent == 100 && !isMaxLevel {
+        if petData.pet.level == 4 && petData.pet.expPercent == 100 && !isMaxLevel {
             self.isPlayingSpecialAnimation = false
             self.isMaxLevel = true
         }

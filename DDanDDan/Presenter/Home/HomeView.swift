@@ -13,7 +13,8 @@ import Lottie
 enum HomePath: Hashable {
     case successThreeDay(totalKcal: Int)
     case newPet
-    case upgradePet(level: Int, petType: PetType)
+    case upgradePet(level: Int, petType: PetType, newPetTicket: Bool)
+    case ranking
 }
 
 struct HomeView: View {
@@ -99,18 +100,19 @@ struct HomeView: View {
                 if newLevel {
                     coordinator.push( to: .upgradePet(
                         level: viewModel.homePetModel.level,
-                        petType: viewModel.homePetModel.petType
+                        petType: viewModel.homePetModel.petType,
+                        newPetTicket: viewModel.isMaxLevel
                     )
                     )
                     viewModel.isLevelUp = false
                 }
             }
-            .onChange(of: viewModel.isMaxLevel) { newValue in
-                if newValue {
-                    coordinator.push( to: .newPet)
-                    viewModel.isMaxLevel = false
-                }
-            }
+//            .onChange(of: viewModel.isMaxLevel) { newValue in
+//                if newValue {
+//                    coordinator.push( to: .newPet)
+//                    viewModel.isMaxLevel = false
+//                }
+//            }
             .onChange(of: viewModel.isGoalMet) { newValue in
                 if newValue {
                     coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
@@ -179,7 +181,7 @@ struct HomeView: View {
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
                 NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
-            case .upgradePet(let level, let petType):
+            case .upgradePet(let level, let petType, let newRandomPet):
                 LevelUpView(coordinator: coordinator, level: level, petType: petType)
             }
         }
