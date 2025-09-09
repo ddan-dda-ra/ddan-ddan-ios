@@ -20,6 +20,9 @@ enum HomePath: Hashable {
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
+    @StateObject var newPetViewModel = NewPetViewModel()
+
+    
     private let rankStore = Store(initialState: RankViewReducer.State()) {
         RankViewReducer(repository: RankRepository())
     }
@@ -98,6 +101,7 @@ struct HomeView: View {
             }
             .onChange(of: viewModel.isLevelUp) { newLevel in
                 if newLevel {
+                    viewModel.bind(overlayVM: newPetViewModel)
                     coordinator.push( to: .upgradePet(
                         level: viewModel.homePetModel.level,
                         petType: viewModel.homePetModel.petType,
