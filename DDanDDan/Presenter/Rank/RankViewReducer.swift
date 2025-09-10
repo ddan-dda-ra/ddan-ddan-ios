@@ -36,11 +36,13 @@ struct RankViewReducer {
         var currentTab: Tab = .goal
         
         // UI
-        
         var showToast: Bool = false
         var toastMessage: String = ""
         
         var showToolKit: Bool = false
+        
+        // Scope
+        @Presents var friendCard: FriendCardReducer.State?
         
     }
     
@@ -52,9 +54,10 @@ struct RankViewReducer {
         case failed
     }
     
-    enum Action: Equatable {
+    enum Action {
         case onAppear
         case tabChanged(Tab)
+        case tabItem(Ranking)
         case refreshTapped
         case errorDismissed
         
@@ -66,6 +69,9 @@ struct RankViewReducer {
         case showToast(String)
         case toastTimerCompleted
         case toolkitButtonTapped
+        
+        //Scope
+        case friendCard(PresentationAction<FriendCardReducer.Action>)
     }
     
     var body: some Reducer<State, Action> {
@@ -99,7 +105,15 @@ struct RankViewReducer {
             case .toolkitButtonTapped:
                 state.showToolKit.toggle()
                 return .none
+            case let .tabItem(rank):
+                state.friendCard = .init(entity: transformFriendCardEntity(rank: rank), type: .cheer)
+                return .none
+            case .friendCard:
+                return .none
             }
+        }
+        .ifLet(\.$friendCard, action: \.friendCard) {
+            FriendCardReducer()
         }
     }
 }
@@ -182,6 +196,10 @@ private extension RankViewReducer {
         
         let dateCriteria = dateFormatter.string(from: Date())
         return dateCriteria
+    }
+    
+    func transformFriendCardEntity(rank: Ranking) -> FriendCardEntity {
+        .init(userID: rank.userID, userName: rank.userName, mainPetType: rank.mainPetType, petLevel: rank.petLevel, totalCalories: rank.totalCalories, cheerCount: 1234) //TODO: cheerCount 수정
     }
 }
 

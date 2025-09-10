@@ -18,48 +18,51 @@ struct RankContentsView: View {
     
     var body: some View {
         WithPerceptionTracking {
-                ZStack(alignment: .bottom) {
-                    ScrollViewReader { proxy in
-                        CustomScrollView {
-                            VStack(alignment: .leading) {
-                                headerView
-                                    .zIndex(10)
-                                    .padding(.bottom, 32)
-                                rankContainerView
-                            }
-                        } onBottomReached: {
-                            guard let totalGoalRanking = store.totalGoalRanking else { return }
-                            guard let totalKcalRanking = store.totalKcalRanking  else { return }
-                            let totalRankCount = tabType == .goal ? totalGoalRanking : totalKcalRanking
-                            store.send(.showToast(totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
+            ZStack(alignment: .bottom) {
+                ScrollViewReader { proxy in
+                    CustomScrollView {
+                        VStack(alignment: .leading) {
+                            headerView
+                                .zIndex(10)
+                                .padding(.bottom, 32)
+                            rankContainerView
                         }
-                        .onReceive(store.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
-                            withAnimation {
-                                proxy.scrollTo(index, anchor: .top)
-                                store.send(.focusMyRank(index: 0))
-                            }
-                        }
+                    } onBottomReached: {
+                        guard let totalGoalRanking = store.totalGoalRanking else { return }
+                        guard let totalKcalRanking = store.totalKcalRanking  else { return }
+                        let totalRankCount = tabType == .goal ? totalGoalRanking : totalKcalRanking
+                        store.send(.showToast(totalRankCount < 100 ? "랭킹이 아직 \(totalRankCount)등까지 밖에 없어요" : "순위는 100위까지만 노출해요"))
                     }
-                    myRankView
-                    
-                    TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
-                        VStack {
-                            ToastView(message: store.toastMessage, toastType: .info)
+                    .onReceive(store.publisher.focusedMyRankIndex.compactMap { $0 }) { index in
+                        withAnimation {
+                            proxy.scrollTo(index, anchor: .top)
+                            store.send(.focusMyRank(index: 0))
                         }
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                     }
                 }
+                myRankView
                 
-                if shouldShowLoading {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .foregroundStyle(.textButtonAlternative)
-                        .background(Color.backgroundBlack)
+                TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                    VStack {
+                        ToastView(message: store.toastMessage, toastType: .info)
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                 }
             }
-            .onChange(of: tabType) { newTab in
-                store.send(.tabChanged(newTab))
+            
+            if shouldShowLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .foregroundStyle(.textButtonAlternative)
+                    .background(Color.backgroundBlack)
             }
+        }
+        .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
+            FriendCardView(store: store)
+        })
+        .onChange(of: tabType) { newTab in
+            store.send(.tabChanged(newTab))
+        }
     }
 }
 
@@ -122,15 +125,15 @@ extension RankContentsView {
             
             return HStack(alignment: .center, spacing: 12) {
                 if sortedRanking.count == 3 {
-                    RankCard(ranking: sortedRanking[1], tabType: tabType)
+                    RankCard(store: store, ranking: sortedRanking[1], tabType: tabType)
                     
-                    RankCard(ranking: sortedRanking[0], tabType: tabType)
+                    RankCard(store: store, ranking: sortedRanking[0], tabType: tabType)
                         .offset(y: -19)
                     
-                    RankCard(ranking: sortedRanking[2], tabType: tabType)
+                    RankCard(store: store, ranking: sortedRanking[2], tabType: tabType)
                 } else {
                     ForEach(sortedRanking, id: \.userID) { ranking in
-                        RankCard(ranking: ranking, tabType: tabType)
+                        RankCard(store: store, ranking: ranking, tabType: tabType)
                     }
                 }
             }
@@ -276,6 +279,8 @@ extension RankContentsView {
 }
 
 struct RankCard: View {
+    @Perception.Bindable var store: StoreOf<RankViewReducer>
+
     let ranking: Ranking
     let tabType: Tab
     
@@ -306,6 +311,9 @@ struct RankCard: View {
                 .offset(y: -76.adjustedHeight)
         }
         .padding(.horizontal, 6)
+        .onTapGesture {
+            store.send(.tabItem(ranking))
+        }
     }
     
     func getCrownImage(for index: Int) -> Image {
