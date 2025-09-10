@@ -42,6 +42,15 @@ extension PetType {
         }
     }
     
+    var cardBackgroundImage: Image {
+        switch self {
+        case .pinkCat: return Image(.catCardBackground).resizable()
+        case .greenHam: return Image(.hamsterCardBackground).resizable()
+        case .purpleDog: return Image(.dogCardBackground).resizable()
+        case .bluePenguin: return Image(.penguinCardBackground).resizable()
+        }
+    }
+    
     func lottieString(level: Int, mode: LottieMode = .normal) -> String {
         let safeLevel = min(level, 5)
         
