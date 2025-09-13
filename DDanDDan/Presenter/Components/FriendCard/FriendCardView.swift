@@ -9,16 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 import Lottie
 
-struct FriendCardEntity: Equatable {
-    let userID: String
-    let userName: String
-    let mainPetType: PetType
-    let petLevel: Int
-    let totalCalories: Int
-    let cheerCount: Int
-    let isFriend: Bool
-}
-
 struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
     @Environment(\.dismiss) var dismiss

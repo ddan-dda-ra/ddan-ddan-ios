@@ -48,6 +48,7 @@ extension PetType {
         case .greenHam: return Image(.hamsterCardBackground).resizable()
         case .purpleDog: return Image(.dogCardBackground).resizable()
         case .bluePenguin: return Image(.penguinCardBackground).resizable()
+        case .grayMole: return Image(.moleCardBackground).resizable()
         }
     }
     
