@@ -140,7 +140,7 @@ extension HomeView {
                         viewModel.showRandomBubble(type: .normal)
                     }
             }
-            .offset(y: isSEDevice ? 45.adjusted : 55.adjustedHeight)
+            .offset(y: isSEDevice ? 30.adjusted : 55.adjustedHeight)
         }
     }
     
