@@ -16,6 +16,7 @@ struct FriendCardEntity: Equatable {
     let petLevel: Int
     let totalCalories: Int
     let cheerCount: Int
+    let isFriend: Bool
 }
 
 struct FriendCardView: View {
@@ -58,6 +59,17 @@ struct FriendCardView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 296, height: 200)
+            .overlay(alignment: .topLeading) {
+                if let badgeTitle = store.badgeTitle {
+                    Text(badgeTitle)
+                        .font(.heading7_medium16)
+                        .foregroundStyle(.textHeadlinePrimary)
+                        .padding(4)
+                        .background(Color.black.opacity(0.3))
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                        .padding(16)
+                }
+            }
             .overlay(alignment: .bottom) {
                 LottieView(
                     animation: .named(store.entity.mainPetType.lottieString(level: store.entity.petLevel)))
@@ -112,8 +124,8 @@ struct FriendCardView: View {
             .padding(.top, 13)
             
             Rectangle()
+                .fill(.elevationLevel02)
                 .frame(height: 1)
-                .background(.elevationLevel02)
                 .padding(.vertical, 20)
             
             VStack(spacing: 3) {
@@ -133,29 +145,5 @@ struct FriendCardView: View {
         }
         .padding(.vertical, 28)
         .padding(.horizontal, 20)
-    }
-}
-
-@Reducer
-struct FriendCardReducer {
-    
-    enum CardType {
-        case cheer
-        case invite
-    }
-    
-    @ObservableState
-    struct State: Equatable {
-        let entity: FriendCardEntity
-        let type: CardType
-        var buttonTitle: String {
-            switch type {
-            case .cheer: "응원하기"
-            case .invite: "친구하기"
-            }
-        }
-    }
-    enum Action {
-        
     }
 }
