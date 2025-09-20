@@ -20,15 +20,13 @@ struct RankView: View {
     
     var body: some View {
         ZStack {
-            Color(.backgroundBlack)
+            Color(.backgroundBlack).edgesIgnoringSafeArea(.all)
             VStack {
                 WithPerceptionTracking {
-                    CustomNavigationBar(
-                        title: "월간 랭킹",
-                        leftButtonImage: Image(.arrow)) {
-                            coordinator.pop()
-                        }
-                    
+                    Text("월간 랭킹")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.vertical, 13)
                     CustomTabView(store: Store(
                         initialState: TabFeature.State(),
                         reducer: { TabFeature() })
@@ -40,9 +38,7 @@ struct RankView: View {
                 }
             }
         }
-        .swipeBackEnabled()
         .navigationBarHidden(true)
-        .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             store.send(.onAppear)
             store.send(.setDateCirteria)
@@ -59,3 +55,4 @@ struct RankView: View {
 //            }
 //        ), coordinator: .init())
 //}
+
