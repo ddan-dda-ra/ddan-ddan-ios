@@ -47,8 +47,3 @@ App
 - `main`: 프로덕션 브랜치
 - `develop`: 개발 브랜치  
 - `feature/*`: 기능 개발 브랜치
-
-
----
-
-**Built with ❤️ using TCA & SwiftUI**
