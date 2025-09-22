@@ -11,6 +11,7 @@
 | **Architecture** | TCA (The Composable Architecture) |
 | **Asynchronous** | Swift Concurrency (Actor, async/await), Combine |
 | **Apple Frameworks** | HealthKit, WCSession |
+|**CI/CD**|Fastlane|
 | **Networking** | Alamofire |
 | **Authentication** | KakaoSDK |
 
