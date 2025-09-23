@@ -16,6 +16,7 @@ enum PathString {
     
     enum User {
         static let user = "/v1/users/me"
+        static var userDetail: (_ userID: String) -> String = { "/v1/users/\($0)" }
         static let userSetting = "/v1/users/me/settings"
         static let mainPet = "/v1/users/me/main-pet"
         static let updateDailyKcal = "/v1/users/me/daily-calorie"

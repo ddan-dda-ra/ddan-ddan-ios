@@ -5,12 +5,13 @@
 //  Created by keone on 9/13/25.
 //
 
-struct FriendCardEntity: Equatable {
-    let userID: String
+
+public struct FriendCardEntity: Decodable, Equatable {
+    let userId: String
     let userName: String
-    let mainPetType: PetType
-    let petLevel: Int
-    let totalCalories: Int
-    let cheerCount: Int
+    let mainPet: Pet
+    let todayCalorie: Int
+    let monthlyReceivedCheerCount: Int
     let isFriend: Bool
+    let isCheeredToday: Bool
 }

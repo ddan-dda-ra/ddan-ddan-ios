@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Pet: Decodable {
+public struct Pet: Decodable, Equatable {
     let id: String
     let type: PetType
     let level: Int
