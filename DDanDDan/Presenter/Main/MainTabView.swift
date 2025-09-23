@@ -99,8 +99,7 @@ struct MainTabView: View {
             RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer() },
                      coordinator: coordinator)
         case .friends:
-            //TODO: 친구목록 연결
-            EmptyView()
+            FriendListView(store: Store(initialState: FriendsViewReducer.State()) { FriendsViewReducer() }, coordinator: coordinator)
         case .setting:
             SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
         }
