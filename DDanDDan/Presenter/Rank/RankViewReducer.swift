@@ -106,7 +106,7 @@ struct RankViewReducer {
                 state.showToolKit.toggle()
                 return .none
             case let .tabItem(rank):
-                state.friendCard = .init(entity: transformFriendCardEntity(rank: rank), type: .cheer)
+                state.friendCard = .init(userID: rank.userID, type: .cheer)
                 return .none
             case .friendCard:
                 return .none
@@ -196,10 +196,6 @@ private extension RankViewReducer {
         
         let dateCriteria = dateFormatter.string(from: Date())
         return dateCriteria
-    }
-    
-    func transformFriendCardEntity(rank: Ranking) -> FriendCardEntity {
-        .init(userID: rank.userID, userName: rank.userName, mainPetType: rank.mainPetType, petLevel: rank.petLevel, totalCalories: rank.totalCalories, cheerCount: 1234, isFriend: true) //TODO: cheerCount 수정
     }
 }
 

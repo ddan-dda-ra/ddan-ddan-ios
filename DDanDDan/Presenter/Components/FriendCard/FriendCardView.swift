@@ -13,11 +13,16 @@ struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
     @Environment(\.dismiss) var dismiss
     var body: some View {
-        ZStack {
-            cardView
+        WithPerceptionTracking {
+            ZStack {
+                cardView
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(BackgroundBlurView())
+            .onAppear {
+                store.send(.onAppear)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(BackgroundBlurView())
     }
     
     var cardView: some View {
@@ -45,7 +50,7 @@ struct FriendCardView: View {
     }
     
     var cardImageView: some View {
-        store.entity.mainPetType.cardBackgroundImage
+        store.petBackgroundImage
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 296, height: 200)
@@ -55,14 +60,14 @@ struct FriendCardView: View {
                         .font(.heading7_medium16)
                         .foregroundStyle(.textHeadlinePrimary)
                         .padding(4)
-                        .background(Color.black.opacity(0.3))
+                        .background(.elevationLevel04)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                         .padding(16)
                 }
             }
             .overlay(alignment: .bottom) {
                 LottieView(
-                    animation: .named(store.entity.mainPetType.lottieString(level: store.entity.petLevel)))
+                    animation: .named(store.petLottieStrng))
                 .playing(loopMode: .loop)
                 .frame(width: 100, height: 100)
                 .padding(.bottom, 23)
@@ -80,11 +85,11 @@ struct FriendCardView: View {
         VStack(spacing: 0) {
             
             HStack(spacing: 8) {
-                Text(store.entity.userName)
+                Text(store.entity?.userName ?? "")
                     .font(.neoDunggeunmo22)
                     .foregroundStyle(.textHeadlinePrimary)
                 
-                Text("LV.\(store.entity.petLevel)")
+                Text("LV.\(store.entity?.mainPet.level ?? 0)")
                     .font(.neoDunggeunmo16)
                     .foregroundStyle(.textHeadlinePrimary)
                     .padding(.horizontal, 8)
@@ -102,7 +107,7 @@ struct FriendCardView: View {
                     .foregroundStyle(.textBodyTeritary)
                     .padding(.leading, 2)
                 
-                Text("\(store.entity.cheerCount)")
+                Text("\(store.entity?.monthlyReceivedCheerCount ?? 0)")
                     .font(.neoDunggeunmo24)
                     .foregroundStyle(.textBodyTeritary)
                     .padding(.leading, 8)
@@ -123,7 +128,7 @@ struct FriendCardView: View {
                     .font(.body1_regular16)
                     .foregroundStyle(.textBodyTeritary)
                 HStack(spacing: 0) {
-                    Text("\(store.entity.totalCalories)")
+                    Text("\(store.entity?.todayCalorie ?? 0)")
                         .font(.neoDunggeunmo20)
                         .foregroundStyle(.textHeadlinePrimary)
                     Text("kcal")

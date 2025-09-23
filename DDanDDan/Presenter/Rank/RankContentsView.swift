@@ -207,6 +207,9 @@ extension RankContentsView {
         .frame(minWidth: 320, maxWidth: .infinity)
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
+        .onTapGesture {
+            store.send(.tabItem(rank))
+        }
     }
     
     var myRankView: some View {
