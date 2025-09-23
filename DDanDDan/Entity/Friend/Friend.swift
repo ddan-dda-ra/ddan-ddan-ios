@@ -14,7 +14,7 @@ public struct FriendList: Decodable {
 }
 
 public struct Friend: Decodable {
-    let id: Int
+    let id: String
     let name: String
     let mainPetType: PetType
     let petLevel: Int
