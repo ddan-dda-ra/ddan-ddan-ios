@@ -29,4 +29,8 @@ enum PathString {
     enum Rank {
         static let rank = "/v1/ranking"
     }
+    
+    enum Friend {
+        static let friendsList = "/v1/friends/me"
+    }
 }
