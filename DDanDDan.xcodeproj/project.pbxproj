@@ -116,11 +116,14 @@
 		36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */; };
 		36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */; };
 		36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */; };
+		36BC7D022E82E959002B1ED5 /* FriendNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D012E82E959002B1ED5 /* FriendNetwork.swift */; };
+		36BC7D052E82E9D8002B1ED5 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D042E82E9D8002B1ED5 /* Friend.swift */; };
+		36BC7D072E82EA7D002B1ED5 /* FriendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */; };
+		36BC7D092E82EB4E002B1ED5 /* FriendsViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
 		36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */; };
-		36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */; };
 		36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD62E36085700B81039 /* mole_level3_play+eat.json */; };
 		36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD12E36085700B81039 /* mole_level1_default.json */; };
 		36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD92E36085700B81039 /* mole_level5_dafault.json */; };
@@ -131,6 +134,7 @@
 		36CADDE22E36085700B81039 /* mole_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD22E36085700B81039 /* mole_level1_play+eat.json */; };
 		36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */; };
 		36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD32E36085700B81039 /* mole_level2_default.json */; };
+		36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */; };
 		36E0198F2CCA830C00383318 /* DdanDdan_Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */; };
 		36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7EA2CEE411D00B395FB /* Config.swift */; };
@@ -370,6 +374,10 @@
 		36A9D7642DF3231600A9169A /* TokenRefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshManager.swift; sourceTree = "<group>"; };
 		36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36BAF1CC2CA48BAE00BEBCE7 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		36BC7D012E82E959002B1ED5 /* FriendNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendNetwork.swift; sourceTree = "<group>"; };
+		36BC7D042E82E9D8002B1ED5 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRepository.swift; sourceTree = "<group>"; };
+		36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewReducer.swift; sourceTree = "<group>"; };
 		36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
@@ -693,6 +701,7 @@
 				367A796A2CDCB2060055771B /* HomeRepository.swift */,
 				F88663DF2CCB3585008DB860 /* SignUpRepository.swift */,
 				369F16F42D8707E50039ED3A /* RankRepository.swift */,
+				36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -780,6 +789,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		36BC7D032E82E9C9002B1ED5 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				36BC7D042E82E9D8002B1ED5 /* Friend.swift */,
+			);
+			path = Friend;
+			sourceTree = "<group>";
+		};
 		36C1FE082CA4A83D007CA188 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,6 +811,7 @@
 			isa = PBXGroup;
 			children = (
 				36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */,
+				36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */,
 			);
 			path = Friends;
 			sourceTree = "<group>";
@@ -855,6 +873,7 @@
 		F8311F9A2C7068C4000455ED /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				36BC7D032E82E9C9002B1ED5 /* Friend */,
 				364195A82D72F1110065C400 /* Rank */,
 				F88FC6DD2CCF3BED0033D4C9 /* Pet */,
 				F88663CD2CC8ED5A008DB860 /* Error */,
@@ -927,6 +946,7 @@
 				367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */,
 				36F6E7EA2CEE411D00B395FB /* Config.swift */,
 				364195A62D72F0430065C400 /* RankNetwork.swift */,
+				36BC7D012E82E959002B1ED5 /* FriendNetwork.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1454,10 +1474,12 @@
 				367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */,
 				36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */,
 				369F16F02D7CC11C0039ED3A /* RankContentsView.swift in Sources */,
+				36BC7D022E82E959002B1ED5 /* FriendNetwork.swift in Sources */,
 				36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */,
 				F859C04A2C706A2D007B886A /* SignUpEggView.swift in Sources */,
 				367A79DF2CE4C3180055771B /* ReissueData.swift in Sources */,
 				367A79AB2CDE07980055771B /* View+.swift in Sources */,
+				36BC7D092E82EB4E002B1ED5 /* FriendsViewReducer.swift in Sources */,
 				36022B732CCAA04000D360C0 /* HomeButton.swift in Sources */,
 				F90472E72E4F12ED005849BC /* MainTabView.swift in Sources */,
 				F88663DA2CC8F952008DB860 /* LoginRepository.swift in Sources */,
@@ -1481,6 +1503,7 @@
 				367A79782CDD617A0055771B /* ToastView.swift in Sources */,
 				36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */,
 				360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */,
+				36BC7D072E82EA7D002B1ED5 /* FriendRepository.swift in Sources */,
 				F8311F992C7060E8000455ED /* GreenButton.swift in Sources */,
 				F88FC6E32CCF6C6A0033D4C9 /* SettingRepository.swift in Sources */,
 				36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */,
@@ -1504,6 +1527,7 @@
 				36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */,
 				367A79DD2CE4B65D0055771B /* TokenInterceptor.swift in Sources */,
 				364195AA2D72F11D0065C400 /* Rank.swift in Sources */,
+				36BC7D052E82E9D8002B1ED5 /* Friend.swift in Sources */,
 				367A797A2CDD6D410055771B /* ImageDialogView.swift in Sources */,
 				F809E2FC2CBD06A1001BE099 /* UserManager.swift in Sources */,
 				367A79762CDD544A0055771B /* PetArchiveViewModel.swift in Sources */,
