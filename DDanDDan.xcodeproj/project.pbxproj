@@ -185,6 +185,8 @@
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F99F04A12E757007000D0F06 /* FriendCardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04A02E757002000D0F06 /* FriendCardReducer.swift */; };
 		F99F04FC2E7574B9000D0F06 /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04FB2E7574B7000D0F06 /* FriendCard.swift */; };
+		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
+		F9BCC0B32E8229960035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0B22E82298E0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
 		F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
@@ -440,6 +442,8 @@
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F99F04A02E757002000D0F06 /* FriendCardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardReducer.swift; sourceTree = "<group>"; };
 		F99F04FB2E7574B7000D0F06 /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
+		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
+		F9BCC0B22E82298E0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
 		F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEvent.swift; sourceTree = "<group>"; };
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
@@ -691,11 +695,13 @@
 		367A79712CDD08C90055771B /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				F9BCC0B02E82297A0035E1AF /* Dependencies */,
 				F88FC6E22CCF6C6A0033D4C9 /* SettingRepository.swift */,
 				F88663D92CC8F952008DB860 /* LoginRepository.swift */,
 				367A796A2CDCB2060055771B /* HomeRepository.swift */,
 				F88663DF2CCB3585008DB860 /* SignUpRepository.swift */,
 				369F16F42D8707E50039ED3A /* RankRepository.swift */,
+				F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1054,6 +1060,14 @@
 				F99F04FB2E7574B7000D0F06 /* FriendCard.swift */,
 			);
 			path = Friend;
+			sourceTree = "<group>";
+		};
+		F9BCC0B02E82297A0035E1AF /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				F9BCC0B22E82298E0035E1AF /* RepositoryDependency.swift */,
+			);
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		F9C3DE8B2E7142B700DE5E4C /* FriendCard */ = {
@@ -1506,6 +1520,7 @@
 				F809E2FE2CBD0841001BE099 /* DeleteUserConfirmView.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
+				F9BCC0B32E8229960035E1AF /* RepositoryDependency.swift in Sources */,
 				F88663D32CC8EE29008DB860 /* AuthNetwork.swift in Sources */,
 				F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */,
 				F859C0482C7068DF007B886A /* SignUpData.swift in Sources */,
@@ -1547,6 +1562,7 @@
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,
 				F88663D72CC8F0D2008DB860 /* LoginViewModel.swift in Sources */,
 				F88FC6DC2CCF3B110033D4C9 /* PetsNetwork.swift in Sources */,
+				F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */,
 				36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */,
 				F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */,
 				36465DAC2CFA415200784E8A /* LottieString.swift in Sources */,
