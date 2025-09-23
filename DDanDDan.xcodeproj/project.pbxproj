@@ -120,6 +120,7 @@
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
 		36C1FE0E2CA4B3E7007CA188 /* PetArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0D2CA4B3E7007CA188 /* PetArchiveView.swift */; };
+		36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */; };
 		36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD62E36085700B81039 /* mole_level3_play+eat.json */; };
 		36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD12E36085700B81039 /* mole_level1_default.json */; };
 		36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD92E36085700B81039 /* mole_level5_dafault.json */; };
@@ -383,6 +384,7 @@
 		36CADDD82E36085700B81039 /* mole_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level4_play+eat.json"; sourceTree = "<group>"; };
 		36CADDD92E36085700B81039 /* mole_level5_dafault.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level5_dafault.json; sourceTree = "<group>"; };
 		36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level5_play+eat.json"; sourceTree = "<group>"; };
+		36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DdanDdan_Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -673,6 +675,7 @@
 				F90472E52E4F12E0005849BC /* Main */,
 				364195A32D72DAC70065C400 /* Rank */,
 				36F6E7EC2CEE45D600B395FB /* Splash */,
+				36CAE0FC2E6B19BC00B81039 /* Friends */,
 				F8311F952C7060B3000455ED /* Components */,
 				F8C10C142C57950D0037D6A5 /* Login */,
 				F84B21C22C902255009FE6F3 /* Onboarding */,
@@ -785,6 +788,14 @@
 				36340DF12CC4DE060001AF2A /* Views */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		36CAE0FC2E6B19BC00B81039 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */,
+			);
+			path = Friends;
 			sourceTree = "<group>";
 		};
 		36F6E7EC2CEE45D600B395FB /* Splash */ = {
@@ -1468,6 +1479,7 @@
 				F88FC6E12CCF64150033D4C9 /* MainPet.swift in Sources */,
 				F84B21C52C90227A009FE6F3 /* SettingView.swift in Sources */,
 				367A79782CDD617A0055771B /* ToastView.swift in Sources */,
+				36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */,
 				360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */,
 				F8311F992C7060E8000455ED /* GreenButton.swift in Sources */,
 				F88FC6E32CCF6C6A0033D4C9 /* SettingRepository.swift in Sources */,
