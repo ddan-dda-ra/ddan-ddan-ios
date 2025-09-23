@@ -313,6 +313,7 @@ final class HomeViewModel: ObservableObject {
         overlayVM.dismissPublisher
             .sink { [weak self] in
                 self?.showRandomPetCoachMark()
+                self?.homePetModel.ticket += 1
             }
             .store(in: &cancellables)
     }
