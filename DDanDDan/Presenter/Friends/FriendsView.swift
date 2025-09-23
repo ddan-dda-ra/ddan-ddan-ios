@@ -7,10 +7,16 @@
 
 import SwiftUI
 
+import ComposableArchitecture
+
 struct FriendListView: View {
-    var friends: [FriendModel] = [
-        .init(name:"지희", petType: .bluePenguin, level: 1)
-    ]
+    @Perception.Bindable var store: StoreOf<FriendsViewReducer>
+    @ObservedObject var coordinator: AppCoordinator
+    
+    init(store: StoreOf<FriendsViewReducer>, coordinator: AppCoordinator) {
+        self.store = store
+        self.coordinator = coordinator
+    }
     
     var body: some View {
         ZStack {
@@ -46,12 +52,15 @@ struct FriendListView: View {
                 myRankView
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
     
     private var friendsListView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(friends.indices, id: \.self) { index in
-                friendsListItemView(friend: friends[index], index: index)
+            ForEach(store.friendsList.indices, id: \.self) { index in
+                friendsListItemView(friend: store.friendsList[index], index: index)
             }
         }
     }
@@ -131,13 +140,13 @@ struct FriendListView: View {
     }
 }
 
-struct FriendModel {
+struct FriendModel: Equatable {
     var name: String
     var petType: PetType
     var level: Int
 }
 
 
-#Preview {
-    FriendListView()
-}
+//#Preview {
+//    FriendListView(store: <#StoreOf<FriendsViewReducer>#>, coordinator: <#AppCoordinator#>)
+//}
