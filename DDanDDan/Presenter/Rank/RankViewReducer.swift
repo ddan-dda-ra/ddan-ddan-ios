@@ -36,11 +36,13 @@ struct RankViewReducer {
         var currentTab: Tab = .goal
         
         // UI
-        
         var showToast: Bool = false
         var toastMessage: String = ""
         
         var showToolKit: Bool = false
+        
+        // Scope
+        @Presents var friendCard: FriendCardReducer.State?
         
     }
     
@@ -52,9 +54,10 @@ struct RankViewReducer {
         case failed
     }
     
-    enum Action: Equatable {
+    enum Action {
         case onAppear
         case tabChanged(Tab)
+        case tabItem(Ranking)
         case refreshTapped
         case errorDismissed
         
@@ -66,6 +69,9 @@ struct RankViewReducer {
         case showToast(String)
         case toastTimerCompleted
         case toolkitButtonTapped
+        
+        //Scope
+        case friendCard(PresentationAction<FriendCardReducer.Action>)
     }
     
     var body: some Reducer<State, Action> {
@@ -99,7 +105,15 @@ struct RankViewReducer {
             case .toolkitButtonTapped:
                 state.showToolKit.toggle()
                 return .none
+            case let .tabItem(rank):
+                state.friendCard = .init(userID: rank.userID, type: .cheer)
+                return .none
+            case .friendCard:
+                return .none
             }
+        }
+        .ifLet(\.$friendCard, action: \.friendCard) {
+            FriendCardReducer()
         }
     }
 }
