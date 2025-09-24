@@ -28,6 +28,11 @@ public struct NetworkManager {
             headers["Authorization"] = "Bearer \(accessToken)"
         }
         
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            headers["X-iOS-Version"] = appVersion
+        }
+
+        
         if let additionalHeaders = additionalHeaders {
             for header in additionalHeaders {
                 headers[header.name] = header.value
