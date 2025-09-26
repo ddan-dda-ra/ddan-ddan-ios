@@ -8,15 +8,20 @@
 import Dependencies
 
 public struct FriendCardRepository: DependencyKey {
-    var getRanking: (_ userID: String) async -> Result<FriendCardEntity, NetworkError>
+    var getFriendDetail: (_ userID: String) async -> Result<FriendCardEntity, NetworkError>
+    var cheerFriend: (_ friendID: String) async -> Result<CheerInfo, NetworkError>
 }
 
 extension FriendCardRepository {
     public static var liveValue: FriendCardRepository {
-        let network = UserNetwork()
+        let userNetwork = UserNetwork()
+        let cheerNetwork = CheerNetwork()
         return FriendCardRepository(
-            getRanking: {
-                await network.fetchUserDetail(userID: $0)
+            getFriendDetail: {
+                await userNetwork.fetchUserDetail(userID: $0)
+            },
+            cheerFriend: {
+                await cheerNetwork.cheer(friendID: $0)
             }
         )
     }
