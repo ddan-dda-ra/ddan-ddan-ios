@@ -86,7 +86,7 @@ struct HomeView: View {
                 .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             }
             TransparentOverlayView(isPresented: viewModel.showRandomGachaView, isDimView: false) {
-                let randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: HomeRepository())
+                let randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: viewModel.homeRepository)
                 viewModel.bind(overlayVM: randomGachaPetViewModel)
                 
                 return RandomGachaPetView(viewModel: randomGachaPetViewModel)
