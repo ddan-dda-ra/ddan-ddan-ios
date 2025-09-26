@@ -11,35 +11,53 @@ struct LevelUpView: View {
     @ObservedObject var coordinator: AppCoordinator
     private let level: Int
     private let petType: PetType
+    private let newRandomPet: Bool
     
-    init(coordinator: AppCoordinator, level: Int, petType: PetType) {
+    init(
+        coordinator: AppCoordinator,
+        level: Int,
+        petType: PetType,
+        newRandomPet: Bool = false
+    ) {
         self.coordinator = coordinator
         self.level = level
         self.petType = petType
+        self.newRandomPet = newRandomPet
     }
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color(.backgroundBlack)
+            Color(.backgroundBlack).ignoresSafeArea()
             VStack {
                 Spacer()
                 imageView
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 40)
-                Text("lv.\(level)로\n업그레이드 되었어요!")
+                Text(level == 5 ? "펫 성장 완료!" : "lv.\(level)로\n업그레이드 되었어요!")
                     .multilineTextAlignment(.center)
                     .lineSpacing(8)
                     .font(.neoDunggeunmo24)
                     .foregroundStyle(.white)
-                    .padding(.vertical, 32)
+                    .padding(.top, 32)
+                if level == 5 {
+                    Text("성장을 완료한 펫과 꾸준히 운동해서\n경험치를 올려보세요")
+                        .multilineTextAlignment(.center)
+                        .font(.body3_regular12)
+                        .foregroundStyle(.iconGray)
+                        .lineSpacing(8)
+                        .padding(.top, 8)
+                }
                 Spacer()
                 GreenButton(action: {
-                    coordinator.pop()
+                    if newRandomPet {
+                        coordinator.push(to: .newPet)
+                    } else {
+                        coordinator.pop()
+                    }
                 }, title: "성장하기", disabled: false)
-                .padding(.bottom, 44)
+                .padding(.bottom, 20)
             }
         }
-        .ignoresSafeArea()
         .navigationBarHidden(true)
     }
     

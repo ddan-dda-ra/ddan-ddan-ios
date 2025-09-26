@@ -10,8 +10,8 @@ import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct RankViewReducer {
-    let repository = RankRepository()
+struct RankViewReducer: Reducer {
+    let repository: RankRepository
     
     @ObservableState
     struct State: Equatable {

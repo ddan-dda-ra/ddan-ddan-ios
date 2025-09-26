@@ -7,26 +7,30 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 import HealthKit
 
 
 final class HomeViewModel: ObservableObject {
+    
     private struct Loading {
         var feed: Bool = false
     }
+    
     @Published var homePetModel: HomeModel = .init(
         petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
         level: UserDefaultValue.level,
         exp: 0,
         goalKcal: UserDefaultValue.purposeKcal,
         feedCount: 0,
-        toyCount: 0
+        toyCount: 0,
+        ticket: 0
     )
     
     @Published var isPlayingSpecialAnimation: Bool = false
-
     @Published var currentLottieAnimation: String = ""
+    
     @Published var isGoalMet: Bool = false
     @Published var isMaxLevel: Bool = false
     @Published var isLevelUp: Bool = false
@@ -44,11 +48,20 @@ final class HomeViewModel: ObservableObject {
     @Published var showToast: Bool = false
     @Published var toastMessage: String = ""
     
+    @Published var showToolTipView: Bool = false
+    
+    @Published var enableRandomPet: Bool = false
+    @Published var showRandomPetGuide: Bool = false
+    @Published var showRandomGachaView: Bool = false
+    
+    let homeRepository: HomeRepositoryProtocol
+    
     private var petId = ""
     private var previousKcal: Int = 0
+    private var cancellables = Set<AnyCancellable>()
+    
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
-    private let homeRepository: HomeRepositoryProtocol
     
     private let generator = UIImpactFeedbackGenerator(style: .heavy)
     
@@ -70,10 +83,13 @@ final class HomeViewModel: ObservableObject {
                 exp: Double(petInfo.mainPet.expPercent),
                 goalKcal: userInfo.purposeCalorie,
                 feedCount: userInfo.foodQuantity,
-                toyCount: userInfo.toyQuantity
+                toyCount: userInfo.toyQuantity,
+                ticket: userInfo.tickets
             )
             
             self.petId = petInfo.mainPet.id
+            
+            enableRandomPet = userInfo.tickets > 0
         }
         
         observeHealthKitData()
@@ -128,9 +144,11 @@ final class HomeViewModel: ObservableObject {
                 exp: Double(petInfo.mainPet.expPercent),
                 goalKcal: userInfo.purposeCalorie,
                 feedCount: userInfo.foodQuantity,
-                toyCount: userInfo.toyQuantity
+                toyCount: userInfo.toyQuantity,
+                ticket: userInfo.tickets
             )
             
+            enableRandomPet = userInfo.tickets > 0
             
             let info: [String: Any] = [
                 "purposeKcal": userInfo.purposeCalorie,
@@ -209,13 +227,14 @@ final class HomeViewModel: ObservableObject {
             self.homePetModel.level = petData.pet.level
             self.isLevelUp = true
             self.isPlayingSpecialAnimation = false
+            
+            if petData.pet.level == 5 {
+                self.isPlayingSpecialAnimation = false
+                self.isMaxLevel = true
+            }
+            
         }
-        
-        if petData.pet.level == 5 && petData.pet.expPercent == 100 && !isMaxLevel {
-            self.isPlayingSpecialAnimation = false
-            self.isMaxLevel = true
-        }
-        
+
         self.showRandomBubble(type: .play)
         try await self.updateLottieAnimation(for: .eatPlay)
     }
@@ -289,6 +308,61 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    // MARK: CoachMark View
+    
+    func bind(overlayVM: NewPetViewModel) {
+        overlayVM.dismissPublisher
+            .sink { [weak self] in
+                self?.showRandomPetCoachMark()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func showRandomPetCoachMark() {
+        withAnimation {
+            enableRandomPet = true
+        }
+        
+        // 최대 레벨에서 돌아올 때 체크
+        if UserDefaultValue.isFirstRandomTicket {
+            UserDefaultValue.isFirstRandomTicket = false
+            
+           // 첫 랜덤 가챠일 경우 표출
+            withAnimation(.easeInOut(duration: 0.6)) {
+                showRandomPetGuide = true
+            }
+        }
+    }
+    
+    
+    
+    // MARK: Random Gacha Pet
+    
+    @MainActor
+    func bind(overlayVM: RandomGachaPetViewModel) {
+        overlayVM.dismissPublisher
+            .sink { [weak self] in
+                Task {
+                    await MainActor.run {
+                        self?.showRandomGachaView = false
+                    }
+                    await self?.fetchHomeInfo()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    @MainActor
+    func tapRandomGachaButton() {
+        withAnimation(.easeInOut(duration: 0.6)) {
+            showRandomPetGuide = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            withAnimation(.easeInOut(duration: 0.6)) {
+                self.showRandomGachaView = true
+            }
+        }
+    }
     // MARK: - Toast & Bubble
     
     @MainActor
@@ -305,11 +379,16 @@ final class HomeViewModel: ObservableObject {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.easeInOut(duration: 0.3)) {
+                withAnimation(.easeInOut(duration: 0.6)) {
                     self.showBubble = false
                 }
             }
         }
+    }
+    
+    @MainActor
+    func showTooltipView() {
+        showToolTipView.toggle()
     }
     
     

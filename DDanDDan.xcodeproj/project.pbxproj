@@ -11,6 +11,7 @@
 		360E6B362CEBC5F10059661E /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360E6B352CEBC5F10059661E /* SplashView.swift */; };
 		360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360E6B372CEBC8A60059661E /* SplashViewModel.swift */; };
 		360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360E6B3B2CEDF53F0059661E /* NewPetView.swift */; };
+		361C009A2E6F29CB0059F33E /* NewPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C00992E6F29CB0059F33E /* NewPetViewModel.swift */; };
 		362301F22D141B0000E0621E /* penguin_level4_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 362301EE2D141B0000E0621E /* penguin_level4_default.json */; };
 		362301F32D141B0000E0621E /* penguin_level4_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 362301EF2D141B0000E0621E /* penguin_level4_play+eat.json */; };
 		362301F42D141B0000E0621E /* penguin_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 362301E92D141B0000E0621E /* penguin_level1_play+eat.json */; };
@@ -130,8 +131,11 @@
 		36CADDE22E36085700B81039 /* mole_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD22E36085700B81039 /* mole_level1_play+eat.json */; };
 		36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */; };
 		36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD32E36085700B81039 /* mole_level2_default.json */; };
+		36CAE0B02E69C6CB00B81039 /* RandomGachaPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */; };
+		36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */; };
+		36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */; };
+		36CAE0E42E6B160900B81039 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0E32E6B160900B81039 /* ButtonStyles.swift */; };
 		36E0198F2CCA830C00383318 /* DdanDdan_Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */; };
 		36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7EA2CEE411D00B395FB /* Config.swift */; };
 		36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E81B2CEE4FF900B395FB /* Array+.swift */; };
 		36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */; };
@@ -280,6 +284,7 @@
 		360E6B352CEBC5F10059661E /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		360E6B372CEBC8A60059661E /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		360E6B3B2CEDF53F0059661E /* NewPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPetView.swift; sourceTree = "<group>"; };
+		361C00992E6F29CB0059F33E /* NewPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPetViewModel.swift; sourceTree = "<group>"; };
 		362301E82D141B0000E0621E /* penguin_level1_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = penguin_level1_default.json; sourceTree = "<group>"; };
 		362301E92D141B0000E0621E /* penguin_level1_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "penguin_level1_play+eat.json"; sourceTree = "<group>"; };
 		362301EA2D141B0000E0621E /* penguin_level2_default.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = penguin_level2_default.json; sourceTree = "<group>"; };
@@ -388,10 +393,13 @@
 		36CADDD82E36085700B81039 /* mole_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level4_play+eat.json"; sourceTree = "<group>"; };
 		36CADDD92E36085700B81039 /* mole_level5_dafault.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level5_dafault.json; sourceTree = "<group>"; };
 		36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level5_play+eat.json"; sourceTree = "<group>"; };
+		36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetView.swift; sourceTree = "<group>"; };
+		36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ramdom_egg.json; sourceTree = "<group>"; };
+		36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetViewModel.swift; sourceTree = "<group>"; };
+		36CAE0E32E6B160900B81039 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DdanDdan_Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPetViewModel.swift; sourceTree = "<group>"; };
 		36F6E7EA2CEE411D00B395FB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		36F6E81B2CEE4FF900B395FB /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		36F6E81E2CEE7B4900B395FB /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -593,6 +601,7 @@
 		36465D762CF7F37700784E8A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */,
 				36CADDD12E36085700B81039 /* mole_level1_default.json */,
 				36CADDD22E36085700B81039 /* mole_level1_play+eat.json */,
 				36CADDD32E36085700B81039 /* mole_level2_default.json */,
@@ -663,7 +672,7 @@
 			children = (
 				36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */,
 				360E6B3B2CEDF53F0059661E /* NewPetView.swift */,
-				36F6E7A12CEE018600B395FB /* NewPetViewModel.swift */,
+				361C00992E6F29CB0059F33E /* NewPetViewModel.swift */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";
@@ -794,6 +803,8 @@
 			children = (
 				36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */,
 				36BAF1C62CA483BC00BEBCE7 /* HomeView.swift */,
+				36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */,
+				36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */,
 				36340DF12CC4DE060001AF2A /* Views */,
 			);
 			path = Home;
@@ -850,6 +861,7 @@
 				36F6E8202CEE7DE000B395FB /* CheckButton.swift */,
 				369F16F82D99A3850039ED3A /* CustomScrollView.swift */,
 				36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */,
+				36CAE0E32E6B160900B81039 /* ButtonStyles.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1338,6 +1350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AB33352C2EAD2F00BC16C9 /* Preview Assets.xcassets in Resources */,
+				36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */,
 				36CADDDB2E36085700B81039 /* mole_level3_play+eat.json in Resources */,
 				36CADDDC2E36085700B81039 /* mole_level1_default.json in Resources */,
 				36CADDDD2E36085700B81039 /* mole_level5_dafault.json in Resources */,
@@ -1497,6 +1510,7 @@
 				367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */,
 				F809E2FA2CBD05F5001BE099 /* UserData.swift in Sources */,
 				362864A82C89D64100029452 /* Font.swift in Sources */,
+				36CAE0E42E6B160900B81039 /* ButtonStyles.swift in Sources */,
 				F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */,
 				F8FD4FAE2C7A09F900147C4F /* SignUpCalorieView.swift in Sources */,
 				360E6B382CEBC8A60059661E /* SplashViewModel.swift in Sources */,
@@ -1518,6 +1532,7 @@
 				F8AB332E2C2EAD2E00BC16C9 /* DDanDDanApp.swift in Sources */,
 				369F16EE2D7CB4B40039ED3A /* TooltipView.swift in Sources */,
 				F809E2FE2CBD0841001BE099 /* DeleteUserConfirmView.swift in Sources */,
+				36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
 				F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */,
@@ -1525,6 +1540,7 @@
 				F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */,
 				F859C0482C7068DF007B886A /* SignUpData.swift in Sources */,
 				363CC4482CCADC6A00D2EE47 /* WatchConnectivityManager.swift in Sources */,
+				361C009A2E6F29CB0059F33E /* NewPetViewModel.swift in Sources */,
 				36BAF1CD2CA48BAE00BEBCE7 /* HomeModel.swift in Sources */,
 				367A79732CDD092A0055771B /* AppCoordinator.swift in Sources */,
 				369F16EC2D7CADD50039ED3A /* RankViewReducer.swift in Sources */,
@@ -1546,7 +1562,6 @@
 				F80DF73B2CB3DA38004FF1F2 /* DeleteUserReducer.swift in Sources */,
 				36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */,
 				F89A2EB92C7C7F0500FE3A36 /* SignUpSuccessView.swift in Sources */,
-				36F6E7A22CEE018600B395FB /* NewPetViewModel.swift in Sources */,
 				36465DB52CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
 				369F16F22D7CC1280039ED3A /* CustomTabView.swift in Sources */,
 				364195A52D72DAD80065C400 /* RankView.swift in Sources */,
@@ -1565,6 +1580,7 @@
 				F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */,
 				36A9D7652DF3231600A9169A /* TokenRefreshManager.swift in Sources */,
 				F80DF7362CB38861004FF1F2 /* WebView.swift in Sources */,
+				36CAE0B02E69C6CB00B81039 /* RandomGachaPetView.swift in Sources */,
 				36465DAC2CFA415200784E8A /* LottieString.swift in Sources */,
 				36F6E8212CEE7DE000B395FB /* CheckButton.swift in Sources */,
 				367A796F2CDCBC210055771B /* PathString.swift in Sources */,

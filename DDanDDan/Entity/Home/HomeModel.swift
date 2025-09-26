@@ -14,6 +14,7 @@ struct HomeModel {
     var goalKcal: Int
     var feedCount: Int
     var toyCount: Int
+    var ticket: Int
 }
 
 enum LottieMode {
