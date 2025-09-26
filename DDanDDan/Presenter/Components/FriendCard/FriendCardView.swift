@@ -15,10 +15,28 @@ struct FriendCardView: View {
     var body: some View {
         WithPerceptionTracking {
             ZStack {
-                cardView
+                Group {
+                    if store.entity != nil {
+                        cardView
+                        TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                            VStack {
+                                ToastView(message: store.toastMessage, toastType: .info)
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
+                        }
+                    } else {
+                        EmptyView()
+                    }
+                }
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(BackgroundBlurView())
+            .onChange(of: store.dismiss) { isDismiss in
+                if isDismiss {
+                    dismiss()
+                }
+            }
             .onAppear {
                 store.send(.onAppear)
             }
@@ -36,14 +54,16 @@ struct FriendCardView: View {
             .background(Color.elevationLevel01)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
-            Button(action: {}) {
-                Text(store.buttonTitle)
-                    .font(.heading6_semibold16)
-                    .foregroundStyle(Color.textButtonPrimaryDefault)
+            if !store.hideButton {
+                Button(action: { store.send(.onTapButton)}) {
+                    Text(store.buttonTitle)
+                        .font(.heading6_semibold16)
+                        .foregroundStyle(Color.textButtonPrimaryDefault)
+                }
+                .frame(width: 136, height: 56)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
             }
-            .frame(width: 136, height: 56)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 4))
 
         }
         .frame(width: 296, height: 489)
