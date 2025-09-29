@@ -12,6 +12,7 @@ enum PathString {
         static let fetchPet = "/v1/pets/"
         static let userPets = "/v1/pets/me"
         static let randomPet = "/v1/pets/me/random"
+        static let randomGachaPet = "/v1/pets/me/gacha"
     }
     
     enum User {

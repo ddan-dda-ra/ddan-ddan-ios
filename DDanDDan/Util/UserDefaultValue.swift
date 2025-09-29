@@ -48,6 +48,10 @@ public struct UserDefaultValue {
     // Setting
     @UserDefault(key: "pushNotification", defaultValue: false)
     static public var pushNotification: Bool
+    
+    // 코치마크
+    @UserDefault(key: "isFirstRandomTicket", defaultValue: true)
+    static public var isFirstRandomTicket: Bool
 
     
 }

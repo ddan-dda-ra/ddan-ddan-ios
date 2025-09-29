@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+
 enum TabType: Int, CaseIterable {
     case home = 0
     case rank = 1
@@ -31,6 +32,8 @@ enum TabType: Int, CaseIterable {
         }
     }
 }
+
+
 struct MainTabView: View {
     let coordinator: AppCoordinator
     
@@ -82,9 +85,9 @@ struct MainTabView: View {
             case .successThreeDay(let totalKcal):
                 ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
             case .newPet:
-                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel(homeRepository: HomeRepository(), coordinator: coordinator))
-            case .upgradePet(let level, let petType):
-                LevelUpView(coordinator: coordinator, level: level, petType: petType)
+                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
+            case .upgradePet(let level, let petType, let newPet):
+                LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newPet)
             }
         }
     }
@@ -96,7 +99,7 @@ struct MainTabView: View {
         case .home:
             HomeView(coordinator: coordinator, viewModel: .init(repository: HomeRepository(), userInfo: coordinator.userInfo, petInfo: coordinator.petInfo))
         case .rank:
-            RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer() },
+            RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer(repository: RankRepository()) },
                      coordinator: coordinator)
         case .friends:
             //TODO: 친구목록 연결

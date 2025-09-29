@@ -15,6 +15,8 @@ public struct UserData: Decodable {
     var purposeCalorie: Int
     var foodQuantity: Int
     var toyQuantity: Int
+    var tickets: Int
+    var setting: Setting
 }
 
 public struct HomeUserInfo {
@@ -22,6 +24,7 @@ public struct HomeUserInfo {
     var purposeCalorie: Int
     var foodQuantity: Int
     var toyQuantity: Int
+    var tickets: Int
 }
 
 public struct DailyInfo: Decodable {
@@ -29,6 +32,10 @@ public struct DailyInfo: Decodable {
     var userId: String
     var date: String
     var calorie: Int
+}
+
+public struct Setting: Decodable {
+    var isAppPushOn: Bool
 }
 
 
