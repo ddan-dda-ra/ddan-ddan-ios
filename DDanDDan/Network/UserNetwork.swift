@@ -26,6 +26,9 @@ public struct UserNetwork {
         )
     }
     
+    public func fetchUserDetail(userID: String) async -> Result<FriendCardEntity, NetworkError> {
+        return await manager.request(url: PathString.User.userDetail(userID), method: .get)
+    }
     
     // MARK: - PUT
     

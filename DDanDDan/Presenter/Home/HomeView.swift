@@ -83,12 +83,23 @@ struct HomeView: View {
                 .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
             }
             TransparentOverlayView(isPresented: viewModel.showRandomGachaView, isDimView: false) {
-                let randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: HomeRepository())
+                let randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: viewModel.homeRepository)
                 viewModel.bind(overlayVM: randomGachaPetViewModel)
                 
                 return RandomGachaPetView(viewModel: randomGachaPetViewModel)
                     .transition(.opacity)
                     .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomGachaView)
+            }
+            TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
+                ImageDialogView(
+                    show: $viewModel.isPresentEarnFood,
+                    image: .eatGraphic,
+                    title: "먹이를 얻었어요!",
+                    description: "사과 \(viewModel.earnFood)개",
+                    buttonTitle: "획득하기"
+                ) {
+                    viewModel.showRandomBubble(type: .success)
+                }
             }
             .onChange(of: viewModel.isLevelUp) { newLevel in
                 if newLevel {

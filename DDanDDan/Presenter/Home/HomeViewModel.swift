@@ -54,13 +54,14 @@ final class HomeViewModel: ObservableObject {
     @Published var showRandomPetGuide: Bool = false
     @Published var showRandomGachaView: Bool = false
     
+    let homeRepository: HomeRepositoryProtocol
+    
     private var petId = ""
     private var previousKcal: Int = 0
     private var cancellables = Set<AnyCancellable>()
     
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
-    private let homeRepository: HomeRepositoryProtocol
     
     private let generator = UIImpactFeedbackGenerator(style: .heavy)
     
