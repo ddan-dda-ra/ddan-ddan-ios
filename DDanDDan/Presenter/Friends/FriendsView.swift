@@ -49,7 +49,7 @@ struct FriendListView: View {
                 
                 Spacer()
                 
-                myRankView
+                myProfileView
             }
         }
         .onAppear {
@@ -59,8 +59,10 @@ struct FriendListView: View {
     
     private var friendsListView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(store.friendsList.indices, id: \.self) { index in
-                friendsListItemView(friend: store.friendsList[index], index: index)
+            WithPerceptionTracking {
+                ForEach(store.friendsList.indices, id: \.self) { index in
+                    friendsListItemView(friend: store.friendsList[index], index: index)
+                }
             }
         }
     }
@@ -102,7 +104,8 @@ struct FriendListView: View {
         .padding(.horizontal, 20)
     }
     
-    var myRankView: some View {
+    var myProfileView: some View {
+        WithPerceptionTracking {
             ZStack(alignment: .center) {
                 Rectangle()
                     .frame(maxHeight: 100.adjustedHeight)
@@ -112,16 +115,16 @@ struct FriendListView: View {
                 HStack(alignment: .center) {
                     ZStack {
                         Circle()
-                            .fill(.pinkGraphics)
+                            .fill(store.state.myProfilePet.petType.color)
                             .frame(width: 48, height: 48)
-                        Image(.pinkLv1)
+                        Image(store.state.myProfilePet.petType.image(for: store.state.myProfilePet.level))
                             .resizable()
                             .frame(width: 42, height: 42)
                             .offset(y: -3)
                     }
                     .padding(.trailing, 12)
                     
-                    Text("NickName")
+                    Text(store.state.myProfilePet.name)
                         .font(.body1_regular16)
                         .foregroundStyle(.textBodyTeritary)
                     Text("나")
@@ -137,6 +140,7 @@ struct FriendListView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 32)
             }
+        }
     }
 }
 

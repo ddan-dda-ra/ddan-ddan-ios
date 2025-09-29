@@ -121,6 +121,8 @@
 		36BC7D052E82E9D8002B1ED5 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D042E82E9D8002B1ED5 /* Friend.swift */; };
 		36BC7D072E82EA7D002B1ED5 /* FriendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */; };
 		36BC7D092E82EB4E002B1ED5 /* FriendsViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */; };
+		36BC7D902E8ADE39002B1ED5 /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D8F2E8ADE39002B1ED5 /* FriendCard.swift */; };
+		36BC7D922E8AE061002B1ED5 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BC7D912E8AE061002B1ED5 /* FriendsModel.swift */; };
 		36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */; };
 		36C1FE0A2CA4AAAE007CA188 /* LevelUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */; };
 		36C1FE0C2CA4AAE7007CA188 /* ThreeDaySuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */; };
@@ -135,11 +137,11 @@
 		36CADDE22E36085700B81039 /* mole_level1_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD22E36085700B81039 /* mole_level1_play+eat.json */; };
 		36CADDE32E36085700B81039 /* mole_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */; };
 		36CADDE42E36085700B81039 /* mole_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CADDD32E36085700B81039 /* mole_level2_default.json */; };
-		36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */; };
 		36CAE0B02E69C6CB00B81039 /* RandomGachaPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */; };
 		36CAE0B22E69CA3F00B81039 /* ramdom_egg.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */; };
 		36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */; };
 		36CAE0E42E6B160900B81039 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0E32E6B160900B81039 /* ButtonStyles.swift */; };
+		36CAE1002E6B1A0B00B81039 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */; };
 		36E0198F2CCA830C00383318 /* DdanDdan_Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E7EA2CEE411D00B395FB /* Config.swift */; };
 		36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E81B2CEE4FF900B395FB /* Array+.swift */; };
@@ -193,7 +195,6 @@
 		F90472E72E4F12ED005849BC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90472E62E4F12E7005849BC /* MainTabView.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F99F04A12E757007000D0F06 /* FriendCardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04A02E757002000D0F06 /* FriendCardReducer.swift */; };
-		F99F04FC2E7574B9000D0F06 /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04FB2E7574B7000D0F06 /* FriendCard.swift */; };
 		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
 		F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
@@ -388,6 +389,8 @@
 		36BC7D042E82E9D8002B1ED5 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRepository.swift; sourceTree = "<group>"; };
 		36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewReducer.swift; sourceTree = "<group>"; };
+		36BC7D8F2E8ADE39002B1ED5 /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
+		36BC7D912E8AE061002B1ED5 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
 		36C1FE042CA4A4EC007CA188 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		36C1FE092CA4AAAE007CA188 /* LevelUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpView.swift; sourceTree = "<group>"; };
 		36C1FE0B2CA4AAE7007CA188 /* ThreeDaySuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDaySuccessView.swift; sourceTree = "<group>"; };
@@ -402,11 +405,11 @@
 		36CADDD82E36085700B81039 /* mole_level4_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level4_play+eat.json"; sourceTree = "<group>"; };
 		36CADDD92E36085700B81039 /* mole_level5_dafault.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mole_level5_dafault.json; sourceTree = "<group>"; };
 		36CADDDA2E36085700B81039 /* mole_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mole_level5_play+eat.json"; sourceTree = "<group>"; };
-		36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		36CAE0AF2E69C6CB00B81039 /* RandomGachaPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetView.swift; sourceTree = "<group>"; };
 		36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ramdom_egg.json; sourceTree = "<group>"; };
 		36CAE0B52E69E0C900B81039 /* RandomGachaPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGachaPetViewModel.swift; sourceTree = "<group>"; };
 		36CAE0E32E6B160900B81039 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DdanDdan_Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E0197B2CCA830C00383318 /* DdanDdan_Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E019852CCA830C00383318 /* DdanDdan_Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DdanDdan_Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -459,7 +462,6 @@
 		F90472E62E4F12E7005849BC /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F99F04A02E757002000D0F06 /* FriendCardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardReducer.swift; sourceTree = "<group>"; };
-		F99F04FB2E7574B7000D0F06 /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
 		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
 		F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
@@ -814,6 +816,7 @@
 			isa = PBXGroup;
 			children = (
 				36BC7D042E82E9D8002B1ED5 /* Friend.swift */,
+				36BC7D8F2E8ADE39002B1ED5 /* FriendCard.swift */,
 			);
 			path = Friend;
 			sourceTree = "<group>";
@@ -835,6 +838,7 @@
 			children = (
 				36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */,
 				36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */,
+				36BC7D912E8AE061002B1ED5 /* FriendsModel.swift */,
 			);
 			path = Friends;
 			sourceTree = "<group>";
@@ -1094,14 +1098,6 @@
 				F90472E62E4F12E7005849BC /* MainTabView.swift */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		F99F04FA2E7574B0000D0F06 /* Friend */ = {
-			isa = PBXGroup;
-			children = (
-				F99F04FB2E7574B7000D0F06 /* FriendCard.swift */,
-			);
-			path = Friend;
 			sourceTree = "<group>";
 		};
 		F9BCC0B02E82297A0035E1AF /* Dependencies */ = {
@@ -1550,6 +1546,7 @@
 				364195A72D72F0430065C400 /* RankNetwork.swift in Sources */,
 				36F6E81C2CEE4FF900B395FB /* Array+.swift in Sources */,
 				F8773BC22CA54E49009A608F /* UpdateCalorieReducer.swift in Sources */,
+				36BC7D922E8AE061002B1ED5 /* FriendsModel.swift in Sources */,
 				36F6E81F2CEE7B4900B395FB /* NavigationBarView.swift in Sources */,
 				F88FC6E12CCF64150033D4C9 /* MainPet.swift in Sources */,
 				F84B21C52C90227A009FE6F3 /* SettingView.swift in Sources */,
@@ -1582,7 +1579,6 @@
 				F88FC6DF2CCF3BF70033D4C9 /* Pet.swift in Sources */,
 				36F6E7EB2CEE411D00B395FB /* Config.swift in Sources */,
 				367A79DD2CE4B65D0055771B /* TokenInterceptor.swift in Sources */,
-				F99F04FC2E7574B9000D0F06 /* FriendCard.swift in Sources */,
 				364195AA2D72F11D0065C400 /* Rank.swift in Sources */,
 				36BC7D052E82E9D8002B1ED5 /* Friend.swift in Sources */,
 				367A797A2CDD6D410055771B /* ImageDialogView.swift in Sources */,
@@ -1607,6 +1603,7 @@
 				36BAF1C72CA483BC00BEBCE7 /* HomeView.swift in Sources */,
 				369F16F52D8707E50039ED3A /* RankRepository.swift in Sources */,
 				F88663D12CC8EDD4008DB860 /* UserNetwork.swift in Sources */,
+				36BC7D902E8ADE39002B1ED5 /* FriendCard.swift in Sources */,
 				F88663D52CC8EE89008DB860 /* LoginData.swift in Sources */,
 				F88663E02CCB3585008DB860 /* SignUpRepository.swift in Sources */,
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,

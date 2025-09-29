@@ -19,30 +19,40 @@ struct FriendsViewReducer {
         var friendsList: [FriendModel] = []
         var isLoading = false
         var errorMessage: String?
+        var myProfilePet: ProfileModel = .init(name: UserDefaultValue.nickName, petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat, level: UserDefaultValue.level)
     }
     
     enum Action {
         case onAppear
         case friendsListResponse(Result<FriendList, NetworkError>)
+        case myProfileLoaded(ProfileModel)
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return loadFriendsList()
+                state.isLoading = true
+                return .merge(
+                    loadFriendsList(),
+                    loadMyProfile()
+                )
                 
             case let .friendsListResponse(.success(friendsList)):
                 state.isLoading = false
-                state.friendsList = friendsList.friends.map({ friend in
+                state.friendsList = friendsList.friends.map { friend in
                         .init(name: friend.name, petType: friend.mainPetType, level: friend.petLevel)
-                })
+                }
                 state.errorMessage = nil
                 return .none
                 
             case let .friendsListResponse(.failure(error)):
                 state.isLoading = false
                 state.errorMessage = error.localizedDescription
+                return .none
+                
+            case let .myProfileLoaded(profile):
+                state.myProfilePet = profile
                 return .none
             }
         }
@@ -52,9 +62,21 @@ struct FriendsViewReducer {
 extension FriendsViewReducer {
     func loadFriendsList() -> Effect<Action> {
         return .run { send in
+            
             await send(.friendsListResponse(
                 await repository.getFriendList()
             ))
+        }
+    }
+    
+    func loadMyProfile() -> Effect<Action> {
+        return .run { send in
+            let profile = ProfileModel(
+                name: UserDefaultValue.nickName,
+                petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+                level: UserDefaultValue.level
+            )
+            await send(.myProfileLoaded(profile))
         }
     }
 }
