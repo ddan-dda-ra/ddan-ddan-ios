@@ -12,18 +12,18 @@ import ComposableArchitecture
 
 @Reducer
 struct FriendsViewReducer {
-    let repository = FriendRepository()
+    let repository: FriendRepositoryProtocol
+    
+    init(repository: FriendRepositoryProtocol = FriendRepository()) {
+        self.repository = repository
+    }
     
     @ObservableState
     struct State: Equatable {
         var friendsList: [Friend] = []
         var isLoading = false
         var errorMessage: String?
-        var myProfilePet: ProfileModel = .init(
-            name: UserDefaultValue.nickName,
-            petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
-            level: UserDefaultValue.level
-        )
+        var myProfilePet: ProfileModel
     }
     
     enum Action {
