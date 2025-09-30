@@ -18,4 +18,9 @@ public struct FriendRepository: FriendRepositoryProtocol {
         guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
         return await network.fetchFriendList(accessToken: accessToken)
     }
+    
+    public func deleteFriend(_ friendId: String) async -> Result<EmptyEntity, NetworkError>  {
+        guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
+        return await network.deleteFriend(accessToken: accessToken, friendId: friendId)
+    }
 }

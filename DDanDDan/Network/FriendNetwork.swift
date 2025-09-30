@@ -21,4 +21,14 @@ public struct FriendNetwork {
             headers: headers
         )
     }
+    
+    public func deleteFriend(accessToken: String, friendId: String) async -> Result<EmptyEntity, NetworkError> {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+        
+        return await manager.request(
+            url: PathString.Friend.deleteFirend + friendId,
+            method: .delete,
+            headers: headers
+        )
+    }
 }
