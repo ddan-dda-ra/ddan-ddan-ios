@@ -25,6 +25,7 @@ struct FriendCardReducer {
         let type: CardType
         var toastMessage: String = ""
         var dismiss: Bool = false
+        var fireAnimation: Bool = false
         var showToast: Bool {
             !toastMessage.isEmpty
         }
@@ -89,8 +90,8 @@ struct FriendCardReducer {
                     return .none
                 }
             case .onCheerSuccess:
-                //TODO: 애니메이션
                 state.entity?.isCheeredToday = true
+                state.fireAnimation = true
             }
             
             return .none
@@ -103,7 +104,7 @@ struct FriendCardReducer {
             switch result {
             case .success(let entity):
                 await send(.setEntity(entity))
-            case .failure(let error):
+            case .failure:
                 await send(.setDismiss)
             }
         }

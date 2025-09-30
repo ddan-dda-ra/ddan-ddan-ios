@@ -12,18 +12,22 @@ import Lottie
 struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
     @Environment(\.dismiss) var dismiss
+    let animatedFireCount = 12
+    @State private var fireOffsetArray: [(x: CGFloat, y: CGFloat)]
+    @State private var fireOpacity: Double = 0
+    
+    init(store: StoreOf<FriendCardReducer>) {
+        self.store = store
+        self.fireOffsetArray = Array(repeating: (x: 0, y: 0), count: animatedFireCount)
+    }
+    
     var body: some View {
         WithPerceptionTracking {
             ZStack {
                 Group {
                     if store.entity != nil {
                         cardView
-                        TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
-                            VStack {
-                                ToastView(message: store.toastMessage, toastType: .info)
-                            }
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
-                        }
+                        toastView
                     } else {
                         EmptyView()
                     }
@@ -46,10 +50,8 @@ struct FriendCardView: View {
     var cardView: some View {
         VStack(spacing: 20) {
             VStack(spacing: 0) {
-                
                 cardImageView
                 cardContentView
-                
             }
             .background(Color.elevationLevel01)
             .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -66,7 +68,21 @@ struct FriendCardView: View {
             }
 
         }
+        .overlay(alignment: .top) {
+            animatedFireView
+                .padding(.top, 77)
+        }
         .frame(width: 296, height: 489)
+        
+    }
+    
+    var toastView: some View {
+        TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+            VStack {
+                ToastView(message: store.toastMessage, toastType: .info)
+            }
+            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
+        }
     }
     
     var cardImageView: some View {
@@ -99,7 +115,17 @@ struct FriendCardView: View {
                         dismiss()
                     }
             }
+            .onChange(of: store.fireAnimation) { fireAnimation in
+                if fireAnimation {
+                    print("@@ fireAnimation")
+                    Task {
+                        await performFireAnimation()
+                    }
+                }
+            }
     }
+    
+   
     
     var cardContentView: some View {
         VStack(spacing: 0) {
@@ -160,5 +186,47 @@ struct FriendCardView: View {
         }
         .padding(.vertical, 28)
         .padding(.horizontal, 20)
+    }
+    
+    var animatedFireView: some View {
+        ZStack {
+            ForEach(0 ..< animatedFireCount, id: \.self) { index in
+                if index < fireOffsetArray.count {
+                    Image(.fire)
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                        .offset(
+                            x: fireOffsetArray[index].x,
+                            y: fireOffsetArray[index].y
+                        )
+                        .opacity(fireOpacity)
+                }
+            }
+        }
+    }
+    
+    private func performFireAnimation() async {
+        withAnimation(.easeOut(duration: 0.4)) {
+            fireOffsetArray = fireOffsetArray.map { _ in
+                (randomOffset(), randomOffset())
+            }
+            fireOpacity = 1
+        }
+        
+        try? await Task.sleep(for: .seconds(0.5))
+        
+        withAnimation(.easeIn(duration: 0.5)) {
+            fireOffsetArray = fireOffsetArray.map { (x, y) in
+                (x, 500)
+            }
+            fireOpacity = 0
+        }
+        
+        try? await Task.sleep(for: .seconds(0.5))
+        fireOffsetArray = fireOffsetArray.map { _ in (0, 0) }
+    }
+    
+    private func randomOffset() -> CGFloat {
+        CGFloat.random(in: -100...100)
     }
 }
