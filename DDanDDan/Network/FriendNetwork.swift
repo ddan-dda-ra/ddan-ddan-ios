@@ -16,7 +16,7 @@ public struct FriendNetwork {
         let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
         
         return await manager.request(
-            url: PathString.Friend.friendsList + "",
+            url: PathString.Friend.friendsList,
             method: .get,
             headers: headers
         )
@@ -26,7 +26,7 @@ public struct FriendNetwork {
         let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
         
         return await manager.request(
-            url: PathString.Friend.deleteFirend + friendId,
+            url: PathString.Friend.deleteFriend + friendId,
             method: .delete,
             headers: headers
         )
