@@ -7,8 +7,9 @@
 
 import Foundation
 
-protocol FriendRepositoryProtocol {
+public protocol FriendRepositoryProtocol {
     func getFriendList() async -> Result<FriendList, NetworkError>
+    func deleteFriend(_ friendId: String) async -> Result<EmptyEntity, NetworkError>
 }
 
 public struct FriendRepository: FriendRepositoryProtocol {
