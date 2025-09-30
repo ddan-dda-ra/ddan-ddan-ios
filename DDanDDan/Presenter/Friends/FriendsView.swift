@@ -89,7 +89,7 @@ struct FriendListView: View {
             Spacer()
             
             Button {
-                // 친구 삭제
+                store.send(.deleteFriend(id: store.friendsList[index].id))
             } label: {
                 Image(.deleteIcon)
                     .resizable()
@@ -108,7 +108,7 @@ struct FriendListView: View {
         WithPerceptionTracking {
             ZStack(alignment: .center) {
                 Rectangle()
-                    .frame(maxHeight: 100.adjustedHeight)
+                    .frame(maxHeight: 72.adjustedHeight)
                     .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                     .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                     .foregroundStyle(.borderGray)
@@ -137,8 +137,7 @@ struct FriendListView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 32)
+                .padding(.vertical, 12)
             }
         }
     }

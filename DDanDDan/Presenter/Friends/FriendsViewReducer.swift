@@ -19,13 +19,19 @@ struct FriendsViewReducer {
         var friendsList: [Friend] = []
         var isLoading = false
         var errorMessage: String?
-        var myProfilePet: ProfileModel = .init(name: UserDefaultValue.nickName, petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat, level: UserDefaultValue.level)
+        var myProfilePet: ProfileModel = .init(
+            name: UserDefaultValue.nickName,
+            petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+            level: UserDefaultValue.level
+        )
     }
     
     enum Action {
         case onAppear
         case friendsListResponse(Result<FriendList, NetworkError>)
         case myProfileLoaded(ProfileModel)
+        case deleteFriend(id: String)
+        case deleteFriendResponse(id: String, Result<EmptyEntity, NetworkError>)
     }
     
     var body: some ReducerOf<Self> {
@@ -52,6 +58,17 @@ struct FriendsViewReducer {
             case let .myProfileLoaded(profile):
                 state.myProfilePet = profile
                 return .none
+                
+            case let .deleteFriend(id):
+                return deleteFriend(id: id)
+                
+            case let .deleteFriendResponse(id, .success):
+                state.friendsList.removeAll { $0.id == id }
+                return .none
+                
+            case let .deleteFriendResponse(_, .failure(error)):
+                state.errorMessage = error.localizedDescription
+                return .none
             }
         }
     }
@@ -60,7 +77,6 @@ struct FriendsViewReducer {
 extension FriendsViewReducer {
     func loadFriendsList() -> Effect<Action> {
         return .run { send in
-            
             await send(.friendsListResponse(
                 await repository.getFriendList()
             ))
@@ -75,6 +91,13 @@ extension FriendsViewReducer {
                 level: UserDefaultValue.level
             )
             await send(.myProfileLoaded(profile))
+        }
+    }
+    
+    func deleteFriend(id: String) -> Effect<Action> {
+        return .run { send in
+            let result = await repository.deleteFriend(id)
+            await send(.deleteFriendResponse(id: id, result))
         }
     }
 }
