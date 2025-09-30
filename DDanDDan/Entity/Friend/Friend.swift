@@ -9,13 +9,13 @@ import Foundation
 
 // MARK: - FriendList
 public struct FriendList: Decodable {
-    let friends: [Friend]
-    let totalCount: Int
+    public let friends: [Friend]
+    public let totalCount: Int
 }
 
 public struct Friend: Decodable, Equatable {
-    let id: String
-    let name: String
-    let mainPetType: PetType
-    let petLevel: Int
+    public let id: String
+    public let name: String
+    public let mainPetType: PetType
+    public let petLevel: Int
 }
