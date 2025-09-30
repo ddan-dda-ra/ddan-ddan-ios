@@ -16,7 +16,7 @@ struct FriendsViewReducer {
     
     @ObservableState
     struct State: Equatable {
-        var friendsList: [FriendModel] = []
+        var friendsList: [Friend] = []
         var isLoading = false
         var errorMessage: String?
         var myProfilePet: ProfileModel = .init(name: UserDefaultValue.nickName, petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat, level: UserDefaultValue.level)
@@ -40,9 +40,7 @@ struct FriendsViewReducer {
                 
             case let .friendsListResponse(.success(friendsList)):
                 state.isLoading = false
-                state.friendsList = friendsList.friends.map { friend in
-                        .init(name: friend.name, petType: friend.mainPetType, level: friend.petLevel)
-                }
+                state.friendsList = friendsList.friends
                 state.errorMessage = nil
                 return .none
                 

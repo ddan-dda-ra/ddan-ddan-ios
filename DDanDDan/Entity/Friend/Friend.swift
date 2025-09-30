@@ -13,7 +13,7 @@ public struct FriendList: Decodable {
     let totalCount: Int
 }
 
-public struct Friend: Decodable {
+public struct Friend: Decodable, Equatable {
     let id: String
     let name: String
     let mainPetType: PetType

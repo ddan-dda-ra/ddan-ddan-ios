@@ -67,14 +67,14 @@ struct FriendListView: View {
         }
     }
 
-    func friendsListItemView(friend: FriendModel, index: Int) -> some View {
+    func friendsListItemView(friend: Friend, index: Int) -> some View {
         
         return HStack {
             ZStack {
                 Circle()
-                    .fill(friend.petType.color)
+                    .fill(friend.mainPetType.color)
                     .frame(width: 48, height: 48)
-                Image(friend.petType.image(for: friend.level))
+                Image(friend.mainPetType.image(for: friend.petLevel))
                     .resizable()
                     .frame(width: 38, height: 38)
                 //                    .offset(y: rank.petLevel > 3 ? 0 : -3)
@@ -142,12 +142,6 @@ struct FriendListView: View {
             }
         }
     }
-}
-
-struct FriendModel: Equatable {
-    var name: String
-    var petType: PetType
-    var level: Int
 }
 
 
