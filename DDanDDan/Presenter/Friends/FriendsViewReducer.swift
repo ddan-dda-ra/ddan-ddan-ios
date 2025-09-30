@@ -23,7 +23,11 @@ struct FriendsViewReducer {
         var friendsList: [Friend] = []
         var isLoading = false
         var errorMessage: String?
-        var myProfilePet: ProfileModel
+        var myProfilePet: ProfileModel = .init(
+            name: UserDefaultValue.nickName,
+            petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+            level: UserDefaultValue.level
+        )
     }
     
     enum Action {
@@ -39,10 +43,7 @@ struct FriendsViewReducer {
             switch action {
             case .onAppear:
                 state.isLoading = true
-                return .merge(
-                    loadFriendsList(),
-                    loadMyProfile()
-                )
+                return loadFriendsList()
                 
             case let .friendsListResponse(.success(friendsList)):
                 state.isLoading = false
@@ -80,17 +81,6 @@ extension FriendsViewReducer {
             await send(.friendsListResponse(
                 await repository.getFriendList()
             ))
-        }
-    }
-    
-    func loadMyProfile() -> Effect<Action> {
-        return .run { send in
-            let profile = ProfileModel(
-                name: UserDefaultValue.nickName,
-                petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
-                level: UserDefaultValue.level
-            )
-            await send(.myProfileLoaded(profile))
         }
     }
     
