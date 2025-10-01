@@ -12,6 +12,8 @@ import Lottie
 struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
     @Environment(\.dismiss) var dismiss
+    
+    //MARK: animation
     let animatedFireCount = 12
     @State private var fireOffsetArray: [(x: CGFloat, y: CGFloat)]
     @State private var fireOpacity: Double = 0
@@ -117,7 +119,6 @@ struct FriendCardView: View {
             }
             .onChange(of: store.fireAnimation) { fireAnimation in
                 if fireAnimation {
-                    print("@@ fireAnimation")
                     Task {
                         await performFireAnimation()
                     }
