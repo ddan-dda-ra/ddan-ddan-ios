@@ -102,7 +102,9 @@ struct RandomGachaPetView: View {
                         .strokeBorder(Color.borderGray, lineWidth: 4)
                 )
             if viewModel.isSelectedRandomPet {
-                LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 0) ?? LottieString.randomEgg))
+                LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 1) ?? LottieString.randomEgg))
+                    .playing(loopMode: .loop)
+                    .frame(width: 100.adjustedHeight)
                 // TODO: 컨버티 로티 필요
             } else {
                 LottieView(animation: .named(LottieString.randomEgg))
