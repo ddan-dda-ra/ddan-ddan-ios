@@ -68,7 +68,7 @@ struct MainTabView: View {
                         VStack {
                             ToastView(message: store.toastMessage, toastType: .info)
                         }
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 240.adjustedHeight)
                     }
                 }
             }

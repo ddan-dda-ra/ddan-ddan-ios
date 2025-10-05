@@ -27,7 +27,7 @@ struct MainTabReducer {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case handleDeepLink(inviteCode: String)
-        case addFriendResult(TaskResult<AddedFriend>)
+        case addFriendResult(Result<AddedFriend, NetworkError>)
         case clearNavigateToFriendAdd
         //Scope
         case friendCard(PresentationAction<FriendCardReducer.Action>)
@@ -64,7 +64,30 @@ struct MainTabReducer {
                     
                 case .failure(let error):
                     state.showToast = true
-                    state.toastMessage = "이미 친구입니다."
+                    print(error)
+                    switch error {
+                        case .serverError(let statusCode, let code):
+                            // 서버에서 반환한 에러 코드에 따라 메시지 분기
+                            switch code {
+                            case "FR001":
+                                state.toastMessage = "이미 친구입니다."
+                            case "FR002":
+                                state.toastMessage = "존재하지 않는 초대 코드입니다."
+                            case "FR003":
+                                state.toastMessage = "자기 자신을 친구로 추가할 수 없습니다."
+                            case "FR004":
+                                state.toastMessage = "친구 요청이 실패했습니다."
+                            case "IC004":
+                                state.toastMessage = "자신의 초대코드는 사용할 수 없습니다."
+                            default:
+                                state.toastMessage = "친구 추가에 실패했습니다."
+                            }
+                        case .invalidResponse:
+                            state.toastMessage = "서버 응답이 올바르지 않습니다."
+                        default:
+                            state.toastMessage = "친구 추가에 실패했습니다."
+                        }
+                        
                     return .none
                 }
                 
