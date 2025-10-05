@@ -23,6 +23,9 @@ class DeepLinkManager: ObservableObject {
     private init() {}
     
     func handleFriendInvite(code: String) {
+        DispatchQueue.main.async {
+            self.pendingDeepLink = .friendInvite(code: code)
+        }
         NotificationCenter.default.post(
             name: .friendInviteDeepLink,
             object: code
