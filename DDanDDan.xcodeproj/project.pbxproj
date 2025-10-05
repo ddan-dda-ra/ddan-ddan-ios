@@ -49,7 +49,6 @@
 		36465D862CF7F39200784E8A /* cat_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7F2CF7F39200784E8A /* cat_level5_play+eat.json */; };
 		36465D872CF7F39200784E8A /* cat_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D782CF7F39200784E8A /* cat_level2_default.json */; };
 		36465D882CF7F39200784E8A /* cat_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7A2CF7F39200784E8A /* cat_level3_default.json */; };
-		36465D902CF7F4BD00784E8A /* SDWebImageLottieCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */; };
 		36465DA02CFA414400784E8A /* hamster_level5_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D9E2CFA414400784E8A /* hamster_level5_default.json */; };
 		36465DA12CFA414400784E8A /* confetti.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D952CFA414400784E8A /* confetti.json */; };
 		36465DA22CFA414400784E8A /* hamster_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D9A2CFA414400784E8A /* hamster_level3_default.json */; };
@@ -540,7 +539,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36465D902CF7F4BD00784E8A /* SDWebImageLottieCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1238,7 +1236,6 @@
 			);
 			name = "DdanDdan_Watch Watch App";
 			packageProductDependencies = (
-				36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */,
 			);
 			productName = "DdanDdan_Watch Watch App";
 			productReference = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */;
@@ -1363,7 +1360,6 @@
 			packageReferences = (
 				F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
 				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
@@ -2311,14 +2307,6 @@
 				version = 4.5.0;
 			};
 		};
-		36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageLottieCoder";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
-			};
-		};
 		F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk.git";
@@ -2352,11 +2340,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */;
-			productName = SDWebImageLottieCoder;
 		};
 		F8C10C0C2C5782720037D6A5 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;

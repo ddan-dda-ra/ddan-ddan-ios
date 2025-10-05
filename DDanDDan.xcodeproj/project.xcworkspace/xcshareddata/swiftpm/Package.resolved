@@ -119,15 +119,6 @@
       }
     },
     {
-      "identity" : "librlottie-xcode",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/librlottie-Xcode.git",
-      "state" : {
-        "revision" : "4ae1ba205910c804ee2d4cd7dd7f122964fe3aad",
-        "version" : "0.2.1"
-      }
-    },
-    {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios",
@@ -152,24 +143,6 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
-      }
-    },
-    {
-      "identity" : "sdwebimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImage.git",
-      "state" : {
-        "revision" : "10d06f6a33bafae8c164fbfd1f03391f6d4692b3",
-        "version" : "5.20.0"
-      }
-    },
-    {
-      "identity" : "sdwebimagelottiecoder",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImageLottieCoder",
-      "state" : {
-        "revision" : "c9f65679a9b0510b89673507f548a7c0f17ba95f",
-        "version" : "0.2.0"
       }
     },
     {
