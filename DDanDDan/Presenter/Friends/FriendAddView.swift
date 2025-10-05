@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct FriendAddView: View {
     @ObservedObject var coordinator: AppCoordinator
@@ -53,7 +54,8 @@ struct FriendAddView: View {
     var imageView: some View {
         ZStack {
             Image(.pangGraphics)
-            Image(petType.image(for: level))
+            LottieView(animation: .named(petType.lottieString(level: level)))
+                .playing(loopMode: .playOnce)
                 .resizable()
                 .frame(width: 96, height: 96)
                 .aspectRatio(contentMode: .fill)
