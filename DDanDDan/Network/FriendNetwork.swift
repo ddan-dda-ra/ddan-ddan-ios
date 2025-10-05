@@ -22,6 +22,18 @@ public struct FriendNetwork {
         )
     }
     
+    // MARK: - POST
+    public func createInviteCode(accessToken: String) async -> Result<InviteCode, NetworkError> {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+        
+        return await manager.request(
+            url: PathString.Friend.createInviteCode,
+            method: .post,
+            headers: headers
+            )
+    }
+    
+    // MARK: - DELETE
     public func deleteFriend(accessToken: String, friendId: String) async -> Result<EmptyEntity, NetworkError> {
         let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
         
