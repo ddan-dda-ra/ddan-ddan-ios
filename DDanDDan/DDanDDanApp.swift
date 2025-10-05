@@ -167,7 +167,9 @@ extension AppDelegate: ChottuLinkDelegate {
     func extractChottuInviteCode(from urlString: String,
                                  allowedHostSuffix: String = "chottu.link") -> String? {
         let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let url = URL(string: trimmed) else { return nil }
+        guard let url = URL(string: trimmed),
+              let host = url.host,
+              host.hasSuffix(allowedHostSuffix) else { return nil }
         
         var path = url.path
         while path.last == "/" { path.removeLast() }
