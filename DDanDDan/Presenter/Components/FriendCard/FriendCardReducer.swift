@@ -13,9 +13,9 @@ import Dependencies
 struct FriendCardReducer {
     @Dependency(\.friendCardRepository) var repository: FriendCardRepository
     
-    enum CardType {
+    enum CardType: Equatable {
         case cheer
-        case invite
+        case invite(user: AddedFriend)
     }
     
     @ObservableState
@@ -61,19 +61,69 @@ struct FriendCardReducer {
             }
         }
     }
-    enum Action {
+    
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
         case onAppear
         case setEntity(FriendCardEntity)
         case setErrorMessage(String)
         case onTapButton
         case onCheerSuccess
         case setDismiss
+        case inviteResult(TaskResult<AddedFriend>)
+        
+        case delegate(Delegate)
+        
+        enum Delegate {
+            case dismissAndNavigateToFriendAdd(AddedFriend)
+        }
     }
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
+        
         Reduce { state, action in
             switch action {
             case .onAppear:
+                switch state.type {
+                case .cheer:
+                    return fetchUserDetail(userID: state.userID)
+                case let .invite(user: user):
+                    return fetchUserDetail(userID: user.friendUser.id)
+                }
+                
+            case let .entityResult(result):
+                switch result {
+                case .success(let entity):
+                    state.entity = entity
+                case .failure(let error):
+                    return .none
+                }
+            
+            case .onTapButton:
+                switch state.type {
+                case .cheer:
+                    //TODO: 응원하기
+                    return .none
+                case .invite(let user):
+                    return .send(.delegate(.dismissAndNavigateToFriendAdd(user)))
+                }
+                
+            case let .inviteResult(result):
+                switch result {
+                case .success(let response):
+                    print(response)
+                    return .none
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    return .none
+                }
+                
+            case .delegate:
+                return .none
+                
+            case .binding:
+                return .none
                 return fetchUserDetail(userID: state.userID)
             case .setDismiss:
                 state.dismiss = true
@@ -110,6 +160,17 @@ struct FriendCardReducer {
         }
     }
     
+    private func acceptInvite(code: String) -> Effect<Action> {
+        return .run { send in
+            let result = await repository.addFriend(code)
+            switch result {
+            case .success(let entity):
+                await send(.inviteResult(.success(entity)))
+            case .failure(let error):
+                await send(.inviteResult(.failure(error)))
+            }
+        }
+    }
     private func cheerFriend(userID: String) -> Effect<Action> {
         return .run { send in
             let result = await repository.cheerFriend(userID)
@@ -117,6 +178,7 @@ struct FriendCardReducer {
             case .success:
                 await send(.onCheerSuccess)
             case .failure(let error):
+                await send(.entityResult(.failure(error)))
                 await send(.setErrorMessage(error.description))
             }
         }

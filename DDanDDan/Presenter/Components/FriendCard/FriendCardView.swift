@@ -58,6 +58,15 @@ struct FriendCardView: View {
             .background(Color.elevationLevel01)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
+            Button(action: handleButtonTap) {
+                Text(store.buttonTitle)
+                    .font(.heading6_semibold16)
+                    .foregroundStyle(Color.textButtonPrimaryDefault)
+            }
+            .frame(width: 136, height: 56)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+            
             if !store.hideButton {
                 Button(action: { store.send(.onTapButton)}) {
                     Text(store.buttonTitle)
@@ -189,6 +198,16 @@ struct FriendCardView: View {
         .padding(.horizontal, 20)
     }
     
+    private func handleButtonTap() {
+        switch store.type {
+        case .invite:
+            store.send(.onTapButton)
+            dismiss()
+        case .cheer:
+            // 응원하기: 액션만 (dismiss 안함)
+            store.send(.onTapButton)
+        }
+    }
     var animatedFireView: some View {
         ZStack {
             ForEach(0 ..< animatedFireCount, id: \.self) { index in
