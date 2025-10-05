@@ -79,6 +79,8 @@
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
+		3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; };
+		3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796A2CDCB2060055771B /* HomeRepository.swift */; };
 		367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796C2CDCB30A0055771B /* PetArchiveModel.swift */; };
 		367A796F2CDCBC210055771B /* PathString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796E2CDCBC210055771B /* PathString.swift */; };
@@ -253,6 +255,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3665B2EB2E91B448008FD161 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36A9D7052DE9A0B200A9169A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -353,6 +366,7 @@
 		36465DBF2CFDF11600784E8A /* puppy_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level5_play+eat.json"; sourceTree = "<group>"; };
 		364B37952D03916C00E72BFF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		364B37972D04781900E72BFF /* Adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Adjusted+.swift"; sourceTree = "<group>"; };
+		3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ChottuLinkSDK.xcframework; sourceTree = "<group>"; };
 		367A796A2CDCB2060055771B /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
 		367A796C2CDCB30A0055771B /* PetArchiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveModel.swift; sourceTree = "<group>"; };
 		367A796E2CDCBC210055771B /* PathString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathString.swift; sourceTree = "<group>"; };
@@ -543,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */,
+				3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */,
 				3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */,
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
@@ -679,6 +694,7 @@
 		36465D892CF7F3E200784E8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */,
 				36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */,
 				36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */,
 			);
@@ -1269,6 +1285,7 @@
 				36E019932CCA830C00383318 /* Embed Watch Content */,
 				36A9D7262DE9A20400A9169A /* Embed Foundation Extensions */,
 				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
+				3665B2EB2E91B448008FD161 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
