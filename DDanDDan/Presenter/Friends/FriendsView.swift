@@ -28,7 +28,7 @@ struct FriendListView: View {
                         .font(.neoDunggeunmo24) // 23으로 변경 필요
                     Spacer()
                     Button {
-                        // 친구 추가
+                        store.send(.createInviteCode)
                     } label: {
                         Text("친구 추가")
                             .foregroundStyle(Color.textHeadlinePrimary)
