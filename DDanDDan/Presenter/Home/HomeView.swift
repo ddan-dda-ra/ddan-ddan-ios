@@ -14,6 +14,7 @@ enum HomePath: Hashable {
     case successThreeDay(totalKcal: Int)
     case newPet
     case upgradePet(level: Int, petType: PetType, newPetTicket: Bool)
+    case addFriend(level: Int, petType: PetType)
 }
 
 struct HomeView: View {
