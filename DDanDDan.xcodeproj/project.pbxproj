@@ -83,6 +83,7 @@
 		3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3665B2FA2E923A95008FD161 /* FriendAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2F92E923A95008FD161 /* FriendAddView.swift */; };
 		3665B2FC2E926546008FD161 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2FB2E926546008FD161 /* DeepLinkManager.swift */; };
+		3665B2FE2E926988008FD161 /* MainTabReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2FD2E926988008FD161 /* MainTabReducer.swift */; };
 		367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796A2CDCB2060055771B /* HomeRepository.swift */; };
 		367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796C2CDCB30A0055771B /* PetArchiveModel.swift */; };
 		367A796F2CDCBC210055771B /* PathString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796E2CDCBC210055771B /* PathString.swift */; };
@@ -371,6 +372,7 @@
 		3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ChottuLinkSDK.xcframework; sourceTree = "<group>"; };
 		3665B2F92E923A95008FD161 /* FriendAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAddView.swift; sourceTree = "<group>"; };
 		3665B2FB2E926546008FD161 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
+		3665B2FD2E926988008FD161 /* MainTabReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabReducer.swift; sourceTree = "<group>"; };
 		367A796A2CDCB2060055771B /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
 		367A796C2CDCB30A0055771B /* PetArchiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveModel.swift; sourceTree = "<group>"; };
 		367A796E2CDCBC210055771B /* PathString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathString.swift; sourceTree = "<group>"; };
@@ -1127,6 +1129,7 @@
 			isa = PBXGroup;
 			children = (
 				F90472E62E4F12E7005849BC /* MainTabView.swift */,
+				3665B2FD2E926988008FD161 /* MainTabReducer.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1617,6 +1620,7 @@
 				36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
+				3665B2FE2E926988008FD161 /* MainTabReducer.swift in Sources */,
 				F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */,
 				F88663D32CC8EE29008DB860 /* AuthNetwork.swift in Sources */,
 				F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */,

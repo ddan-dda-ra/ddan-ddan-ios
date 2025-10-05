@@ -36,18 +36,24 @@ enum TabType: Int, CaseIterable {
 
 struct MainTabView: View {
     let coordinator: AppCoordinator
+    @Perception.Bindable var store: StoreOf<MainTabReducer>
+    
+    @State private var showInviteModal = false
+    @State private var inviteCode: String = ""
     
     var body: some View {
-        TabView {
-            ForEach(TabType.allCases, id: \.self) { tab in
-                viewForTab(tab)
-                    .tabItem {
-                        Image(tab.resource)
-                            .renderingMode(.template)
-                        Text(tab.title)
-                            .font(.system(size: 11, weight: .semibold))
-                    }
-                    .tag(tab)
+        ZStack {
+            TabView {
+                ForEach(TabType.allCases, id: \.self) { tab in
+                    viewForTab(tab)
+                        .tabItem {
+                            Image(tab.resource)
+                                .renderingMode(.template)
+                            Text(tab.title)
+                                .font(.system(size: 11, weight: .semibold))
+                        }
+                        .tag(tab)
+                }
             }
         }
         .accentColor(.white)
