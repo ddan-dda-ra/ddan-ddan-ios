@@ -9,6 +9,7 @@ import Foundation
 
 public protocol FriendRepositoryProtocol {
     func getFriendList() async -> Result<FriendList, NetworkError>
+    func createInviteCode() async -> Result<InviteCode, NetworkError>
     func deleteFriend(_ friendId: String) async -> Result<EmptyEntity, NetworkError>
 }
 
@@ -18,6 +19,11 @@ public struct FriendRepository: FriendRepositoryProtocol {
     public func getFriendList() async -> Result<FriendList, NetworkError> {
         guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
         return await network.fetchFriendList(accessToken: accessToken)
+    }
+    
+    public func createInviteCode() async -> Result<InviteCode, NetworkError> {
+        guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
+        return await network.createInviteCode(accessToken: accessToken)
     }
     
     public func deleteFriend(_ friendId: String) async -> Result<EmptyEntity, NetworkError>  {
