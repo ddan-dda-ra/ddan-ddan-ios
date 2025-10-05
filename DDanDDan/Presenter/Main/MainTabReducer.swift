@@ -28,7 +28,6 @@ struct MainTabReducer {
         case binding(BindingAction<State>)
         case handleDeepLink(inviteCode: String)
         case addFriendResult(TaskResult<AddedFriend>)
-        case navigateToFriendDetail(AddedFriend)
         case clearNavigateToFriendAdd
         //Scope
         case friendCard(PresentationAction<FriendCardReducer.Action>)
@@ -45,7 +44,6 @@ struct MainTabReducer {
                 state.selectedTab = .friends
                 return .none
                 
-                
             case .friendCard:
                 return .none
                 
@@ -57,8 +55,10 @@ struct MainTabReducer {
                 
                 switch result {
                 case .success(let addedFriend):
+                    // 친구 추가 성공 -> FriendCardView 표시
                     state.friendCard = FriendCardReducer.State(
-                        userID: "", type: .invite(user: addedFriend)
+                        userID: "",
+                        type: .invite(user: addedFriend)
                     )
                     return .none
                     
@@ -68,12 +68,10 @@ struct MainTabReducer {
                     return .none
                 }
                 
-            case .navigateToFriendDetail:
-                return .none
                 
             case .clearNavigateToFriendAdd:
-                 state.navigateToFriendAdd = nil
-                 return .none
+                state.navigateToFriendAdd = nil
+                return .none
                 
             case .binding:
                 return .none

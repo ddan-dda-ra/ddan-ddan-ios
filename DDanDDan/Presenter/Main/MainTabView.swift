@@ -33,95 +33,104 @@ enum TabType: Int, CaseIterable {
     }
 }
 
+import SwiftUI
+import ComposableArchitecture
 
 struct MainTabView: View {
     let coordinator: AppCoordinator
     @Perception.Bindable var store: StoreOf<MainTabReducer>
     
-    @State private var showInviteModal = false
-    @State private var inviteCode: String = ""
-    
     var body: some View {
-        ZStack {
-            TabView {
-                ForEach(TabType.allCases, id: \.self) { tab in
-                    viewForTab(tab)
-                        .tabItem {
-                            Image(tab.resource)
-                                .renderingMode(.template)
-                            Text(tab.title)
-                                .font(.system(size: 11, weight: .semibold))
+        WithPerceptionTracking {
+            ZStack {
+                TabView(selection: $store.selectedTab) {
+                    ForEach(TabType.allCases, id: \.self) { tab in
+                        viewForTab(tab)
+                            .tabItem {
+                                Image(tab.resource)
+                                    .renderingMode(.template)
+                                Text(tab.title)
+                                    .font(.system(size: 11, weight: .semibold))
+                            }
+                            .tag(tab)
+                    }
+                }
+                .accentColor(.white)
+                .fullScreenCover(
+                    store: store.scope(state: \.$friendCard, action: \.friendCard)
+                ) { store in
+                    FriendCardView(store: store)
+                }
+                
+                // Toast View
+                if store.showToast {
+                    TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                        VStack {
+                            ToastView(message: store.toastMessage, toastType: .info)
                         }
-                        .tag(tab)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+                    }
                 }
             }
-            .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
-                FriendCardView(store: store)
-            })
-            TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
-                VStack {
-                    ToastView(message: store.toastMessage, toastType: .info)
-                }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+            .onAppear {
+                let appearance = UITabBarAppearance()
+                appearance.configureWithOpaqueBackground()
+                appearance.backgroundColor = UIColor.backgroundBlack
+                
+                UITabBar.appearance().standardAppearance = appearance
+                UITabBar.appearance().scrollEdgeAppearance = appearance
             }
-        }
-        .accentColor(.white)
-        .onAppear {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.backgroundBlack
-            
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
-            if let inviteCode = notification.object as? String {
-                store.send(.handleDeepLink(inviteCode: inviteCode))
-            }
-        }
-        .onChange(of: store.navigateToFriendAdd) { newValue in
-            if let friend = newValue {
-                DispatchQueue.main.async {
-                    coordinator.push(to: HomePath.addFriend(level: friend.friendUser.petLevel, petType: friend.friendUser.mainPetType))
-                    store.send(.clearNavigateToFriendAdd)
+            .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
+                if let inviteCode = notification.object as? String {
+                    store.send(.handleDeepLink(inviteCode: inviteCode))
                 }
             }
-        }
-        .navigationDestination(for: SettingPath.self) { path in
-            switch path {
-            case .petArchive:
-                PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
-            case .updateNickname:
-                UpdateNicknameView(coordinator: coordinator,
-                                   store: Store(initialState: UpdateNicknameReducer.State(),
-                                                reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
-            case .updateCalorie:
-                UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
-                                                                         reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
-            case .updateTerms:
-                SettingTermView(coordinator: coordinator)
-            case .deleteUser:
-                DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
-            case .deleteUserConfirm(let store):
-                DeleteUserConfirmView(coordinator: coordinator, store: store)
-            default:
-                EmptyView()
+            .onChange(of: store.navigateToFriendAdd) { newValue in
+                if let friend = newValue {
+                    DispatchQueue.main.async {
+                        coordinator.push(to: HomePath.addFriend(
+                            level: friend.friendUser.petLevel,
+                            petType: friend.friendUser.mainPetType
+                        ))
+                        store.send(.clearNavigateToFriendAdd)
+                    }
+                }
             }
-        }
-        .navigationDestination(for: HomePath.self) { path in
-            switch path {
-            case .successThreeDay(let totalKcal):
-                ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
-            case .newPet:
-                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
-            case .upgradePet(let level, let petType, let newPet):
-                LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newPet)
-            case .addFriend(level: let level, petType: let petType):
-                FriendAddView(coordinator: coordinator, level: level, petType: petType)
+            .navigationDestination(for: SettingPath.self) { path in
+                switch path {
+                case .petArchive:
+                    PetArchiveView(coordinator: coordinator, viewModel: PetArchiveViewModel(repository: HomeRepository()))
+                case .updateNickname:
+                    UpdateNicknameView(coordinator: coordinator,
+                                       store: Store(initialState: UpdateNicknameReducer.State(),
+                                                    reducer: { UpdateNicknameReducer(repository: SettingRepository())}))
+                case .updateCalorie:
+                    UpdateCalorieView(coordinator: coordinator, store: Store(initialState: UpdateCalorieReducer.State(),
+                                                                             reducer: { UpdateCalorieReducer(repository: SettingRepository()) }))
+                case .updateTerms:
+                    SettingTermView(coordinator: coordinator)
+                case .deleteUser:
+                    DeleteUserView(coordinator: coordinator, store: Store(initialState: DeleteUserReducer.State(), reducer: { DeleteUserReducer(repository: SettingRepository()) }))
+                case .deleteUserConfirm(let store):
+                    DeleteUserConfirmView(coordinator: coordinator, store: store)
+                default:
+                    EmptyView()
+                }
+            }
+            .navigationDestination(for: HomePath.self) { path in
+                switch path {
+                case .successThreeDay(let totalKcal):
+                    ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
+                case .newPet:
+                    NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
+                case .upgradePet(let level, let petType, let newPet):
+                    LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newPet)
+                case .addFriend(level: let level, petType: let petType):
+                    FriendAddView(coordinator: coordinator, level: level, petType: petType)
+                }
             }
         }
     }
-    
     
     @ViewBuilder
     private func viewForTab(_ tab: TabType) -> some View {
@@ -132,7 +141,12 @@ struct MainTabView: View {
             RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer(repository: RankRepository()) },
                      coordinator: coordinator)
         case .friends:
-            FriendListView(store: Store(initialState: FriendsViewReducer.State()) { FriendsViewReducer() }, coordinator: coordinator)
+            FriendListView(
+                store: Store(initialState: FriendsViewReducer.State()) {
+                    FriendsViewReducer()
+                },
+                coordinator: coordinator
+            )
         case .setting:
             SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
         }
