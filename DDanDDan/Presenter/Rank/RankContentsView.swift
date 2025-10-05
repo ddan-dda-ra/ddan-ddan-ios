@@ -218,7 +218,7 @@ extension RankContentsView {
             
             ZStack(alignment: .center) {
                 Rectangle()
-                    .frame(maxHeight: 100.adjustedHeight)
+                    .frame(maxHeight: 72.adjustedHeight)
                     .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                     .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                     .foregroundStyle(.borderGray)
@@ -257,8 +257,7 @@ extension RankContentsView {
                         .foregroundStyle(.textButtonAlternative)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 32)
+                .padding(.vertical, 12)
             }
             .onTapGesture {
                 store.send(.focusMyRank(index: myRanking?.rank ?? 0))
