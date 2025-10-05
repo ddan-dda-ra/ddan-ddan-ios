@@ -33,12 +33,26 @@ enum TabType: Int, CaseIterable {
     }
 }
 
-import SwiftUI
-import ComposableArchitecture
-
 struct MainTabView: View {
     let coordinator: AppCoordinator
     @Perception.Bindable var store: StoreOf<MainTabReducer>
+    
+    // HomeViewModel과 관련 ViewModel들을 StateObject로 유지
+    @StateObject private var homeViewModel: HomeViewModel
+    @StateObject private var newPetViewModel = NewPetViewModel()
+    @StateObject private var randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: HomeRepository())
+    
+    init(coordinator: AppCoordinator, store: StoreOf<MainTabReducer>) {
+        self.coordinator = coordinator
+        self.store = store
+        
+        // HomeViewModel 초기화
+        _homeViewModel = StateObject(wrappedValue: HomeViewModel(
+            repository: HomeRepository(),
+            userInfo: coordinator.userInfo,
+            petInfo: coordinator.petInfo
+        ))
+    }
     
     var body: some View {
         WithPerceptionTracking {
@@ -79,6 +93,8 @@ struct MainTabView: View {
                 
                 UITabBar.appearance().standardAppearance = appearance
                 UITabBar.appearance().scrollEdgeAppearance = appearance
+
+                setupViewModelBindings()
             }
             .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
                 if let inviteCode = notification.object as? String {
@@ -122,7 +138,7 @@ struct MainTabView: View {
                 case .successThreeDay(let totalKcal):
                     ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
                 case .newPet:
-                    NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
+                    NewPetView(coordinator: coordinator, viewModel: newPetViewModel)
                 case .upgradePet(let level, let petType, let newPet):
                     LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newPet)
                 case .addFriend(level: let level, petType: let petType):
@@ -132,11 +148,21 @@ struct MainTabView: View {
         }
     }
     
+    private func setupViewModelBindings() {
+        homeViewModel.bind(overlayVM: newPetViewModel)
+        homeViewModel.bind(overlayVM: randomGachaPetViewModel)
+    }
+    
     @ViewBuilder
     private func viewForTab(_ tab: TabType) -> some View {
         switch tab {
         case .home:
-            HomeView(coordinator: coordinator, viewModel: .init(repository: HomeRepository(), userInfo: coordinator.userInfo, petInfo: coordinator.petInfo))
+            HomeView(
+                coordinator: coordinator,
+                viewModel: homeViewModel,
+                newPetViewModel: newPetViewModel,
+                randomGachaPetViewModel: randomGachaPetViewModel
+            )
         case .rank:
             RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer(repository: RankRepository()) },
                      coordinator: coordinator)

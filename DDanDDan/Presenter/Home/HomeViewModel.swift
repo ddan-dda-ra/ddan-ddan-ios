@@ -311,11 +311,22 @@ final class HomeViewModel: ObservableObject {
     
     // MARK: CoachMark View
     
+    @MainActor
     func bind(overlayVM: NewPetViewModel) {
         overlayVM.dismissPublisher
             .sink { [weak self] in
-                self?.showRandomPetCoachMark()
-                self?.homePetModel.ticket += 1
+                guard let self else { return }
+                // 티켓 증가 및 UI 즉시 반영
+                self.homePetModel.ticket += 1
+                self.enableRandomPet = true
+                
+                // 서버 데이터와 동기화
+                Task {
+                    await self.fetchHomeInfo()
+                    await MainActor.run {
+                        self.showRandomPetCoachMark()
+                    }
+                }
             }
             .store(in: &cancellables)
     }
@@ -344,11 +355,19 @@ final class HomeViewModel: ObservableObject {
     func bind(overlayVM: RandomGachaPetViewModel) {
         overlayVM.dismissPublisher
             .sink { [weak self] in
+                guard let self else { return }
+                // 뷰 닫기
+                self.showRandomGachaView = false
+                
+                // 티켓 차감 및 UI 즉시 반영
+                if self.homePetModel.ticket > 0 {
+                    self.homePetModel.ticket -= 1
+                }
+                self.enableRandomPet = self.homePetModel.ticket > 0
+                
+                // 서버 데이터와 동기화
                 Task {
-                    await MainActor.run {
-                        self?.showRandomGachaView = false
-                    }
-                    await self?.fetchHomeInfo()
+                    await self.fetchHomeInfo()
                 }
             }
             .store(in: &cancellables)
