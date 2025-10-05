@@ -40,6 +40,7 @@ struct RankContentsView: View {
                         }
                     }
                 }
+                
                 myRankView
                 
                 TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
@@ -48,13 +49,12 @@ struct RankContentsView: View {
                     }
                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                 }
-            }
-            
-            if shouldShowLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .foregroundStyle(.textButtonAlternative)
-                    .background(Color.backgroundBlack)
+                if shouldShowLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .foregroundStyle(.textButtonAlternative)
+                        .background(Color.backgroundBlack)
+                }
             }
         }
         .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
