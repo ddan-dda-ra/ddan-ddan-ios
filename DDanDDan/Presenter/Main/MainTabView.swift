@@ -36,8 +36,8 @@ enum TabType: Int, CaseIterable {
 struct MainTabView: View {
     let coordinator: AppCoordinator
     @Perception.Bindable var store: StoreOf<MainTabReducer>
+    @State private var didSetupBindings = false
     
-    // HomeViewModel과 관련 ViewModel들을 StateObject로 유지
     @StateObject private var homeViewModel: HomeViewModel
     @StateObject private var newPetViewModel = NewPetViewModel()
     @StateObject private var randomGachaPetViewModel = RandomGachaPetViewModel(homeRepository: HomeRepository())
@@ -94,7 +94,10 @@ struct MainTabView: View {
                 UITabBar.appearance().standardAppearance = appearance
                 UITabBar.appearance().scrollEdgeAppearance = appearance
 
-                setupViewModelBindings()
+                if !didSetupBindings {
+                    setupViewModelBindings()
+                    didSetupBindings = true
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
                 if let inviteCode = notification.object as? String {
