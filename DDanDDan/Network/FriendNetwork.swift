@@ -33,6 +33,16 @@ public struct FriendNetwork {
             )
     }
     
+    public func addFriend(accessToken: String, inviteCode: String) async -> Result<AddedFriend, NetworkError> {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+        
+        return await manager.request(
+            url: PathString.Friend.inviteFriend + inviteCode,
+            method: .post,
+            headers: headers
+            )
+    }
+    
     // MARK: - DELETE
     public func deleteFriend(accessToken: String, friendId: String) async -> Result<EmptyEntity, NetworkError> {
         let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
