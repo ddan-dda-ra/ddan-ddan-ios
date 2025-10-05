@@ -16,7 +16,6 @@ public struct NetworkManager {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .returnCacheDataElseLoad
         self.session = Session(configuration: config, interceptor: withInterceptor ? TokenInterceptor() : nil)
-        
     }
     
     private func createHeaders(excludeAuth: Bool = false, additionalHeaders: HTTPHeaders? = nil) -> HTTPHeaders {
@@ -37,7 +36,6 @@ public struct NetworkManager {
         return headers
     }
 
-    
     public func request<T: Decodable>(
         url: String,
         method: HTTPMethod,
@@ -62,10 +60,16 @@ public struct NetworkManager {
         
         AnalyticsManager.shared.logEvent(event: NetworkEvent.request(url: url.absoluteString, header: networkHeaders.description, params: parameters?.description))
        
-        let result = await session.request(url, method: method, parameters: parameters, encoding: encoding, headers: networkHeaders)
+        let dataTask = session.request(url, method: method, parameters: parameters, encoding: encoding, headers: networkHeaders)
             .validate(statusCode: 200..<401)
-            .serializingData()
-            .response
+        
+        // EmptyEntity인 경우 데이터 직렬화 스킵
+        let result: AFDataResponse<Data>
+        if T.self == EmptyEntity.self {
+            result = await dataTask.serializingData(emptyResponseCodes: [200]).response
+        } else {
+            result = await dataTask.serializingData().response
+        }
         
         // 응답 로그 출력
         print("\n📥 Response:")
@@ -92,12 +96,6 @@ public struct NetworkManager {
             return .failure(NetworkError.requestFailed(error.errorDescription ?? "Unknown error"))
         }
         
-        guard let data = result.data else {
-            print("🔹 Error: Data is nil")
-            print("====================================")
-            return .failure(NetworkError.dataNil)
-        }
-        
         guard let response = result.response else {
             print("🔹 Error: Invalid response")
             print("====================================")
@@ -107,6 +105,10 @@ public struct NetworkManager {
         print("🔹 Status Code: \(response.statusCode)")
         
         if response.statusCode == 400 {
+            guard let data = result.data else {
+                return .failure(NetworkError.dataNil)
+            }
+            
             do {
                 let errorResponse = try JSONDecoder().decode(ServerErrorResponse.self, from: data)
                 print("🔹 400 Error - Code: \(errorResponse.code), Message: \(errorResponse.message)")
@@ -119,6 +121,19 @@ public struct NetworkManager {
         }
         
         if 200..<300 ~= response.statusCode {
+            // EmptyEntity 타입인 경우 데이터가 없어도 성공으로 처리
+            if T.self == EmptyEntity.self {
+                print("🔹 Success: Empty Response")
+                print("====================================")
+                return .success(EmptyEntity.emptyValue() as! T)
+            }
+            
+            guard let data = result.data, !data.isEmpty else {
+                print("🔹 Error: Expected data but received empty response")
+                print("====================================")
+                return .failure(NetworkError.dataNil)
+            }
+            
             do {
                 let networkResponse = try JSONDecoder().decode(T.self, from: data)
                 print("🔹 Success: \(networkResponse)")
