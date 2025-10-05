@@ -125,7 +125,10 @@ public struct NetworkManager {
             if T.self == EmptyEntity.self {
                 print("🔹 Success: Empty Response")
                 print("====================================")
-                return .success(EmptyEntity.emptyValue() as! T)
+                guard let emptyValue = EmptyEntity.emptyValue() as? T else {
+                    return .failure(.failToDecode("EmptyEntity 타입 캐스팅 실패"))
+                }
+                return .success(emptyValue)
             }
             
             guard let data = result.data, !data.isEmpty else {
