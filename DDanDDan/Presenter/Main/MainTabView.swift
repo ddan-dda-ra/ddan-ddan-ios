@@ -55,6 +55,15 @@ struct MainTabView: View {
                         .tag(tab)
                 }
             }
+            .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
+                FriendCardView(store: store)
+            })
+            TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                VStack {
+                    ToastView(message: store.toastMessage, toastType: .info)
+                }
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 120.adjustedHeight)
+            }
         }
         .accentColor(.white)
         .onAppear {
@@ -64,6 +73,19 @@ struct MainTabView: View {
             
             UITabBar.appearance().standardAppearance = appearance
             UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
+            if let inviteCode = notification.object as? String {
+                store.send(.handleDeepLink(inviteCode: inviteCode))
+            }
+        }
+        .onChange(of: store.navigateToFriendAdd) { newValue in
+            if let friend = newValue {
+                DispatchQueue.main.async {
+                    coordinator.push(to: HomePath.addFriend(level: friend.friendUser.petLevel, petType: friend.friendUser.mainPetType))
+                    store.send(.clearNavigateToFriendAdd)
+                }
+            }
         }
         .navigationDestination(for: SettingPath.self) { path in
             switch path {
@@ -94,6 +116,8 @@ struct MainTabView: View {
                 NewPetView(coordinator: coordinator, viewModel: NewPetViewModel())
             case .upgradePet(let level, let petType, let newPet):
                 LevelUpView(coordinator: coordinator, level: level, petType: petType, newRandomPet: newPet)
+            case .addFriend(level: let level, petType: let petType):
+                FriendAddView(coordinator: coordinator, level: level, petType: petType)
             }
         }
     }
@@ -113,4 +137,9 @@ struct MainTabView: View {
             SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
         }
     }
+}
+
+// NotificationCenter 확장
+extension Notification.Name {
+    static let friendInviteDeepLink = Notification.Name("friendInviteDeepLink")
 }
