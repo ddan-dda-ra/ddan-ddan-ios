@@ -12,6 +12,8 @@ import KakaoSDKAuth
 import Firebase
 import FirebaseMessaging
 import FirebaseCrashlytics
+import ChottuLinkSDK
+import ComposableArchitecture
 
 @main
 struct DDanDDanApp: App {
@@ -35,6 +37,8 @@ struct DDanDDanApp: App {
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
                         AuthController.handleOpenUrl(url: url)
                     }
+                    
+                    ChottuLink.handleLink(url)
                 }
         }
     }
@@ -70,6 +74,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
+        
+        let config = CLConfiguration(apiKey: Config.chottulinkKey, delegate: self)
+        ChottuLink.initialize(config: config)
+        
         return true
     }
     
