@@ -23,6 +23,7 @@ struct FriendsViewReducer {
     struct State: Equatable {
         var friendsList: [Friend] = []
         var isLoading = false
+        var hasLoadedOnce = false
         var errorMessage: String?
         var myProfilePet: ProfileModel = .init(
             name: UserDefaultValue.nickName,
@@ -43,10 +44,10 @@ struct FriendsViewReducer {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onAppear
+        case refreshFriendsList
         case friendsListResponse(Result<FriendList, NetworkError>)
         case myProfileLoaded(ProfileModel)
         
-        // 삭제 관련 액션
         case showDeleteAlert(id: String)
         case confirmDelete
         case deleteFriendResponse(id: String, Result<EmptyEntity, NetworkError>)
@@ -65,17 +66,26 @@ struct FriendsViewReducer {
                 return .none
                 
             case .onAppear:
+                guard !state.hasLoadedOnce && !state.isLoading else {
+                    return .none
+                }
+                state.isLoading = true
+                return loadFriendsList()
+                
+            case .refreshFriendsList:
                 state.isLoading = true
                 return loadFriendsList()
                 
             case let .friendsListResponse(.success(friendsList)):
                 state.isLoading = false
+                state.hasLoadedOnce = true
                 state.friendsList = friendsList.friends
                 state.errorMessage = nil
                 return .none
                 
             case let .friendsListResponse(.failure(error)):
                 state.isLoading = false
+                state.hasLoadedOnce = true
                 state.errorMessage = error.localizedDescription
                 return .none
                 
@@ -91,7 +101,7 @@ struct FriendsViewReducer {
             case .confirmDelete:
                 guard let friendId = state.friendToDelete else { return .none }
                 state.deleteFriendAlert = false
-                state.friendToDelete = nil  // 삭제 요청 후 초기화
+                state.friendToDelete = nil
                 return deleteFriend(id: friendId)
                 
             case let .deleteFriendResponse(id, .success):

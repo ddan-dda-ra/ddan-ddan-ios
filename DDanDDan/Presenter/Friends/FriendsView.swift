@@ -36,9 +36,14 @@ struct FriendListView: View {
                     .frame(height: 72.adjustedHeight)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 9)
-
-                    friendsListView
-                        .frame(maxWidth: .infinity)
+                    
+                    ScrollView {
+                        friendsListView
+                            .frame(maxWidth: .infinity)
+                    }
+                    .refreshable {
+                        await store.send(.refreshFriendsList).finish()
+                    }
                     
                     Spacer()
                     
