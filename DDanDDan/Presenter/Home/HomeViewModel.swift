@@ -221,6 +221,7 @@ final class HomeViewModel: ObservableObject {
         self.homePetModel.feedCount = petData.user.foodQuantity
         self.homePetModel.exp = petData.pet.expPercent
         
+        UserDefaultValue.level = petData.pet.level
         
         // 레벨 변화 확인
         if self.homePetModel.level != petData.pet.level {
