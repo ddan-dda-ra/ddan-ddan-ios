@@ -114,8 +114,12 @@ struct FriendsViewReducer {
                 }
                 
             case let .deleteFriendResponse(_, .failure(error)):
-                state.errorMessage = error.localizedDescription
-                return .none
+                state.showToast = true
+                state.toastMessage = "친구 삭제에 실패했어요."
+                return .run { send in
+                    try await Task.sleep(for: .seconds(2))
+                    await send(.dismissToast)
+                }
                 
             case .createInviteCode:
                 return createInviteCode()
@@ -131,8 +135,12 @@ struct FriendsViewReducer {
                 }
                 
             case let .createInviteCodeResponse(.failure(error)):
-                state.errorMessage = error.localizedDescription
-                return .none
+                state.showToast = true
+                state.toastMessage = "링크 생성에 실패했어요."
+                return .run { send in
+                    try await Task.sleep(for: .seconds(2))
+                    await send(.dismissToast)
+                }
                 
             case .dismissToast:
                 state.showToast = false
