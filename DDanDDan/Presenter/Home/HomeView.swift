@@ -129,22 +129,6 @@ struct HomeView: View {
                     }
                 }
             }
-            .onChange(of: viewModel.isGoalMet) { newValue in
-                if newValue {
-                    coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
-                    viewModel.isGoalMet = false
-                }
-            }
-            .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
-                if shouldUpdate {
-                    Task {
-                        await viewModel.fetchHomeInfo()
-                        
-                        coordinator.triggerHomeUpdate(trigger: false)
-                    }
-                }
-            }
-            
         }
         .navigationBarBackButtonHidden()
     }

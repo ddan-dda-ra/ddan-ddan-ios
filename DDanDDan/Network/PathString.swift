@@ -31,7 +31,13 @@ enum PathString {
     enum Rank {
         static let rank = "/v1/ranking"
     }
+  
     enum Cheer {
         static var cheerFriend = "/v1/cheers/"
+
+    enum Friend {
+        static let friendsList = "/v1/friends/me"
+        static let deleteFriend = "/v1/friends/"
+
     }
 }
