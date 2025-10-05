@@ -67,6 +67,7 @@ struct BackgroundBlurView: UIViewRepresentable{
 enum ToastType {
     case info
     case ready
+    case check
 
     var image: ImageResource {
         switch self {
@@ -74,6 +75,8 @@ enum ToastType {
             return .iconToastInfo
         case .ready:
             return .iconTime
+        case .check:
+            return .iconCheckFill
         }
     }
 }

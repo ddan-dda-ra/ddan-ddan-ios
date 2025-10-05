@@ -5,9 +5,7 @@
 //  Created by 이지희 on 9/23/25.
 //
 
-
 import Foundation
-
 import ComposableArchitecture
 
 @Reducer
@@ -34,6 +32,9 @@ struct FriendsViewReducer {
         var inviteCode: String = ""
         var lastCopiedURL: URL?
         
+        // 삭제 관련 상태
+        var deleteFriendAlert: Bool = false
+        var friendToDelete: String? = nil
         
         var showToast: Bool = false
         var toastMessage: String = ""
@@ -44,11 +45,15 @@ struct FriendsViewReducer {
         case onAppear
         case friendsListResponse(Result<FriendList, NetworkError>)
         case myProfileLoaded(ProfileModel)
-        case deleteFriend(id: String)
+        
+        // 삭제 관련 액션
+        case showDeleteAlert(id: String)
+        case confirmDelete
         case deleteFriendResponse(id: String, Result<EmptyEntity, NetworkError>)
         
         case createInviteCode
         case createInviteCodeResponse(Result<InviteCode, NetworkError>)
+        case dismissToast
     }
     
     var body: some ReducerOf<Self> {
@@ -78,12 +83,25 @@ struct FriendsViewReducer {
                 state.myProfilePet = profile
                 return .none
                 
-            case let .deleteFriend(id):
-                return deleteFriend(id: id)
+            case let .showDeleteAlert(id):
+                state.friendToDelete = id
+                state.deleteFriendAlert = true
+                return .none
+                
+            case .confirmDelete:
+                guard let friendId = state.friendToDelete else { return .none }
+                state.deleteFriendAlert = false
+                state.friendToDelete = nil  // 삭제 요청 후 초기화
+                return deleteFriend(id: friendId)
                 
             case let .deleteFriendResponse(id, .success):
                 state.friendsList.removeAll { $0.id == id }
-                return .none
+                state.showToast = true
+                state.toastMessage = "친구가 삭제되었어요."
+                return .run { send in
+                    try await Task.sleep(for: .seconds(2))
+                    await send(.dismissToast)
+                }
                 
             case let .deleteFriendResponse(_, .failure(error)):
                 state.errorMessage = error.localizedDescription
@@ -106,6 +124,9 @@ struct FriendsViewReducer {
                 state.errorMessage = error.localizedDescription
                 return .none
                 
+            case .dismissToast:
+                state.showToast = false
+                return .none
             }
         }
     }

@@ -51,6 +51,18 @@ struct FriendListView: View {
                 
                 myProfileView
             }
+            TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                VStack {
+                    ToastView(message: store.toastMessage, toastType: .check)
+                }
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
+            }
+            TransparentOverlayView(isPresented: store.deleteFriendAlert, isDimView: true) {
+                DialogView(show: $store.deleteFriendAlert,
+                           title: "정말 삭제하시겠어요?", description: "친구가 삭제돼요", rightButtonTitle: "삭제하기", leftButtonTitle: "취소") {
+                    store.send(.confirmDelete)
+                }
+            }
         }
         .onAppear {
             store.send(.onAppear)
@@ -89,7 +101,7 @@ struct FriendListView: View {
             Spacer()
             
             Button {
-                store.send(.deleteFriend(id: store.friendsList[index].id))
+                store.send(.showDeleteAlert(id: store.friendsList[index].id))
             } label: {
                 Image(.deleteIcon)
                     .resizable()
