@@ -176,8 +176,15 @@ extension FriendsViewReducer {
     func buildAndCopy(friendCode: String) {
         Task {
             guard let url = await linkBuilder.makeInviteURL(friendCode: friendCode) else { return }
-            print("생성된 url : \(url)")
-            Clipboard.copy(url)
+            Clipboard.copy(
+"""
+'딴딴'에서 운동하면서 펫 키워요!
+혼자보다 같이 하면 더 꾸준해지고, 펫도 더 건강해져요 🐾
+우리 같이 운동하고 서로 응원해요 💪
+
+\(url)
+"""
+            )
         }
     }
 }
