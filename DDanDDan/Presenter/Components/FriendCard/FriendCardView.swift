@@ -58,15 +58,6 @@ struct FriendCardView: View {
             .background(Color.elevationLevel01)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
-            Button(action: handleButtonTap) {
-                Text(store.buttonTitle)
-                    .font(.heading6_semibold16)
-                    .foregroundStyle(Color.textButtonPrimaryDefault)
-            }
-            .frame(width: 136, height: 56)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 4))
-            
             if !store.hideButton {
                 Button(action: { store.send(.onTapButton)}) {
                     Text(store.buttonTitle)

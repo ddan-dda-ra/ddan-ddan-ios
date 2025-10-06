@@ -92,19 +92,10 @@ struct FriendCardReducer {
                     return fetchUserDetail(userID: user.friendUser.id)
                 }
                 
-            case let .entityResult(result):
-                switch result {
-                case .success(let entity):
-                    state.entity = entity
-                case .failure(let error):
-                    return .none
-                }
-            
             case .onTapButton:
                 switch state.type {
                 case .cheer:
-                    //TODO: 응원하기
-                    return .none
+                    return cheerFriend(userID: state.userID)
                 case .invite(let user):
                     return .send(.delegate(.dismissAndNavigateToFriendAdd(user)))
                 }
@@ -131,14 +122,6 @@ struct FriendCardReducer {
                 state.entity = entity
             case let .setErrorMessage(message):
                 return showToast(&state, message: message)
-            case .onTapButton:
-                switch state.type {
-                case .cheer:
-                    return cheerFriend(userID: state.userID)
-                case .invite:
-                    //TODO: 초대하기
-                    return .none
-                }
             case .onCheerSuccess:
                 state.entity?.isCheeredToday = true
                 state.fireAnimation = true
@@ -178,7 +161,6 @@ struct FriendCardReducer {
             case .success:
                 await send(.onCheerSuccess)
             case .failure(let error):
-                await send(.entityResult(.failure(error)))
                 await send(.setErrorMessage(error.description))
             }
         }
