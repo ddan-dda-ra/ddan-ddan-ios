@@ -13,5 +13,5 @@ public struct FriendCardEntity: Decodable, Equatable {
     let todayCalorie: Int
     let monthlyReceivedCheerCount: Int
     let isFriend: Bool
-    let isCheeredToday: Bool
+    var isCheeredToday: Bool
 }

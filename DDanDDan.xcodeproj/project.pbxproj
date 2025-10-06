@@ -195,6 +195,9 @@
 		F90472E72E4F12ED005849BC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90472E62E4F12E7005849BC /* MainTabView.swift */; };
 		F98C35442D0C1FD300A1E6C5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */; };
 		F99F04A12E757007000D0F06 /* FriendCardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04A02E757002000D0F06 /* FriendCardReducer.swift */; };
+		F99F04FC2E7574B9000D0F06 /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99F04FB2E7574B7000D0F06 /* FriendCard.swift */; };
+		F9A845AA2E862BD70021D0FE /* CheerNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A845A92E862BD10021D0FE /* CheerNetwork.swift */; };
+		F9A845AD2E862CD00021D0FE /* CheerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A845AC2E862CCE0021D0FE /* CheerInfo.swift */; };
 		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
 		F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
@@ -462,6 +465,9 @@
 		F90472E62E4F12E7005849BC /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F98C35432D0C1FD300A1E6C5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F99F04A02E757002000D0F06 /* FriendCardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardReducer.swift; sourceTree = "<group>"; };
+		F99F04FB2E7574B7000D0F06 /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
+		F9A845A92E862BD10021D0FE /* CheerNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerNetwork.swift; sourceTree = "<group>"; };
+		F9A845AC2E862CCE0021D0FE /* CheerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerInfo.swift; sourceTree = "<group>"; };
 		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
 		F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
@@ -902,7 +908,9 @@
 		F8311F9A2C7068C4000455ED /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				36BC7D032E82E9C9002B1ED5 /* Friend */,
+				F9A845AB2E862CC90021D0FE /* Cheer */,
+				F99F04FA2E7574B0000D0F06 /* Friend */,
+				36BC7D032E82E9C9002B1ED5 /* Friends */,
 				364195A82D72F1110065C400 /* Rank */,
 				F88FC6DD2CCF3BED0033D4C9 /* Pet */,
 				F88663CD2CC8ED5A008DB860 /* Error */,
@@ -975,6 +983,7 @@
 				367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */,
 				36F6E7EA2CEE411D00B395FB /* Config.swift */,
 				364195A62D72F0430065C400 /* RankNetwork.swift */,
+				F9A845A92E862BD10021D0FE /* CheerNetwork.swift */,
 				36BC7D012E82E959002B1ED5 /* FriendNetwork.swift */,
 			);
 			path = Network;
@@ -1098,6 +1107,22 @@
 				F90472E62E4F12E7005849BC /* MainTabView.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		F99F04FA2E7574B0000D0F06 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				F99F04FB2E7574B7000D0F06 /* FriendCard.swift */,
+			);
+			path = Friend;
+			sourceTree = "<group>";
+		};
+		F9A845AB2E862CC90021D0FE /* Cheer */ = {
+			isa = PBXGroup;
+			children = (
+				F9A845AC2E862CCE0021D0FE /* CheerInfo.swift */,
+			);
+			path = Cheer;
 			sourceTree = "<group>";
 		};
 		F9BCC0B02E82297A0035E1AF /* Dependencies */ = {
@@ -1520,6 +1545,7 @@
 				F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */,
 				F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */,
 				367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */,
+				F9A845AA2E862BD70021D0FE /* CheerNetwork.swift in Sources */,
 				36C1FE052CA4A4EC007CA188 /* HomeViewModel.swift in Sources */,
 				369F16F02D7CC11C0039ED3A /* RankContentsView.swift in Sources */,
 				36BC7D022E82E959002B1ED5 /* FriendNetwork.swift in Sources */,
@@ -1605,6 +1631,7 @@
 				F88663D12CC8EDD4008DB860 /* UserNetwork.swift in Sources */,
 				36BC7D902E8ADE39002B1ED5 /* FriendCard.swift in Sources */,
 				F88663D52CC8EE89008DB860 /* LoginData.swift in Sources */,
+				F9A845AD2E862CD00021D0FE /* CheerInfo.swift in Sources */,
 				F88663E02CCB3585008DB860 /* SignUpRepository.swift in Sources */,
 				F8C10C1A2C57970B0037D6A5 /* SignUpTermView.swift in Sources */,
 				F88663D72CC8F0D2008DB860 /* LoginViewModel.swift in Sources */,
