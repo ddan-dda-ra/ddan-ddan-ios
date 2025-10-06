@@ -39,6 +39,9 @@ struct FriendsViewReducer {
         
         var showToast: Bool = false
         var toastMessage: String = ""
+        
+        // Scope
+        @Presents var friendCard: FriendCardReducer.State?
     }
     
     enum Action: BindableAction {
@@ -48,6 +51,7 @@ struct FriendsViewReducer {
         case friendsListResponse(Result<FriendList, NetworkError>)
         case myProfileLoaded(ProfileModel)
         
+        case onTapItem(Friend)
         case showDeleteAlert(id: String)
         case confirmDelete
         case deleteFriendResponse(id: String, Result<EmptyEntity, NetworkError>)
@@ -55,6 +59,9 @@ struct FriendsViewReducer {
         case createInviteCode
         case createInviteCodeResponse(Result<InviteCode, NetworkError>)
         case dismissToast
+        
+        //Scope
+        case friendCard(PresentationAction<FriendCardReducer.Action>)
     }
     
     var body: some ReducerOf<Self> {
@@ -91,6 +98,10 @@ struct FriendsViewReducer {
                 
             case let .myProfileLoaded(profile):
                 state.myProfilePet = profile
+                return .none
+                
+            case let .onTapItem(friend):
+                state.friendCard = .init(userID: friend.id, type: .cheer)
                 return .none
                 
             case let .showDeleteAlert(id):
@@ -145,7 +156,13 @@ struct FriendsViewReducer {
             case .dismissToast:
                 state.showToast = false
                 return .none
+                
+            case .friendCard:
+                return .none
             }
+        }
+        .ifLet(\.$friendCard, action: \.friendCard) {
+            FriendCardReducer()
         }
     }
 }

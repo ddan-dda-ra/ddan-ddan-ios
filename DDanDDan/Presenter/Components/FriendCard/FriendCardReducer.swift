@@ -64,6 +64,7 @@ struct FriendCardReducer {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        
         case onAppear
         case setEntity(FriendCardEntity)
         case setErrorMessage(String)

@@ -75,9 +75,12 @@ struct FriendListView: View {
                     }
                 }
             }
-            .onAppear {
-                store.send(.onAppear)
-            }
+            .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
+                FriendCardView(store: store)
+            })
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
     
@@ -120,6 +123,10 @@ struct FriendListView: View {
         .frame(maxWidth: .infinity)
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
+        .onTapGesture {
+            print("tap!!!")
+            store.send(.onTapItem(friend))
+        }
     }
     
     var myProfileView: some View {

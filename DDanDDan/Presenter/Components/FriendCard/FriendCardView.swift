@@ -59,7 +59,7 @@ struct FriendCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
             if !store.hideButton {
-                Button(action: { store.send(.onTapButton)}) {
+                Button(action: handleButtonTap) {
                     Text(store.buttonTitle)
                         .font(.heading6_semibold16)
                         .foregroundStyle(Color.textButtonPrimaryDefault)
@@ -195,7 +195,6 @@ struct FriendCardView: View {
             store.send(.onTapButton)
             dismiss()
         case .cheer:
-            // 응원하기: 액션만 (dismiss 안함)
             store.send(.onTapButton)
         }
     }
