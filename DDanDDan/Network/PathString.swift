@@ -34,6 +34,7 @@ enum PathString {
   
     enum Cheer {
         static var cheerFriend = "/v1/cheers/"
+    }
 
     enum Friend {
         static let friendsList = "/v1/friends/me"
