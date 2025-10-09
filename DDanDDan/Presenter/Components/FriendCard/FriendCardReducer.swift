@@ -72,6 +72,7 @@ struct FriendCardReducer {
         case onCheerSuccess
         case setDismiss
         case inviteResult(TaskResult<AddedFriend>)
+        case endFireAnimation
         
         case delegate(Delegate)
         
@@ -116,19 +117,27 @@ struct FriendCardReducer {
                 
             case .binding:
                 return .none
-                return fetchUserDetail(userID: state.userID)
+                
             case .setDismiss:
                 state.dismiss = true
+                return .none
+                
             case let .setEntity(entity):
                 state.entity = entity
+                return .none
+                
             case let .setErrorMessage(message):
                 return showToast(&state, message: message)
+                
             case .onCheerSuccess:
                 state.entity?.isCheeredToday = true
                 state.fireAnimation = true
+                return performFireAnimation()
+                
+            case .endFireAnimation:
+                state.fireAnimation = false
+                return .none
             }
-            
-            return .none
         }
     }
     
@@ -155,6 +164,7 @@ struct FriendCardReducer {
             }
         }
     }
+    
     private func cheerFriend(userID: String) -> Effect<Action> {
         return .run { send in
             let result = await repository.cheerFriend(userID)
@@ -176,4 +186,10 @@ struct FriendCardReducer {
         }
     }
     
+    private func performFireAnimation() -> Effect<Action> {
+        return .run { send in
+            try await Task.sleep(for: .seconds(2.0))
+            await send(.endFireAnimation)
+        }
+    }
 }
