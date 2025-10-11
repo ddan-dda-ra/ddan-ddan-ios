@@ -122,13 +122,14 @@ private extension RankViewReducer {
     func handleonAppeared(_ state: inout State) -> Effect<Action> {
         guard state.dataLoadingState != .completed else { return .none }
         
-        // 캐시가 있으면 캐시 로딩 상태로 설정
+        // 캐시가 있으면 캐시 로딩
         if let cachedData = UserDefaults.cachedRanking {
             loadFromCache(&state, cachedData: cachedData)
         } else {
             setNetworkLoading(&state)
         }
         
+        // 네트워크 요청은 항상 실행 (백그라운드에서 최신 데이터 가져오기)
         return .merge(
             loadAllRanking(),
             .send(.setDateCirteria)
@@ -138,7 +139,7 @@ private extension RankViewReducer {
     func handleTabChanged(_ state: inout State, tab: Tab) -> Effect<Action> {
         state.currentTab = tab
         
-        // 해당 탭의 데이터가 없거나 캐시 상태면 로딩 필요
+
         let needsLoading = switch tab {
         case .kcal:
             state.kcalRanking == nil
@@ -162,7 +163,9 @@ private extension RankViewReducer {
             state.goalRanking = tabRanking.goal
             state.totalKcalRanking = tabRanking.kcal.ranking.last?.rank
             state.totalGoalRanking = tabRanking.goal.ranking.last?.rank
+            
             cacheRankingData(&state, kcal: tabRanking.kcal, goal: tabRanking.goal)
+            
             setAllCompleted(&state)
             return .none
             

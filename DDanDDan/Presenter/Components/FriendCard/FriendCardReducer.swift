@@ -105,7 +105,6 @@ struct FriendCardReducer {
             case let .inviteResult(result):
                 switch result {
                 case .success(let response):
-                    print(response)
                     return .none
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -149,18 +148,6 @@ struct FriendCardReducer {
                 await send(.setEntity(entity))
             case .failure:
                 await send(.setDismiss)
-            }
-        }
-    }
-    
-    private func acceptInvite(code: String) -> Effect<Action> {
-        return .run { send in
-            let result = await repository.addFriend(code)
-            switch result {
-            case .success(let entity):
-                await send(.inviteResult(.success(entity)))
-            case .failure(let error):
-                await send(.inviteResult(.failure(error)))
             }
         }
     }

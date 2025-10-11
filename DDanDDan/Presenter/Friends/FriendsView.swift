@@ -127,7 +127,6 @@ struct FriendListView: View {
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
         .onTapGesture {
-            print("tap!!!")
             store.send(.onTapItem(friend))
         }
     }
