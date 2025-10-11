@@ -75,9 +75,6 @@ struct MainTabView: View {
                 ) { store in
                     FriendCardView(store: store)
                 }
-                .transaction { transaction in
-                    transaction.disablesAnimations = true
-                }
                 
                 // Toast View
                 if store.showToast {

@@ -68,7 +68,7 @@ struct FriendCardView: View {
             if store.fireAnimation {
                 FireEmitterView()
                     .frame(width: 296, height: 300)
-                    .padding(.top, 200)
+                    .padding(.top, 150)
                     .allowsHitTesting(false)
             }
         }
@@ -229,7 +229,7 @@ struct FireEmitterView: UIViewRepresentable {
         cell.birthRate = 35
         
         
-        cell.scale = 0.5
+        cell.scale = 0.8
         cell.scaleRange = 0.15
         
         

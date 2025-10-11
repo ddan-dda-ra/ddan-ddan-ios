@@ -78,9 +78,6 @@ struct FriendListView: View {
             .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
                 FriendCardView(store: store)
             })
-            .transaction { transaction in
-                transaction.disablesAnimations = true
-            }
         }
         .onAppear {
             store.send(.onAppear)
