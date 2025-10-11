@@ -31,7 +31,9 @@ public enum PetType: String, Codable {
     }
     
     func image(for level: Int) -> ImageResource {
-        switch (self, level) {
+        let safeLevel = min(level, 5)
+        
+        switch (self, safeLevel) {
         case (.pinkCat, 1): return .pinkEgg
         case (.pinkCat, 2): return .pinkLv1
         case (.pinkCat, 3): return .pinkLv2
@@ -56,7 +58,13 @@ public enum PetType: String, Codable {
         case (.purpleDog, 4): return .purpleLv3
         case (.purpleDog, 5): return .purpleLv4
             
-        default: return .blueEgg // 기본 이미지
+        case (.grayMole, 1): return .grayLv4
+        case (.grayMole, 2): return .grayLv4
+        case (.grayMole, 3): return .grayLv4
+        case (.grayMole, 4): return .grayLv4
+        case (.grayMole, 5): return .grayLv4
+            
+        default: return .pinkEgg // 기본 이미지
         }
     }
 }

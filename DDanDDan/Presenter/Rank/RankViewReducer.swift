@@ -122,25 +122,29 @@ private extension RankViewReducer {
     func handleonAppeared(_ state: inout State) -> Effect<Action> {
         guard state.dataLoadingState != .completed else { return .none }
         
-        // 캐시가 있으면 캐시 로딩 상태로 설정
+        // 캐시가 있으면 캐시 로딩
         if let cachedData = UserDefaults.cachedRanking {
             loadFromCache(&state, cachedData: cachedData)
         } else {
             setNetworkLoading(&state)
         }
         
-        return loadAllRanking()
+        // 네트워크 요청은 항상 실행 (백그라운드에서 최신 데이터 가져오기)
+        return .merge(
+            loadAllRanking(),
+            .send(.setDateCirteria)
+        )
     }
     
     func handleTabChanged(_ state: inout State, tab: Tab) -> Effect<Action> {
         state.currentTab = tab
         
-        // 해당 탭의 데이터가 없거나 캐시 상태면 로딩 필요
+
         let needsLoading = switch tab {
         case .kcal:
-            state.kcalRanking == nil || state.kcalLoadingState == .loadingFromCache
+            state.kcalRanking == nil
         case .goal:
-            state.goalRanking == nil || state.goalLoadingState == .loadingFromCache
+            state.goalRanking == nil
         }
         
         return needsLoading ? loadSingleRanking(tab) : .none
@@ -154,15 +158,26 @@ private extension RankViewReducer {
     
     func handleRankingResponse(_ state: inout State, result: TaskResult<TabRanking>) -> Effect<Action> {
         switch result {
-        case let .success(TabRanking):
-            setBothRankingData(&state, kcal: TabRanking.kcal, goal: TabRanking.goal)
-            cacheRankingData(&state, kcal: TabRanking.kcal, goal: TabRanking.goal)
+        case let .success(tabRanking):
+            state.kcalRanking = tabRanking.kcal
+            state.goalRanking = tabRanking.goal
+            state.totalKcalRanking = tabRanking.kcal.ranking.last?.rank
+            state.totalGoalRanking = tabRanking.goal.ranking.last?.rank
+            
+            cacheRankingData(&state, kcal: tabRanking.kcal, goal: tabRanking.goal)
+            
             setAllCompleted(&state)
             return .none
             
         case let .failure(error):
-            setError(&state, message: error.localizedDescription)
-            return .none
+            if state.kcalRanking != nil && state.goalRanking != nil {
+                print("네트워크 실패, 캐시 데이터 유지: \(error.localizedDescription)")
+                setAllCompleted(&state)
+                return .none
+            } else {
+                setError(&state, message: error.localizedDescription)
+                return .none
+            }
         }
     }
     
@@ -174,8 +189,19 @@ private extension RankViewReducer {
             return .none
             
         case let .failure(error):
-            setTabError(&state, tab: tab, message: error.localizedDescription)
-            return .none
+            let hasCache = tab == .kcal ? state.kcalRanking != nil : state.goalRanking != nil
+            
+            if hasCache {
+                print("[\(tab)] 네트워크 실패, 캐시 데이터 유지: \(error.localizedDescription)")
+                switch tab {
+                case .kcal: state.kcalLoadingState = .completed
+                case .goal: state.goalLoadingState = .completed
+                }
+                return .none
+            } else {
+                setTabError(&state, tab: tab, message: error.localizedDescription)
+                return .none
+            }
         }
     }
     
@@ -213,7 +239,7 @@ private extension RankViewReducer {
                     
                     switch (kResult, gResult) {
                     case let (.success(k), .success(g)):
-                        return (TabRanking(kcal: k, goal: g))
+                        return TabRanking(kcal: k, goal: g)
                     case let (.failure(e), _), let (_, .failure(e)):
                         throw e
                     }
@@ -239,9 +265,9 @@ private extension RankViewReducer {
 private extension RankViewReducer {
     
     func loadFromCache(_ state: inout State, cachedData: CachedRankInfo) {
-        state.dataLoadingState = .loadingFromCache
-        state.kcalLoadingState = .loadingFromCache
-        state.goalLoadingState = .loadingFromCache
+        state.dataLoadingState = .completed
+        state.kcalLoadingState = .completed
+        state.goalLoadingState = .completed
         state.cachedRanking = cachedData
         state.kcalRanking = cachedData.kcalRanking
         state.goalRanking = cachedData.goalRanking
@@ -260,13 +286,6 @@ private extension RankViewReducer {
         case .kcal: state.kcalLoadingState = .loadingFromNetwork
         case .goal: state.goalLoadingState = .loadingFromNetwork
         }
-    }
-    
-    func setBothRankingData(_ state: inout State, kcal: RankInfo, goal: RankInfo) {
-        state.kcalRanking = kcal
-        state.goalRanking = goal
-        state.totalKcalRanking = kcal.ranking.last?.rank
-        state.totalGoalRanking = goal.ranking.last?.rank
     }
     
     func setRankingData(_ state: inout State, tab: Tab, ranking: RankInfo) {

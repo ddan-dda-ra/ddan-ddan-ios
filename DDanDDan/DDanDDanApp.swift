@@ -12,16 +12,19 @@ import KakaoSDKAuth
 import Firebase
 import FirebaseMessaging
 import FirebaseCrashlytics
+import ChottuLinkSDK
+import ComposableArchitecture
 
 @main
 struct DDanDDanApp: App {
     @StateObject var user = UserManager.shared
     @StateObject private var appCoordinator = AppCoordinator()
+    @StateObject private var deepLinkManager = DeepLinkManager.shared
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     private let watchConnection = WatchConnectivityManager.shared
-
+    
     init() {
         KakaoSDK.initSDK(appKey: Config.kakaoKey)
     }
@@ -31,10 +34,13 @@ struct DDanDDanApp: App {
             ContentView()
                 .environmentObject(appCoordinator)
                 .environmentObject(user)
+                .environmentObject(deepLinkManager)
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
                         AuthController.handleOpenUrl(url: url)
                     }
+                    
+                    ChottuLink.handleLink(url)
                 }
         }
     }
@@ -70,6 +76,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
+        
+        let config = CLConfiguration(apiKey: Config.chottulinkKey, delegate: self)
+        ChottuLink.initialize(config: config)
+        
         return true
     }
     
@@ -85,7 +95,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print(error.localizedDescription)
     }
-    
 }
 
 
@@ -136,6 +145,46 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
+extension AppDelegate: ChottuLinkDelegate {
+    func chottuLink(didResolveDeepLink link: URL, metadata: [String : Any]?) {
+        if let metadata = metadata {
+            print("📦 Metadata: \(metadata)")
+            let originURL = metadata["originalURL"] as? String
+            if let originURL = originURL {
+                if let code = extractChottuInviteCode(from: originURL) {
+                    DispatchQueue.main.async {
+                        DeepLinkManager.shared.handleFriendInvite(code: code)
+                    }
+                }
+            }
+        }
+    }
+    
+    func chottuLink(didFailToResolveDeepLink originalURL: URL?, error: any Error) {
+        NSLog("Failed to resolve deep link: \(error.localizedDescription)")
+    }
+    
+    func extractChottuInviteCode(from urlString: String,
+                                 allowedHostSuffix: String = "chottu.link") -> String? {
+        let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let url = URL(string: trimmed),
+              let host = url.host,
+              host.hasSuffix(allowedHostSuffix) else { return nil }
+        
+        var path = url.path
+        while path.last == "/" { path.removeLast() }
+        guard !path.isEmpty else { return nil }
+        
+        let rawCode = (path as NSString).lastPathComponent
+        let code = rawCode.removingPercentEncoding ?? rawCode
+        
+        let pattern = #"^[A-Za-z0-9_-]{4,64}$"#
+        if code.range(of: pattern, options: .regularExpression) == nil { return nil }
+        
+        return code
+    }
+    
+}
 
 
 struct ContentView: View {
@@ -151,7 +200,7 @@ struct ContentView: View {
             case .signUp:
                 SignUpTermView(viewModel: SignUpViewModel(repository: SignUpRepository()), coordinator: coordinator)
             case .mainTab:
-                MainTabView(coordinator: coordinator)
+                MainTabView(coordinator: coordinator, store: Store(initialState: MainTabReducer.State()) { MainTabReducer() })
             case .onboarding:
                 OnboardingView(coordinator: coordinator)
             case .login:

@@ -49,7 +49,6 @@
 		36465D862CF7F39200784E8A /* cat_level5_play+eat.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7F2CF7F39200784E8A /* cat_level5_play+eat.json */; };
 		36465D872CF7F39200784E8A /* cat_level2_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D782CF7F39200784E8A /* cat_level2_default.json */; };
 		36465D882CF7F39200784E8A /* cat_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D7A2CF7F39200784E8A /* cat_level3_default.json */; };
-		36465D902CF7F4BD00784E8A /* SDWebImageLottieCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */; };
 		36465DA02CFA414400784E8A /* hamster_level5_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D9E2CFA414400784E8A /* hamster_level5_default.json */; };
 		36465DA12CFA414400784E8A /* confetti.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D952CFA414400784E8A /* confetti.json */; };
 		36465DA22CFA414400784E8A /* hamster_level3_default.json in Resources */ = {isa = PBXBuildFile; fileRef = 36465D9A2CFA414400784E8A /* hamster_level3_default.json */; };
@@ -79,6 +78,11 @@
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
+		3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; };
+		3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3665B2FA2E923A95008FD161 /* FriendAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2F92E923A95008FD161 /* FriendAddView.swift */; };
+		3665B2FC2E926546008FD161 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2FB2E926546008FD161 /* DeepLinkManager.swift */; };
+		3665B2FE2E926988008FD161 /* MainTabReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2FD2E926988008FD161 /* MainTabReducer.swift */; };
 		367A796B2CDCB2060055771B /* HomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796A2CDCB2060055771B /* HomeRepository.swift */; };
 		367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796C2CDCB30A0055771B /* PetArchiveModel.swift */; };
 		367A796F2CDCBC210055771B /* PathString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A796E2CDCBC210055771B /* PathString.swift */; };
@@ -253,6 +257,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3665B2EB2E91B448008FD161 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36A9D7052DE9A0B200A9169A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -353,6 +368,10 @@
 		36465DBF2CFDF11600784E8A /* puppy_level5_play+eat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puppy_level5_play+eat.json"; sourceTree = "<group>"; };
 		364B37952D03916C00E72BFF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		364B37972D04781900E72BFF /* Adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Adjusted+.swift"; sourceTree = "<group>"; };
+		3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ChottuLinkSDK.xcframework; sourceTree = "<group>"; };
+		3665B2F92E923A95008FD161 /* FriendAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAddView.swift; sourceTree = "<group>"; };
+		3665B2FB2E926546008FD161 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
+		3665B2FD2E926988008FD161 /* MainTabReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabReducer.swift; sourceTree = "<group>"; };
 		367A796A2CDCB2060055771B /* HomeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepository.swift; sourceTree = "<group>"; };
 		367A796C2CDCB30A0055771B /* PetArchiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetArchiveModel.swift; sourceTree = "<group>"; };
 		367A796E2CDCBC210055771B /* PathString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathString.swift; sourceTree = "<group>"; };
@@ -520,7 +539,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36465D902CF7F4BD00784E8A /* SDWebImageLottieCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +561,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */,
+				3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */,
 				3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */,
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
@@ -679,6 +698,7 @@
 		36465D892CF7F3E200784E8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */,
 				36A9D6F62DE9A0B100A9169A /* WidgetKit.framework */,
 				36A9D6F82DE9A0B100A9169A /* SwiftUI.framework */,
 			);
@@ -844,6 +864,7 @@
 			children = (
 				36CAE0FF2E6B1A0B00B81039 /* FriendsView.swift */,
 				36BC7D082E82EB4E002B1ED5 /* FriendsViewReducer.swift */,
+				3665B2F92E923A95008FD161 /* FriendAddView.swift */,
 				36BC7D912E8AE061002B1ED5 /* FriendsModel.swift */,
 			);
 			path = Friends;
@@ -1070,6 +1091,7 @@
 			isa = PBXGroup;
 			children = (
 				F8AB332D2C2EAD2E00BC16C9 /* DDanDDanApp.swift */,
+				3665B2FB2E926546008FD161 /* DeepLinkManager.swift */,
 				367A79722CDD092A0055771B /* AppCoordinator.swift */,
 				362864902C89BF9900029452 /* Resource */,
 				F89A2EBA2C7C80AF00FE3A36 /* Util */,
@@ -1105,6 +1127,7 @@
 			isa = PBXGroup;
 			children = (
 				F90472E62E4F12E7005849BC /* MainTabView.swift */,
+				3665B2FD2E926988008FD161 /* MainTabReducer.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1213,7 +1236,6 @@
 			);
 			name = "DdanDdan_Watch Watch App";
 			packageProductDependencies = (
-				36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */,
 			);
 			productName = "DdanDdan_Watch Watch App";
 			productReference = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */;
@@ -1269,6 +1291,7 @@
 				36E019932CCA830C00383318 /* Embed Watch Content */,
 				36A9D7262DE9A20400A9169A /* Embed Foundation Extensions */,
 				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
+				3665B2EB2E91B448008FD161 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1337,7 +1360,6 @@
 			packageReferences = (
 				F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
 				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
@@ -1581,8 +1603,10 @@
 				360E6B3C2CEDF53F0059661E /* NewPetView.swift in Sources */,
 				36BC7D072E82EA7D002B1ED5 /* FriendRepository.swift in Sources */,
 				F8311F992C7060E8000455ED /* GreenButton.swift in Sources */,
+				3665B2FA2E923A95008FD161 /* FriendAddView.swift in Sources */,
 				F88FC6E32CCF6C6A0033D4C9 /* SettingRepository.swift in Sources */,
 				36A9D6F02DE5E41800A9169A /* SwipeBackEnabledModifier.swift in Sources */,
+				3665B2FC2E926546008FD161 /* DeepLinkManager.swift in Sources */,
 				F8758CEF2C8EDF630038CCBB /* DialogView.swift in Sources */,
 				F85C2BA42C4CD651002E2237 /* UserDefaultValue.swift in Sources */,
 				F811A21E2C9D5A3200176086 /* UpdateNicknameView.swift in Sources */,
@@ -1592,6 +1616,7 @@
 				36CAE0B62E69E0C900B81039 /* RandomGachaPetViewModel.swift in Sources */,
 				F80DF7332CB384F8004FF1F2 /* SettingTermView.swift in Sources */,
 				364B37982D04781900E72BFF /* Adjusted+.swift in Sources */,
+				3665B2FE2E926988008FD161 /* MainTabReducer.swift in Sources */,
 				F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */,
 				F88663D32CC8EE29008DB860 /* AuthNetwork.swift in Sources */,
 				F90329EC2D96A071004A8360 /* AnalyticsManager.swift in Sources */,
@@ -2282,14 +2307,6 @@
 				version = 4.5.0;
 			};
 		};
-		36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageLottieCoder";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
-			};
-		};
 		F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk.git";
@@ -2323,11 +2340,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		36465D8F2CF7F4BD00784E8A /* SDWebImageLottieCoder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 36465D8C2CF7F4A600784E8A /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */;
-			productName = SDWebImageLottieCoder;
 		};
 		F8C10C0C2C5782720037D6A5 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;

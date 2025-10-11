@@ -13,9 +13,9 @@ import Dependencies
 struct FriendCardReducer {
     @Dependency(\.friendCardRepository) var repository: FriendCardRepository
     
-    enum CardType {
+    enum CardType: Equatable {
         case cheer
-        case invite
+        case invite(user: AddedFriend)
     }
     
     @ObservableState
@@ -61,40 +61,82 @@ struct FriendCardReducer {
             }
         }
     }
-    enum Action {
+    
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        
         case onAppear
         case setEntity(FriendCardEntity)
         case setErrorMessage(String)
         case onTapButton
         case onCheerSuccess
         case setDismiss
+        case inviteResult(TaskResult<AddedFriend>)
+        case endFireAnimation
+        
+        case delegate(Delegate)
+        
+        enum Delegate {
+            case dismissAndNavigateToFriendAdd(AddedFriend)
+        }
     }
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
+        
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return fetchUserDetail(userID: state.userID)
-            case .setDismiss:
-                state.dismiss = true
-            case let .setEntity(entity):
-                state.entity = entity
-            case let .setErrorMessage(message):
-                return showToast(&state, message: message)
+                switch state.type {
+                case .cheer:
+                    return fetchUserDetail(userID: state.userID)
+                case let .invite(user: user):
+                    return fetchUserDetail(userID: user.friendUser.id)
+                }
+                
             case .onTapButton:
                 switch state.type {
                 case .cheer:
                     return cheerFriend(userID: state.userID)
-                case .invite:
-                    //TODO: 초대하기
+                case .invite(let user):
+                    return .send(.delegate(.dismissAndNavigateToFriendAdd(user)))
+                }
+                
+            case let .inviteResult(result):
+                switch result {
+                case .success(let response):
+                    return .none
+                case .failure(let error):
+                    print(error.localizedDescription)
                     return .none
                 }
+                
+            case .delegate:
+                return .none
+                
+            case .binding:
+                return .none
+                
+            case .setDismiss:
+                state.dismiss = true
+                return .none
+                
+            case let .setEntity(entity):
+                state.entity = entity
+                return .none
+                
+            case let .setErrorMessage(message):
+                return showToast(&state, message: message)
+                
             case .onCheerSuccess:
                 state.entity?.isCheeredToday = true
                 state.fireAnimation = true
+                return performFireAnimation()
+                
+            case .endFireAnimation:
+                state.fireAnimation = false
+                return .none
             }
-            
-            return .none
         }
     }
     
@@ -131,4 +173,10 @@ struct FriendCardReducer {
         }
     }
     
+    private func performFireAnimation() -> Effect<Action> {
+        return .run { send in
+            try await Task.sleep(for: .seconds(2.0))
+            await send(.endFireAnimation)
+        }
+    }
 }

@@ -40,6 +40,7 @@ struct RankContentsView: View {
                         }
                     }
                 }
+                
                 myRankView
                 
                 TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
@@ -48,13 +49,12 @@ struct RankContentsView: View {
                     }
                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
                 }
-            }
-            
-            if shouldShowLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .foregroundStyle(.textButtonAlternative)
-                    .background(Color.backgroundBlack)
+                if shouldShowLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .foregroundStyle(.textButtonAlternative)
+                        .background(Color.backgroundBlack)
+                }
             }
         }
         .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
@@ -218,7 +218,7 @@ extension RankContentsView {
             
             ZStack(alignment: .center) {
                 Rectangle()
-                    .frame(maxHeight: 100.adjustedHeight)
+                    .frame(maxHeight: 72.adjustedHeight)
                     .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
                     .particalCornerRadius(16.adjustedHeight, corners: .topRight)
                     .foregroundStyle(.borderGray)
@@ -257,8 +257,7 @@ extension RankContentsView {
                         .foregroundStyle(.textButtonAlternative)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 32)
+                .padding(.vertical, 12)
             }
             .onTapGesture {
                 store.send(.focusMyRank(index: myRanking?.rank ?? 0))

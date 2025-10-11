@@ -22,10 +22,14 @@ final class RandomGachaPetViewModel: ObservableObject {
     }
     
     func tapSelectButton() {
+        gachaResult = nil
+        
         Task {
             await selectRandomPet()
             await MainActor.run {
-                isSelectedRandomPet = true
+                if gachaResult != nil {
+                    isSelectedRandomPet = true
+                }
             }
         }
     }
@@ -33,18 +37,19 @@ final class RandomGachaPetViewModel: ObservableObject {
     
     func tapGrowupButton() {
         guard let gachaResultId = gachaResult?.id else {
-            dismissPublisher.send()
             return
         }
         
         Task {
             await setRandomPetToMainPet(gachaResultId)
+            isSelectedRandomPet = false
             dismissPublisher.send()
         }
     }
     
     func tapDisMissButton() {
         dismissPublisher.send()
+        isSelectedRandomPet = false
     }
     
     private func selectRandomPet() async {

@@ -39,6 +39,8 @@ enum PathString {
     enum Friend {
         static let friendsList = "/v1/friends/me"
         static let deleteFriend = "/v1/friends/"
+        static let createInviteCode = "/v1/friends/invite-codes"
+        static let inviteFriend = "/v1/friends/by-invite/"
 
     }
 }

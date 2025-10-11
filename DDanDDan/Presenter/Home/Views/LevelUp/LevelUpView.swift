@@ -42,7 +42,7 @@ struct LevelUpView: View {
                 if level == 5 {
                     Text("성장을 완료한 펫과 꾸준히 운동해서\n경험치를 올려보세요")
                         .multilineTextAlignment(.center)
-                        .font(.body3_regular12)
+                        .font(.body1_regular16)
                         .foregroundStyle(.iconGray)
                         .lineSpacing(8)
                         .padding(.top, 8)

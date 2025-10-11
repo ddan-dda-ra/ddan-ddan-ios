@@ -19,3 +19,23 @@ public struct Friend: Decodable, Equatable {
     public let mainPetType: PetType
     public let petLevel: Int
 }
+
+public struct InviteCode: Decodable, Equatable {
+    public let code: String
+    public let expiresAt: String
+    public let createdAt: String
+}
+
+public struct AddedFriend: Decodable, Equatable {
+    let id: String
+    let friendUser: FriendUser
+    let createdAt: String
+    let acceptedAt: String
+}
+
+public struct FriendUser: Decodable, Equatable {
+    let id: String
+    let name: String
+    let mainPetType: PetType
+    let petLevel: Int
+}

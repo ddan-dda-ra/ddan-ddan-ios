@@ -13,14 +13,8 @@ struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
     @Environment(\.dismiss) var dismiss
     
-    //MARK: animation
-    let animatedFireCount = 12
-    @State private var fireOffsetArray: [(x: CGFloat, y: CGFloat)]
-    @State private var fireOpacity: Double = 0
-    
     init(store: StoreOf<FriendCardReducer>) {
         self.store = store
-        self.fireOffsetArray = Array(repeating: (x: 0, y: 0), count: animatedFireCount)
     }
     
     var body: some View {
@@ -37,7 +31,7 @@ struct FriendCardView: View {
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(BackgroundBlurView())
+            .background(BackgroundBlurView().ignoresSafeArea())
             .onChange(of: store.dismiss) { isDismiss in
                 if isDismiss {
                     dismiss()
@@ -59,7 +53,7 @@ struct FriendCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
             if !store.hideButton {
-                Button(action: { store.send(.onTapButton)}) {
+                Button(action: handleButtonTap) {
                     Text(store.buttonTitle)
                         .font(.heading6_semibold16)
                         .foregroundStyle(Color.textButtonPrimaryDefault)
@@ -71,8 +65,12 @@ struct FriendCardView: View {
 
         }
         .overlay(alignment: .top) {
-            animatedFireView
-                .padding(.top, 77)
+            if store.fireAnimation {
+                FireEmitterView()
+                    .frame(width: 296, height: 300)
+                    .padding(.top, 150)
+                    .allowsHitTesting(false)
+            }
         }
         .frame(width: 296, height: 489)
         
@@ -116,13 +114,6 @@ struct FriendCardView: View {
                     .onTapGesture {
                         dismiss()
                     }
-            }
-            .onChange(of: store.fireAnimation) { fireAnimation in
-                if fireAnimation {
-                    Task {
-                        await performFireAnimation()
-                    }
-                }
             }
     }
     
@@ -189,45 +180,90 @@ struct FriendCardView: View {
         .padding(.horizontal, 20)
     }
     
-    var animatedFireView: some View {
-        ZStack {
-            ForEach(0 ..< animatedFireCount, id: \.self) { index in
-                if index < fireOffsetArray.count {
-                    Image(.fire)
-                        .resizable()
-                        .frame(width: 48, height: 48)
-                        .offset(
-                            x: fireOffsetArray[index].x,
-                            y: fireOffsetArray[index].y
-                        )
-                        .opacity(fireOpacity)
-                }
-            }
+    private func handleButtonTap() {
+        switch store.type {
+        case .invite:
+            store.send(.onTapButton)
+            dismiss()
+        case .cheer:
+            store.send(.onTapButton)
+            let generator = UIImpactFeedbackGenerator(style: .medium)
+            generator.impactOccurred()
         }
+    }
+}
+
+// MARK: - Fire Emitter View
+struct FireEmitterView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        let emitterLayer = CAEmitterLayer()
+        
+        // 방출 위치 (중앙 하단에서 시작)
+        emitterLayer.emitterPosition = CGPoint(x: 148, y: 200)
+        
+        // 불꽃 셀 생성
+        emitterLayer.emitterCells = [createFireCell()]
+        emitterLayer.birthRate = 1
+        
+        view.layer.addSublayer(emitterLayer)
+        
+        // 자동으로 애니메이션 종료
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            emitterLayer.birthRate = 0
+        }
+        
+        return view
     }
     
-    private func performFireAnimation() async {
-        withAnimation(.easeOut(duration: 0.4)) {
-            fireOffsetArray = fireOffsetArray.map { _ in
-                (randomOffset(), randomOffset())
-            }
-            fireOpacity = 1
-        }
-        
-        try? await Task.sleep(for: .seconds(0.5))
-        
-        withAnimation(.easeIn(duration: 0.5)) {
-            fireOffsetArray = fireOffsetArray.map { (x, y) in
-                (x, 500)
-            }
-            fireOpacity = 0
-        }
-        
-        try? await Task.sleep(for: .seconds(0.5))
-        fireOffsetArray = fireOffsetArray.map { _ in (0, 0) }
-    }
+    func updateUIView(_ uiView: UIView, context: Context) {}
     
-    private func randomOffset() -> CGFloat {
-        CGFloat.random(in: -100...100)
+    private func createFireCell() -> CAEmitterCell {
+        let cell = CAEmitterCell()
+        cell.contents = UIImage(named: "fire")?.cgImage
+        
+        cell.lifetime = 1.0
+        cell.lifetimeRange = 0.5
+        
+        
+        cell.birthRate = 35
+        
+        
+        cell.scale = 0.8
+        cell.scaleRange = 0.15
+        
+        
+        cell.alphaSpeed = -0.7
+        
+        
+        cell.spin = 0.2
+        cell.spinRange = 1.0
+        
+        
+        cell.emissionLongitude = -.pi / 2
+        cell.emissionRange = .pi / 2.5
+        
+        
+        cell.velocity = 160
+        cell.velocityRange = 50
+        
+        
+        cell.yAcceleration = -120
+        
+        return cell
     }
+}
+
+
+#Preview {
+    FriendCardView(
+        store: Store(
+            initialState: FriendCardReducer.State(
+                userID: "67cc3acbb0b10655fa4a37d6",
+                entity: .init(userId: "67cc3acbb0b10655fa4a37d6", userName: "지희", mainPet: .init(id: "", type: .greenHam, level: 2, expPercent: 29), todayCalorie: 100, monthlyReceivedCheerCount: 12, isFriend: true, isCheeredToday: false), type: .cheer
+            )
+        ) {
+            FriendCardReducer()
+        }
+    )
 }

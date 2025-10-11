@@ -48,27 +48,26 @@ struct RandomGachaPetView: View {
                             .font(.body1_regular16)
                             .foregroundStyle(.textBodyTeritary)
                             .padding(.bottom, 32)
-                        if viewModel.isSelectedRandomPet {
-                            HStack {
-                                Button("닫기") {
-                                    viewModel.tapDisMissButton()
-                                }
-                                .buttonStyle(SecondaryButtonStyle())
-                                .padding(.trailing, 8)
-                                
+                        
+                        HStack {
+                            Button("닫기") {
+                                viewModel.tapDisMissButton()
+                            }
+                            .buttonStyle(SecondaryButtonStyle())
+                            .padding(.trailing, 8)
+                            if viewModel.isSelectedRandomPet {
                                 Button("키우기") {
                                     viewModel.tapGrowupButton()
                                 }
                                 .buttonStyle(PrimaryButtonStyle())
+                            } else {
+                                Button("선택하기") {
+                                    viewModel.tapSelectButton()
+                                }
+                                .buttonStyle(PrimaryButtonStyle())
                             }
-                        } else {
-                            Button("선택하기") {
-                                viewModel.tapSelectButton()
-                            }
-                            .buttonStyle(PrimaryButtonStyle())
                         }
                     }
-//                    .opacity(showTexts ? 1 : 0)
                     .offset(y: showTexts ? 0 : 20)
                     .animation(.easeOut(duration: 0.4).delay(0.6), value: showTexts)
                 }
@@ -81,7 +80,7 @@ struct RandomGachaPetView: View {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    showShadow = true
+                showShadow = true
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -102,7 +101,9 @@ struct RandomGachaPetView: View {
                         .strokeBorder(Color.borderGray, lineWidth: 4)
                 )
             if viewModel.isSelectedRandomPet {
-                LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 0) ?? LottieString.randomEgg))
+                LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 1) ?? LottieString.randomEgg))
+                    .playing(loopMode: .loop)
+                    .frame(width: 100.adjustedHeight)
                 // TODO: 컨버티 로티 필요
             } else {
                 LottieView(animation: .named(LottieString.randomEgg))
@@ -112,7 +113,7 @@ struct RandomGachaPetView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
-
+    
 }
 
 #Preview {
