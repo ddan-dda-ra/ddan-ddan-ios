@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "gray_lv5.png",
+      "filename" : "gray_lv2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "gray_lv5@2x.png",
+      "filename" : "gray_lv2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "gray_lv5@3x.png",
+      "filename" : "gray_lv2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
