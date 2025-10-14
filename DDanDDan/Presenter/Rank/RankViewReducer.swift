@@ -5,7 +5,7 @@
 //  Created by 이지희 on 3/9/25.
 //
 
-import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
@@ -56,6 +56,7 @@ struct RankViewReducer: Reducer {
     
     enum Action {
         case onAppear
+        case onScenePhaseChange(ScenePhase)
         case tabChanged(Tab)
         case tabItem(Ranking)
         case refreshTapped
@@ -109,6 +110,13 @@ struct RankViewReducer: Reducer {
                 state.friendCard = .init(userID: rank.userID, type: .cheer)
                 return .none
             case .friendCard:
+                return .none
+            case let .onScenePhaseChange(phase):
+                if phase == .active {
+                    if state.kcalRanking == nil || state.goalRanking == nil {
+                        return handleonAppeared(&state)
+                    }
+                }
                 return .none
             }
         }

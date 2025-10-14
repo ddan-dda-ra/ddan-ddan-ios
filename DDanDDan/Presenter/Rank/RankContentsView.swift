@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var buttonWidth: CGFloat = 0
     @State private var scrollToIndex: Int? = nil
+    @Environment(\.scenePhase) var scenePhase
     
     var tabType: Tab
     
@@ -62,6 +63,9 @@ struct RankContentsView: View {
         })
         .onChange(of: tabType) { newTab in
             store.send(.tabChanged(newTab))
+        }
+        .onChange(of: scenePhase) { newPhase in
+            store.send(.onScenePhaseChange(newPhase))
         }
     }
 }
