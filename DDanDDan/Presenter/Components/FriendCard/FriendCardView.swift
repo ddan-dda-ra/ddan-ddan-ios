@@ -68,7 +68,7 @@ struct FriendCardView: View {
             if store.fireAnimation {
                 FireEmitterView()
                     .frame(width: 296, height: 300)
-                    .padding(.top, 150)
+                    .padding(.top, -10)
                     .allowsHitTesting(false)
             }
         }
@@ -222,7 +222,7 @@ struct FireEmitterView: UIViewRepresentable {
         let cell = CAEmitterCell()
         cell.contents = UIImage(named: "fire")?.cgImage
         
-        cell.lifetime = 1.0
+        cell.lifetime = 1.5
         cell.lifetimeRange = 0.5
         
         
@@ -233,7 +233,7 @@ struct FireEmitterView: UIViewRepresentable {
         cell.scaleRange = 0.15
         
         
-        cell.alphaSpeed = -0.7
+        cell.alphaSpeed = -0.9
         
         
         cell.spin = 0.2
@@ -241,7 +241,7 @@ struct FireEmitterView: UIViewRepresentable {
         
         
         cell.emissionLongitude = -.pi / 2
-        cell.emissionRange = .pi / 2.5
+        cell.emissionRange = .pi / 1.8
         
         
         cell.velocity = 160
