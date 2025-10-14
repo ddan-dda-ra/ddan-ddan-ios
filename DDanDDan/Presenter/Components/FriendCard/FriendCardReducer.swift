@@ -131,6 +131,7 @@ struct FriendCardReducer {
             case .onCheerSuccess:
                 state.entity?.isCheeredToday = true
                 state.fireAnimation = true
+                state.entity?.monthlyReceivedCheerCount += 1
                 return performFireAnimation()
                 
             case .endFireAnimation:
