@@ -46,7 +46,6 @@ struct MainTabView: View {
         self.coordinator = coordinator
         self.store = store
         
-        // HomeViewModel 초기화
         _homeViewModel = StateObject(wrappedValue: HomeViewModel(
             repository: HomeRepository(),
             userInfo: coordinator.userInfo,
@@ -167,17 +166,20 @@ struct MainTabView: View {
                 randomGachaPetViewModel: randomGachaPetViewModel
             )
         case .rank:
-            RankView(store: Store(initialState: RankViewReducer.State()) {  RankViewReducer(repository: RankRepository()) },
-                     coordinator: coordinator)
+            RankView(
+                store: store.scope(state: \.rankState, action: \.rank),
+                coordinator: coordinator
+            )
         case .friends:
             FriendListView(
-                store: Store(initialState: FriendsViewReducer.State()) {
-                    FriendsViewReducer()
-                },
+                store: store.scope(state: \.friendsState, action: \.friends),
                 coordinator: coordinator
             )
         case .setting:
-            SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
+            SettingView(
+                coordinator: coordinator,
+                store: store.scope(state: \.settingState, action: \.setting)
+            )
         }
     }
 }
