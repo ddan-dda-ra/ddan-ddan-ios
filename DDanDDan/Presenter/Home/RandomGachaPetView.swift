@@ -23,7 +23,7 @@ struct RandomGachaPetView: View {
     var body: some View {
         ZStack {
             Color(.backgroundBlack)
-                .opacity(0.8)
+                .opacity(0.9)
                 .ignoresSafeArea()
             
             VStack {
