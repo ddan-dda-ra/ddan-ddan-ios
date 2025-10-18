@@ -101,6 +101,7 @@ struct HomeView: View {
                 }
             }
         }
+        .padding(.top, 12)
         .navigationBarBackButtonHidden()
         .onChange(of: viewModel.isLevelUp) { newLevel in
             if newLevel {
