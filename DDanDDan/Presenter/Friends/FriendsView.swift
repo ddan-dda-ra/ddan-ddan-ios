@@ -86,13 +86,13 @@ struct FriendListView: View {
     
     private var friendsListView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(store.friendsList.indices, id: \.self) { index in
-                friendsListItemView(friend: store.friendsList[index], index: index)
+            ForEach(store.friendsList, id: \.self) { friend in
+                friendsListItemView(friend: friend)
             }
         }
     }
 
-    func friendsListItemView(friend: Friend, index: Int) -> some View {
+    func friendsListItemView(friend: Friend) -> some View {
         HStack {
             ZStack {
                 Circle()
@@ -112,7 +112,7 @@ struct FriendListView: View {
             Spacer()
             
             Button {
-                store.send(.showDeleteAlert(id: store.friendsList[index].id))
+                store.send(.showDeleteAlert(id: friend.id))
             } label: {
                 Image(.deleteIcon)
                     .resizable()
