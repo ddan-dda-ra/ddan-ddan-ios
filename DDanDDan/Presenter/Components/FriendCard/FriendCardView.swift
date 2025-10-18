@@ -136,10 +136,11 @@ struct FriendCardView: View {
                     .background(.elevationLevel02)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
             }
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.fire)
                     .resizable()
                     .frame(width: 20, height: 20)
+                
                 Text("받은 응원")
                     .font(.body1_regular16)
                     .foregroundStyle(.textBodyTeritary)
@@ -147,8 +148,10 @@ struct FriendCardView: View {
                 
                 Text("\(store.entity?.monthlyReceivedCheerCount ?? 0)")
                     .font(.neoDunggeunmo24)
+                    .baselineOffset(-2)
                     .foregroundStyle(.textBodyTeritary)
                     .padding(.leading, 8)
+                    
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 12)
@@ -165,7 +168,7 @@ struct FriendCardView: View {
                 Text("오늘 소모 칼로리")
                     .font(.body1_regular16)
                     .foregroundStyle(.textBodyTeritary)
-                HStack(spacing: 0) {
+                HStack(spacing: 2) {
                     Text("\(store.entity?.todayCalorie ?? 0)")
                         .font(.neoDunggeunmo20)
                         .foregroundStyle(.textHeadlinePrimary)
