@@ -93,6 +93,7 @@
 		367A79AB2CDE07980055771B /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A79AA2CDE07980055771B /* View+.swift */; };
 		367A79DD2CE4B65D0055771B /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */; };
 		367A79DF2CE4C3180055771B /* ReissueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A79DE2CE4C3180055771B /* ReissueData.swift */; };
+		3680B5272EA3E4180037A2E2 /* confetti_egg.json in Resources */ = {isa = PBXBuildFile; fileRef = 3680B5262EA3E4180037A2E2 /* confetti_egg.json */; };
 		3692E0512CF00CB70079D2B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3692E0452CF00CB70079D2B8 /* Preview Assets.xcassets */; };
 		3692E0522CF00CB70079D2B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3692E0472CF00CB70079D2B8 /* Assets.xcassets */; };
 		3692E0532CF00CB70079D2B8 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692E0492CF00CB70079D2B8 /* WatchConnectivityManager.swift */; };
@@ -382,6 +383,7 @@
 		367A79AA2CDE07980055771B /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		367A79DC2CE4B65D0055771B /* TokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInterceptor.swift; sourceTree = "<group>"; };
 		367A79DE2CE4C3180055771B /* ReissueData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissueData.swift; sourceTree = "<group>"; };
+		3680B5262EA3E4180037A2E2 /* confetti_egg.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = confetti_egg.json; sourceTree = "<group>"; };
 		3692E0452CF00CB70079D2B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3692E0472CF00CB70079D2B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3692E0492CF00CB70079D2B8 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
@@ -638,6 +640,7 @@
 		36465D762CF7F37700784E8A /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				3680B5262EA3E4180037A2E2 /* confetti_egg.json */,
 				36CAE0B12E69CA3F00B81039 /* ramdom_egg.json */,
 				36CADDD12E36085700B81039 /* mole_level1_default.json */,
 				36CADDD22E36085700B81039 /* mole_level1_play+eat.json */,
@@ -1454,6 +1457,7 @@
 				362301FB2D141B0000E0621E /* penguin_level3_play+eat.json in Resources */,
 				36465DC22CFDF11600784E8A /* puppy_level1_default.json in Resources */,
 				36465DC32CFDF11600784E8A /* puppy_level5_play+eat.json in Resources */,
+				3680B5272EA3E4180037A2E2 /* confetti_egg.json in Resources */,
 				36465DC42CFDF11600784E8A /* puppy_level4_default.json in Resources */,
 				36465DC52CFDF11600784E8A /* puppy_level3_play+eat.json in Resources */,
 				36465DC62CFDF11600784E8A /* puppy_level2_default.json in Resources */,

@@ -10,6 +10,7 @@ import Foundation
 enum LottieString {
     
     static let confetti = "confetti"
+    static let confettiEgg = "confetti_egg"
     static let randomEgg = "ramdom_egg"
     
     enum cat {
