@@ -55,7 +55,8 @@ public protocol TabTitleConvertible {
 struct CustomTabView<Content: View>: View {
     @Perception.Bindable var store: StoreOf<TabFeature>
     let content: (Tab) -> Content
-    
+    let horizontalPadding: CGFloat = 20
+
     var body: some View {
         WithPerceptionTracking {
             let viewStore = ViewStore(store, observe: { $0 })
@@ -74,20 +75,22 @@ struct CustomTabView<Content: View>: View {
                     }
                 }
                 .padding(.vertical, 15)
+                .padding(.horizontal, horizontalPadding)
                 
                 WithPerceptionTracking {
                     GeometryReader { geometry in
                         WithPerceptionTracking {
-                            let tabSize = geometry.size.width / CGFloat(Tab.allCases.count)
+                            let tabSize = (geometry.size.width - horizontalPadding * 2) / CGFloat(Tab.allCases.count)
+                            
                             Rectangle()
                                 .fill(Color(.lightText))
                                 .frame(width: tabSize, height: 3)
-                                .offset(x: viewStore.barXOffset * tabSize)
-                                .animation(viewStore.barIsActive ? .linear(duration: 0.25) : .none, value: viewStore.barXOffset)
+                                .offset(x: horizontalPadding + viewStore.barXOffset * tabSize)
+                                .animation(.linear(duration: 0.25), value: viewStore.barXOffset)
                         }
                     }
+                    
                     .frame(height: 3)
-                    .padding(.horizontal, 20)
                 }
                 
                 Rectangle()
