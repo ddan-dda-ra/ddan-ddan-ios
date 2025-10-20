@@ -45,7 +45,7 @@ struct PetArchiveView: View {
                     } else {
                         viewModel.showToastMessage()
                     }
-                }, title: "선택 완료", disabled: viewModel.isButtonDisable)
+                }, title: viewModel.isButtonDisable ? "선택 완료" : "선택 하기", disabled: viewModel.isButtonDisable)
             }
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
