@@ -78,7 +78,6 @@
 		364B37982D04781900E72BFF /* Adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B37972D04781900E72BFF /* Adjusted+.swift */; };
 		3650CCCD2CCAA22500ED5967 /* NeoDunggeunmoPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362864B92C8A4B9000029452 /* NeoDunggeunmoPro-Regular.ttf */; };
 		3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8758CF02C8EDF6B0038CCBB /* HealthKitManager.swift */; };
-		3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; };
 		3665B2EA2E91B448008FD161 /* ChottuLinkSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3665B2E62E91B438008FD161 /* ChottuLinkSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3665B2FA2E923A95008FD161 /* FriendAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2F92E923A95008FD161 /* FriendAddView.swift */; };
 		3665B2FC2E926546008FD161 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665B2FB2E926546008FD161 /* DeepLinkManager.swift */; };
@@ -563,7 +562,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */,
-				3665B2E92E91B448008FD161 /* ChottuLinkSDK.xcframework in Frameworks */,
 				3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */,
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
 				F8C10C132C5782720037D6A5 /* KakaoSDKUser in Frameworks */,
@@ -1293,8 +1291,8 @@
 				F8AB33282C2EAD2E00BC16C9 /* Resources */,
 				36E019932CCA830C00383318 /* Embed Watch Content */,
 				36A9D7262DE9A20400A9169A /* Embed Foundation Extensions */,
-				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
 				3665B2EB2E91B448008FD161 /* Embed Frameworks */,
+				F9CCAF402DB2294900549DAE /* Firebase Run Script */,
 			);
 			buildRules = (
 			);
