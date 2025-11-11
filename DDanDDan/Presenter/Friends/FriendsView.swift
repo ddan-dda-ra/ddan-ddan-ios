@@ -190,5 +190,8 @@ struct FriendListView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
     }
 }

@@ -267,6 +267,9 @@ extension RankContentsView {
                 store.send(.focusMyRank(index: myRanking?.rank ?? 0))
             }
         }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
     }
 }
 
