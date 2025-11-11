@@ -113,7 +113,7 @@ struct FriendCardView: View {
                 Image(.close)
                     .padding(16)
                     .onTapGesture {
-                        dismiss()
+                        store.send(.setDismiss)
                     }
             }
     }
@@ -188,7 +188,7 @@ struct FriendCardView: View {
         switch store.type {
         case .invite:
             store.send(.onTapButton)
-            dismiss()
+            store.send(.setDismiss)
         case .cheer:
             store.send(.onTapButton)
             let generator = UIImpactFeedbackGenerator(style: .medium)

@@ -119,6 +119,14 @@ struct MainTabReducer {
             case .binding:
                 return .none
                 
+            case .rank(.friendCard(.presented(.setDismiss))):
+                state.rankState.friendCard = nil
+                return .none
+
+            case .friends(.friendCard(.presented(.setDismiss))):
+                state.friendsState.friendCard = nil
+                return .none
+                
             // 각 탭의 Action은 해당 Reducer에서 처리
             case .rank, .friends, .setting:
                 return .none
