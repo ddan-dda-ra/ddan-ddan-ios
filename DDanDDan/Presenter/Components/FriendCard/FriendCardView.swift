@@ -20,6 +20,7 @@ struct FriendCardView: View {
     var body: some View {
         WithPerceptionTracking {
             ZStack {
+                Color(.backgroundBlack).ignoresSafeArea().opacity(0.7)
                 Group {
                     if store.entity != nil {
                         cardView
