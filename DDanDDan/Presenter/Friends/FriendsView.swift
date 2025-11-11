@@ -81,9 +81,6 @@ struct FriendListView: View {
                     }
                 }
             }
-            .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
-                FriendCardView(store: store)
-            })
         }
         .onAppear {
             store.send(.onAppear)

@@ -69,11 +69,6 @@ struct MainTabView: View {
                     }
                 }
                 .accentColor(.white)
-                .fullScreenCover(
-                    store: store.scope(state: \.$friendCard, action: \.friendCard)
-                ) { store in
-                    FriendCardView(store: store)
-                }
                 
                 // Toast View
                 if store.showToast {
@@ -84,7 +79,26 @@ struct MainTabView: View {
                         .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 240.adjustedHeight)
                     }
                 }
+                
+                if store.friendCard != nil || store.rankState.friendCard != nil || store.friendsState.friendCard != nil {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                    
+                    // 우선순위: MainTab > Rank > Friends
+                    if let mainCardStore = store.scope(state: \.friendCard, action: \.friendCard.presented) {
+                        FriendCardView(store: mainCardStore)
+                            .transition(.opacity)
+                    } else if let rankCardStore = store.scope(state: \.rankState.friendCard, action: \.rank.friendCard.presented) {
+                        FriendCardView(store: rankCardStore)
+                            .transition(.opacity)
+                    } else if let friendCardStore = store.scope(state: \.friendsState.friendCard, action: \.friends.friendCard.presented) {
+                        FriendCardView(store: friendCardStore)
+                            .transition(.opacity)
+                    }
+                }
             }
+            .animation(.easeInOut(duration: 0.3), value: store.friendCard != nil || store.rankState.friendCard != nil || store.friendsState.friendCard != nil)
             .onAppear {
                 let appearance = UITabBarAppearance()
                 appearance.configureWithOpaqueBackground()
