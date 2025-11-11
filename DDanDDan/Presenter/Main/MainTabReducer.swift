@@ -119,11 +119,11 @@ struct MainTabReducer {
             case .binding:
                 return .none
                 
-            case .rank(.friendCard(.presented(.setDismiss))):
+            case .rank(.friendCard(.presented(.delegate(.dismiss)))):
                 state.rankState.friendCard = nil
                 return .none
 
-            case .friends(.friendCard(.presented(.setDismiss))):
+            case .friends(.friendCard(.presented(.delegate(.dismiss)))):
                 state.friendsState.friendCard = nil
                 return .none
                 
