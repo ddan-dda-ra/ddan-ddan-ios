@@ -40,7 +40,7 @@ final class RandomGachaPetViewModel: ObservableObject {
             return
         }
         
-        Task {
+        Task { @MainActor in
             await setRandomPetToMainPet(gachaResultId)
             isSelectedRandomPet = false
             dismissPublisher.send()
