@@ -48,7 +48,7 @@ struct RankContentsView: View {
                     VStack {
                         ToastView(message: store.toastMessage, toastType: .info)
                     }
-                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 280.adjustedHeight)
                 }
                 if shouldShowLoading {
                     ProgressView()

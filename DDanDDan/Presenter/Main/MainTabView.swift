@@ -55,20 +55,12 @@ struct MainTabView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            ZStack {
-                TabView(selection: $store.selectedTab) {
-                    ForEach(TabType.allCases, id: \.self) { tab in
-                        viewForTab(tab)
-                            .tabItem {
-                                Image(tab.resource)
-                                    .renderingMode(.template)
-                                Text(tab.title)
-                                    .font(.system(size: 11, weight: .semibold))
-                            }
-                            .tag(tab)
-                    }
+            ZStack(alignment: .bottom) {
+                // Content Area
+                Group {
+                    viewForTab(store.selectedTab)
                 }
-                .accentColor(.white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 // Toast View
                 if store.showToast {
@@ -80,12 +72,12 @@ struct MainTabView: View {
                     }
                 }
                 
+                // Friend Card Overlay
                 if store.friendCard != nil || store.rankState.friendCard != nil || store.friendsState.friendCard != nil {
                     Color.black.opacity(0.3)
                         .ignoresSafeArea()
                         .transition(.opacity)
                     
-                    // 우선순위: MainTab > Rank > Friends
                     if let mainCardStore = store.scope(state: \.friendCard, action: \.friendCard.presented) {
                         FriendCardView(store: mainCardStore)
                             .transition(.opacity)
@@ -97,16 +89,13 @@ struct MainTabView: View {
                             .transition(.opacity)
                     }
                 }
+                
+                // Custom Rounded TabBar
+                RoundedTabBar(selectedTab: $store.selectedTab)
             }
+            .ignoresSafeArea()
             .animation(.easeInOut(duration: 0.3), value: store.friendCard != nil || store.rankState.friendCard != nil || store.friendsState.friendCard != nil)
             .onAppear {
-                let appearance = UITabBarAppearance()
-                appearance.configureWithOpaqueBackground()
-                appearance.backgroundColor = UIColor.backgroundBlack
-                
-                UITabBar.appearance().standardAppearance = appearance
-                UITabBar.appearance().scrollEdgeAppearance = appearance
-
                 if !didSetupBindings {
                     setupViewModelBindings()
                     didSetupBindings = true
@@ -171,6 +160,8 @@ struct MainTabView: View {
     
     @ViewBuilder
     private func viewForTab(_ tab: TabType) -> some View {
+        let tabBarHeight: CGFloat = 65
+        
         switch tab {
         case .home:
             HomeView(
@@ -184,16 +175,73 @@ struct MainTabView: View {
                 store: store.scope(state: \.rankState, action: \.rank),
                 coordinator: coordinator
             )
+            .padding(.bottom, tabBarHeight)
         case .friends:
             FriendListView(
                 store: store.scope(state: \.friendsState, action: \.friends),
                 coordinator: coordinator
             )
+            .padding(.bottom, tabBarHeight)
         case .setting:
             SettingView(
                 coordinator: coordinator,
                 store: store.scope(state: \.settingState, action: \.setting)
             )
+            .padding(.bottom, tabBarHeight)
+        }
+    }
+}
+
+struct RoundedTabBar: View {
+    @Binding var selectedTab: TabType
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(TabType.allCases, id: \.self) { tab in
+                TabBarButton(
+                    icon: tab.resource,
+                    title: tab.title,
+                    isSelected: selectedTab == tab
+                ) {
+                    selectedTab = tab
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 4)
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 24)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.backgroundGray)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.borderGray, lineWidth: 1)
+                )
+        )
+    }
+}
+
+struct TabBarButton: View {
+    let icon: ImageResource
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(icon)
+                    .renderingMode(.template)
+                    .font(.system(size: 24))
+                
+                Text(title)
+                    .font(.caption1_semiBold11)
+            }
+            .padding(.vertical, 4)
+            .foregroundColor(isSelected ? .white : .gray)
+            .frame(maxWidth: .infinity)
+            .frame(height: 48)
         }
     }
 }

@@ -38,7 +38,6 @@ struct FriendListView: View {
                     .frame(height: 72.adjustedHeight)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 9)
-                    
                     if store.hasLoadedOnce && store.friendsList.isEmpty {
                            friendEmptyView
                        } else if !store.friendsList.isEmpty {
@@ -55,6 +54,7 @@ struct FriendListView: View {
                     
                     myProfileView
                 }
+                .padding(.top, UIScreen.topSafeArea)
                 
                 // Toast View
                 if store.showToast {
@@ -62,7 +62,7 @@ struct FriendListView: View {
                         VStack {
                             ToastView(message: store.toastMessage, toastType: .check)
                         }
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
                     }
                 }
                 

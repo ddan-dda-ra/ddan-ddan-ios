@@ -31,8 +31,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color(.backgroundBlack)
-                .ignoresSafeArea(edges: [.vertical])
+            Color(.backgroundBlack).ignoresSafeArea()
             VStack(alignment: .center) {
                 HStack {
                     randomPetGachaButton
@@ -54,10 +53,7 @@ struct HomeView: View {
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                     .padding(.bottom, 23.adjustedHeight)
             }
-            .padding(.top, isSEDevice ? 16 : 60.adjustedHeight)
-            .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
-            .ignoresSafeArea(.all, edges: isSEDevice ? .all : [])
-            
+            .padding(.top, isSEDevice ? 16 : 54.adjustedHeight)
             Color(.backgroundBlack)
                 .ignoresSafeArea()
                 .opacity(viewModel.showRandomPetGuide ? 0.8 : 0)
@@ -101,7 +97,6 @@ struct HomeView: View {
                 }
             }
         }
-        .padding(.top, 36.adjustedHeight)
         .navigationBarBackButtonHidden()
         .onChange(of: viewModel.isLevelUp) { newLevel in
             if newLevel {
