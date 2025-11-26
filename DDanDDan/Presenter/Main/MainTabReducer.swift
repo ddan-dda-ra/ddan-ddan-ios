@@ -108,8 +108,10 @@ struct MainTabReducer {
                     default:
                         state.toastMessage = "친구 추가에 실패했습니다."
                     }
-                    
-                    return .none
+                    return .run { send in
+                        try await Task.sleep(nanoseconds: 2_500_000_000)
+                        await send(.binding(.set(\.showToast, false)))
+                    }
                 }
                 
             case .clearNavigateToFriendAdd:

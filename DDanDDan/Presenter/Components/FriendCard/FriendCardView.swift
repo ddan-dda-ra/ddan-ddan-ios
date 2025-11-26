@@ -82,7 +82,7 @@ struct FriendCardView: View {
             VStack {
                 ToastView(message: store.toastMessage, toastType: .info)
             }
-            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
+            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
         }
     }
     

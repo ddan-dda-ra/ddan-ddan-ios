@@ -51,7 +51,7 @@ struct PetArchiveView: View {
                 VStack {
                     ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 190.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
             }
         }
         .navigationBarHidden(true)
