@@ -9,16 +9,19 @@ import SwiftUI
 
 struct TooltipView: View {
     var textString: String = ""
+    var alignment: HorizontalAlignment
     
-    init(textString: String) {
+    init(textString: String, alignment: HorizontalAlignment = .center) {
         self.textString = textString
+        self.alignment = alignment
     }
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: self.alignment) {
             Triangle()
                 .foregroundStyle(.borderGray)
                 .frame(width: 22, height: 16)
+                .padding(.leading, self.alignment == .leading ? 12 : 0)
             Text(self.textString)
                 .font(.subTitle1_semibold14)
                 .lineLimit(3)
@@ -89,5 +92,5 @@ struct Triangle: Shape {
 
 
 #Preview {
-    TooltipView(textString: "한 달 동안 목표한 칼로리를\n누적 달성한 순서에요")
+    TooltipView(textString: "한 달 동안 목표한 칼로리를\n누적 달성한 순서에요", alignment: .leading)
 }

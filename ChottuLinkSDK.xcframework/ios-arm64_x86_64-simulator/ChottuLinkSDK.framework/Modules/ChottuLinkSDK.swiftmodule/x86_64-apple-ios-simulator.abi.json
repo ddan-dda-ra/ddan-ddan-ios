@@ -1,0 +1,3448 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "ChottuLinkSDK",
+    "printedName": "ChottuLinkSDK",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CLConfiguration",
+        "printedName": "CLConfiguration",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "apiKey",
+            "printedName": "apiKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK15CLConfigurationV6apiKeySSvp",
+            "mangledName": "$s13ChottuLinkSDK15CLConfigurationV6apiKeySSvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV6apiKeySSvg",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV6apiKeySSvg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV6apiKeySSvs",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV6apiKeySSvs",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV6apiKeySSvM",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV6apiKeySSvM",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "isDebugEnabled",
+            "printedName": "isDebugEnabled",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvp",
+            "mangledName": "$s13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvg",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvs",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvs",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvM",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV14isDebugEnabledSbvM",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "delegate",
+            "printedName": "delegate",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(any ChottuLinkSDK.ChottuLinkDelegate)?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkDelegate",
+                    "printedName": "any ChottuLinkSDK.ChottuLinkDelegate",
+                    "usr": "s:13ChottuLinkSDK0aB8DelegateP"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvp",
+            "mangledName": "$s13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(any ChottuLinkSDK.ChottuLinkDelegate)?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkDelegate",
+                        "printedName": "any ChottuLinkSDK.ChottuLinkDelegate",
+                        "usr": "s:13ChottuLinkSDK0aB8DelegateP"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvg",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(any ChottuLinkSDK.ChottuLinkDelegate)?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkDelegate",
+                        "printedName": "any ChottuLinkSDK.ChottuLinkDelegate",
+                        "usr": "s:13ChottuLinkSDK0aB8DelegateP"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvs",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvs",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvM",
+                "mangledName": "$s13ChottuLinkSDK15CLConfigurationV8delegateAA0aB8Delegate_pSgvM",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(apiKey:isDebugEnabled:delegate:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLConfiguration",
+                "printedName": "ChottuLinkSDK.CLConfiguration",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "hasDefaultArg": true,
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(any ChottuLinkSDK.ChottuLinkDelegate)?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkDelegate",
+                    "printedName": "any ChottuLinkSDK.ChottuLinkDelegate",
+                    "usr": "s:13ChottuLinkSDK0aB8DelegateP"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13ChottuLinkSDK15CLConfigurationV6apiKey14isDebugEnabled8delegateACSS_SbAA0aB8Delegate_pSgtcfc",
+            "mangledName": "$s13ChottuLinkSDK15CLConfigurationV6apiKey14isDebugEnabled8delegateACSS_SbAA0aB8Delegate_pSgtcfc",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:13ChottuLinkSDK15CLConfigurationV",
+        "mangledName": "$s13ChottuLinkSDK15CLConfigurationV",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CLDynamicLinkBehaviour",
+        "printedName": "CLDynamicLinkBehaviour",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "browser",
+            "printedName": "browser",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.CLDynamicLinkBehaviour.Type) -> ChottuLinkSDK.CLDynamicLinkBehaviour",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CLDynamicLinkBehaviour",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                    "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CLDynamicLinkBehaviour",
+                        "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                        "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO7browseryA2CmF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO7browseryA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "app",
+            "printedName": "app",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.CLDynamicLinkBehaviour.Type) -> ChottuLinkSDK.CLDynamicLinkBehaviour",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CLDynamicLinkBehaviour",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                    "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CLDynamicLinkBehaviour",
+                        "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                        "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO3appyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO3appyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CLDynamicLinkBehaviour",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                    "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueACSgSi_tcfc",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueACSgSi_tcfc",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueSivp",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueSivp",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueSivg",
+                "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO8rawValueSivg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "allCases",
+            "printedName": "allCases",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ChottuLinkSDK.CLDynamicLinkBehaviour]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CLDynamicLinkBehaviour",
+                    "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                    "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO8allCasesSayACGvpZ",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO8allCasesSayACGvpZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "implicit": true,
+            "declAttributes": [
+              "Nonisolated"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ChottuLinkSDK.CLDynamicLinkBehaviour]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CLDynamicLinkBehaviour",
+                        "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                        "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO8allCasesSayACGvgZ",
+                "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO8allCasesSayACGvgZ",
+                "moduleName": "ChottuLinkSDK",
+                "static": true,
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO",
+        "mangledName": "$s13ChottuLinkSDK09CLDynamicB9BehaviourO",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "enumRawTypeName": "Int",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CaseIterable",
+            "printedName": "CaseIterable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "AllCases",
+                "printedName": "AllCases",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ChottuLinkSDK.CLDynamicLinkBehaviour]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CLDynamicLinkBehaviour",
+                        "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                        "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:s12CaseIterableP",
+            "mangledName": "$ss12CaseIterableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "OSLog",
+        "printedName": "OSLog",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CLDynamicLinkBuilder",
+        "printedName": "CLDynamicLinkBuilder",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(destinationURL:domain:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV14destinationURL6domainACSS_SStcfc",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV14destinationURL6domainACSS_SStcfc",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "setIOSBehaviour",
+            "printedName": "setIOSBehaviour(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBehaviour",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV15setIOSBehaviouryAcA0dB9BehaviourOF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV15setIOSBehaviouryAcA0dB9BehaviourOF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setAndroidBehaviour",
+            "printedName": "setAndroidBehaviour(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBehaviour",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBehaviour",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB9BehaviourO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV19setAndroidBehaviouryAcA0dbH0OF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV19setAndroidBehaviouryAcA0dbH0OF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setLinkName",
+            "printedName": "setLinkName(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV03setB4NameyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV03setB4NameyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setSelectedPath",
+            "printedName": "setSelectedPath(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV15setSelectedPathyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV15setSelectedPathyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setSocialTitle",
+            "printedName": "setSocialTitle(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV14setSocialTitleyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV14setSocialTitleyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setSocialDescription",
+            "printedName": "setSocialDescription(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV20setSocialDescriptionyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV20setSocialDescriptionyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setSocialImageUrl",
+            "printedName": "setSocialImageUrl(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV17setSocialImageUrlyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV17setSocialImageUrlyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMCampaign",
+            "printedName": "setUTMCampaign(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV14setUTMCampaignyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV14setUTMCampaignyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMContent",
+            "printedName": "setUTMContent(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV13setUTMContentyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV13setUTMContentyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMMedium",
+            "printedName": "setUTMMedium(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV12setUTMMediumyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV12setUTMMediumyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMSource",
+            "printedName": "setUTMSource(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV12setUTMSourceyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV12setUTMSourceyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMTerm",
+            "printedName": "setUTMTerm(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV10setUTMTermyACSSF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV10setUTMTermyACSSF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "build",
+            "printedName": "build()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV5buildACyF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV5buildACyF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV6encode2toys7Encoder_p_tKF",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUTMParameters",
+            "printedName": "setUTMParameters(source:medium:campaign:content:term:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV16setUTMParameters6source6medium8campaign7content4termACSS_S3SSgAJtF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV16setUTMParameters6source6medium8campaign7content4termACSS_S3SSgAJtF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setSocialParameters",
+            "printedName": "setSocialParameters(title:description:imageUrl:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV19setSocialParameters5title11description8imageUrlACSS_S2StF",
+            "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV19setSocialParameters5title11description8imageUrlACSS_S2StF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV",
+        "mangledName": "$s13ChottuLinkSDK09CLDynamicB7BuilderV",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ChottuLink",
+        "printedName": "ChottuLink",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "initialize",
+            "printedName": "initialize(config:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLConfiguration",
+                "printedName": "ChottuLinkSDK.CLConfiguration",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB0C10initialize6configyAA15CLConfigurationV_tFZ",
+            "mangledName": "$s13ChottuLinkSDK0aB0C10initialize6configyAA15CLConfigurationV_tFZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "declAttributes": [
+              "Custom",
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "handleLink",
+            "printedName": "handleLink(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB0C06handleB0yy10Foundation3URLVFZ",
+            "mangledName": "$s13ChottuLinkSDK0aB0C06handleB0yy10Foundation3URLVFZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "declAttributes": [
+              "Custom",
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "createDynamicLink",
+            "printedName": "createDynamicLink(for:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.String?, (any Swift.Error)?) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Tuple",
+                    "printedName": "(Swift.String?, (any Swift.Error)?)",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Swift.String?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "(any Swift.Error)?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Error",
+                            "printedName": "any Swift.Error",
+                            "usr": "s:s5ErrorP"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB0C013createDynamicB03for10completionyAA09CLDynamicB7BuilderV_ySSSg_s5Error_pSgtctFZ",
+            "mangledName": "$s13ChottuLinkSDK0aB0C013createDynamicB03for10completionyAA09CLDynamicB7BuilderV_ySSSg_s5Error_pSgtctFZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "deprecated": true,
+            "declAttributes": [
+              "Custom",
+              "Final",
+              "AccessControl",
+              "Available",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "createDynamicLink",
+            "printedName": "createDynamicLink(for:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLDynamicLinkBuilder",
+                "printedName": "ChottuLinkSDK.CLDynamicLinkBuilder",
+                "usr": "s:13ChottuLinkSDK09CLDynamicB7BuilderV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB0C013createDynamicB03forSSSgAA09CLDynamicB7BuilderV_tYaKFZ",
+            "mangledName": "$s13ChottuLinkSDK0aB0C013createDynamicB03forSSSgAA09CLDynamicB7BuilderV_tYaKFZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "declAttributes": [
+              "Custom",
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAppLinkDataFromUrl",
+            "printedName": "getAppLinkDataFromUrl(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ResolvedLink",
+                "printedName": "ChottuLinkSDK.ResolvedLink",
+                "usr": "s:13ChottuLinkSDK08ResolvedB0V"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB0C06getAppB11DataFromUrl4fromAA08ResolvedB0VSS_tYaKFZ",
+            "mangledName": "$s13ChottuLinkSDK0aB0C06getAppB11DataFromUrl4fromAA08ResolvedB0VSS_tYaKFZ",
+            "moduleName": "ChottuLinkSDK",
+            "static": true,
+            "declAttributes": [
+              "Custom",
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ChottuLink",
+                "printedName": "ChottuLinkSDK.ChottuLink",
+                "usr": "c:@M@ChottuLinkSDK@objc(cs)ChottuLink"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@ChottuLinkSDK@objc(cs)ChottuLink(im)init",
+            "mangledName": "$s13ChottuLinkSDK0aB0CACycfc",
+            "moduleName": "ChottuLinkSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Custom",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@ChottuLinkSDK@objc(cs)ChottuLink",
+        "mangledName": "$s13ChottuLinkSDK0aB0C",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "Custom",
+          "RawDocComment",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ResolvedLink",
+        "printedName": "ResolvedLink",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "link",
+            "printedName": "link",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URL?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK08ResolvedB0V4link10Foundation3URLVSgvp",
+            "mangledName": "$s13ChottuLinkSDK08ResolvedB0V4link10Foundation3URLVSgvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Foundation.URL?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "URL",
+                        "printedName": "Foundation.URL",
+                        "usr": "s:10Foundation3URLV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK08ResolvedB0V4link10Foundation3URLVSgvg",
+                "mangledName": "$s13ChottuLinkSDK08ResolvedB0V4link10Foundation3URLVSgvg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "shortLink",
+            "printedName": "shortLink",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URL?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK08ResolvedB0V05shortB010Foundation3URLVSgvp",
+            "mangledName": "$s13ChottuLinkSDK08ResolvedB0V05shortB010Foundation3URLVSgvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Foundation.URL?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "URL",
+                        "printedName": "Foundation.URL",
+                        "usr": "s:10Foundation3URLV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK08ResolvedB0V05shortB010Foundation3URLVSgvg",
+                "mangledName": "$s13ChottuLinkSDK08ResolvedB0V05shortB010Foundation3URLVSgvg",
+                "moduleName": "ChottuLinkSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ResolvedLink",
+                "printedName": "ChottuLinkSDK.ResolvedLink",
+                "usr": "s:13ChottuLinkSDK08ResolvedB0V"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13ChottuLinkSDK08ResolvedB0V4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s13ChottuLinkSDK08ResolvedB0V4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK08ResolvedB0V6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s13ChottuLinkSDK08ResolvedB0V6encode2toys7Encoder_p_tKF",
+            "moduleName": "ChottuLinkSDK",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:13ChottuLinkSDK08ResolvedB0V",
+        "mangledName": "$s13ChottuLinkSDK08ResolvedB0V",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ChottuLinkDelegate",
+        "printedName": "ChottuLinkDelegate",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didInitializeWith:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLConfiguration",
+                "printedName": "ChottuLinkSDK.CLConfiguration",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegateP06chottuB017didInitializeWithyAA15CLConfigurationV_tF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegateP06chottuB017didInitializeWithyAA15CLConfigurationV_tF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didFailToInitializeWith:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegateP06chottuB023didFailToInitializeWithys5Error_p_tF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegateP06chottuB023didFailToInitializeWithys5Error_p_tF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didResolveDeepLink:metadata:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String : Any]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.String : Any]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ProtocolComposition",
+                        "printedName": "Any"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegateP06chottuB0014didResolveDeepB08metadatay10Foundation3URLV_SDySSypGSgtF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegateP06chottuB0014didResolveDeepB08metadatay10Foundation3URLV_SDySSypGSgtF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didFailToResolveDeepLink:error:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URL?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegateP06chottuB0020didFailToResolveDeepB05errory10Foundation3URLVSg_s5Error_ptF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegateP06chottuB0020didFailToResolveDeepB05errory10Foundation3URLVSg_s5Error_ptF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didInitializeWith:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLConfiguration",
+                "printedName": "ChottuLinkSDK.CLConfiguration",
+                "usr": "s:13ChottuLinkSDK15CLConfigurationV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegatePAAE06chottuB017didInitializeWithyAA15CLConfigurationV_tF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegatePAAE06chottuB017didInitializeWithyAA15CLConfigurationV_tF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "declAttributes": [
+              "Custom",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didFailToInitializeWith:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegatePAAE06chottuB023didFailToInitializeWithys5Error_p_tF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegatePAAE06chottuB023didFailToInitializeWithys5Error_p_tF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "declAttributes": [
+              "Custom",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didResolveDeepLink:metadata:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String : Any]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.String : Any]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ProtocolComposition",
+                        "printedName": "Any"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegatePAAE06chottuB0014didResolveDeepB08metadatay10Foundation3URLV_SDySSypGSgtF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegatePAAE06chottuB0014didResolveDeepB08metadatay10Foundation3URLV_SDySSypGSgtF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "declAttributes": [
+              "Custom",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "chottuLink",
+            "printedName": "chottuLink(didFailToResolveDeepLink:error:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URL?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ChottuLinkSDK0aB8DelegatePAAE06chottuB0020didFailToResolveDeepB05errory10Foundation3URLVSg_s5Error_ptF",
+            "mangledName": "$s13ChottuLinkSDK0aB8DelegatePAAE06chottuB0020didFailToResolveDeepB05errory10Foundation3URLVSg_s5Error_ptF",
+            "moduleName": "ChottuLinkSDK",
+            "genericSig": "<τ_0_0 where τ_0_0 : ChottuLinkSDK.ChottuLinkDelegate>",
+            "sugared_genericSig": "<Self where Self : ChottuLinkSDK.ChottuLinkDelegate>",
+            "declAttributes": [
+              "Custom",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:13ChottuLinkSDK0aB8DelegateP",
+        "mangledName": "$s13ChottuLinkSDK0aB8DelegateP",
+        "moduleName": "ChottuLinkSDK",
+        "genericSig": "<τ_0_0 : AnyObject>",
+        "sugared_genericSig": "<Self : AnyObject>",
+        "declAttributes": [
+          "AccessControl",
+          "Custom",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ChottuLinkError",
+        "printedName": "ChottuLinkError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "badRequest",
+            "printedName": "badRequest",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO10badRequestyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO10badRequestyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "duplicatePath",
+            "printedName": "duplicatePath",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO13duplicatePathyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO13duplicatePathyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "invalidAPIKey",
+            "printedName": "invalidAPIKey",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO13invalidAPIKeyyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO13invalidAPIKeyyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "invalidURL",
+            "printedName": "invalidURL",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO10invalidURLyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO10invalidURLyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "invalidResponse",
+            "printedName": "invalidResponse",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO15invalidResponseyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO15invalidResponseyA2CmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "missingKeys",
+            "printedName": "missingKeys",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ([Swift.String]) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "([Swift.String]) -> ChottuLinkSDK.ChottuLinkError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(keys: [Swift.String])",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Array",
+                            "printedName": "[Swift.String]",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              }
+                            ],
+                            "usr": "s:Sa"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO11missingKeysyACSaySSG_tcACmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO11missingKeysyACSaySSG_tcACmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "notInitialized",
+            "printedName": "notInitialized",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChottuLinkError",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError",
+                    "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO14notInitializedyA2CmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO14notInitializedyA2CmF",
+            "moduleName": "ChottuLinkSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "networkError",
+            "printedName": "networkError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> (any Swift.Error) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(any Swift.Error) -> ChottuLinkSDK.ChottuLinkError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "any Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO07networkD0yACs0D0_pcACmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO07networkD0yACs0D0_pcACmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "serverError",
+            "printedName": "serverError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ChottuLinkSDK.ChottuLinkError.Type) -> (Swift.Int) -> ChottuLinkSDK.ChottuLinkError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Int) -> ChottuLinkSDK.ChottuLinkError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(statusCode: Swift.Int)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int",
+                            "printedName": "Swift.Int",
+                            "usr": "s:Si"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ChottuLinkSDK.ChottuLinkError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChottuLinkError",
+                        "printedName": "ChottuLinkSDK.ChottuLinkError",
+                        "usr": "s:13ChottuLinkSDK0aB5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO06serverD0yACSi_tcACmF",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO06serverD0yACSi_tcACmF",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "errorDescription",
+            "printedName": "errorDescription",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13ChottuLinkSDK0aB5ErrorO16errorDescriptionSSSgvp",
+            "mangledName": "$s13ChottuLinkSDK0aB5ErrorO16errorDescriptionSSSgvp",
+            "moduleName": "ChottuLinkSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13ChottuLinkSDK0aB5ErrorO16errorDescriptionSSSgvg",
+                "mangledName": "$s13ChottuLinkSDK0aB5ErrorO16errorDescriptionSSSgvg",
+                "moduleName": "ChottuLinkSDK",
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:13ChottuLinkSDK0aB5ErrorO",
+        "mangledName": "$s13ChottuLinkSDK0aB5ErrorO",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "LocalizedError",
+            "printedName": "LocalizedError",
+            "usr": "s:10Foundation14LocalizedErrorP",
+            "mangledName": "$s10Foundation14LocalizedErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ChottuLinkSDK"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLConfiguration.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3347,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLConfiguration.swift",
+      "kind": "BooleanLiteral",
+      "offset": 5317,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 300,
+      "length": 25,
+      "value": "\"https:\/\/api.chottu.link\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 353,
+      "length": 7,
+      "value": "\"\/app\/\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 391,
+      "length": 44,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 413,
+      "length": 1,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 434,
+      "length": 1,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 749,
+      "length": 44,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 769,
+      "length": 3,
+      "value": "\"api\/v1\/retrieveDeviceId\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 970,
+      "length": 39,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 990,
+      "length": 3,
+      "value": "\"api\/v1\/device_ping\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1229,
+      "length": 51,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1249,
+      "length": 3,
+      "value": "\"api\/v1\/getAnyDeferredDeeplinks\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1501,
+      "length": 35,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1521,
+      "length": 3,
+      "value": "\"api\/v1\/resolve\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1718,
+      "length": 39,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Networking\/CLUrls.swift",
+      "kind": "StringLiteral",
+      "offset": 1738,
+      "length": 3,
+      "value": "\"api\/v1\/create_link\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBehaviour.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1988,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBehaviour.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2847,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 494,
+      "length": 12,
+      "value": "\"🔍 DEBUG\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 527,
+      "length": 13,
+      "value": "\"ℹ️ INFO\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 564,
+      "length": 13,
+      "value": "\"✅ SUCCESS\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 601,
+      "length": 16,
+      "value": "\"⚠️ WARNING\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 639,
+      "length": 11,
+      "value": "\"❌ ERROR\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 1156,
+      "length": 19,
+      "value": "\"com.chottulin.sdk\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 1195,
+      "length": 14,
+      "value": "\"ChottuLinSDK\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1333,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1454,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1774,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/CLLogger.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1817,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12027,
+      "length": 9,
+      "value": "\"api_key\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12061,
+      "length": 11,
+      "value": "\"device_id\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12114,
+      "length": 18,
+      "value": "\"android_behavior\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12163,
+      "length": 17,
+      "value": "\"destination_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12203,
+      "length": 8,
+      "value": "\"domain\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12240,
+      "length": 14,
+      "value": "\"ios_behavior\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12279,
+      "length": 11,
+      "value": "\"link_name\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12319,
+      "length": 15,
+      "value": "\"selected_path\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12406,
+      "length": 20,
+      "value": "\"social_description\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12457,
+      "length": 18,
+      "value": "\"social_image_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12503,
+      "length": 14,
+      "value": "\"social_title\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12578,
+      "length": 12,
+      "value": "\"utm_source\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12616,
+      "length": 12,
+      "value": "\"utm_medium\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12656,
+      "length": 14,
+      "value": "\"utm_campaign\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12697,
+      "length": 13,
+      "value": "\"utm_content\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CLDynamicLinkBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12734,
+      "length": 10,
+      "value": "\"utm_term\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CreateDynaminLinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 300,
+      "length": 8,
+      "value": "\"status\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CreateDynaminLinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 332,
+      "length": 9,
+      "value": "\"message\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/CreateDynaminLinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 366,
+      "length": 11,
+      "value": "\"short_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/StorageKeys.swift",
+      "kind": "StringLiteral",
+      "offset": 284,
+      "length": 12,
+      "value": "\"CL_API_KEY\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/StorageKeys.swift",
+      "kind": "StringLiteral",
+      "offset": 393,
+      "length": 17,
+      "value": "\"CL_ANONYMOUS_ID\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/StorageKeys.swift",
+      "kind": "BooleanLiteral",
+      "offset": 560,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Utilities\/StorageKeys.swift",
+      "kind": "StringLiteral",
+      "offset": 515,
+      "length": 15,
+      "value": "\"CL_FIRST_TIME\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 429,
+      "length": 14,
+      "value": "\"original_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 474,
+      "length": 17,
+      "value": "\"destination_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 516,
+      "length": 11,
+      "value": "\"short_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 549,
+      "length": 8,
+      "value": "\"org_id\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 583,
+      "length": 12,
+      "value": "\"utm_params\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 622,
+      "length": 13,
+      "value": "\"match_found\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/DeferredDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 661,
+      "length": 12,
+      "value": "\"match_type\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/ResolvedDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 425,
+      "length": 17,
+      "value": "\"destination_url\""
+    },
+    {
+      "filePath": "\/Users\/mrtipster49_imac\/Desktop\/Projects\/chottulink-ios-framework\/ChottuLinkSDK\/Sources\/Core\/Models\/ResolvedDeeplinkResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 467,
+      "length": 11,
+      "value": "\"short_url\""
+    }
+  ]
+}

@@ -11,39 +11,36 @@ import ComposableArchitecture
 import Lottie
 
 enum HomePath: Hashable {
-    case setting
     case successThreeDay(totalKcal: Int)
     case newPet
-    case upgradePet(level: Int, petType: PetType)
-    case ranking
+    case upgradePet(level: Int, petType: PetType, newPetTicket: Bool)
+    case addFriend(level: Int, petType: PetType)
 }
 
 struct HomeView: View {
     @ObservedObject var coordinator: AppCoordinator
     @StateObject var viewModel: HomeViewModel
+    @ObservedObject var newPetViewModel: NewPetViewModel
+    @ObservedObject var randomGachaPetViewModel: RandomGachaPetViewModel
+
     private let rankStore = Store(initialState: RankViewReducer.State()) {
-        RankViewReducer()
+        RankViewReducer(repository: RankRepository())
     }
     
     private let isSEDevice = UIScreen.isSESizeDevice
     
     var body: some View {
-        ZStack {
-            Color(.backgroundBlack)
-                .ignoresSafeArea(edges: [.vertical])
+        ZStack(alignment: .top) {
+            Color(.backgroundBlack).ignoresSafeArea()
             VStack(alignment: .center) {
-                CustomNavigationBar(
-                    leftButtonImage: Image(.iconRank),
-                    leftButtonAction: {
-                        coordinator.push(to: .ranking)
-                    },
-                    rightButtonImage: Image(.iconSetting),
-                    rightButtonAction: {
-                        coordinator.push(to: .setting)
-                    },
-                    buttonSize: 28,
-                    navigationBarHeight: 48
-                )
+                HStack {
+                    randomPetGachaButton
+                        .padding(.bottom, -30.adjustedHeight)
+                        .padding(.leading, 16.adjustedWidth)
+                    Spacer()
+                }
+                .zIndex(10)
+                
                 kcalView
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
                 petBackgroundView
@@ -54,16 +51,40 @@ struct HomeView: View {
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 actionButtonView
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
+                    .padding(.bottom, 23.adjustedHeight)
             }
-            .padding(.top, isSEDevice ? 16 : 40.adjustedHeight)
-            .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
-            .frame(maxWidth: 375.adjustedWidth, maxHeight: 810.adjustedHeight)
+            .padding(.top, isSEDevice ? 16 : 54.adjustedHeight)
+            Color(.backgroundBlack)
+                .ignoresSafeArea()
+                .opacity(viewModel.showRandomPetGuide ? 0.8 : 0)
+                .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
+            
+            VStack(alignment: .leading) {
+                HStack {
+                    randomPetGachaButton
+                        .padding(.leading, 16.adjustedWidth)
+                        .shadow(color: .white, radius: viewModel.showRandomPetGuide ? 32 : 0)
+                        .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
+                    Spacer()
+                }
+            }
+            .padding(.top, isSEDevice ? 16 : 60.adjustedHeight)
+            .opacity(viewModel.showRandomPetGuide ? 1 : 0)
+            .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
+            
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
                     ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
             }
+            
+            TransparentOverlayView(isPresented: viewModel.showRandomGachaView, isDimView: false) {
+                RandomGachaPetView(viewModel: randomGachaPetViewModel)
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomGachaView)
+            }
+            
             TransparentOverlayView(isPresented: viewModel.isPresentEarnFood) {
                 ImageDialogView(
                     show: $viewModel.isPresentEarnFood,
@@ -71,65 +92,81 @@ struct HomeView: View {
                     title: "먹이를 얻었어요!",
                     description: "사과 \(viewModel.earnFood)개",
                     buttonTitle: "획득하기"
-                 ) {
+                ) {
                     viewModel.showRandomBubble(type: .success)
                 }
             }
-            .onChange(of: viewModel.isLevelUp) { newLevel in
-                if newLevel {
-                    coordinator.push( to: .upgradePet(
-                        level: viewModel.homePetModel.level,
-                        petType: viewModel.homePetModel.petType
-                    )
-                    )
-                    viewModel.isLevelUp = false
-                }
-            }
-            .onChange(of: viewModel.isMaxLevel) { newValue in
-                if newValue {
-                    coordinator.push( to: .newPet)
-                    viewModel.isMaxLevel = false
-                }
-            }
-            .onChange(of: viewModel.isGoalMet) { newValue in
-                if newValue {
-                    coordinator.push( to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
-                    viewModel.isGoalMet = false
-                }
-            }
-            .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
-                if shouldUpdate {
-                    Task {
-                        await viewModel.fetchHomeInfo()
-                        
-                        coordinator.triggerHomeUpdate(trigger: false)
-                    }
-                }
-            }
-            
-        }
-        .navigationDestination(for: HomePath.self) { path in
-            switch path {
-            case .setting:
-                SettingView(coordinator: coordinator, store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
-            case .ranking:
-                RankView(store: rankStore, coordinator: coordinator)
-            case .successThreeDay(let totalKcal):
-                ThreeDaySuccessView(coordinator: coordinator, totalKcal: totalKcal)
-            case .newPet:
-                NewPetView(coordinator: coordinator, viewModel: NewPetViewModel(homeRepository: HomeRepository(), coordinator: coordinator))
-            case .upgradePet(let level, let petType):
-                LevelUpView(coordinator: coordinator, level: level, petType: petType)
-            }
         }
         .navigationBarBackButtonHidden()
+        .onChange(of: viewModel.isLevelUp) { newLevel in
+            if newLevel {
+                coordinator.push(to: .upgradePet(
+                    level: viewModel.homePetModel.level,
+                    petType: viewModel.homePetModel.petType,
+                    newPetTicket: viewModel.isMaxLevel
+                ))
+                viewModel.isLevelUp = false
+                viewModel.isMaxLevel = false
+            }
+        }
+        .onChange(of: viewModel.isGoalMet) { newValue in
+            if newValue {
+                coordinator.push(to: .successThreeDay(totalKcal: viewModel.threeDaysTotalKcal))
+                viewModel.isGoalMet = false
+            }
+        }
+        .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
+            if shouldUpdate {
+                Task {
+                    await viewModel.fetchHomeInfo()
+                    coordinator.triggerHomeUpdate(trigger: false)
+                }
+            }
+        }
+    }
+    
+    private func setupBindings() {
+        viewModel.bind(overlayVM: newPetViewModel)
+        viewModel.bind(overlayVM: randomGachaPetViewModel)
     }
 }
 
 extension HomeView {
+    var randomPetGachaButton: some View {
+        ZStack(alignment: .leading) {
+            Button {
+                viewModel.enableRandomPet ? viewModel.tapRandomGachaButton() : viewModel.showTooltipView()
+            } label: {
+                viewModel.enableRandomPet ? Image(.enableRandomPetButton) : Image(.disableRandomPetButton)
+            }
+            .frame(width: 40, height: 40)
+            .overlay {
+                // 벳지
+                ZStack {
+                    Circle()
+                        .foregroundStyle(viewModel.enableRandomPet ? .badgeRed : .borderGray)
+                        .frame(width: 20, height: 20)
+                    Text("\(viewModel.homePetModel.ticket)")
+                        .font(.neoDunggeunmo14)
+                        .foregroundStyle(.textButtonAlternative)
+                }
+                .position(x: 33, y: 32)
+            }
+            if viewModel.showToolTipView {
+                TooltipView(
+                    textString: "레벨 5까지 성장시키면\n새로운 펫을 뽑을 수 있어요",
+                    alignment: .leading
+                )
+                .fixedSize(horizontal: true, vertical: true)
+                .offset(y: 64.adjusted)
+                .alignmentGuide(.bottom) { _ in 0 }
+            }
+        }
+        .frame(height: 40)
+    }
     
     var kcalView: some View {
-        HStack(alignment: .lastTextBaseline,spacing: 4) {
+        HStack(alignment: .lastTextBaseline, spacing: 4) {
             Text("\(viewModel.currentKcal)")
                 .font(.neoDunggeunmo52)
                 .foregroundStyle(.textHeadlinePrimary)
@@ -167,7 +204,7 @@ extension HomeView {
                         viewModel.showRandomBubble(type: .normal)
                     }
             }
-            .offset(y: isSEDevice ? 45.adjusted : 55.adjustedHeight)
+            .offset(y: isSEDevice ? 30.adjusted : 55.adjustedHeight)
         }
     }
     
@@ -242,8 +279,22 @@ extension HomeView {
         .frame(maxWidth: .infinity)
         .frame(height: 95)
     }
+    
+    private var petImageScale: CGFloat {
+        let screenHeight = UIScreen.main.bounds.height
+        switch screenHeight {
+        case ...667:
+            return 0.80
+        case 668...736:
+            return 0.85
+        case 737...812:
+            return 0.90
+        default:
+            return 0.92
+        }
+    }
 }
 
 #Preview {
-    HomeView(coordinator: .init(), viewModel: HomeViewModel(repository: HomeRepository()))
+    HomeView(coordinator: .init(), viewModel: HomeViewModel(repository: HomeRepository()), newPetViewModel: NewPetViewModel(), randomGachaPetViewModel: RandomGachaPetViewModel(homeRepository: HomeRepository()))
 }

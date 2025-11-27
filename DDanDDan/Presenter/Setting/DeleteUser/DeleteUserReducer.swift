@@ -59,6 +59,7 @@ struct DeleteUserReducer: Reducer {
         )
         switch result {
         case .success:
+            UserDefaultValue.isFirstRandomTicket = true
             return true
         case .failure(let error):
             //TODO: 에러처리

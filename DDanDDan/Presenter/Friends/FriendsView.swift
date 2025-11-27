@@ -1,0 +1,194 @@
+import SwiftUI
+import ComposableArchitecture
+
+struct FriendListView: View {
+    @Perception.Bindable var store: StoreOf<FriendsViewReducer>
+    @ObservedObject var coordinator: AppCoordinator
+    
+    init(store: StoreOf<FriendsViewReducer>, coordinator: AppCoordinator) {
+        self.store = store
+        self.coordinator = coordinator
+    }
+    
+    var body: some View {
+        WithPerceptionTracking {
+            ZStack {
+                Color(.backgroundBlack).ignoresSafeArea()
+                VStack {
+                    HStack {
+                        Text("친구 목록")
+                            .foregroundStyle(Color.textButtonAlternative)
+                            .font(.neoDunggeunmo24)
+                        Spacer()
+                        if store.hasLoadedOnce && !store.friendsList.isEmpty {
+                            Button {
+                                store.send(.createInviteCode)
+                            } label: {
+                                Text("친구 추가")
+                                    .foregroundStyle(Color.textHeadlinePrimary)
+                                    .font(.subTitle1_semibold14)
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 12)
+                                    .background(Color.elevationLevel03)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 72.adjustedHeight)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 9)
+                    if store.hasLoadedOnce && store.friendsList.isEmpty {
+                           friendEmptyView
+                       } else if !store.friendsList.isEmpty {
+                           ScrollView {
+                               friendsListView
+                                   .frame(maxWidth: .infinity)
+                           }
+                           .refreshable {
+                               await store.send(.refreshFriendsList).finish()
+                           }
+                       }
+                    
+                    Spacer()
+                    
+                    myProfileView
+                }
+                .padding(.top, UIScreen.topSafeArea)
+                
+                // Toast View
+                if store.showToast {
+                    TransparentOverlayView(isPresented: store.showToast, isDimView: false) {
+                        VStack {
+                            ToastView(message: store.toastMessage, toastType: .check)
+                        }
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
+                    }
+                }
+                
+                // Delete Alert
+                if store.deleteFriendAlert {
+                    TransparentOverlayView(isPresented: store.deleteFriendAlert, isDimView: true) {
+                        DialogView(
+                            show: $store.deleteFriendAlert,
+                            title: "정말 삭제하시겠어요?",
+                            description: "친구가 삭제돼요",
+                            rightButtonTitle: "삭제하기",
+                            leftButtonTitle: "취소"
+                        ) {
+                            store.send(.confirmDelete)
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear {
+            store.send(.onAppear)
+        }
+    }
+    
+    private var friendEmptyView: some View {
+        VStack(spacing: 16) {
+            Image(.noFriend)
+            Text("아직 친구가 없네요.\n친구를 추가해 함께 성장해 보세요!")
+                .font(.heading7_medium16)
+                .foregroundColor(.textBodyTeritary)
+                .multilineTextAlignment(.center)
+            Button {
+                store.send(.createInviteCode)
+            } label: {
+                Text("친구 추가")
+                    .font(.subTitle1_semibold14)
+                    .foregroundStyle(.textButtonPrimaryDefault)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 10)
+                    .background(.buttonDefault)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private var friendsListView: some View {
+        LazyVStack(spacing: 0) {
+            ForEach(store.friendsList, id: \.self) { friend in
+                friendsListItemView(friend: friend)
+            }
+        }
+    }
+
+    func friendsListItemView(friend: Friend) -> some View {
+        HStack {
+            ZStack {
+                Circle()
+                    .fill(friend.mainPetType.color)
+                    .frame(width: 48, height: 48)
+                Image(friend.mainPetType.image(for: friend.petLevel))
+                    .resizable()
+                    .frame(width: 38, height: 38)
+                    .padding(3)
+            }
+            .padding(.trailing, 12)
+            
+            Text(friend.name)
+                .foregroundStyle(.textHeadlinePrimary)
+                .font(.body1_regular16)
+            
+            Spacer()
+            
+            Button {
+                store.send(.showDeleteAlert(id: friend.id))
+            } label: {
+                Image(.deleteIcon)
+                    .resizable()
+                    .frame(width: 32, height: 32)
+            }
+        }
+        .frame(height: 48)
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 20)
+        .padding(.horizontal, 20)
+        .onTapGesture {
+            store.send(.onTapItem(friend))
+        }
+    }
+    
+    var myProfileView: some View {
+        ZStack(alignment: .center) {
+            Rectangle()
+                .frame(maxHeight: 72.adjustedHeight)
+                .particalCornerRadius(16.adjustedHeight, corners: .topLeft)
+                .particalCornerRadius(16.adjustedHeight, corners: .topRight)
+                .foregroundStyle(.borderGray)
+            HStack(alignment: .center) {
+                ZStack {
+                    Circle()
+                        .fill(store.myProfilePet.petType.color)
+                        .frame(width: 48, height: 48)
+                    Image(store.myProfilePet.petType.image(for: store.myProfilePet.level))
+                        .resizable()
+                        .frame(width: 42, height: 42)
+                        .offset(y: -3)
+                }
+                .padding(.trailing, 12)
+                
+                Text(store.myProfilePet.name)
+                    .font(.body1_regular16)
+                    .foregroundStyle(.textBodyTeritary)
+                Text("나")
+                    .foregroundStyle(.textButtonPrimaryDefault)
+                    .font(.caption)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 2)
+                    .background(Color.textHeadlinePrimary)
+                    .clipShape(Circle())
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+        }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
+    }
+}

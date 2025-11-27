@@ -10,6 +10,8 @@ import Foundation
 enum LottieString {
     
     static let confetti = "confetti"
+    static let confettiEgg = "confetti_egg"
+    static let randomEgg = "ramdom_egg"
     
     enum cat {
         
@@ -120,6 +122,35 @@ enum LottieString {
         enum lv5 {
             static let normal = "penguin_level5_default"
             static let eatPlay = "penguin_level5_play+eat"
+        }
+    }
+    
+    
+    enum mole {
+        
+        enum lv1 {
+            static let normal = "mole_level1_default"
+            static let eatPlay = "mole_level1_play+eat"
+        }
+        
+        enum lv2 {
+            static let normal = "mole_level2_default"
+            static let eatPlay = "mole_level2_play+eat"
+        }
+        
+        enum lv3 {
+            static let normal = "mole_level3_default"
+            static let eatPlay = "mole_level3_play+eat"
+        }
+        
+        enum lv4 {
+            static let normal = "mole_level4_default"
+            static let eatPlay = "mole_level4_play+eat"
+        }
+        
+        enum lv5 {
+            static let normal = "mole_level5_dafault"
+            static let eatPlay = "mole_level5_play+eat"
         }
     }
 }

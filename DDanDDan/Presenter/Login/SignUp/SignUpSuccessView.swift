@@ -35,7 +35,7 @@ struct SignUpSuccessView<ViewModel: SignUpViewModelProtocol>: View {
                     Task {
                         await viewModel.login()
                         coordinator.triggerHomeUpdate(trigger: true)
-                        coordinator.setRoot(to: .home)
+                        coordinator.setRoot(to: .mainTab)
                     }
                 }, title: "시작하기", disabled: false)
             }

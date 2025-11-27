@@ -12,7 +12,7 @@ import Combine
 enum AppPath: Hashable {
     case splash
     case signUp
-    case home
+    case mainTab
     case onboarding
     case login
 }
