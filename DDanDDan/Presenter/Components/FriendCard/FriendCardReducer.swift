@@ -78,6 +78,7 @@ struct FriendCardReducer {
         
         enum Delegate {
             case dismissAndNavigateToFriendAdd(AddedFriend)
+            case dismiss
         }
     }
     
@@ -119,7 +120,7 @@ struct FriendCardReducer {
                 
             case .setDismiss:
                 state.dismiss = true
-                return .none
+                return .send(.delegate(.dismiss))
                 
             case let .setEntity(entity):
                 state.entity = entity
@@ -131,6 +132,7 @@ struct FriendCardReducer {
             case .onCheerSuccess:
                 state.entity?.isCheeredToday = true
                 state.fireAnimation = true
+                state.entity?.monthlyReceivedCheerCount += 1
                 return performFireAnimation()
                 
             case .endFireAnimation:

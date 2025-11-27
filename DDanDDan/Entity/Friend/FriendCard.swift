@@ -11,7 +11,7 @@ public struct FriendCardEntity: Decodable, Equatable {
     let userName: String
     let mainPet: Pet
     let todayCalorie: Int
-    let monthlyReceivedCheerCount: Int
+    var monthlyReceivedCheerCount: Int
     let isFriend: Bool
     var isCheeredToday: Bool
 }

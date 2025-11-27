@@ -23,7 +23,7 @@ struct RandomGachaPetView: View {
     var body: some View {
         ZStack {
             Color(.backgroundBlack)
-                .opacity(0.8)
+                .opacity(0.9)
                 .ignoresSafeArea()
             
             VStack {
@@ -38,6 +38,13 @@ struct RandomGachaPetView: View {
                     )
                     .animation(.easeOut(duration: 0.4), value: scale)
                     .animation(.easeInOut(duration: 0.8), value: rotation)
+                    .overlay {
+                        if viewModel.isSelectedRandomPet {
+                                LottieView(animation: .named(LottieString.confettiEgg))
+                                    .playing(loopMode: .playOnce)
+                                    .frame(width: 280, height: 280)
+                        }
+                    }
                 if showTexts {
                     VStack {
                         Text(viewModel.isSelectedRandomPet ? "반가워!" : "어떤 펫이 나올까요?")
@@ -72,6 +79,7 @@ struct RandomGachaPetView: View {
                     .animation(.easeOut(duration: 0.4).delay(0.6), value: showTexts)
                 }
             }
+
         }
         .onAppear {
             withAnimation {
@@ -103,8 +111,7 @@ struct RandomGachaPetView: View {
             if viewModel.isSelectedRandomPet {
                 LottieView(animation: .named(viewModel.gachaResult?.type.lottieString(level: 1) ?? LottieString.randomEgg))
                     .playing(loopMode: .loop)
-                    .frame(width: 100.adjustedHeight)
-                // TODO: 컨버티 로티 필요
+                    .frame(width: 130.adjustedHeight)
             } else {
                 LottieView(animation: .named(LottieString.randomEgg))
                     .playing(loopMode: .loop)

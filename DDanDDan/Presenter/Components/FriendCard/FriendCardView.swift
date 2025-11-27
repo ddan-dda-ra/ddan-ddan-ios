@@ -20,6 +20,7 @@ struct FriendCardView: View {
     var body: some View {
         WithPerceptionTracking {
             ZStack {
+                Color(.backgroundBlack).ignoresSafeArea().opacity(0.4)
                 Group {
                     if store.entity != nil {
                         cardView
@@ -68,7 +69,7 @@ struct FriendCardView: View {
             if store.fireAnimation {
                 FireEmitterView()
                     .frame(width: 296, height: 300)
-                    .padding(.top, 150)
+                    .padding(.top, -10)
                     .allowsHitTesting(false)
             }
         }
@@ -81,7 +82,7 @@ struct FriendCardView: View {
             VStack {
                 ToastView(message: store.toastMessage, toastType: .info)
             }
-            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 230.adjustedHeight)
+            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
         }
     }
     
@@ -112,7 +113,7 @@ struct FriendCardView: View {
                 Image(.close)
                     .padding(16)
                     .onTapGesture {
-                        dismiss()
+                        store.send(.setDismiss)
                     }
             }
     }
@@ -136,10 +137,11 @@ struct FriendCardView: View {
                     .background(.elevationLevel02)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
             }
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.fire)
                     .resizable()
                     .frame(width: 20, height: 20)
+                
                 Text("받은 응원")
                     .font(.body1_regular16)
                     .foregroundStyle(.textBodyTeritary)
@@ -147,8 +149,10 @@ struct FriendCardView: View {
                 
                 Text("\(store.entity?.monthlyReceivedCheerCount ?? 0)")
                     .font(.neoDunggeunmo24)
+                    .baselineOffset(-2)
                     .foregroundStyle(.textBodyTeritary)
                     .padding(.leading, 8)
+                    
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 12)
@@ -165,7 +169,7 @@ struct FriendCardView: View {
                 Text("오늘 소모 칼로리")
                     .font(.body1_regular16)
                     .foregroundStyle(.textBodyTeritary)
-                HStack(spacing: 0) {
+                HStack(spacing: 2) {
                     Text("\(store.entity?.todayCalorie ?? 0)")
                         .font(.neoDunggeunmo20)
                         .foregroundStyle(.textHeadlinePrimary)
@@ -184,7 +188,7 @@ struct FriendCardView: View {
         switch store.type {
         case .invite:
             store.send(.onTapButton)
-            dismiss()
+            store.send(.setDismiss)
         case .cheer:
             store.send(.onTapButton)
             let generator = UIImpactFeedbackGenerator(style: .medium)
@@ -222,7 +226,7 @@ struct FireEmitterView: UIViewRepresentable {
         let cell = CAEmitterCell()
         cell.contents = UIImage(named: "fire")?.cgImage
         
-        cell.lifetime = 1.0
+        cell.lifetime = 1.5
         cell.lifetimeRange = 0.5
         
         
@@ -233,7 +237,7 @@ struct FireEmitterView: UIViewRepresentable {
         cell.scaleRange = 0.15
         
         
-        cell.alphaSpeed = -0.7
+        cell.alphaSpeed = -0.9
         
         
         cell.spin = 0.2
@@ -241,7 +245,7 @@ struct FireEmitterView: UIViewRepresentable {
         
         
         cell.emissionLongitude = -.pi / 2
-        cell.emissionRange = .pi / 2.5
+        cell.emissionRange = .pi / 1.8
         
         
         cell.velocity = 160

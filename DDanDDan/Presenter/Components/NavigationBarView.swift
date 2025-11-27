@@ -37,7 +37,7 @@ struct CustomNavigationBar: View {
     var body: some View {
         ZStack {
             Color.backgroundBlack
-                .ignoresSafeArea(edges: [.top, .horizontal])
+//                .ignoresSafeArea(edges: [.top, .horizontal])
             
             HStack {
                 if let leftButtonImage = leftButtonImage,

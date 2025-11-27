@@ -31,8 +31,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color(.backgroundBlack)
-                .ignoresSafeArea(edges: [.vertical])
+            Color(.backgroundBlack).ignoresSafeArea()
             VStack(alignment: .center) {
                 HStack {
                     randomPetGachaButton
@@ -54,10 +53,7 @@ struct HomeView: View {
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                     .padding(.bottom, 23.adjustedHeight)
             }
-            .padding(.top, isSEDevice ? 16 : 60.adjustedHeight)
-            .padding(.bottom, isSEDevice ? 24 : 80.adjustedHeight)
-            .ignoresSafeArea(.all, edges: isSEDevice ? .all : [])
-            
+            .padding(.top, isSEDevice ? 16 : 54.adjustedHeight)
             Color(.backgroundBlack)
                 .ignoresSafeArea()
                 .opacity(viewModel.showRandomPetGuide ? 0.8 : 0)
@@ -80,7 +76,7 @@ struct HomeView: View {
                 VStack {
                     ToastView(message: viewModel.toastMessage, toastType: .info)
                 }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 150.adjustedHeight)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
             }
             
             TransparentOverlayView(isPresented: viewModel.showRandomGachaView, isDimView: false) {

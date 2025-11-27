@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct RankContentsView: View {
     @State private var buttonWidth: CGFloat = 0
     @State private var scrollToIndex: Int? = nil
+    @Environment(\.scenePhase) var scenePhase
     
     var tabType: Tab
     
@@ -47,7 +48,7 @@ struct RankContentsView: View {
                     VStack {
                         ToastView(message: store.toastMessage, toastType: .info)
                     }
-                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 320.adjustedHeight)
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 280.adjustedHeight)
                 }
                 if shouldShowLoading {
                     ProgressView()
@@ -57,11 +58,11 @@ struct RankContentsView: View {
                 }
             }
         }
-        .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
-            FriendCardView(store: store)
-        })
         .onChange(of: tabType) { newTab in
             store.send(.tabChanged(newTab))
+        }
+        .onChange(of: scenePhase) { newPhase in
+            store.send(.onScenePhaseChange(newPhase))
         }
     }
 }
@@ -262,6 +263,9 @@ extension RankContentsView {
             .onTapGesture {
                 store.send(.focusMyRank(index: myRanking?.rank ?? 0))
             }
+        }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
         }
     }
 }

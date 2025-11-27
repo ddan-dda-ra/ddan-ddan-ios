@@ -5,7 +5,7 @@
 //  Created by 이지희 on 3/9/25.
 //
 
-import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
@@ -56,6 +56,7 @@ struct RankViewReducer: Reducer {
     
     enum Action {
         case onAppear
+        case onScenePhaseChange(ScenePhase)
         case tabChanged(Tab)
         case tabItem(Ranking)
         case refreshTapped
@@ -110,6 +111,16 @@ struct RankViewReducer: Reducer {
                 return .none
             case .friendCard:
                 return .none
+            case let .onScenePhaseChange(phase):
+                if phase == .active {
+                    if state.dataLoadingState == .completed {
+                        return .none
+                    }
+                    if state.kcalRanking == nil || state.goalRanking == nil {
+                        return handleonAppeared(&state)
+                    }
+                }
+                return .none
             }
         }
         .ifLet(\.$friendCard, action: \.friendCard) {
@@ -120,9 +131,17 @@ struct RankViewReducer: Reducer {
 
 private extension RankViewReducer {
     func handleonAppeared(_ state: inout State) -> Effect<Action> {
-        guard state.dataLoadingState != .completed else { return .none }
+        if state.dataLoadingState == .completed &&
+           state.kcalRanking != nil &&
+           state.goalRanking != nil {
+            return .none
+        }
         
         // 캐시가 있으면 캐시 로딩
+        if state.dataLoadingState == .loadingFromNetwork {
+            return .none
+        }
+        
         if let cachedData = UserDefaults.cachedRanking {
             loadFromCache(&state, cachedData: cachedData)
         } else {
@@ -262,12 +281,15 @@ private extension RankViewReducer {
     }
 }
 
+// MARK: - State Helpers
 private extension RankViewReducer {
     
     func loadFromCache(_ state: inout State, cachedData: CachedRankInfo) {
-        state.dataLoadingState = .completed
-        state.kcalLoadingState = .completed
-        state.goalLoadingState = .completed
+        // 캐시 로드 시에는 loadingFromCache 상태로 변경
+        state.dataLoadingState = .loadingFromCache
+        state.kcalLoadingState = .loadingFromCache
+        state.goalLoadingState = .loadingFromCache
+        
         state.cachedRanking = cachedData
         state.kcalRanking = cachedData.kcalRanking
         state.goalRanking = cachedData.goalRanking

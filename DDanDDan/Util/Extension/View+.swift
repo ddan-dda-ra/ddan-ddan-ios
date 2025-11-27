@@ -23,11 +23,27 @@ extension View {
     }
 }
 
+extension UIWindow {
+    static var current: UIWindow? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first?.windows.first { $0.isKeyWindow }
+    }
+}
+
 extension UIScreen {
     static var isSESizeDevice: Bool {
         let width = UIScreen.main.bounds.size.width
         let height = UIScreen.main.bounds.size.height
         return (width == 320 && height == 568) || (width == 375 && height == 667)
+    }
+    
+    static var topSafeArea: CGFloat {
+        UIWindow.current?.safeAreaInsets.top ?? 0
+    }
+    
+    static var bottomSafeArea: CGFloat {
+        UIWindow.current?.safeAreaInsets.bottom ?? 0
     }
 }
 

@@ -15,7 +15,7 @@ public struct UserData: Decodable {
     var purposeCalorie: Int
     var foodQuantity: Int
     var toyQuantity: Int
-    var tickets: Int
+    var tickets: Int?
     var setting: Setting
 }
 

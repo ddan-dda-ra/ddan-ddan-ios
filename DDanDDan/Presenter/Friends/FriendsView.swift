@@ -20,35 +20,41 @@ struct FriendListView: View {
                             .foregroundStyle(Color.textButtonAlternative)
                             .font(.neoDunggeunmo24)
                         Spacer()
-                        Button {
-                            store.send(.createInviteCode)
-                        } label: {
-                            Text("친구 추가")
-                                .foregroundStyle(Color.textHeadlinePrimary)
-                                .font(.subTitle1_semibold14)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 12)
-                                .background(Color.elevationLevel03)
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                        if store.hasLoadedOnce && !store.friendsList.isEmpty {
+                            Button {
+                                store.send(.createInviteCode)
+                            } label: {
+                                Text("친구 추가")
+                                    .foregroundStyle(Color.textHeadlinePrimary)
+                                    .font(.subTitle1_semibold14)
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 12)
+                                    .background(Color.elevationLevel03)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                            }
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 72.adjustedHeight)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 9)
-                    
-                    ScrollView {
-                        friendsListView
-                            .frame(maxWidth: .infinity)
-                    }
-                    .refreshable {
-                        await store.send(.refreshFriendsList).finish()
-                    }
+                    if store.hasLoadedOnce && store.friendsList.isEmpty {
+                           friendEmptyView
+                       } else if !store.friendsList.isEmpty {
+                           ScrollView {
+                               friendsListView
+                                   .frame(maxWidth: .infinity)
+                           }
+                           .refreshable {
+                               await store.send(.refreshFriendsList).finish()
+                           }
+                       }
                     
                     Spacer()
                     
                     myProfileView
                 }
+                .padding(.top, UIScreen.topSafeArea)
                 
                 // Toast View
                 if store.showToast {
@@ -56,7 +62,7 @@ struct FriendListView: View {
                         VStack {
                             ToastView(message: store.toastMessage, toastType: .check)
                         }
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250.adjustedHeight)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180.adjustedHeight)
                     }
                 }
                 
@@ -75,24 +81,43 @@ struct FriendListView: View {
                     }
                 }
             }
-            .fullScreenCover(store: store.scope(state: \.$friendCard, action: \.friendCard), content: { store in
-                FriendCardView(store: store)
-            })
         }
         .onAppear {
             store.send(.onAppear)
         }
     }
     
+    private var friendEmptyView: some View {
+        VStack(spacing: 16) {
+            Image(.noFriend)
+            Text("아직 친구가 없네요.\n친구를 추가해 함께 성장해 보세요!")
+                .font(.heading7_medium16)
+                .foregroundColor(.textBodyTeritary)
+                .multilineTextAlignment(.center)
+            Button {
+                store.send(.createInviteCode)
+            } label: {
+                Text("친구 추가")
+                    .font(.subTitle1_semibold14)
+                    .foregroundStyle(.textButtonPrimaryDefault)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 10)
+                    .background(.buttonDefault)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
     private var friendsListView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(store.friendsList.indices, id: \.self) { index in
-                friendsListItemView(friend: store.friendsList[index], index: index)
+            ForEach(store.friendsList, id: \.self) { friend in
+                friendsListItemView(friend: friend)
             }
         }
     }
 
-    func friendsListItemView(friend: Friend, index: Int) -> some View {
+    func friendsListItemView(friend: Friend) -> some View {
         HStack {
             ZStack {
                 Circle()
@@ -112,7 +137,7 @@ struct FriendListView: View {
             Spacer()
             
             Button {
-                store.send(.showDeleteAlert(id: store.friendsList[index].id))
+                store.send(.showDeleteAlert(id: friend.id))
             } label: {
                 Image(.deleteIcon)
                     .resizable()
@@ -161,6 +186,9 @@ struct FriendListView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
+        }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
         }
     }
 }

@@ -65,7 +65,7 @@ struct UpdateCalorieView: View {
                         insertion: .move(edge: .top).combined(with: .opacity),
                         removal: .opacity))
                     .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: viewStore.toastMessage)
-                    .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 250)
+                    .position(x: UIScreen.main.bounds.width / 2 + 10, y: UIScreen.main.bounds.height - 190.adjusted)
                 }
                 .onChange(of: viewStore.calorieUpdated) { value in
                     Task {

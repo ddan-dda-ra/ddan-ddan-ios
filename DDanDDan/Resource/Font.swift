@@ -33,5 +33,6 @@ extension Font {
     
     /// caption
     static let caption1_regular11: Font = .custom("Pretendard-Regular", size: 11.adjusted)
+    static let caption1_semiBold11: Font = .custom("Pretendard-SemiBold", size: 11.adjusted)
 
 }

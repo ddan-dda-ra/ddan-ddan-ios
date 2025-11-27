@@ -50,7 +50,7 @@ public struct HomeRepository: HomeRepositoryProtocol {
                 purposeCalorie: userData.purposeCalorie,
                 foodQuantity: userData.foodQuantity,
                 toyQuantity: userData.toyQuantity,
-                tickets: userData.tickets
+                tickets: userData.tickets ?? 0
             )
         }
     }
