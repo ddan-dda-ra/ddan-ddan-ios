@@ -29,10 +29,10 @@ struct SplashView: View {
                 }
             }
         } message: {
-            Text("새로운 버전이 출시되었습니다. 업데이트해주세요.")
+            Text(viewModel.updateAlertMessage)
         }
-        .onAppear {
-            if viewModel.checkForceUpdate() {
+        .task {
+            if await viewModel.checkForceUpdate() {
                 showUpdateAlert = true
             } else {
                 viewModel.navigateToNextScreen()
