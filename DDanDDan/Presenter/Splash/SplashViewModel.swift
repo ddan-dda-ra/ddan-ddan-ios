@@ -10,6 +10,8 @@ final class SplashViewModel: ObservableObject {
     private let coordinator: AppCoordinator
     private let homeRepository: HomeRepository
     
+    @Published var updateAlertMessage: String = ""
+    
     init(
         coordinator: AppCoordinator,
         homeRepository: HomeRepository
@@ -58,14 +60,20 @@ final class SplashViewModel: ObservableObject {
     }
     
     @MainActor
-    func checkForceUpdate() -> Bool {
-        guard let forceUpdateConfig = RemoteConfigManager.shared.getJsonValue(key: .forceUpdate),
-              let minAppVersionIOS = forceUpdateConfig["min_app_version_ios"] as? String,
-              let forceUpdateEnabled = forceUpdateConfig["force_update_enabled"] as? Bool else {
-                  return false
-              }
-        
-        return forceUpdateEnabled && isVersionLower(minimum: minAppVersionIOS)
+    func checkForceUpdate() async -> Bool {
+        do {
+            let path = "app_version/iOS"
+            guard let data = try await RealtimeDBManager.shared.getDictionaryValue(path: path),
+                  let minVersion = data["minimum_version"] as? String else {
+                return false
+            }
+            
+            self.updateAlertMessage = (data["update_message"] as? String) ?? "새로운 버전이 출시되었습니다. 원활한 사용을 위해 업데이트해 주세요."
+            return isVersionLower(minimum: minVersion)
+        } catch {
+            print("Force update check failed: \(error)")
+            return false
+        }
     }
     
     private func isVersionLower(minimum: String) -> Bool {
