@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct SettingViewReducer: Reducer {
     enum Action {
+        case onAppear
         case toggleNotification(Bool)
         case showLogoutDialog(Bool)
         case toastMessage(String)
@@ -29,6 +30,9 @@ struct SettingViewReducer: Reducer {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                state.notificationState = UserDefaultValue.pushNotification
+                return .none
             case .toggleNotification:
                 let state = state.notificationState
                 return .run { send in
