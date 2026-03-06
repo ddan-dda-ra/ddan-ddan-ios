@@ -37,10 +37,10 @@ struct DDanDDanApp: App {
                 .environmentObject(deepLinkManager)
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                        _ = AuthController.handleOpenUrl(url: url)
+                       _ = AuthController.handleOpenUrl(url: url)
+                    } else {
+                        ChottuLink.handleLink(url)
                     }
-                    
-                    ChottuLink.handleLink(url)
                 }
                 .task {
                     _ = await RemoteConfigManager.shared.fetchAndActivate()
@@ -104,7 +104,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate{
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
         print("---- receive fcmToken ----")
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         print(dataDict)
@@ -193,7 +192,8 @@ extension AppDelegate: ChottuLinkDelegate {
 struct ContentView: View {
     @EnvironmentObject var coordinator: AppCoordinator
     @EnvironmentObject var user: UserManager
-    
+    @State private var mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
+
     var body: some View {
         user.coordinator = coordinator
         return NavigationStack(path: $coordinator.navigationPath) {
@@ -203,7 +203,7 @@ struct ContentView: View {
             case .signUp:
                 SignUpTermView(viewModel: SignUpViewModel(repository: SignUpRepository()), coordinator: coordinator)
             case .mainTab:
-                MainTabView(coordinator: coordinator, store: Store(initialState: MainTabReducer.State()) { MainTabReducer() })
+                MainTabView(coordinator: coordinator, store: mainTabStore)
             case .onboarding:
                 OnboardingView(coordinator: coordinator)
             case .login:
