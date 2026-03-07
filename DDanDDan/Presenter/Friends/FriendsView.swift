@@ -111,7 +111,7 @@ struct FriendListView: View {
     
     private var friendsListView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(store.friendsList, id: \.self) { friend in
+            ForEach(store.friendsList, id: \.id) { friend in
                 friendsListItemView(friend: friend)
             }
         }
