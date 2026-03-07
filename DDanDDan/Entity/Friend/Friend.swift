@@ -39,3 +39,7 @@ public struct FriendUser: Decodable, Equatable {
     let mainPetType: PetType
     let petLevel: Int
 }
+
+public struct InviteCodeInfo: Decodable, Equatable {
+    let inviterUser: FriendUser
+}

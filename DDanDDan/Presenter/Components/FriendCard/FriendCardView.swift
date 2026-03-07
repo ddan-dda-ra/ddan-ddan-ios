@@ -189,6 +189,8 @@ struct FriendCardView: View {
         case .invite:
             store.send(.onTapButton)
             store.send(.setDismiss)
+        case .pendingInvite:
+            store.send(.onTapButton)
         case .cheer:
             store.send(.onTapButton)
             let generator = UIImpactFeedbackGenerator(style: .medium)
