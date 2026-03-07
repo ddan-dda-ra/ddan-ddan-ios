@@ -62,6 +62,7 @@ struct FriendCardView: View {
                 .frame(width: 136, height: 56)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
+                .disabled(store.isAddingFriend)
             }
 
         }

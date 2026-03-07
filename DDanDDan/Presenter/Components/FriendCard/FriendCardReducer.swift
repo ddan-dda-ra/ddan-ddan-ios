@@ -110,6 +110,7 @@ struct FriendCardReducer {
                 case .invite(let user):
                     return .send(.delegate(.dismissAndNavigateToFriendAdd(user)))
                 case .pendingInvite(let code):
+                    guard !state.isAddingFriend else { return .none }
                     state.isAddingFriend = true
                     return addFriend(code: code)
                 }
