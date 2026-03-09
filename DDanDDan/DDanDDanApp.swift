@@ -210,6 +210,11 @@ struct ContentView: View {
                 LoginView(viewModel: LoginViewModel(repository: LoginRepository(), appCoordinator: coordinator))
             }
         }
+        .onChange(of: coordinator.rootView) { newValue in
+            if newValue == .mainTab {
+                mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
+            }
+        }
     }
 }
 
