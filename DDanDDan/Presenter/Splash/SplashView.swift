@@ -9,8 +9,11 @@ import SwiftUI
 
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
+    @Environment(\.scenePhase) private var scenePhase
     @State private var showUpdateAlert = false
-    
+    @State private var needsForceUpdate = false
+    @State private var isCheckingUpdate = false
+
     var body: some View {
         ZStack {
             Color(.backgroundBlack)
@@ -33,9 +36,24 @@ struct SplashView: View {
         }
         .task {
             if await viewModel.checkForceUpdate() {
+                needsForceUpdate = true
                 showUpdateAlert = true
             } else {
                 viewModel.navigateToNextScreen()
+            }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active, needsForceUpdate, !isCheckingUpdate {
+                isCheckingUpdate = true
+                Task {
+                    if await viewModel.checkForceUpdate() {
+                        showUpdateAlert = true
+                    } else {
+                        needsForceUpdate = false
+                        viewModel.navigateToNextScreen()
+                    }
+                    isCheckingUpdate = false
+                }
             }
         }
     }
