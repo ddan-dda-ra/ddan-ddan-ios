@@ -61,7 +61,11 @@ struct MainTabReducer {
                 state.navigateToFriendAdd = user
                 state.selectedTab = .friends
                 return .none
-                
+
+            case .friendCard(.presented(.delegate(.dismiss))):
+                state.friendCard = nil
+                return .none
+
             case .friendCard:
                 return .none
                 
