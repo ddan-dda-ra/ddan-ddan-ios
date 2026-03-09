@@ -16,6 +16,7 @@ struct FriendCardReducer {
     enum CardType: Equatable {
         case cheer
         case invite(user: AddedFriend)
+        case pendingInvite(code: String)
     }
     
     @ObservableState
@@ -42,15 +43,19 @@ struct FriendCardReducer {
             case .cheer:
                 entity?.isFriend == false || entity?.isCheeredToday == true || UserDefaultValue.userId == entity?.userId
             case .invite: false
+            case .pendingInvite: false
             }
         }
         var buttonTitle: String {
             switch type {
             case .cheer: "응원하기"
             case .invite: "친구하기"
+            case .pendingInvite: "친구하기"
             }
         }
-        
+
+        var isAddingFriend: Bool = false
+
         var badgeTitle: String? {
             if UserDefaultValue.userId == entity?.userId {
                 "나"
@@ -72,6 +77,7 @@ struct FriendCardReducer {
         case onCheerSuccess
         case setDismiss
         case inviteResult(TaskResult<AddedFriend>)
+        case addFriendResult(Result<AddedFriend, NetworkError>)
         case endFireAnimation
         
         case delegate(Delegate)
@@ -93,14 +99,20 @@ struct FriendCardReducer {
                     return fetchUserDetail(userID: state.userID)
                 case let .invite(user: user):
                     return fetchUserDetail(userID: user.friendUser.id)
+                case let .pendingInvite(code: code):
+                    return fetchInviteCodeInfo(code: code)
                 }
-                
+
             case .onTapButton:
                 switch state.type {
                 case .cheer:
                     return cheerFriend(userID: state.userID)
                 case .invite(let user):
                     return .send(.delegate(.dismissAndNavigateToFriendAdd(user)))
+                case .pendingInvite(let code):
+                    guard !state.isAddingFriend else { return .none }
+                    state.isAddingFriend = true
+                    return addFriend(code: code)
                 }
                 
             case let .inviteResult(result):
@@ -110,6 +122,34 @@ struct FriendCardReducer {
                 case .failure(let error):
                     print(error.localizedDescription)
                     return .none
+                }
+
+            case let .addFriendResult(result):
+                state.isAddingFriend = false
+                switch result {
+                case .success(let addedFriend):
+                    state.dismiss = true
+                    return .send(.delegate(.dismissAndNavigateToFriendAdd(addedFriend)))
+                case .failure(let error):
+                    switch error {
+                    case .serverError(_, let code):
+                        switch code {
+                        case "FR001":
+                            return showToast(&state, message: "이미 친구입니다.")
+                        case "FR002":
+                            return showToast(&state, message: "존재하지 않는 초대 코드입니다.")
+                        case "FR003":
+                            return showToast(&state, message: "자기 자신을 친구로 추가할 수 없습니다.")
+                        case "FR004":
+                            return showToast(&state, message: "친구 요청이 실패했습니다.")
+                        case "IC004":
+                            return showToast(&state, message: "자신의 초대코드는 사용할 수 없습니다.")
+                        default:
+                            return showToast(&state, message: "친구 추가에 실패했습니다.")
+                        }
+                    default:
+                        return showToast(&state, message: "친구 추가에 실패했습니다.")
+                    }
                 }
                 
             case .delegate:
@@ -154,6 +194,39 @@ struct FriendCardReducer {
         }
     }
     
+    private func fetchInviteCodeInfo(code: String) -> Effect<Action> {
+        return .run { send in
+            let result = await repository.fetchInviteCodeInfo(code)
+            switch result {
+            case .success(let info):
+                let entity = FriendCardEntity(
+                    userId: info.inviterUser.id,
+                    userName: info.inviterUser.name,
+                    mainPet: .init(
+                        id: "",
+                        type: info.inviterUser.mainPetType,
+                        level: info.inviterUser.petLevel,
+                        expPercent: 0
+                    ),
+                    todayCalorie: 0,
+                    monthlyReceivedCheerCount: 0,
+                    isFriend: false,
+                    isCheeredToday: false
+                )
+                await send(.setEntity(entity))
+            case .failure:
+                await send(.setDismiss)
+            }
+        }
+    }
+
+    private func addFriend(code: String) -> Effect<Action> {
+        return .run { send in
+            let result = await repository.addFriend(code)
+            await send(.addFriendResult(result))
+        }
+    }
+
     private func cheerFriend(userID: String) -> Effect<Action> {
         return .run { send in
             let result = await repository.cheerFriend(userID)

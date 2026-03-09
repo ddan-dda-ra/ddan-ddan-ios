@@ -12,6 +12,7 @@ public struct FriendCardRepository: DependencyKey {
     var getFriendDetail: (_ userID: String) async -> Result<FriendCardEntity, NetworkError>
     var cheerFriend: (_ friendID: String) async -> Result<CheerInfo, NetworkError>
     var addFriend: (_ inviteCode: String) async -> Result<AddedFriend, NetworkError>
+    var fetchInviteCodeInfo: (_ inviteCode: String) async -> Result<InviteCodeInfo, NetworkError>
 }
 
 extension FriendCardRepository {
@@ -33,6 +34,10 @@ extension FriendCardRepository {
             addFriend: {
                 guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
                 return await friendNetwork.addFriend(accessToken: accessToken, inviteCode: $0)
+            },
+            fetchInviteCodeInfo: {
+                guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
+                return await friendNetwork.fetchInviteCodeInfo(accessToken: accessToken, inviteCode: $0)
             }
         )
     }
