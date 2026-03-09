@@ -61,19 +61,31 @@ final class SplashViewModel: ObservableObject {
     
     @MainActor
     func checkForceUpdate() async -> Bool {
+        let defaultMessage = "새로운 버전이 출시되었습니다. 원활한 사용을 위해 업데이트해 주세요."
         do {
             let path = "app_version/iOS"
             guard let data = try await RealtimeDBManager.shared.getDictionaryValue(path: path),
                   let minVersion = data["minimum_version"] as? String else {
-                return false
+                return checkCachedMinimumVersion()
             }
-            
-            self.updateAlertMessage = (data["update_message"] as? String) ?? "새로운 버전이 출시되었습니다. 원활한 사용을 위해 업데이트해 주세요."
+
+            UserDefaultValue.cachedMinimumVersion = minVersion
+            UserDefaultValue.cachedUpdateMessage = (data["update_message"] as? String) ?? defaultMessage
+
+            self.updateAlertMessage = UserDefaultValue.cachedUpdateMessage
             return isVersionLower(minimum: minVersion)
         } catch {
             print("Force update check failed: \(error)")
+            return checkCachedMinimumVersion()
+        }
+    }
+
+    private func checkCachedMinimumVersion() -> Bool {
+        guard let cached = UserDefaultValue.cachedMinimumVersion else {
             return false
         }
+        self.updateAlertMessage = UserDefaultValue.cachedUpdateMessage
+        return isVersionLower(minimum: cached)
     }
     
     private func isVersionLower(minimum: String) -> Bool {
