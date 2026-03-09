@@ -65,8 +65,12 @@ final class SplashViewModel: ObservableObject {
         do {
             let path = "app_version/iOS"
             guard let data = try await RealtimeDBManager.shared.getDictionaryValue(path: path),
-                  let minVersion = data["minimum_version"] as? String else {
-                return checkCachedMinimumVersion()
+                  let minVersion = data["minimum_version"] as? String,
+                  !minVersion.isEmpty else {
+                UserDefaultValue.cachedMinimumVersion = nil
+                UserDefaultValue.cachedUpdateMessage = defaultMessage
+                self.updateAlertMessage = defaultMessage
+                return false
             }
 
             UserDefaultValue.cachedMinimumVersion = minVersion
