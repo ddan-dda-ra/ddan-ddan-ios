@@ -8,6 +8,9 @@
 import Foundation
 
 actor TokenRefreshManager {
+    static let shared = TokenRefreshManager()
+    private init() {}
+
     private var isRefreshing = false
     private var refreshTask: Task<Bool, Never>?
     
@@ -28,6 +31,10 @@ actor TokenRefreshManager {
                 print("🔹 토큰 재발급 완료")
                 UserDefaultValue.accessToken = reissueData.accessToken
                 UserDefaultValue.refreshToken = reissueData.refreshToken
+                await UserManager.shared.setToken(
+                    accessToken: reissueData.accessToken,
+                    refreshToken: reissueData.refreshToken
+                )
                 return true
                 
             case .failure(let failure):
