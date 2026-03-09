@@ -101,6 +101,9 @@ struct MainTabView: View {
                     didSetupBindings = true
                 }
             }
+            .onReceive(coordinator.$petChangedSession) { _ in
+                store.send(.petChanged)
+            }
             .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
                 if let inviteCode = notification.object as? String {
                     store.send(.handleDeepLink(inviteCode: inviteCode))

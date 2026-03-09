@@ -34,7 +34,8 @@ struct MainTabReducer {
         case handleDeepLink(inviteCode: String)
         case addFriendResult(Result<AddedFriend, NetworkError>)
         case clearNavigateToFriendAdd
-        
+        case petChanged
+
         case rank(RankViewReducer.Action)
         case friends(FriendsViewReducer.Action)
         case setting(SettingViewReducer.Action)
@@ -116,6 +117,10 @@ struct MainTabReducer {
                 
             case .clearNavigateToFriendAdd:
                 state.navigateToFriendAdd = nil
+                return .none
+
+            case .petChanged:
+                state.rankState = RankViewReducer.State()
                 return .none
                 
             case .binding:

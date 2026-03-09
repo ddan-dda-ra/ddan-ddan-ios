@@ -63,6 +63,7 @@ struct PetArchiveView: View {
         .onChange(of: viewModel.isSelectedMainPet) { newValue in
             if newValue {
                 coordinator.triggerHomeUpdate(trigger: true)
+                coordinator.triggerPetChanged()
                 coordinator.pop()
             }
         }

@@ -56,6 +56,7 @@ struct RankViewReducer: Reducer {
     
     enum Action {
         case onAppear
+        case resetState
         case onScenePhaseChange(ScenePhase)
         case tabChanged(Tab)
         case tabItem(Ranking)
@@ -80,6 +81,14 @@ struct RankViewReducer: Reducer {
             switch action {
             case .onAppear:
                 return handleonAppeared(&state)
+            case .resetState:
+                state.kcalRanking = nil
+                state.goalRanking = nil
+                state.cachedRanking = nil
+                state.dataLoadingState = .initial
+                state.kcalLoadingState = .initial
+                state.goalLoadingState = .initial
+                return .none
             case let .tabChanged(tab):
                 return handleTabChanged(&state, tab: tab)
             case .refreshTapped:
@@ -136,7 +145,7 @@ private extension RankViewReducer {
            state.goalRanking != nil {
             return .none
         }
-        
+
         // 캐시가 있으면 캐시 로딩
         if state.dataLoadingState == .loadingFromNetwork {
             return .none
