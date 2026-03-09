@@ -73,6 +73,11 @@ struct FriendsViewReducer {
                 return .none
                 
             case .onAppear:
+                state.myProfilePet = .init(
+                    name: UserDefaultValue.nickName,
+                    petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+                    level: UserDefaultValue.level
+                )
                 guard !state.hasLoadedOnce && !state.isLoading else {
                     return .none
                 }
