@@ -128,6 +128,7 @@ struct FriendCardReducer {
                 state.isAddingFriend = false
                 switch result {
                 case .success(let addedFriend):
+                    state.dismiss = true
                     return .send(.delegate(.dismissAndNavigateToFriendAdd(addedFriend)))
                 case .failure(let error):
                     switch error {
