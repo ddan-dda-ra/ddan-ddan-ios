@@ -12,6 +12,7 @@ struct SplashView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var showUpdateAlert = false
     @State private var needsForceUpdate = false
+    @State private var isCheckingUpdate = false
 
     var body: some View {
         ZStack {
@@ -42,7 +43,8 @@ struct SplashView: View {
             }
         }
         .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active, needsForceUpdate {
+            if newPhase == .active, needsForceUpdate, !isCheckingUpdate {
+                isCheckingUpdate = true
                 Task {
                     if await viewModel.checkForceUpdate() {
                         showUpdateAlert = true
@@ -50,6 +52,7 @@ struct SplashView: View {
                         needsForceUpdate = false
                         viewModel.navigateToNextScreen()
                     }
+                    isCheckingUpdate = false
                 }
             }
         }
