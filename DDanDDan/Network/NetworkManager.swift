@@ -14,7 +14,7 @@ public struct NetworkManager {
     
     public init(withInterceptor:Bool = true) {
         let config = URLSessionConfiguration.default
-        config.requestCachePolicy = .returnCacheDataElseLoad
+        config.requestCachePolicy = .useProtocolCachePolicy
         self.session = Session(configuration: config, interceptor: withInterceptor ? TokenInterceptor() : nil)
     }
     
