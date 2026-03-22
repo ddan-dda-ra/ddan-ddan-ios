@@ -61,7 +61,7 @@ struct SettingView: View {
     
     var body: some View {
         WithViewStore(store) { $0 } content: { viewStore in
-            
+
             let logoutDialogBinding = viewStore.binding(get: \.showLogoutDialog,
                                                         send: SettingViewReducer.Action.showLogoutDialog)
             let notificationStateBinding = viewStore.binding(get: \.notificationState,
@@ -104,6 +104,9 @@ struct SettingView: View {
                         }
                     }
                 }
+            }
+            .onAppear {
+                viewStore.send(.onAppear)
             }
         }
         .navigationBarHidden(true)

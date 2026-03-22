@@ -45,6 +45,7 @@ public struct HomeRepository: HomeRepositoryProtocol {
             AnalyticsManager.shared.setUserProperty(property: .userID(userData.id))
             AnalyticsManager.shared.setUserProperty(property: .userName(userData.name))
             UserDefaultValue.nickName = userData.name
+            UserDefaultValue.pushNotification = userData.setting.isAppPushOn
             return HomeUserInfo(
                 id: userData.id,
                 purposeCalorie: userData.purposeCalorie,

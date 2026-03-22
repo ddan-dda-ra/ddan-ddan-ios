@@ -33,7 +33,12 @@ final class AppCoordinator: ObservableObject {
     @StateObject var user = UserManager.shared
     
     @Published private(set) var shouldUpdateHomeView = false
-    
+    @Published private(set) var petChangedSession: UUID = UUID()
+
+    func triggerPetChanged() {
+        petChangedSession = UUID()
+    }
+
     func setRoot(to path: AppPath) {
         Task { @MainActor in
             navigationPath.removeLast(navigationPath.count)
