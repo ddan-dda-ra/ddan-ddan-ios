@@ -114,8 +114,8 @@ struct FriendCardView: View {
                 Image(.close)
                     .padding(16)
                     .onTapGesture {
-                        store.send(.setDismiss)
                         AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCloseBtn())
+                        store.send(.setDismiss)
                     }
             }
     }
