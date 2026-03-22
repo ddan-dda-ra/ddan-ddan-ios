@@ -32,6 +32,7 @@ struct SignUpSuccessView<ViewModel: SignUpViewModelProtocol>: View {
                 Spacer()
                 
                 GreenButton(action: {
+                    AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-start"))
                     Task {
                         await viewModel.login()
                         coordinator.triggerHomeUpdate(trigger: true)

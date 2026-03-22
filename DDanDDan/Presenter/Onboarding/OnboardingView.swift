@@ -48,13 +48,14 @@ struct OnboardingView: View {
                 .padding(.vertical, 19)
                 
                 Button {
+                    AnalyticsManager.shared.logEvent(event: OnboardingEvent.clickCTA())
                     if UserDefaultValue.requestAuthDone {
                         UserDefaultValue.needToShowOnboarding = false
                         coordinator.setRoot(to: .login)
                     } else {
                         showAuthDialog.toggle()
                     }
-                    
+
                 } label: {
                     Text("시작하기")
                         .font(.system(size: 16, weight: .medium))
@@ -64,6 +65,9 @@ struct OnboardingView: View {
                 }
                 .fullScreenCover(isPresented: $showAuthDialog, content: {
                     DialogView(show: $showAuthDialog, title: "건강 데이터 접근 권한을 허용해주세요", description: "서비스 이용을 위하여 건강데이터\n 접근 권한이 필요합니다.", rightButtonTitle: "허용", leftButtonTitle: "허용안함") {
+                        AnalyticsManager.shared.logEvent(event: OnboardingEvent.clickDisagreeDialogBtn())
+                    } rightButtonHandler: {
+                        AnalyticsManager.shared.logEvent(event: OnboardingEvent.clickAgreeDialogCTA())
                         HealthKitManager.shared.requestAuthorization { isEnable in
                             if isEnable {
                                 UserDefaultValue.requestAuthDone = true
@@ -74,7 +78,6 @@ struct OnboardingView: View {
                                 }
                             }
                         }
-                        
                     }
                 })
                 .background(Color.backgroundGray)

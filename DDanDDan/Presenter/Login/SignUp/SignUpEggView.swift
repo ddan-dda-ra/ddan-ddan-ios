@@ -32,13 +32,14 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
                 Spacer()
                 
                 GreenButton(action: {
+                    AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-select-pet"))
                     guard let selectedEgg = selectedEgg else { return }
                     Task {
                         if await viewModel.updatePet(petType: selectedEgg) {
                             coordinator.push(to: .success)
                         }
                     }
-                  
+
                 }, title: "다음", disabled: buttonDisabled)
                 .onChange(of: selectedEgg) { newValue in
                     buttonDisabled = selectedEgg == nil

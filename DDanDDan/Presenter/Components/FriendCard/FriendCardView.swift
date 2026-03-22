@@ -114,6 +114,7 @@ struct FriendCardView: View {
                 Image(.close)
                     .padding(16)
                     .onTapGesture {
+                        AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCloseBtn())
                         store.send(.setDismiss)
                     }
             }
@@ -196,8 +197,10 @@ struct FriendCardView: View {
             store.send(.onTapButton)
             store.send(.setDismiss)
         case .pendingInvite:
+            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickAddFriendDialogCTA())
             store.send(.onTapButton)
         case .cheer:
+            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCheerupBtn)
             store.send(.onTapButton)
             let generator = UIImpactFeedbackGenerator(style: .medium)
             generator.impactOccurred()
