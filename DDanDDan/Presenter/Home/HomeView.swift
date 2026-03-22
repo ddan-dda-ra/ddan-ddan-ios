@@ -135,6 +135,7 @@ extension HomeView {
     var randomPetGachaButton: some View {
         ZStack(alignment: .leading) {
             Button {
+                AnalyticsManager.shared.logEvent(event: HomeEvent.clickNewPetBtn)
                 viewModel.enableRandomPet ? viewModel.tapRandomGachaButton() : viewModel.showTooltipView()
             } label: {
                 viewModel.enableRandomPet ? Image(.enableRandomPetButton) : Image(.disableRandomPetButton)
@@ -201,6 +202,7 @@ extension HomeView {
                     .offset(y: viewModel.showBubble ? (viewModel.homePetModel.level > 3 ? 5 : 10.adjustedHeight) : 25)
                 petImage
                     .onTapGesture {
+                        AnalyticsManager.shared.logEvent(event: HomeEvent.clickPet)
                         viewModel.showRandomBubble(type: .normal)
                     }
             }
@@ -269,10 +271,12 @@ extension HomeView {
         HStack(spacing: 12.adjusted) {
             HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount, image: .iconFeed)
                 .onTapGesture {
+                    AnalyticsManager.shared.logEvent(event: HomeEvent.clickFeedBtn)
                     viewModel.feedPet()
                 }
             HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount, image: .iconToy)
                 .onTapGesture {
+                    AnalyticsManager.shared.logEvent(event: HomeEvent.clickPlayBtn)
                     viewModel.playWithPet()
                 }
         }

@@ -74,6 +74,7 @@ public struct SignUpTermView<ViewModel: SignUpViewModelProtocol>: View {
                     Spacer()
                     
                     GreenButton(action: {
+                        AnalyticsManager.shared.logEvent(event: SignUpEvent.clickStartCTA)
                         coordinator.push(to: .nickname)
                     }, title: "시작하기", disabled: buttonDisabled)
                     

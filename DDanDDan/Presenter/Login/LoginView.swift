@@ -22,6 +22,7 @@ struct LoginView: View {
                 Spacer()
                 
                 Button {
+                    AnalyticsManager.shared.logEvent(event: LoginEvent.clickKakaoBtn())
                     viewModel.kakaoLogin()
                 } label: {
                     Text("카카오톡으로 시작하기")
@@ -33,8 +34,8 @@ struct LoginView: View {
                 }
                 .padding(.bottom, 9)
                 Button {
+                    AnalyticsManager.shared.logEvent(event: LoginEvent.clickAppleBtn())
                     viewModel.appleLogin()
-                    
                 } label: {
                     Text("Apple로 계속하기")
                         .font(.system(size: 16, weight: .medium))

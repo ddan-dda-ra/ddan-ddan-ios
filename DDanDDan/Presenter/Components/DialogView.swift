@@ -10,6 +10,7 @@ import SwiftUI
 struct DialogView: View {
     @Binding public var show: Bool
     public let title: String, description: String, rightButtonTitle: String, leftButtonTitle: String
+    var leftButtonHandler: (() -> Void)?
     var rightButtonHandler: (() -> Void)?
     
     var body: some View {
@@ -36,6 +37,7 @@ struct DialogView: View {
                     Button {
                         withAnimation {
                             show.toggle()
+                            leftButtonHandler?()
                         }
                     } label: {
                         Text(leftButtonTitle)

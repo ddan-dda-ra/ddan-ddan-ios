@@ -22,6 +22,7 @@ struct FriendListView: View {
                         Spacer()
                         if store.hasLoadedOnce && !store.friendsList.isEmpty {
                             Button {
+                                AnalyticsManager.shared.logEvent(event: FriendsEvent.clickAddFriendBtn(state: "has-friends"))
                                 store.send(.createInviteCode)
                             } label: {
                                 Text("친구 추가")
@@ -76,6 +77,9 @@ struct FriendListView: View {
                             rightButtonTitle: "삭제하기",
                             leftButtonTitle: "취소"
                         ) {
+                            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCancelDialogCTA())
+                        } rightButtonHandler: {
+                            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickDeleteDialogCTA())
                             store.send(.confirmDelete)
                         }
                     }
@@ -95,6 +99,7 @@ struct FriendListView: View {
                 .foregroundColor(.textBodyTeritary)
                 .multilineTextAlignment(.center)
             Button {
+                AnalyticsManager.shared.logEvent(event: FriendsEvent.clickAddFriendBtn(state: "no-friends"))
                 store.send(.createInviteCode)
             } label: {
                 Text("친구 추가")
@@ -137,6 +142,7 @@ struct FriendListView: View {
             Spacer()
             
             Button {
+                AnalyticsManager.shared.logEvent(event: FriendsEvent.clickDeleteFriendBtn)
                 store.send(.showDeleteAlert(id: friend.id))
             } label: {
                 Image(.deleteIcon)
@@ -149,6 +155,7 @@ struct FriendListView: View {
         .padding(.bottom, 20)
         .padding(.horizontal, 20)
         .onTapGesture {
+            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickFriendListGroup)
             store.send(.onTapItem(friend))
         }
     }
