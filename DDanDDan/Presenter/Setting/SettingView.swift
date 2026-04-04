@@ -176,8 +176,17 @@ extension SettingView {
         private func handleAction(for item: SettingPath) {
             switch item {
             case .notification:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickPushAlarm())
                 notificationState.toggle()
-                break
+            case .petArchive:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickPetBox())
+                coordinator.push(to: item)
+            case .updateNickname:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickChangeName())
+                coordinator.push(to: item)
+            case .updateCalorie:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickChangeGoal())
+                coordinator.push(to: item)
             default:
                 coordinator.push(to: item)
             }
@@ -222,7 +231,14 @@ extension SettingView {
         private func handleAction(for item: SettingPath) {
             switch item {
             case .logout:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickLogout())
                 showLogoutDialog.toggle()
+            case .updateTerms:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickTerms(touchPoint: "mypage"))
+                coordinator.push(to: item)
+            case .deleteUser:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
+                coordinator.push(to: item)
             case .inquiry:
                 if let url = URL(string: "https://tally.so/r/Gx1GEe") {
                     UIApplication.shared.open(url)

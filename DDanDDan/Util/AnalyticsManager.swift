@@ -167,6 +167,34 @@ enum MainTabEvent: AnalyticsEvent {
     var parameter: [String: Any] { [:] }
 }
 
+// MARK: - RankingView
+
+enum RankingEvent: AnalyticsEvent {
+    case clickTab(touchPoint: String = "ranking-kcal")
+    case clickTooltip(touchPoint: String = "ranking-kcal")
+    case clickMyRanking(touchPoint: String = "ranking-kcal")
+
+    var title: String {
+        switch self {
+        case .clickTab:    return "click-tab"
+        case .clickTooltip: return "click-tooltip"
+        case .clickMyRanking:  return "click_my_ranking"
+        }
+    }
+
+    var parameter: [String: Any] {
+        switch self {
+        case .clickTab(let touchPoint):
+            return ["touchpoint": touchPoint]
+        case .clickTooltip(let touchPoint):
+            return ["touchpoint": touchPoint]
+        case .clickMyRanking(let touchPoint):
+            return ["touchpoint": touchPoint]
+        }
+    }
+}
+
+
 // MARK: - FriendsView
 
 enum FriendsEvent: AnalyticsEvent {
@@ -178,6 +206,7 @@ enum FriendsEvent: AnalyticsEvent {
     case clickCancelDialogCTA(touchpoint: String = "friend-list")
     case clickDeleteDialogCTA(touchpoint: String = "friend-list")
     case clickAddFriendDialogCTA(touchpoint: String = "friend-list")
+    case clickBackBtn(touchpoint: String = "friend-list")
 
     var title: String {
         switch self {
@@ -189,6 +218,7 @@ enum FriendsEvent: AnalyticsEvent {
         case .clickCancelDialogCTA:    return "click_cancel_dialog_CTA"
         case .clickDeleteDialogCTA:    return "click_delete_dialog_CTA"
         case .clickAddFriendDialogCTA: return "click_add_friend_dialog_CTA"
+        case .clickBackBtn:            return "click-back-btn"
         }
     }
 
@@ -210,6 +240,72 @@ enum FriendsEvent: AnalyticsEvent {
             return ["touchpoint": touchpoint]
         case let .clickAddFriendDialogCTA(touchpoint):
             return ["touchpoint": touchpoint]
+        case let .clickBackBtn(touchpoint):
+            return ["touchpoint": touchpoint]
+        }
+    }
+}
+
+enum SettingEvent: AnalyticsEvent {
+    // mypage
+    case clickPetBox(touchPoint: String = "mypage")
+    case clickChangeName(touchPoint: String = "mypage")
+    case clickChangeGoal(touchPoint: String = "mypage")
+    case clickPushAlarm(touchPoint: String = "mypage")
+    case clickTerms(touchPoint: String)
+    case clickDeleteAccount(touchPoint: String = "mypage")
+    case clickLogout(touchPoint: String = "mypage")
+    // mypage-petbox / mypage-change-name / mypage-change-goal
+    case clickSavedCTA(touchPoint: String)
+    // mypage-terms
+    case clickServiceTermBtn(touchPoint: String = "mypage-terms")
+    case clickPrivacyTermBtn(touchPoint: String = "mypage-terms")
+    // mypage-delect-account
+    case clickCTABtn(touchPoint: String = "mypage-delect-account")
+    case clickCheckboxReason(touchPoint: String = "mypage-delect-account")
+    // mypage-change-goal
+    case clickMinusBtn(touchPoint: String = "mypage-change-goal")
+    case clickPlusBtn(touchPoint: String = "mypage-change-goal")
+    // shared back button (mypage-petbox / mypage-terms / mypage-delect-account)
+    case clickBackBtn(touchpoint: String)
+
+    var title: String {
+        switch self {
+        case .clickPetBox:         return "click-petbox"
+        case .clickChangeName:     return "click-change-name"
+        case .clickChangeGoal:     return "click-change-goal"
+        case .clickPushAlarm:      return "click-push-alarm"
+        case .clickTerms:          return "click-terms"
+        case .clickDeleteAccount:  return "click-delete-account"
+        case .clickLogout:         return "click-logout"
+        case .clickSavedCTA:       return "click-saved-cta"
+        case .clickServiceTermBtn: return "click-service-terms-btn"
+        case .clickPrivacyTermBtn: return "click-privacy-terms-btn"
+        case .clickCTABtn:         return "click-CTA-btn"
+        case .clickCheckboxReason: return "click-checkbox-reason"
+        case .clickMinusBtn:       return "click-minus-btn"
+        case .clickPlusBtn:        return "click-plus-btn"
+        case .clickBackBtn:        return "click-back-btn"
+        }
+    }
+
+    var parameter: [String: Any] {
+        switch self {
+        case let .clickPetBox(touchPoint):         return ["touchpoint": touchPoint]
+        case let .clickChangeName(touchPoint):     return ["touchpoint": touchPoint]
+        case let .clickChangeGoal(touchPoint):     return ["touchpoint": touchPoint]
+        case let .clickPushAlarm(touchPoint):      return ["touchpoint": touchPoint]
+        case let .clickTerms(touchPoint):          return ["touchpoint": touchPoint]
+        case let .clickDeleteAccount(touchPoint):  return ["touchpoint": touchPoint]
+        case let .clickLogout(touchPoint):         return ["touchpoint": touchPoint]
+        case let .clickSavedCTA(touchPoint):       return ["touchpoint": touchPoint]
+        case let .clickServiceTermBtn(touchPoint): return ["touchpoint": touchPoint]
+        case let .clickPrivacyTermBtn(touchPoint): return ["touchpoint": touchPoint]
+        case let .clickCTABtn(touchPoint):         return ["touchpoint": touchPoint]
+        case let .clickCheckboxReason(touchPoint): return ["touchpoint": touchPoint]
+        case let .clickMinusBtn(touchPoint):       return ["touchpoint": touchPoint]
+        case let .clickPlusBtn(touchPoint):        return ["touchpoint": touchPoint]
+        case let .clickBackBtn(touchpoint):        return ["touchpoint": touchpoint]
         }
     }
 }

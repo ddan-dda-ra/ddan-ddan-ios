@@ -47,6 +47,7 @@ struct UpdateNicknameView: View {
                     Spacer()
                     
                     GreenButton(action: {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickSavedCTA(touchPoint: "mypage-change-name"))
                         viewStore.send(.requestUpdate)
                     }, title: "변경 완료", disabled: viewStore.buttonDisabled)
                     .onChange(of: viewStore.calorieUpdated) { updateSuccess in
