@@ -171,18 +171,16 @@ extension AppDelegate: ChottuLinkDelegate {
         let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let url = URL(string: trimmed),
               let host = url.host,
-              host.hasSuffix(allowedHostSuffix) else { return nil }
-        
-        var path = url.path
-        while path.last == "/" { path.removeLast() }
-        guard !path.isEmpty else { return nil }
-        
-        let rawCode = (path as NSString).lastPathComponent
+              host.hasSuffix(allowedHostSuffix),
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let rawCode = components.queryItems?.first(where: { $0.name == "code" })?.value,
+              !rawCode.isEmpty else { return nil }
+
         let code = rawCode.removingPercentEncoding ?? rawCode
-        
-        let pattern = #"^[A-Za-z0-9_-]{4,64}$"#
-        if code.range(of: pattern, options: .regularExpression) == nil { return nil }
-        
+
+        let pattern = #"^[A-Za-z0-9]{4,64}$"#
+        guard code.range(of: pattern, options: .regularExpression) != nil else { return nil }
+
         return code
     }
     

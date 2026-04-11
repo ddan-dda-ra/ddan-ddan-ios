@@ -42,28 +42,28 @@ struct InviteLinkBuilder {
     
     /// 서버에서 받은 친구 코드로 초대 링크 생성
     func makeInviteURL(friendCode: String) async -> URL? {
-        guard !friendCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return nil
-        }
-        
+        let trimmed = friendCode.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+
+        var components = URLComponents(url: baseInviteURL, resolvingAgainstBaseURL: false)
+        components?.queryItems = [URLQueryItem(name: "code", value: trimmed)]
+        guard let destination = components?.url?.absoluteString else { return nil }
+
         let builder = CLDynamicLinkBuilder(
-            destinationURL: baseInviteURL.absoluteString,
+            destinationURL: destination,
             domain: "ddanddan.chottu.link"
         )
             .setIOSBehaviour(.app)
-            .setAndroidBehaviour(.browser)
+            .setAndroidBehaviour(.app)
             .setLinkName("friend-invite")
-            .setSelectedPath(friendCode)
             .build()
-        
+
         do {
             let shortURL = try await ChottuLink.createDynamicLink(for: builder)
             print("✅ Created link: \(shortURL)")
             return URL(string: shortURL ?? "")
-            // Share the link with your users
         } catch {
             print("❌ Failed to create link: \(error)")
-            // Handle the error appropriately
             return nil
         }
     }
