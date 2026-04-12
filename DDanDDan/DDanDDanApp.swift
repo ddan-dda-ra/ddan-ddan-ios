@@ -149,15 +149,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 extension AppDelegate: ChottuLinkDelegate {
     func chottuLink(didResolveDeepLink link: URL, metadata: [String : Any]?) {
-        if let metadata = metadata {
-            print("📦 Metadata: \(metadata)")
-            let originURL = metadata["originalURL"] as? String
-            if let originURL = originURL {
-                if let code = extractChottuInviteCode(from: originURL) {
-                    DispatchQueue.main.async {
-                        DeepLinkManager.shared.handleFriendInvite(code: code)
-                    }
-                }
+        let code: String? = {
+            if let originalURL = metadata?["originalURL"] as? String,
+               let extracted = extractChottuInviteCode(from: originalURL) {
+                return extracted
+            }
+            return extractChottuInviteCode(from: link.absoluteString)
+        }()
+
+        if let code {
+            DispatchQueue.main.async {
+                DeepLinkManager.shared.handleFriendInvite(code: code)
             }
         }
     }
