@@ -438,7 +438,9 @@ final class HomeViewModel: ObservableObject {
     /// token 패턴으로 이전 timer가 새 노출을 종료하지 않도록 보호.
     @MainActor
     func showCalorieTooltipMessage() {
-        showCalorieTooltip = true
+        withAnimation(.easeInOut(duration: 0.3)) {
+            showCalorieTooltip = true
+        }
 
         let token = UUID()
         calorieTooltipToken = token
