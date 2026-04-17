@@ -88,10 +88,12 @@ class HealthKitManager: ObservableObject {
 
     
     /// 오늘 하루 활성 에너지 합계를 읽는다. callback은 (kcal, 권한 허용 여부).
-    /// 권한 거부 추론은 다음 3신호의 OR로 판단:
-    ///  - HKError.errorAuthorizationDenied (read 권한에서는 거의 발생 안 함)
-    ///  - HKError.errorNoData (read 권한 거부 시 실제로 발생하는 코드)
-    ///  - authorizationStatus == .sharingDenied
+    /// 권한 추론 우선순위:
+    ///  1. 데이터가 실제로 들어왔으면(kcal > 0) 권한이 있다는 가장 강한 증거 → true.
+    ///  2. 데이터가 없을 때만 아래 3신호의 OR로 판단:
+    ///     - HKError.errorAuthorizationDenied (read 권한에서는 거의 발생 안 함)
+    ///     - HKError.errorNoData (read 권한 거부 시 실제로 발생하는 코드)
+    ///     - authorizationStatus == .sharingDenied
     /// 첫날 운동 0인 사용자도 errorNoData가 와서 false positive가 날 수 있으나,
     /// 안내 툴팁 노출이라 사용자 영향은 제한적.
     func readActiveEnergyBurned(completion: @escaping (Double, Bool) -> Void) {
