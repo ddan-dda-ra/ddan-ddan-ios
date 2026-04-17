@@ -72,7 +72,7 @@ struct OnboardingView: View {
                             if isEnable {
                                 UserDefaultValue.requestAuthDone = true
                                 showSignup.toggle()
-                                HealthKitManager.shared.readActiveEnergyBurned { energy in
+                                HealthKitManager.shared.readActiveEnergyBurned { energy, _ in
                                     print(energy)
                                     coordinator.setRoot(to: .login)
                                 }
