@@ -62,6 +62,7 @@ final class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var calorieTooltipToken: UUID?
     private var didAutoShowCalorieTooltip = false
+    private var hasSeenHealthKitAuthorized = false
     
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
@@ -250,12 +251,21 @@ final class HomeViewModel: ObservableObject {
         healthKitManager.observeActiveEnergyBurned { [weak self] newKcal, authorized in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.isHealthKitAuthorized = authorized
+                // 한 번이라도 허용이 관측되면 세션 내에서 유지(sticky).
+                // read 권한 데이터가 일시적으로 비는 구간에서도 권한 상태가 false로
+                // 되돌아가 i 아이콘이 깜빡이는 UI 플리커를 방지한다.
+                if authorized {
+                    self.hasSeenHealthKitAuthorized = true
+                    self.isHealthKitAuthorized = true
+                } else if !self.hasSeenHealthKitAuthorized {
+                    self.isHealthKitAuthorized = false
+                }
+
                 self.currentKcal = Int(newKcal)
                 self.handleKcalUpdate(newKcal: Int(newKcal))
 
                 // i 아이콘이 뜨는 케이스(권한 없음)에 한해, 최초 판단 시 1회 자동 노출
-                if !authorized && !self.didAutoShowCalorieTooltip {
+                if !self.isHealthKitAuthorized && !self.didAutoShowCalorieTooltip {
                     self.didAutoShowCalorieTooltip = true
                     self.showCalorieTooltipMessage()
                 }

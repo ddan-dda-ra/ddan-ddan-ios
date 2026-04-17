@@ -14,6 +14,7 @@ class HealthKitManager: ObservableObject {
     
     private var healthStore: HKHealthStore?
     private let energyBurnedType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+    private var activeObserverQuery: HKObserverQuery?
     
     private init() {
         if HKHealthStore.isHealthDataAvailable() {
@@ -45,24 +46,33 @@ class HealthKitManager: ObservableObject {
         }
     }
     
-    /// 활성 에너지 변화를 관찰. callback은 (현재 칼로리, HealthKit 권한 허용 여부) 를 함께 전달한다.
-    /// 권한 여부는 내부 read 쿼리의 `HKError.errorAuthorizationDenied` 발생 여부로 추론한다.
-    /// (read 권한 거부 시에도 에러 없이 빈 결과만 오는 케이스가 있어 모든 거부를 잡지는 못함)
+    /// 활성 에너지 변화를 관찰. callback은 (현재 칼로리, HealthKit 권한 허용 여부)를 함께 전달한다.
+    /// 중복 호출 시 기존 ObserverQuery를 정리 후 재등록하여 중복 등록을 방지한다.
     func observeActiveEnergyBurned(completion: @escaping (Double, Bool) -> Void) {
         guard let healthStore = healthStore else {
             completion(0, false)
             return
         }
 
+        // 기존 observer가 있으면 정리 (중복 등록 방지)
+        if let existing = activeObserverQuery {
+            healthStore.stop(existing)
+            activeObserverQuery = nil
+        }
+
         // 등록 시점에 한 번 즉시 read를 호출해 권한 상태와 현재 칼로리를 갱신한다.
         // (HKObserverQuery는 데이터 변경이 없으면 callback이 안 올 수 있음)
         readAndReport(completion: completion)
 
-        let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { _, _, error in
+        // HKObserverQuery의 completionHandler는 반드시 호출해야 한다.
+        // 미호출 시 iOS가 백그라운드 전달 재시도(3회) 후 업데이트 전달을 중단한다.
+        let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { [weak self] _, completionHandler, error in
+            defer { completionHandler() }
             guard error == nil else { return }
-            self.readAndReport(completion: completion)
+            self?.readAndReport(completion: completion)
         }
 
+        activeObserverQuery = query
         healthStore.execute(query)
         Task {
             await enableBackgroundMode()
@@ -71,7 +81,11 @@ class HealthKitManager: ObservableObject {
 
     private func readAndReport(completion: @escaping (Double, Bool) -> Void) {
         readActiveEnergyBurned { [weak self] kcal, authorized in
-            self?.saveActivityData(energy: kcal)
+            // 권한이 확인됐거나 유의미한 데이터가 있을 때만 App Group에 저장.
+            // 권한 없거나 일시적으로 데이터가 비는 경우 0으로 덮어쓰지 않도록 방어.
+            if authorized || kcal > 0 {
+                self?.saveActivityData(energy: kcal)
+            }
             completion(kcal, authorized)
         }
     }
@@ -90,11 +104,13 @@ class HealthKitManager: ObservableObject {
     /// 오늘 하루 활성 에너지 합계를 읽는다. callback은 (kcal, 권한 허용 여부).
     /// 권한 추론 우선순위:
     ///  1. 데이터가 실제로 들어왔으면(kcal > 0) 권한이 있다는 가장 강한 증거 → true.
-    ///  2. 데이터가 없을 때만 아래 3신호의 OR로 판단:
+    ///  2. 데이터가 없을 때만 HKError 기반으로 판단:
     ///     - HKError.errorAuthorizationDenied (read 권한에서는 거의 발생 안 함)
     ///     - HKError.errorNoData (read 권한 거부 시 실제로 발생하는 코드)
-    ///     - authorizationStatus == .sharingDenied
-    /// 첫날 운동 0인 사용자도 errorNoData가 와서 false positive가 날 수 있으나,
+    /// NOTE: `authorizationStatus`는 write 권한 기준이라 read-only 요청 시
+    /// 허용한 사용자에게도 `.sharingDenied`로 보이는 Apple 의도된 동작이 있어
+    /// read 권한 추론에서는 사용하지 않는다.
+    /// 첫날 운동 0인 사용자는 errorNoData로 인해 false positive가 날 수 있으나,
     /// 안내 툴팁 노출이라 사용자 영향은 제한적.
     func readActiveEnergyBurned(completion: @escaping (Double, Bool) -> Void) {
         guard let healthStore = healthStore else {
@@ -106,8 +122,6 @@ class HealthKitManager: ObservableObject {
         let startOfDay = Calendar.current.startOfDay(for: now)
 
         let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
-
-        let statusDenied = healthStore.authorizationStatus(for: energyBurnedType) == .sharingDenied
 
         let query = HKStatisticsQuery(quantityType: energyBurnedType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
             var resultCount = 0.0
@@ -129,12 +143,12 @@ class HealthKitManager: ObservableObject {
             }
 
             // 데이터가 들어왔으면 권한이 있다는 가장 강한 증거 → 다른 신호 무시.
-            // 데이터가 없을 때만 거부 신호(에러 코드 / sharingDenied)로 판단.
+            // 데이터가 없을 때만 errorDenied로 판단.
             let authorized: Bool
             if resultCount > 0 {
                 authorized = true
             } else {
-                authorized = !(statusDenied || errorDenied)
+                authorized = !errorDenied
             }
 
             DispatchQueue.main.async {
