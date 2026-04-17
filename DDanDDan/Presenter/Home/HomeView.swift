@@ -43,6 +43,7 @@ struct HomeView: View {
                 
                 kcalView
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
+                    .zIndex(11)
                 petBackgroundView
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
@@ -177,6 +178,28 @@ extension HomeView {
             Text("\(viewModel.homePetModel.goalKcal) kcal")
                 .font(.neoDunggeunmo22)
                 .foregroundStyle(.textHeadlinePrimary)
+
+            if !viewModel.isHealthKitAuthorized {
+                Button {
+                    viewModel.showCalorieTooltipMessage()
+                } label: {
+                    Image(.iconSystemFill)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+                .padding(.leading, 4)
+                .alignmentGuide(.lastTextBaseline) { d in d[.bottom] - 5 }
+                .overlay(alignment: .top) {
+                    if viewModel.showCalorieTooltip {
+                        TooltipView(
+                            textString: "건강 데이터를 허용하면\n칼로리를 측정할 수 있어요",
+                            alignment: .center
+                        )
+                        .fixedSize(horizontal: true, vertical: true)
+                        .offset(y: 30)
+                    }
+                }
+            }
         }
         .frame(height: 52.adjusted)
     }

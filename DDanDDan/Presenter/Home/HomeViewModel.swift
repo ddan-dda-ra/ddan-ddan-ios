@@ -49,7 +49,8 @@ final class HomeViewModel: ObservableObject {
     @Published var toastMessage: String = ""
     
     @Published var showToolTipView: Bool = false
-    
+    @Published var showCalorieTooltip: Bool = false
+
     @Published var enableRandomPet: Bool = false
     @Published var showRandomPetGuide: Bool = false
     @Published var showRandomGachaView: Bool = false
@@ -59,6 +60,8 @@ final class HomeViewModel: ObservableObject {
     private var petId = ""
     private var previousKcal: Int = 0
     private var cancellables = Set<AnyCancellable>()
+    private var calorieTooltipToken: UUID?
+    private var didAutoShowCalorieTooltip = false
     
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
@@ -244,11 +247,18 @@ final class HomeViewModel: ObservableObject {
     // MARK: - HealthKit
     
     private func observeHealthKitData() {
-        healthKitManager.observeActiveEnergyBurned { [weak self] newKcal in
+        healthKitManager.observeActiveEnergyBurned { [weak self] newKcal, authorized in
             guard let self = self else { return }
             DispatchQueue.main.async {
+                self.isHealthKitAuthorized = authorized
                 self.currentKcal = Int(newKcal)
                 self.handleKcalUpdate(newKcal: Int(newKcal))
+
+                // i 아이콘이 뜨는 케이스(권한 없음)에 한해, 최초 판단 시 1회 자동 노출
+                if !authorized && !self.didAutoShowCalorieTooltip {
+                    self.didAutoShowCalorieTooltip = true
+                    self.showCalorieTooltipMessage()
+                }
             }
         }
     }
@@ -302,7 +312,8 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    /// HealthKit 권한 확인 및 요청
+    /// HealthKit 권한 확인 및 요청 (앱 첫 진입 시 다이얼로그 트리거 용도).
+    /// 실제 권한 상태(isHealthKitAuthorized)는 observeActiveEnergyBurned 콜백에서 갱신된다.
     private func checkHealthKitAuthorization() {
         if !healthKitManager.isAuthorized() {
             healthKitManager.requestAuthorization { _ in }
@@ -410,6 +421,25 @@ final class HomeViewModel: ObservableObject {
     @MainActor
     func showTooltipView() {
         showToolTipView.toggle()
+    }
+
+    /// 칼로리 안내 툴팁을 노출하고 2.5초 후 자동으로 닫는다.
+    /// 노출 중 다시 호출되면 timer가 리셋되어 다시 2.5초 카운트.
+    /// token 패턴으로 이전 timer가 새 노출을 종료하지 않도록 보호.
+    @MainActor
+    func showCalorieTooltipMessage() {
+        showCalorieTooltip = true
+
+        let token = UUID()
+        calorieTooltipToken = token
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+            guard let self, self.calorieTooltipToken == token else { return }
+            withAnimation(.easeInOut(duration: 0.3)) {
+                self.showCalorieTooltip = false
+            }
+            self.calorieTooltipToken = nil
+        }
     }
     
     
