@@ -187,6 +187,8 @@ extension HomeView {
                         .resizable()
                         .frame(width: 24, height: 24)
                 }
+                .accessibilityLabel("건강 데이터 권한 안내")
+                .accessibilityHint("탭하면 칼로리 측정 관련 안내가 표시됩니다")
                 .padding(.leading, 4)
                 .alignmentGuide(.lastTextBaseline) { d in d[.bottom] - 5 }
                 .overlay(alignment: .top) {
