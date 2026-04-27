@@ -53,6 +53,9 @@ public struct UserDefaultValue {
     @UserDefault(key: "isFirstRandomTicket", defaultValue: true)
     static public var isFirstRandomTicket: Bool
 
+    @UserDefault(key: "isFirstHomeCoachMarkShown", defaultValue: true)
+    static public var isFirstHomeCoachMarkShown: Bool
+
     // 강제 업데이트 캐시
     @UserDefault(key: "cachedMinimumVersion", defaultValue: nil)
     static public var cachedMinimumVersion: String?
