@@ -126,15 +126,19 @@ enum HomeEvent: AnalyticsEvent {
     case clickPlayBtn
     case clickCancelBtn(path: String = "select-egg")
     case clickBtn(path: String = "select-egg")
+    case clickFeedCoachMarkNext
+    case clickPlayCoachMarkStart
 
     var title: String {
         switch self {
-        case .clickNewPetBtn: return "click_new_pet_btn"
-        case .clickPet:       return "click_pet"
-        case .clickFeedBtn:   return "click_feed_btn"
-        case .clickPlayBtn:   return "click_play_btn"
-        case .clickCancelBtn: return "click_cancel_btn"
-        case .clickBtn:       return "click_btn"
+        case .clickNewPetBtn:          return "click_new_pet_btn"
+        case .clickPet:                return "click_pet"
+        case .clickFeedBtn:            return "click_feed_btn"
+        case .clickPlayBtn:            return "click_play_btn"
+        case .clickCancelBtn:          return "click_cancel_btn"
+        case .clickBtn:                return "click_btn"
+        case .clickFeedCoachMarkNext:  return "click_feed_coachmark_next"
+        case .clickPlayCoachMarkStart: return "click_play_coachmark_start"
         }
     }
 

@@ -54,6 +54,10 @@ final class HomeViewModel: ObservableObject {
     @Published var enableRandomPet: Bool = false
     @Published var showRandomPetGuide: Bool = false
     @Published var showRandomGachaView: Bool = false
+
+    /// 홈 진입 코치마크 (먹이주기 → 놀아주기 순서)
+    @Published var showFeedCoachMark: Bool = false
+    @Published var showPlayCoachMark: Bool = false
     
     let homeRepository: HomeRepositoryProtocol
     
@@ -356,15 +360,46 @@ final class HomeViewModel: ObservableObject {
         withAnimation {
             enableRandomPet = true
         }
-        
+
         // 최대 레벨에서 돌아올 때 체크
         if UserDefaultValue.isFirstRandomTicket {
             UserDefaultValue.isFirstRandomTicket = false
-            
+
            // 첫 랜덤 가챠일 경우 표출
             withAnimation(.easeInOut(duration: 0.6)) {
                 showRandomPetGuide = true
             }
+        }
+    }
+
+    /// 홈 진입 시 신규 사용자에게 먹이/놀이 코치마크 시작.
+    /// 가챠 코치마크와 동시 노출되지 않도록 가드.
+    @MainActor
+    func startHomeCoachMarkIfNeeded() {
+        guard UserDefaultValue.isFirstHomeCoachMarkShown else { return }
+        guard !showRandomPetGuide else { return }
+        UserDefaultValue.isFirstHomeCoachMarkShown = false
+        withAnimation(.easeInOut(duration: 0.6)) {
+            showFeedCoachMark = true
+        }
+    }
+
+    /// "다음" → 먹이 코치마크 닫고 놀이 코치마크 노출
+    @MainActor
+    func tapFeedCoachMarkNext() {
+        AnalyticsManager.shared.logEvent(event: HomeEvent.clickFeedCoachMarkNext)
+        withAnimation(.easeInOut(duration: 0.6)) {
+            showFeedCoachMark = false
+            showPlayCoachMark = true
+        }
+    }
+
+    /// "시작하기" → 놀이 코치마크 닫기. 추가 동작 없음.
+    @MainActor
+    func tapPlayCoachMarkStart() {
+        AnalyticsManager.shared.logEvent(event: HomeEvent.clickPlayCoachMarkStart)
+        withAnimation(.easeInOut(duration: 0.6)) {
+            showPlayCoachMark = false
         }
     }
     
