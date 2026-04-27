@@ -20,7 +20,16 @@ ddan-ddan-ios 프로젝트의 모든 코드 변경 작업을 3인 에이전트 �
 
 1. `_workspace/` 디렉토리 존재 여부 확인.
 2. **존재 + 사용자가 같은 작업의 부분 수정 요청** ("리뷰어 의견 반영해서 다시", "X 부분만 다시"):
-   → **부분 재실행 모드.** 해당 에이전트만 다시 호출. 기존 산출물 유지.
+   → **부분 재실행 모드 (보수 조건부).**
+   - 변경이 다음 "계약(contract)" 영역에 영향을 주지 않으면 해당 에이전트만 재호출, 기존 산출물 유지.
+   - **계약 변경 시 architect도 함께 재실행 (최소 Phase 1 재평가):**
+     - DI / `RepositoryDependency` 등록 추가·삭제·이름 변경
+     - `AppCoordinator` 라우팅 / `*Path` enum / 화면 등록 / 딥링크 핸들링
+     - HealthKit / WatchConnectivity 권한·세션 상태·동시성 계약
+     - watchOS ↔ iOS 메시지 키·App Group 키
+     - TCA Reducer State 형태 (Equatable 깨짐) / Reducer ↔ ViewModel 전환
+     - 네트워크 endpoint contract (`PathString` 추가/변경)
+   - 위 영역과 무관한 "텍스트 카피 수정", "스타일 미세조정", "이벤트명 오타", "주석/문서 보강" 등은 부분 재실행으로 안전.
 3. **존재 + 사용자가 새 입력 제공** (다른 기능 요청):
    → 기존 `_workspace/`를 `_workspace_prev/`로 이동, 새 디렉토리 생성, **초기 실행**.
 4. **미존재**: `_workspace/` 생성 후 **초기 실행**.
