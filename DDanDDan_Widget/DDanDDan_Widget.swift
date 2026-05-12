@@ -7,6 +7,44 @@
 
 import WidgetKit
 import SwiftUI
+import CryptoKit
+
+/// App Group(`group.com.DdanDdan`) 의 카탈로그 JSON + 캐시 디렉토리에서 다운로드된 펫 이미지를 읽어온다.
+/// 없거나 실패 시 nil — 위젯은 번들 ImageResource 로 폴백.
+private func cachedWidgetPetImage(type: PetType, level: Int) -> UIImage? {
+    let groupID = "group.com.DdanDdan"
+    guard let userDefaults = UserDefaults(suiteName: groupID),
+          let json = userDefaults.data(forKey: "petCatalogJSON") else {
+        return nil
+    }
+
+    struct MinimalCatalog: Decodable {
+        struct Item: Decodable {
+            let type: String
+            let levels: [String: Level]
+        }
+        struct Level: Decodable {
+            let imageUrl: String
+        }
+        let pets: [Item]
+    }
+
+    guard let catalog = try? JSONDecoder().decode(MinimalCatalog.self, from: json),
+          let item = catalog.pets.first(where: { $0.type == type.rawValue }),
+          let urlString = item.levels[String(level)]?.imageUrl,
+          let url = URL(string: urlString),
+          let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) else {
+        return nil
+    }
+
+    let filename = SHA256.hash(data: Data(url.absoluteString.utf8))
+        .map { String(format: "%02x", $0) }
+        .joined()
+    let diskURL = container.appendingPathComponent("pet-assets").appendingPathComponent(filename)
+    guard let data = try? Data(contentsOf: diskURL) else { return nil }
+    return UIImage(data: data)
+}
+
 struct ActivityEntry: TimelineEntry {
     let date: Date
     let activeEnergy: Int
@@ -79,7 +117,7 @@ struct DDanDDan_WidgetEntryView : View {
                     kcalView
                     Spacer()
                 }
-                Image(PetType(rawValue:activityEntry.petType)?.image(for: activityEntry.petLevel) ?? .blueEgg)
+                petImage(for: activityEntry)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 64, height: 64)
@@ -96,6 +134,15 @@ struct DDanDDan_WidgetEntryView : View {
 
     }
     
+    private func petImage(for entry: ActivityEntry) -> Image {
+        let petType = PetType(rawValue: entry.petType)
+        if let type = petType,
+           let cached = cachedWidgetPetImage(type: type, level: entry.petLevel) {
+            return Image(uiImage: cached)
+        }
+        return Image(petType?.image(for: entry.petLevel) ?? .blueEgg)
+    }
+
     var kcalView: some View {
         ZStack {
             HStack(alignment: .firstTextBaseline, spacing: 2) {
