@@ -38,10 +38,18 @@ struct ContentView: View {
     }
     
     var imageView: some View {
-        Image(viewModel.viewConfig?.0 ?? .blueEgg)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 100, height: 100) 
+        Group {
+            if let cached = viewModel.cachedPetImage {
+                Image(uiImage: cached)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Image(viewModel.viewConfig?.0 ?? .blueEgg)
+                    .resizable()
+                    .scaledToFit()
+            }
+        }
+        .frame(width: 100, height: 100)
     }
     
     var body: some View {
