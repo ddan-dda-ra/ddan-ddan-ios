@@ -27,6 +27,8 @@ struct DDanDDanApp: App {
     
     init() {
         KakaoSDK.initSDK(appKey: Config.kakaoKey)
+        // T1) 콜드 스타트 시 펫 카탈로그 sync (fire-and-forget). TTL/dedup 는 Repository 내부.
+        Task { try? await PetCatalogRepository.liveValue.syncIfNeeded() }
     }
     
     var body: some Scene {
@@ -193,6 +195,8 @@ struct ContentView: View {
     @EnvironmentObject var coordinator: AppCoordinator
     @EnvironmentObject var user: UserManager
     @State private var mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
+    // T3) 포어그라운드 복귀 트리거. TTL 게이트는 Repository 내부에서 흡수.
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         user.coordinator = coordinator
@@ -213,6 +217,12 @@ struct ContentView: View {
         .onChange(of: coordinator.rootView) { newValue in
             if newValue == .mainTab {
                 mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
+            }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            // .active 진입 시 펫 카탈로그 sync. 6h TTL 미만이면 Repository 가 캐시 반환으로 no-op.
+            if newPhase == .active {
+                Task { try? await PetCatalogRepository.liveValue.syncIfNeeded() }
             }
         }
     }

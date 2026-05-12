@@ -62,6 +62,8 @@ public class LoginViewModel: NSObject, ObservableObject {
             switch result {
             case .success(let loginData):
                 await UserManager.shared.login(loginData: loginData)
+                // T2) 로그인 직후 펫 카탈로그 force sync (fire-and-forget). 라우팅 차단 없음.
+                Task { try? await PetCatalogRepository.liveValue.syncIfNeeded(force: true) }
                 DispatchQueue.main.async { [weak self] in
                     self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {
