@@ -170,11 +170,13 @@ extension RankContentsView {
                 Circle()
                     .fill(rank.mainPetType.color)
                     .frame(width: 48, height: 48)
-                Image(rank.mainPetType.image(for: rank.petLevel))
-                    .resizable()
-                    .frame(width: 38, height: 38)
-                    .offset(y: rank.petLevel > 3 ? 0 : -3)
-                    .padding(3)
+                PetImageView(
+                    type: rank.mainPetType,
+                    level: rank.petLevel,
+                    size: CGSize(width: 38, height: 38)
+                )
+                .offset(y: rank.petLevel > 3 ? 0 : -3)
+                .padding(3)
             }
             .padding(.trailing, 12)
             
@@ -232,10 +234,12 @@ extension RankContentsView {
                         Circle()
                             .fill(myRanking?.mainPetType.color ?? .blueGraphics)
                             .frame(width: 48, height: 48)
-                        Image(myRanking?.mainPetType.image(for: myRanking?.petLevel ?? 0) ?? .blueEgg)
-                            .resizable()
-                            .frame(width: 42, height: 42)
-                            .offset(y: -3)
+                        PetImageView(
+                            type: myRanking?.mainPetType ?? .bluePenguin,
+                            level: myRanking?.petLevel ?? 1,
+                            size: CGSize(width: 42, height: 42)
+                        )
+                        .offset(y: -3)
                     }
                     .padding(.trailing, 12)
                     
@@ -293,10 +297,12 @@ struct RankCard: View {
     var body: some View {
         ZStack {
             VStack {
-                Image(ranking.mainPetType.image(for: ranking.petLevel))
-                    .resizable()
-                    .frame(width: 64, height: 64)
-                    .padding(.bottom, 10)
+                PetImageView(
+                    type: ranking.mainPetType,
+                    level: ranking.petLevel,
+                    size: CGSize(width: 64, height: 64)
+                )
+                .padding(.bottom, 10)
                 VStack {
                     Text(ranking.userName)
                         .font(.body2_regular14)
