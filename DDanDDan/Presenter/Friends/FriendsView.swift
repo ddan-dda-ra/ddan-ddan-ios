@@ -128,10 +128,12 @@ struct FriendListView: View {
                 Circle()
                     .fill(friend.mainPetType.color)
                     .frame(width: 48, height: 48)
-                Image(friend.mainPetType.image(for: friend.petLevel))
-                    .resizable()
-                    .frame(width: 38, height: 38)
-                    .padding(3)
+                PetImageView(
+                    type: friend.mainPetType,
+                    level: friend.petLevel,
+                    size: CGSize(width: 38, height: 38)
+                )
+                .padding(3)
             }
             .padding(.trailing, 12)
             
@@ -172,10 +174,12 @@ struct FriendListView: View {
                     Circle()
                         .fill(store.myProfilePet.petType.color)
                         .frame(width: 48, height: 48)
-                    Image(store.myProfilePet.petType.image(for: store.myProfilePet.level))
-                        .resizable()
-                        .frame(width: 42, height: 42)
-                        .offset(y: -3)
+                    PetImageView(
+                        type: store.myProfilePet.petType,
+                        level: store.myProfilePet.level,
+                        size: CGSize(width: 42, height: 42)
+                    )
+                    .offset(y: -3)
                 }
                 .padding(.trailing, 12)
                 
