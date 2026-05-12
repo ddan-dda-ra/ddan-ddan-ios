@@ -153,7 +153,9 @@
 		36F6E8212CEE7DE000B395FB /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E8202CEE7DE000B395FB /* CheckButton.swift */; };
 		36F6E8232CEE8F0B00B395FB /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F6E8222CEE8F0B00B395FB /* String+.swift */; };
 		5416D1439ADD5D43B7518D46 /* PetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFABC97C4956364FC9830AC /* PetCatalog.swift */; };
+		89231B8EB906A4F93EB1B741 /* PetCatalogRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D18791ED1B8229F0B20590 /* PetCatalogRepository.swift */; };
 		A3529FFED7C1CE5D42C40DD0 /* PetAssetCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430817BD29DFEF1965C8A57F /* PetAssetCache.swift */; };
+		B971C715158ECDA6DEC8C3EC /* PetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031CEB03B7B20E51DB83D877 /* PetImageView.swift */; };
 		C9D8EED051CEED09043E7CC9 /* PetCatalogNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB19BFBC4C7C19017EC9D8F6 /* PetCatalogNetwork.swift */; };
 		F809E2FA2CBD05F5001BE099 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809E2F92CBD05F5001BE099 /* UserData.swift */; };
 		F809E2FC2CBD06A1001BE099 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809E2FB2CBD06A1001BE099 /* UserManager.swift */; };
@@ -310,6 +312,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		031CEB03B7B20E51DB83D877 /* PetImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PetImageView.swift; sourceTree = "<group>"; };
 		0CFABC97C4956364FC9830AC /* PetCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PetCatalog.swift; sourceTree = "<group>"; };
 		36022B722CCAA04000D360C0 /* HomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
 		360E6B352CEBC5F10059661E /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -449,6 +452,7 @@
 		36F6E8202CEE7DE000B395FB /* CheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckButton.swift; sourceTree = "<group>"; };
 		36F6E8222CEE8F0B00B395FB /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		430817BD29DFEF1965C8A57F /* PetAssetCache.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PetAssetCache.swift; sourceTree = "<group>"; };
+		E7D18791ED1B8229F0B20590 /* PetCatalogRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PetCatalogRepository.swift; sourceTree = "<group>"; };
 		EB19BFBC4C7C19017EC9D8F6 /* PetCatalogNetwork.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PetCatalogNetwork.swift; sourceTree = "<group>"; };
 		F809E2F92CBD05F5001BE099 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		F809E2FB2CBD06A1001BE099 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -787,6 +791,7 @@
 				369F16F42D8707E50039ED3A /* RankRepository.swift */,
 				36BC7D062E82EA7D002B1ED5 /* FriendRepository.swift */,
 				F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */,
+				E7D18791ED1B8229F0B20590 /* PetCatalogRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -958,6 +963,7 @@
 				369F16F82D99A3850039ED3A /* CustomScrollView.swift */,
 				36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */,
 				36CAE0E32E6B160900B81039 /* ButtonStyles.swift */,
+				031CEB03B7B20E51DB83D877 /* PetImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1707,6 +1713,8 @@
 				5416D1439ADD5D43B7518D46 /* PetCatalog.swift in Sources */,
 				C9D8EED051CEED09043E7CC9 /* PetCatalogNetwork.swift in Sources */,
 				A3529FFED7C1CE5D42C40DD0 /* PetAssetCache.swift in Sources */,
+				89231B8EB906A4F93EB1B741 /* PetCatalogRepository.swift in Sources */,
+				B971C715158ECDA6DEC8C3EC /* PetImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -64,10 +64,12 @@ struct LevelUpView: View {
     var imageView: some View {
         ZStack {
             Image(.pangGraphics)
-            Image(petType.image(for: level))
-                .resizable()
-                .frame(width: 96, height: 96)
-                .aspectRatio(contentMode: .fill)
+            // 카탈로그 기반 비동기 펫 이미지. size 명시로 frame 책임을 PetImageView 내부로 이동.
+            PetImageView(
+                type: petType,
+                level: level,
+                size: CGSize(width: 96, height: 96)
+            )
         }
     }
 }
