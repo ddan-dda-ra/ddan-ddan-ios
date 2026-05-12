@@ -88,8 +88,13 @@ public actor PetAssetCache {
         }
     }
 
-    /// 메모리 + 디스크 캐시 전체 비우기.
+    /// 메모리 + 디스크 캐시 전체 비우기. 진행 중 다운로드 Task도 함께 cancel하여
+    /// clear 직후 inflight 완료분이 캐시를 재오염시키는 것을 막는다.
     public func clear() async {
+        for (_, task) in inflight {
+            task.cancel()
+        }
+        inflight.removeAll()
         memory.removeAllObjects()
         let fm = FileManager.default
         if let items = try? fm.contentsOfDirectory(at: diskRoot, includingPropertiesForKeys: nil) {

@@ -37,15 +37,21 @@ public struct PetCatalogNetwork {
             headers["X-iOS-Version"] = appVersion
         }
 
+        // 토큰 노출 방지: Authorization 값을 redact한 사본만 로깅/Analytics로 전달.
+        var sanitizedHeaders = headers
+        if sanitizedHeaders["Authorization"] != nil {
+            sanitizedHeaders["Authorization"] = "Bearer <redacted>"
+        }
+
         print("\n📡 Request:")
         print("🔹 URL: \(url)")
         print("🔹 Method: GET")
-        print("🔹 Headers: \(headers)")
+        print("🔹 Headers: \(sanitizedHeaders)")
 
         AnalyticsManager.shared.logEvent(
             event: NetworkEvent.request(
                 url: url.absoluteString,
-                header: headers.description,
+                header: sanitizedHeaders.description,
                 params: nil
             )
         )
