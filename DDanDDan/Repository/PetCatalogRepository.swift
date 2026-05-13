@@ -59,17 +59,32 @@ public actor PetCatalogRepository {
 
     // MARK: - Public API
 
-    /// 현재 보유한 카탈로그를 반환한다. 메모리 → App Group UserDefaults 복원 순서.
-    /// 네트워크 호출은 하지 않는다.
+    /// 현재 보유한 카탈로그를 반환한다. 메모리 캐시를 반환하기 전에 App Group 의 저장된
+    /// 메타데이터(version/lastSyncedAt)와 비교하여, 다른 프로세스(메인 앱·Widget·Watch)가
+    /// 더 최신 카탈로그를 써둔 경우 stale 캐시를 갱신한다. 네트워크 호출은 하지 않는다.
     public func currentCatalog() -> PetCatalog? {
-        if let cachedCatalog {
-            return cachedCatalog
-        }
-        if let restored = restoreFromAppGroupUserDefaults() {
+        let defaults = appGroupDefaults()
+        let storedVersion = defaults.string(forKey: Self.versionKey)
+        let storedTimestamp = defaults.double(forKey: Self.lastSyncedAtKey)
+
+        let shouldReload: Bool = {
+            // 메모리 캐시 자체가 없으면 무조건 디스크에서 복원 시도.
+            guard cachedCatalog != nil else { return true }
+            // 디스크 버전 또는 sync 시각이 메모리보다 새것이면 갱신.
+            if let storedVersion, storedVersion != lastSeenVersion { return true }
+            if storedTimestamp > 0,
+               let memTimestamp = lastSyncedAt?.timeIntervalSinceReferenceDate,
+               storedTimestamp > memTimestamp { return true }
+            return false
+        }()
+
+        if shouldReload, let restored = restoreFromAppGroupUserDefaults() {
             cachedCatalog = restored
-            return restored
+            if storedTimestamp > 0 {
+                lastSyncedAt = Date(timeIntervalSinceReferenceDate: storedTimestamp)
+            }
         }
-        return nil
+        return cachedCatalog
     }
 
     /// 카탈로그 sync. TTL/dedup 게이트 통과 시 네트워크 호출.
@@ -124,11 +139,19 @@ public actor PetCatalogRepository {
     }
 
     /// 타입/레벨에 대응하는 펫 이미지. 카탈로그 → cache.image → 번들 폴백.
+    /// 카탈로그가 비어 있어도 sync가 진행 중이면 결과를 대기한 뒤 한 번 더 시도하여,
+    /// 콜드 스타트 시점에 첫 조회가 번들 이미지로 고착되는 것을 막는다.
     public func image(for type: PetType, level: Int) async -> UIImage {
         let safeLevel = max(1, min(level, 5))
 
+        // 카탈로그 확보: 메모리/디스크 → 진행 중 sync 결과 대기.
+        var catalog: PetCatalog? = currentCatalog()
+        if catalog == nil, let syncTask = currentSyncTask {
+            catalog = try? await syncTask.value
+        }
+
         // 1) 카탈로그 URL 조회 → 캐시 hit
-        if let catalog = currentCatalog(),
+        if let catalog,
            let item = catalog.pets.first(where: { $0.type == type.rawValue }),
            let levelEntry = item.levels[String(safeLevel)],
            let url = URL(string: levelEntry.imageUrl),
