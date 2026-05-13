@@ -31,6 +31,9 @@ public actor PetCatalogRepository {
     private static let versionKey = "petCatalogVersion"
     /// App Group UserDefaults 키 — 카탈로그 JSON 원본.
     private static let catalogKey = "petCatalogJSON"
+    /// App Group UserDefaults 키 — 마지막 동기화 시각(timeIntervalSinceReferenceDate, Double).
+    /// 앱 재시작 후에도 6시간 TTL 게이트가 유지되도록 영속화한다.
+    private static let lastSyncedAtKey = "petCatalogLastSyncedAt"
     /// 6시간 TTL (force=false 경로에서만 적용).
     private static let ttl: TimeInterval = 6 * 60 * 60
 
@@ -43,6 +46,15 @@ public actor PetCatalogRepository {
         self.network = network
         self.cache = cache
         self.appGroupID = appGroupID
+        // 영속화된 TTL 메타데이터 복원. 앱 재시작 직후 첫 sync 호출이 TTL 게이트를 적절히 통과/노옵하게 한다.
+        let defaults = UserDefaults(suiteName: appGroupID) ?? .standard
+        let storedTimestamp = defaults.double(forKey: Self.lastSyncedAtKey)
+        if storedTimestamp > 0 {
+            self.lastSyncedAt = Date(timeIntervalSinceReferenceDate: storedTimestamp)
+        }
+        if let version = defaults.string(forKey: Self.versionKey) {
+            self.lastSeenVersion = version
+        }
     }
 
     // MARK: - Public API
@@ -133,12 +145,16 @@ public actor PetCatalogRepository {
 
     /// 카탈로그를 App Group UserDefaults 에 JSON 직렬화하여 저장.
     /// 컨테이너 접근 실패 시 standard UserDefaults 폴백.
+    /// `lastSyncedAt` 도 함께 영속화하여 앱 재시작 후 TTL 게이트가 살아있도록 한다.
     private func persistToAppGroupUserDefaults(catalog: PetCatalog, version: String) {
         let defaults = appGroupDefaults()
         do {
             let data = try JSONEncoder().encode(catalog)
             defaults.set(data, forKey: Self.catalogKey)
             defaults.set(version, forKey: Self.versionKey)
+            if let lastSyncedAt {
+                defaults.set(lastSyncedAt.timeIntervalSinceReferenceDate, forKey: Self.lastSyncedAtKey)
+            }
         } catch {
             print("⚠️ PetCatalogRepository: persist 실패 - \(error.localizedDescription)")
         }

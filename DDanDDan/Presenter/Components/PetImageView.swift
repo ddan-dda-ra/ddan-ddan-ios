@@ -34,8 +34,13 @@ struct PetImageView: View {
         }
         .frame(width: size?.width, height: size?.height)
         // type 또는 level 이 바뀌면 이전 task cancel + 새 task 시작.
+        // 시작 시 placeholder 로 리셋하고 await 후 취소 여부를 확인한 뒤에만 결과를 반영해서,
+        // 취소된 이전 task 의 stale 결과가 최신 상태를 덮어쓰지 않게 한다.
         .task(id: PetImageKey(type: type, level: level)) {
-            image = await repository.image(for: type, level: level)
+            image = nil
+            let loaded = await repository.image(for: type, level: level)
+            guard !Task.isCancelled else { return }
+            image = loaded
         }
     }
 
