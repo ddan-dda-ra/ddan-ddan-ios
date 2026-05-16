@@ -16,33 +16,43 @@ final class RandomGachaPetViewModel: ObservableObject {
     
     @Published var gachaResult: Pet?
     @Published var isSelectedRandomPet: Bool = false
-    
+    /// 가챠 API 진행 중 플래그. 따닥 방지(in-flight guard) 및 버튼 비활성화 바인딩에 사용.
+    @Published var isGachaInProgress: Bool = false
+    /// 메인 펫 설정 API 진행 중 플래그.
+    @Published var isGrowupInProgress: Bool = false
+
     init(homeRepository: HomeRepositoryProtocol) {
         self.homeRepository = homeRepository
     }
-    
+
     func tapSelectButton() {
+        guard !isGachaInProgress else { return }
+        isGachaInProgress = true
         gachaResult = nil
-        
+
         Task {
             await selectRandomPet()
             await MainActor.run {
                 if gachaResult != nil {
                     isSelectedRandomPet = true
                 }
+                isGachaInProgress = false
             }
         }
     }
 
-    
+
     func tapGrowupButton() {
+        guard !isGrowupInProgress else { return }
         guard let gachaResultId = gachaResult?.id else {
             return
         }
-        
+        isGrowupInProgress = true
+
         Task { @MainActor in
             await setRandomPetToMainPet(gachaResultId)
             isSelectedRandomPet = false
+            isGrowupInProgress = false
             dismissPublisher.send()
         }
     }

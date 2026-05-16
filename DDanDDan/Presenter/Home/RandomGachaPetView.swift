@@ -68,12 +68,14 @@ struct RandomGachaPetView: View {
                                     viewModel.tapGrowupButton()
                                 }
                                 .buttonStyle(PrimaryButtonStyle())
+                                .disabled(viewModel.isGrowupInProgress)
                             } else {
                                 Button("선택하기") {
                                     AnalyticsManager.shared.logEvent(event: HomeEvent.clickBtn())
                                     viewModel.tapSelectButton()
                                 }
                                 .buttonStyle(PrimaryButtonStyle())
+                                .disabled(viewModel.isGachaInProgress)
                             }
                         }
                     }
