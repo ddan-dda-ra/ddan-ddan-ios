@@ -1,5 +1,5 @@
 {
-  "originHash" : "d3b2099d7587e1a62bd41a8fce78ad0f55c9152f687a865bc8c7c4db6bfb6883",
+  "originHash" : "f7d1f3d649bcd369eea196181348e2867b54acd59178d56c1e8087db0fae7098",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "svgview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/SVGView",
+      "state" : {
+        "revision" : "6465962facdd25cb96eaebc35603afa2f15d2c0d",
+        "version" : "1.0.6"
       }
     },
     {

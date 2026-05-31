@@ -211,6 +211,13 @@
 		F9BCC0AF2E8227B60035E1AF /* FriendCardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */; };
 		F9BCC0E32E8274640035E1AF /* RepositoryDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */; };
 		F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */; };
+		6CAD2C19AE344102A23FF6A3 /* PetBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B691428496948CFB3C6A561 /* PetBackground.swift */; };
+		BA0FAB047C174168AC46DFE3 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE74FCD6BD048ECA04BCC44 /* Color+Hex.swift */; };
+		9CCC0517601A468ABC0343AD /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE74FCD6BD048ECA04BCC44 /* Color+Hex.swift */; };
+		9A063619CE5F4C96AB0C83F6 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE74FCD6BD048ECA04BCC44 /* Color+Hex.swift */; };
+		242C2A240FB540AB94305D76 /* bg_diamond.svg in Resources */ = {isa = PBXBuildFile; fileRef = 9AA318A13D254D0687720811 /* bg_diamond.svg */; };
+		0CD4DC0635E949E8BE598F2C /* bg_diamond_sm.svg in Resources */ = {isa = PBXBuildFile; fileRef = 8596780C2BD446B684A40536 /* bg_diamond_sm.svg */; };
+		E6B6489FCE4A418AA1B22DB0 /* bg_rectangle.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2124975870F342A3B3984E72 /* bg_rectangle.svg */; };
 		F9CCAF422DB22B4300549DAE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */; };
 		F9E4217A2D0ED657005A5795 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F9E421792D0ED657005A5795 /* ComposableArchitecture */; };
 		F9F56EDD2D9B6E7C0085E266 /* NetworkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */; };
@@ -502,6 +509,11 @@
 		F9BCC0AE2E8227AC0035E1AF /* FriendCardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardRepository.swift; sourceTree = "<group>"; };
 		F9BCC0E22E82745B0035E1AF /* RepositoryDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDependency.swift; sourceTree = "<group>"; };
 		F9C3DE892E7142AC00DE5E4C /* FriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCardView.swift; sourceTree = "<group>"; };
+		6B691428496948CFB3C6A561 /* PetBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetBackground.swift; sourceTree = "<group>"; };
+		2CE74FCD6BD048ECA04BCC44 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		9AA318A13D254D0687720811 /* bg_diamond.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bg_diamond.svg; sourceTree = "<group>"; };
+		8596780C2BD446B684A40536 /* bg_diamond_sm.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bg_diamond_sm.svg; sourceTree = "<group>"; };
+		2124975870F342A3B3984E72 /* bg_rectangle.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bg_rectangle.svg; sourceTree = "<group>"; };
 		F9F56EDC2D9B6E7C0085E266 /* NetworkEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEvent.swift; sourceTree = "<group>"; };
 		F9F6B17B2D7AEA8500FA6F34 /* SettingViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -623,12 +635,23 @@
 			isa = PBXGroup;
 			children = (
 				36465D762CF7F37700784E8A /* Lottie */,
+				C86EE08639BC42C1993CCB11 /* Background */,
 				F8758CF22C8EE1F60038CCBB /* Assets.xcassets */,
 				362864912C89BFA700029452 /* Fonts */,
 				362864A72C89D64100029452 /* Font.swift */,
 				36448A882D1AAFEB005CFC8C /* WatchFont.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		C86EE08639BC42C1993CCB11 /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				9AA318A13D254D0687720811 /* bg_diamond.svg */,
+				8596780C2BD446B684A40536 /* bg_diamond_sm.svg */,
+				2124975870F342A3B3984E72 /* bg_rectangle.svg */,
+			);
+			path = Background;
 			sourceTree = "<group>";
 		};
 		362864912C89BFA700029452 /* Fonts */ = {
@@ -798,6 +821,7 @@
 				36F6E81B2CEE4FF900B395FB /* Array+.swift */,
 				36F6E8222CEE8F0B00B395FB /* String+.swift */,
 				364B37972D04781900E72BFF /* Adjusted+.swift */,
+				2CE74FCD6BD048ECA04BCC44 /* Color+Hex.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -958,6 +982,7 @@
 				369F16F82D99A3850039ED3A /* CustomScrollView.swift */,
 				36A9D6EF2DE5E41800A9169A /* SwipeBackEnabledModifier.swift */,
 				36CAE0E32E6B160900B81039 /* ButtonStyles.swift */,
+				6B691428496948CFB3C6A561 /* PetBackground.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1344,6 +1369,7 @@
 				F9CCAF412DB22B4300549DAE /* FirebaseCrashlytics */,
 				F9AF64F62E38664100FE6777 /* FirebaseRemoteConfig */,
 				F99807A92EEA44F30035E6B4 /* FirebaseDatabase */,
+				82F74F22E0FE484382F1BCE7 /* SVGView */,
 			);
 			productName = DDanDDan;
 			productReference = F8AB332A2C2EAD2E00BC16C9 /* DDanDDan.app */;
@@ -1395,6 +1421,7 @@
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				091CA7D7629843AC8F8D1F95 /* XCRemoteSwiftPackageReference "SVGView" */,
 			);
 			productRefGroup = F8AB332B2C2EAD2E00BC16C9 /* Products */;
 			projectDirPath = "";
@@ -1518,6 +1545,9 @@
 				3628649C2C89CA2000029452 /* Pretendard-Medium.otf in Resources */,
 				F8758CF32C8EE1F60038CCBB /* Assets.xcassets in Resources */,
 				362864A12C89CA2000029452 /* Pretendard-Bold.otf in Resources */,
+				242C2A240FB540AB94305D76 /* bg_diamond.svg in Resources */,
+				0CD4DC0635E949E8BE598F2C /* bg_diamond_sm.svg in Resources */,
+				E6B6489FCE4A418AA1B22DB0 /* bg_rectangle.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1552,6 +1582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36A9D72F2DED82AC00A9169A /* WatchSharedHomeModel.swift in Sources */,
+				9CCC0517601A468ABC0343AD /* Color+Hex.swift in Sources */,
 				36A9D7272DE9A78600A9169A /* WatchFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1573,6 +1604,7 @@
 				3692E0552CF00CB70079D2B8 /* WatchViewModel.swift in Sources */,
 				3692E0562CF00CB70079D2B8 /* DdanDdan_WatchApp.swift in Sources */,
 				36465DB42CFDEEFE00784E8A /* WatchSharedHomeModel.swift in Sources */,
+				9A063619CE5F4C96AB0C83F6 /* Color+Hex.swift in Sources */,
 				3650CCD22CCAB7BD00ED5967 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1599,6 +1631,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C3DE8A2E7142B400DE5E4C /* FriendCardView.swift in Sources */,
+				6CAD2C19AE344102A23FF6A3 /* PetBackground.swift in Sources */,
+				BA0FAB047C174168AC46DFE3 /* Color+Hex.swift in Sources */,
 				F9F6B17C2D7AEA8500FA6F34 /* SettingViewReducer.swift in Sources */,
 				367A796D2CDCB30A0055771B /* PetArchiveModel.swift in Sources */,
 				F9A845AA2E862BD70021D0FE /* CheerNetwork.swift in Sources */,
@@ -2362,6 +2396,14 @@
 				minimumVersion = 1.17.0;
 			};
 		};
+		091CA7D7629843AC8F8D1F95 /* XCRemoteSwiftPackageReference "SVGView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/SVGView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2419,6 +2461,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		82F74F22E0FE484382F1BCE7 /* SVGView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 091CA7D7629843AC8F8D1F95 /* XCRemoteSwiftPackageReference "SVGView" */;
+			productName = SVGView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
