@@ -17,7 +17,7 @@ final class PetArchiveViewModel: ObservableObject {
     @Published var petId: String = ""
     @Published var isSelectedMainPet: Bool = false
     /// 변경된 메인 펫 정보 — 홈에 petType/level을 즉시 동기 반영하기 위해 보관.
-    @Published var selectedMainPet: Pet? = nil
+    @Published private(set) var selectedMainPet: Pet? = nil
     @Published var showToast = false
     @Published var gridItemCount: Int = 9
     @Published var toastMessage: String = "새로운 펫을 준비 중이에요!"
@@ -106,7 +106,7 @@ final class PetArchiveViewModel: ObservableObject {
         if case .success(let pet) = result {
             UserDefaultValue.petId = pet.mainPet.id
             UserDefaultValue.petType = pet.mainPet.type.rawValue
-            DispatchQueue.main.async { [weak self] in
+            await MainActor.run { [weak self] in
                 self?.selectedMainPet = pet.mainPet
                 self?.isSelectedMainPet = true
             }

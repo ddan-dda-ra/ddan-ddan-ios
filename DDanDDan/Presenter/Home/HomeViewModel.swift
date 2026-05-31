@@ -132,9 +132,13 @@ final class HomeViewModel: ObservableObject {
         generator.prepare()
     }
     
-    /// 메인 펫 변경 시 새 petType/level을 홈 상태에 즉시 동기 반영한다.
+    /// 메인 펫 변경 시 새 petType/level/exp를 홈 상태에 즉시 동기 반영한다.
     /// fetchHomeInfo() 완료를 기다리지 않으므로 이전 펫이 잠깐 보이는 stale 깜빡임을 막는다.
-    /// 칼로리/경험치 등 나머지 정보는 이어지는 fetchHomeInfo()가 갱신한다.
+    ///
+    /// 펫 시각화에 필요한 petType/level/exp만 즉시 반영하며,
+    /// feedCount/toyCount/ticket/goalKcal/currentKcal 등 나머지 정보는
+    /// 이어 호출되는 fetchHomeInfo()가 일괄 덮어쓴다. 이 사이의 짧은 윈도우에서
+    /// 위 카운트 필드들이 이전 값일 수 있다.
     @MainActor
     func applyPetChange(petType: PetType, level: Int, expPercent: Double) {
         homePetModel.petType = petType

@@ -46,11 +46,19 @@ final class AppCoordinator: ObservableObject {
     /// fetchHomeInfo() 비동기 완료를 기다리지 않고 배경/펫이 바로 새것으로 표시되도록 한다.
     @Published private(set) var pendingPetChange: PetChangePayload?
 
-    func triggerPetChanged(petType: PetType? = nil, level: Int? = nil, expPercent: Double? = nil) {
-        if let petType, let level, let expPercent {
-            pendingPetChange = PetChangePayload(petType: petType, level: level, expPercent: expPercent)
+    @MainActor
+    func triggerPetChanged(payload: PetChangePayload? = nil) {
+        if let payload {
+            pendingPetChange = payload
         }
         petChangedSession = UUID()
+    }
+
+    /// 페이로드를 1회 소비한다. 새 sink가 attach될 때 latched된 옛 payload가
+    /// 다시 발화되어 stale로 회귀하는 것을 막기 위함.
+    @MainActor
+    func consumePendingPetChange() {
+        pendingPetChange = nil
     }
 
     func setRoot(to path: AppPath) {
