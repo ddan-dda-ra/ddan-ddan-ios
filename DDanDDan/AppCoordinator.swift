@@ -21,6 +21,7 @@ enum AppPath: Hashable {
 struct PetChangePayload: Equatable {
     let petType: PetType
     let level: Int
+    let expPercent: Double
 }
 
 final class AppCoordinator: ObservableObject {
@@ -45,9 +46,9 @@ final class AppCoordinator: ObservableObject {
     /// fetchHomeInfo() 비동기 완료를 기다리지 않고 배경/펫이 바로 새것으로 표시되도록 한다.
     @Published private(set) var pendingPetChange: PetChangePayload?
 
-    func triggerPetChanged(petType: PetType? = nil, level: Int? = nil) {
-        if let petType, let level {
-            pendingPetChange = PetChangePayload(petType: petType, level: level)
+    func triggerPetChanged(petType: PetType? = nil, level: Int? = nil, expPercent: Double? = nil) {
+        if let petType, let level, let expPercent {
+            pendingPetChange = PetChangePayload(petType: petType, level: level, expPercent: expPercent)
         }
         petChangedSession = UUID()
     }

@@ -136,9 +136,10 @@ final class HomeViewModel: ObservableObject {
     /// fetchHomeInfo() 완료를 기다리지 않으므로 이전 펫이 잠깐 보이는 stale 깜빡임을 막는다.
     /// 칼로리/경험치 등 나머지 정보는 이어지는 fetchHomeInfo()가 갱신한다.
     @MainActor
-    func applyPetChange(petType: PetType, level: Int) {
+    func applyPetChange(petType: PetType, level: Int, expPercent: Double) {
         homePetModel.petType = petType
         homePetModel.level = level
+        homePetModel.exp = expPercent
         // 변경 직후 이전 펫 애니메이션이 남지 않도록 특수 애니메이션 상태를 초기화한다.
         isPlayingSpecialAnimation = false
         currentLottieAnimation = ""

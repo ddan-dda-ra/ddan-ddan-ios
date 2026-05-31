@@ -152,7 +152,7 @@ struct HomeView: View {
         }
         .onReceive(coordinator.$pendingPetChange.compactMap { $0 }) { change in
             // 펫 변경 즉시 배경/펫을 새것으로 동기 반영 (stale 깜빡임 방지)
-            viewModel.applyPetChange(petType: change.petType, level: change.level)
+            viewModel.applyPetChange(petType: change.petType, level: change.level, expPercent: change.expPercent)
         }
         .onReceive(coordinator.$shouldUpdateHomeView) { shouldUpdate in
             if shouldUpdate {
