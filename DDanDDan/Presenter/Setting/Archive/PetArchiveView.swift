@@ -64,7 +64,11 @@ struct PetArchiveView: View {
         .onChange(of: viewModel.isSelectedMainPet) { newValue in
             if newValue {
                 coordinator.triggerHomeUpdate(trigger: true)
-                coordinator.triggerPetChanged()
+                // 새 펫 정보를 함께 실어 홈 배경/펫이 즉시 갱신되도록 한다 (stale 깜빡임 방지)
+                coordinator.triggerPetChanged(
+                    petType: viewModel.selectedMainPet?.type,
+                    level: viewModel.selectedMainPet?.level
+                )
                 coordinator.pop()
             }
         }
