@@ -88,36 +88,40 @@ struct FriendCardView: View {
     }
     
     var cardImageView: some View {
-        store.petBackgroundImage
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 296, height: 200)
-            .overlay(alignment: .topLeading) {
-                if let badgeTitle = store.badgeTitle {
-                    Text(badgeTitle)
-                        .font(.heading7_medium16)
-                        .foregroundStyle(.textHeadlinePrimary)
-                        .padding(4)
-                        .background(.elevationLevel04)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                        .padding(16)
-                }
+        Group {
+            if let petType = store.entity?.mainPet.type {
+                PetBackground(pet: petType, surface: .friendCard)
+            } else {
+                Color.clear
             }
-            .overlay(alignment: .bottom) {
-                LottieView(
-                    animation: .named(store.petLottieStrng))
-                .playing(loopMode: .loop)
-                .frame(width: 100, height: 100)
-                .padding(.bottom, 23)
-            }
-            .overlay(alignment: .topTrailing) {
-                Image(.close)
+        }
+        .frame(width: 296, height: 200)
+        .overlay(alignment: .topLeading) {
+            if let badgeTitle = store.badgeTitle {
+                Text(badgeTitle)
+                    .font(.heading7_medium16)
+                    .foregroundStyle(.textHeadlinePrimary)
+                    .padding(4)
+                    .background(.elevationLevel04)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
                     .padding(16)
-                    .onTapGesture {
-                        AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCloseBtn())
-                        store.send(.setDismiss)
-                    }
             }
+        }
+        .overlay(alignment: .bottom) {
+            LottieView(
+                animation: .named(store.petLottieStrng))
+            .playing(loopMode: .loop)
+            .frame(width: 100, height: 100)
+            .padding(.bottom, 23)
+        }
+        .overlay(alignment: .topTrailing) {
+            Image(.close)
+                .padding(16)
+                .onTapGesture {
+                    AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCloseBtn())
+                    store.send(.setDismiss)
+                }
+        }
     }
     
    

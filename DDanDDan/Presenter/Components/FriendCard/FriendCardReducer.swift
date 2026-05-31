@@ -34,10 +34,6 @@ struct FriendCardReducer {
             guard let entity else { return "" }
             return entity.mainPet.type.lottieString(level: entity.mainPet.level)
         }
-        var petBackgroundImage: Image {
-            guard let entity else { return Image(uiImage: UIImage()) }
-            return entity.mainPet.type.cardBackgroundImage
-        }
         var hideButton: Bool {
             switch type {
             case .cheer:

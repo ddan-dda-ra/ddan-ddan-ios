@@ -43,16 +43,13 @@ struct HomeView: View {
                 
                 kcalView
                     .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
-                    .zIndex(11)
                 petBackgroundView
                     .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                 levelView
                     .padding(.bottom, 12.adjusted)
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                // 액션 버튼 자리만 잡고, 실제 렌더링은 actionButtonsLayer에서 (코치마크 dim 위로 띄우기 위함)
-                Color.clear
-                    .frame(height: 95)
+                actionButtonView
                     .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
                     .padding(.bottom, 23.adjustedHeight)
             }
@@ -74,39 +71,7 @@ struct HomeView: View {
             .padding(.top, isSEDevice ? 16 : 60.adjustedHeight)
             .opacity(viewModel.showRandomPetGuide ? 1 : 0)
             .animation(.easeInOut(duration: 0.6), value: viewModel.showRandomPetGuide)
-
-            // 코치마크 dim
-            Color(.backgroundBlack)
-                .ignoresSafeArea()
-                .opacity((viewModel.showFeedCoachMark || viewModel.showPlayCoachMark) ? 0.8 : 0)
-                .animation(.easeInOut(duration: 0.6), value: viewModel.showFeedCoachMark)
-                .animation(.easeInOut(duration: 0.6), value: viewModel.showPlayCoachMark)
-
-            // 액션 버튼 레이어 — 메인 VStack과 동일 위치, dim 위로 떠 있음
-            actionButtonsLayer
-
-            // 코치마크 안내 텍스트 + CTA (중앙)
-            if viewModel.showFeedCoachMark {
-                coachMarkText(
-                    headline: "100kcal를 소모할 때 마다\n먹이 1개를 받아요",
-                    subtitle: "'먹이주기' 버튼을 누르면 먹이를 줄 수 있어요",
-                    buttonTitle: "다음",
-                    accessibilityLabel: "다음 코치마크 보기"
-                ) {
-                    viewModel.tapFeedCoachMarkNext()
-                }
-            }
-            if viewModel.showPlayCoachMark {
-                coachMarkText(
-                    headline: "3일동안 목표를 달성하면\n펫을 놀아줄 수 있어요",
-                    subtitle: "'놀아주기' 버튼을 누르면 놀아줄 수 있어요",
-                    buttonTitle: "시작하기",
-                    accessibilityLabel: "코치마크 닫고 시작하기"
-                ) {
-                    viewModel.tapPlayCoachMarkStart()
-                }
-            }
-
+            
             TransparentOverlayView(isPresented: viewModel.showToast, isDimView: false) {
                 VStack {
                     ToastView(message: viewModel.toastMessage, toastType: .info)
@@ -157,9 +122,6 @@ struct HomeView: View {
                     coordinator.triggerHomeUpdate(trigger: false)
                 }
             }
-        }
-        .onAppear {
-            viewModel.startHomeCoachMarkIfNeeded()
         }
     }
     
@@ -215,30 +177,6 @@ extension HomeView {
             Text("\(viewModel.homePetModel.goalKcal) kcal")
                 .font(.neoDunggeunmo22)
                 .foregroundStyle(.textHeadlinePrimary)
-
-            if !viewModel.isHealthKitAuthorized {
-                Button {
-                    viewModel.showCalorieTooltipMessage()
-                } label: {
-                    Image(.iconSystemFill)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-                .accessibilityLabel("건강 데이터 권한 안내")
-                .accessibilityHint("탭하면 칼로리 측정 관련 안내가 표시됩니다")
-                .padding(.leading, 4)
-                .alignmentGuide(.lastTextBaseline) { d in d[.bottom] - 5 }
-                .overlay(alignment: .top) {
-                    if viewModel.showCalorieTooltip {
-                        TooltipView(
-                            textString: "건강 데이터를 허용하면\n칼로리를 측정할 수 있어요",
-                            alignment: .center
-                        )
-                        .fixedSize(horizontal: true, vertical: true)
-                        .offset(y: 30)
-                    }
-                }
-            }
         }
         .frame(height: 52.adjusted)
     }
@@ -246,14 +184,16 @@ extension HomeView {
     var petBackgroundView: some View {
         ZStack {
             if isSEDevice {
-                viewModel.homePetModel.petType.seBackgroundImage
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                PetBackground(
+                    pet: viewModel.homePetModel.petType,
+                    surface: .homeCompact
+                )
             } else {
-                viewModel.homePetModel.petType.backgroundImage
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 370.adjusted)
+                PetBackground(
+                    pet: viewModel.homePetModel.petType,
+                    surface: .home
+                )
+                .frame(width: 254.adjusted, height: 370.adjusted)
             }
             VStack {
                 Image(viewModel.bubbleImage)
@@ -332,90 +272,18 @@ extension HomeView {
     var actionButtonView: some View {
         HStack(spacing: 12.adjusted) {
             HomeButton(buttonTitle: "먹이주기", count: viewModel.homePetModel.feedCount, image: .iconFeed)
-                .shadow(color: viewModel.showFeedCoachMark ? .white : .clear,
-                        radius: viewModel.showFeedCoachMark ? 32 : 0)
-                .opacity(viewModel.showPlayCoachMark ? 0.3 : 1.0)
                 .onTapGesture {
-                    guard !viewModel.showFeedCoachMark, !viewModel.showPlayCoachMark else { return }
                     AnalyticsManager.shared.logEvent(event: HomeEvent.clickFeedBtn)
                     viewModel.feedPet()
                 }
             HomeButton(buttonTitle: "놀아주기", count: viewModel.homePetModel.toyCount, image: .iconToy)
-                .shadow(color: viewModel.showPlayCoachMark ? .white : .clear,
-                        radius: viewModel.showPlayCoachMark ? 32 : 0)
-                .opacity(viewModel.showFeedCoachMark ? 0.3 : 1.0)
                 .onTapGesture {
-                    guard !viewModel.showFeedCoachMark, !viewModel.showPlayCoachMark else { return }
                     AnalyticsManager.shared.logEvent(event: HomeEvent.clickPlayBtn)
                     viewModel.playWithPet()
                 }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 95)
-        .animation(.easeInOut(duration: 0.6), value: viewModel.showFeedCoachMark)
-        .animation(.easeInOut(duration: 0.6), value: viewModel.showPlayCoachMark)
-    }
-
-    // MARK: - Coach Mark Layers
-
-    /// 메인 VStack과 동일한 padding/spacing 구조의 placeholder들로 액션 버튼 위치를 동기화하고,
-    /// 그 자리에 진짜 actionButtonView를 한 번만 그린다 (단일 source of truth, dim 위로 떠 있음).
-    var actionButtonsLayer: some View {
-        VStack(alignment: .center) {
-            HStack {
-                Color.clear
-                    .frame(width: 40, height: 40)
-                    .padding(.bottom, -30.adjustedHeight)
-                    .padding(.leading, 16.adjustedWidth)
-                Spacer()
-            }
-            .zIndex(10)
-
-            Color.clear
-                .frame(height: 52.adjusted)
-                .padding(.bottom, isSEDevice ? 24 : 14.adjusted)
-            Color.clear
-                .frame(height: 370.adjusted)
-                .padding(.bottom, isSEDevice ? 15 : 20.adjusted)
-                .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-            Color.clear
-                .frame(height: 52)
-                .padding(.bottom, 12.adjusted)
-                .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-
-            actionButtonView
-                .padding(.horizontal, isSEDevice ? 28 : 32.adjustedWidth)
-                .padding(.bottom, 23.adjustedHeight)
-        }
-        .padding(.top, isSEDevice ? 16 : 54.adjustedHeight)
-    }
-
-    /// 코치마크 안내 텍스트 + CTA — 화면 중앙 정렬
-    private func coachMarkText(
-        headline: String,
-        subtitle: String,
-        buttonTitle: String,
-        accessibilityLabel: String,
-        action: @escaping () -> Void
-    ) -> some View {
-        VStack(spacing: 12.adjusted) {
-            Text(headline)
-                .font(.neoDunggeunmo22)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color.textHeadlinePrimary)
-
-            Text(subtitle)
-                .font(.body1_regular16)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color.textBodyTeritary)
-
-            GreenButton(action: action, title: buttonTitle, disabled: false)
-                .frame(width: 120)
-                .accessibilityLabel(accessibilityLabel)
-                .padding(.top, 16.adjusted)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .transition(.opacity)
     }
     
     private var petImageScale: CGFloat {

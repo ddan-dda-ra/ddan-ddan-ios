@@ -20,16 +20,28 @@ public enum PetType: String, Codable {
     case bluePenguin = "PENGUIN"
     case grayMole = "MOLE"
     
-    var color: Color  {
+    var color: Color {
         switch self {
-        case .pinkCat: return .pinkGraphics
-        case .greenHam: return .greenGraphics
-        case .purpleDog: return .purpleGraphics
-        case .bluePenguin: return .blueGraphics
-        case .grayMole: return .grayGraphics
+        case .pinkCat: return Color(hex: "#FD85FF")
+        case .greenHam: return Color(hex: "#46F8A2")
+        case .purpleDog: return Color(hex: "#9B6CFF")
+        case .bluePenguin: return Color(hex: "#4E95FF")
+        case .grayMole: return Color(hex: "#D0DAE4")
         }
     }
-    
+
+    /// 펫 형태 fill 색 hex (#RRGGBB, 대문자). SVG 배경 런타임 치환 및 향후 서버 hex 수신 대비.
+    /// 순수 String만 반환한다(SVGView/SwiftUI 의존 없음 → watch 타겟 호환).
+    var colorHex: String {
+        switch self {
+        case .pinkCat: return "#FD85FF"
+        case .greenHam: return "#46F8A2"
+        case .purpleDog: return "#9B6CFF"
+        case .bluePenguin: return "#4E95FF"
+        case .grayMole: return "#D0DAE4"
+        }
+    }
+
     func image(for level: Int) -> ImageResource {
         let safeLevel = min(level, 5)
         
