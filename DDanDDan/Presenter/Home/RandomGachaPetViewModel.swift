@@ -21,10 +21,13 @@ final class RandomGachaPetViewModel: ObservableObject {
     /// 메인 펫 설정 API 진행 중 플래그.
     @Published var isGrowupInProgress: Bool = false
 
+    /// 가챠 의존성을 주입해 초기화한다.
     init(homeRepository: HomeRepositoryProtocol) {
         self.homeRepository = homeRepository
     }
 
+    /// "선택하기" 버튼 핸들러. 랜덤 펫 가챠를 실행한다.
+    /// 진행 중(`isGachaInProgress`)이면 따닥(중복 호출)을 무시한다.
     func tapSelectButton() {
         guard !isGachaInProgress else { return }
         isGachaInProgress = true
@@ -42,6 +45,8 @@ final class RandomGachaPetViewModel: ObservableObject {
     }
 
 
+    /// "키우기" 버튼 핸들러. 뽑은 펫을 메인 펫으로 설정한다.
+    /// 진행 중(`isGrowupInProgress`)이면 따닥(중복 호출)을 무시한다.
     func tapGrowupButton() {
         guard !isGrowupInProgress else { return }
         guard let gachaResultId = gachaResult?.id else {
@@ -57,11 +62,13 @@ final class RandomGachaPetViewModel: ObservableObject {
         }
     }
     
+    /// "닫기" 버튼 핸들러. 가챠 화면을 닫는다.
     func tapDisMissButton() {
         dismissPublisher.send()
         isSelectedRandomPet = false
     }
-    
+
+    /// 가챠 API를 호출해 새 랜덤 펫을 받아 `gachaResult`에 보관한다.
     private func selectRandomPet() async {
         let randomPetResult = await homeRepository.addNewGachaRandomPet()
         switch randomPetResult {
@@ -75,6 +82,7 @@ final class RandomGachaPetViewModel: ObservableObject {
     }
 
     
+    /// 주어진 펫 ID를 메인 펫으로 설정하는 API를 호출한다.
     private func setRandomPetToMainPet(_ petId: String) async {
         let setMainPetResult = await homeRepository.updateMainPet(petId: petId)
         switch setMainPetResult {
