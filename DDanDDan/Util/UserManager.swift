@@ -51,6 +51,7 @@ actor UserManager: ObservableObject {
     
     func logout() async {
         refreshToken = nil
+        await PetArchiveCache.shared.invalidate()
         await MainActor.run {
             accessToken = nil
             UserDefaultValue.accessToken = nil
