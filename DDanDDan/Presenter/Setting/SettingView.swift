@@ -109,6 +109,14 @@ struct SettingView: View {
             }
             .onAppear {
                 viewStore.send(.onAppear)
+
+                // 펫 보관함 진입 체감 로딩을 줄이기 위한 prefetch.
+                // TTL/in-flight 가드는 캐시 내부에서 처리한다.
+                Task {
+                    await PetArchiveCache.shared.prefetchIfNeeded {
+                        await HomeRepository().getPetArchive()
+                    }
+                }
             }
         }
         .navigationBarHidden(true)

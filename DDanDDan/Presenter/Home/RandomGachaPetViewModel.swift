@@ -87,7 +87,7 @@ final class RandomGachaPetViewModel: ObservableObject {
         let setMainPetResult = await homeRepository.updateMainPet(petId: petId)
         switch setMainPetResult {
         case .success(let pet):
-            break
+            await PetArchiveCache.shared.invalidate()
         case .failure(let error):
             print("메인 펫 설정에 실패했습니다 \(error.localizedDescription)")
         }
