@@ -9,6 +9,21 @@ import Foundation
 import HealthKit
 import UserNotifications
 
+// HealthKitManager는 iOS/watchOS 양 타겟에서 컴파일된다.
+// 진단 텔레메트리(Crashlytics/Analytics/UIApplication)는 iOS 전용 의존성이므로
+// Firebase가 링크되는 iOS 타겟에서만 컴파일한다(watch 타겟은 해당 모듈 미링크).
+#if canImport(FirebaseCrashlytics)
+import UIKit
+import FirebaseCrashlytics
+#endif
+
+/// 활동에너지 read 호출의 출처. 텔레메트리에서 호출 경로를 구분하기 위해 사용한다.
+enum HealthKitReadSource: String {
+    case initRead          // observe 등록 직후 1회 read
+    case observerCallback  // HKObserverQuery 콜백
+    case foregroundReRead  // scenePhase .active 재조회
+}
+
 class HealthKitManager: ObservableObject {
     static let shared = HealthKitManager()
     
@@ -62,14 +77,14 @@ class HealthKitManager: ObservableObject {
 
         // 등록 시점에 한 번 즉시 read를 호출해 권한 상태와 현재 칼로리를 갱신한다.
         // (HKObserverQuery는 데이터 변경이 없으면 callback이 안 올 수 있음)
-        readAndReport(completion: completion)
+        readAndReport(source: .initRead, completion: completion)
 
         // HKObserverQuery의 completionHandler는 반드시 호출해야 한다.
         // 미호출 시 iOS가 백그라운드 전달 재시도(3회) 후 업데이트 전달을 중단한다.
         let query = HKObserverQuery(sampleType: energyBurnedType, predicate: nil) { [weak self] _, completionHandler, error in
             defer { completionHandler() }
             guard error == nil else { return }
-            self?.readAndReport(completion: completion)
+            self?.readAndReport(source: .observerCallback, completion: completion)
         }
 
         activeObserverQuery = query
@@ -79,8 +94,8 @@ class HealthKitManager: ObservableObject {
         }
     }
 
-    private func readAndReport(completion: @escaping (Double, Bool) -> Void) {
-        readActiveEnergyBurned { [weak self] kcal, authorized in
+    private func readAndReport(source: HealthKitReadSource, completion: @escaping (Double, Bool) -> Void) {
+        readActiveEnergyBurned(source: source) { [weak self] kcal, authorized in
             // 권한이 확인됐거나 유의미한 데이터가 있을 때만 App Group에 저장.
             // 권한 없거나 일시적으로 데이터가 비는 경우 0으로 덮어쓰지 않도록 방어.
             if authorized || kcal > 0 {
@@ -89,14 +104,39 @@ class HealthKitManager: ObservableObject {
             completion(kcal, authorized)
         }
     }
-    
+
+    /// foreground 복귀 등 명시적 시점에 호출하는 단발 re-read.
+    /// ObserverQuery를 재등록하지 않고 readActiveEnergyBurned만 1회 실행한다.
+    /// (stop→execute 레이스·중복 등록 회피)
+    func refreshActiveEnergy(source: HealthKitReadSource,
+                             completion: @escaping (Double, Bool) -> Void) {
+        guard healthStore != nil else {
+            completion(0, false)
+            return
+        }
+        readAndReport(source: source, completion: completion)
+    }
+
     func enableBackgroundMode() async {
         guard let healthStore = healthStore else { return }
-        
+
         do {
             try await healthStore.enableBackgroundDelivery(for: energyBurnedType, frequency: .hourly)
         } catch let error {
-            print("Failed to enableBackgroundDelivery \(error)")
+            #if canImport(FirebaseCrashlytics)
+            // 백그라운드 전달 활성화 실패는 명백한 이상 → non-fatal + Analytics로 기록.
+            let hkErrorCode = (error as? HKError)?.code.rawValue ?? -1
+            AnalyticsManager.shared.logEvent(event: HealthKitEvent.backgroundDeliveryFailed(hkErrorCode: hkErrorCode))
+
+            // UIApplication.backgroundRefreshStatus는 main-thread-only이므로 main hop 후 수집.
+            let backgroundRefreshStatus = await MainActor.run {
+                UIApplication.shared.backgroundRefreshStatus.rawValue
+            }
+            let crashlytics = Crashlytics.crashlytics()
+            crashlytics.setCustomValue(hkErrorCode, forKey: "hk_error_code")
+            crashlytics.setCustomValue(backgroundRefreshStatus, forKey: "hk_background_refresh_status")
+            crashlytics.record(error: error)
+            #endif
         }
     }
 
@@ -112,7 +152,8 @@ class HealthKitManager: ObservableObject {
     /// read 권한 추론에서는 사용하지 않는다.
     /// 첫날 운동 0인 사용자는 errorNoData로 인해 false positive가 날 수 있으나,
     /// 안내 툴팁 노출이라 사용자 영향은 제한적.
-    func readActiveEnergyBurned(completion: @escaping (Double, Bool) -> Void) {
+    func readActiveEnergyBurned(source: HealthKitReadSource = .observerCallback,
+                                completion: @escaping (Double, Bool) -> Void) {
         guard let healthStore = healthStore else {
             completion(0, false)
             return
@@ -123,11 +164,12 @@ class HealthKitManager: ObservableObject {
 
         let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
 
-        let query = HKStatisticsQuery(quantityType: energyBurnedType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+        let query = HKStatisticsQuery(quantityType: energyBurnedType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, error in
             var resultCount = 0.0
             var errorDenied = false
 
-            if let hkError = error as? HKError {
+            let hkError = error as? HKError
+            if let hkError {
                 switch hkError.code {
                 case .errorAuthorizationDenied, .errorNoData:
                     errorDenied = true
@@ -138,8 +180,6 @@ class HealthKitManager: ObservableObject {
 
             if let sum = result?.sumQuantity() {
                 resultCount = sum.doubleValue(for: HKUnit.kilocalorie())
-            } else if let error {
-                print("Failed to fetch active energy burned = \(error.localizedDescription)")
             }
 
             // 데이터가 들어왔으면 권한이 있다는 가장 강한 증거 → 다른 신호 무시.
@@ -151,13 +191,38 @@ class HealthKitManager: ObservableObject {
                 authorized = !errorDenied
             }
 
+            // 진단 텔레메트리: 데이터 없음 + denied 계열(errorAuthorizationDenied)에서만 기록.
+            // errorNoData(첫날 무운동과 모호)·정상 0은 침묵 → 맥락 의존 판정은 HomeViewModel이 담당.
+            #if canImport(FirebaseCrashlytics)
+            if resultCount == 0, let hkError, hkError.code == .errorAuthorizationDenied {
+                self?.reportReadFailure(source: source, hkError: hkError)
+            }
+            #endif
+
             DispatchQueue.main.async {
                 completion(resultCount, authorized)
             }
         }
-        
+
         healthStore.execute(query)
     }
+
+    #if canImport(FirebaseCrashlytics)
+    /// read 권한 거부(denied) 계열 실패만 non-fatal + Analytics로 기록한다. (iOS 전용)
+    private func reportReadFailure(source: HealthKitReadSource, hkError: HKError) {
+        let hkErrorCode = hkError.code.rawValue
+        AnalyticsManager.shared.logEvent(
+            event: HealthKitEvent.readFailed(source: source.rawValue, hkErrorCode: hkErrorCode)
+        )
+
+        let crashlytics = Crashlytics.crashlytics()
+        let authStatus = healthStore?.authorizationStatus(for: energyBurnedType).rawValue ?? -1
+        crashlytics.setCustomValue(authStatus, forKey: "hk_auth_status")
+        crashlytics.setCustomValue(hkErrorCode, forKey: "hk_error_code")
+        crashlytics.setCustomValue(source.rawValue, forKey: "hk_source")
+        crashlytics.record(error: hkError)
+    }
+    #endif
     
     func readThreeDaysTotalKcal(completion: @escaping (Double) -> Void) {
         guard let healthStore = healthStore else {
