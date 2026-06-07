@@ -100,3 +100,11 @@ fastlane/test_output
 iOSInjectionProject/
 
 *.DS_Store
+
+# Agent run artifacts
+.claude/skills/**/_workspace/
+.claude/skills/**/_workspace_prev/
+.claude/skills/**/_workspace_archive_*/
+.agents/skills/**/_workspace/
+.agents/skills/**/_workspace_prev/
+.agents/skills/**/_workspace_archive_*/
