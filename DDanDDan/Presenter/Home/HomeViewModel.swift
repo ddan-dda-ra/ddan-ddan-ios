@@ -67,6 +67,8 @@ final class HomeViewModel: ObservableObject {
     private var calorieTooltipToken: UUID?
     private var didAutoShowCalorieTooltip = false
     private var hasSeenHealthKitAuthorized = false
+    /// foreground 단발 re-read의 연타 방지용 시간 가드(2초). observer/init read와는 무관.
+    private var lastForegroundReadAt: Date?
     
     private var loadingState: Loading = Loading()
     private let healthKitManager = HealthKitManager.shared
@@ -272,24 +274,72 @@ final class HomeViewModel: ObservableObject {
         healthKitManager.observeActiveEnergyBurned { [weak self] newKcal, authorized in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                // 한 번이라도 허용이 관측되면 세션 내에서 유지(sticky).
-                // read 권한 데이터가 일시적으로 비는 구간에서도 권한 상태가 false로
-                // 되돌아가 i 아이콘이 깜빡이는 UI 플리커를 방지한다.
-                if authorized {
-                    self.hasSeenHealthKitAuthorized = true
-                    self.isHealthKitAuthorized = true
-                } else if !self.hasSeenHealthKitAuthorized {
-                    self.isHealthKitAuthorized = false
-                }
+                self.applyHealthKitResult(newKcal: Int(newKcal), authorized: authorized, source: .observerCallback)
+            }
+        }
+    }
 
-                self.currentKcal = Int(newKcal)
-                self.handleKcalUpdate(newKcal: Int(newKcal))
+    /// observe 콜백 / foreground 단발 re-read 양쪽에서 호출하는 공용 적용 헬퍼.
+    /// sticky 권한 갱신 + 표시값(currentKcal) 적용 + 서버 전송 + 권한 미허용 툴팁 + 이상 판정을 담당한다.
+    /// HealthKit 콜백은 이미 main으로 들어오므로 @MainActor 컨텍스트에서만 호출한다.
+    @MainActor
+    private func applyHealthKitResult(newKcal: Int, authorized: Bool, source: HealthKitReadSource) {
+        // 한 번이라도 허용이 관측되면 세션 내에서 유지(sticky).
+        // read 권한 데이터가 일시적으로 비는 구간에서도 권한 상태가 false로
+        // 되돌아가 i 아이콘이 깜빡이는 UI 플리커를 방지한다.
+        if authorized {
+            self.hasSeenHealthKitAuthorized = true
+            self.isHealthKitAuthorized = true
+        } else if !self.hasSeenHealthKitAuthorized {
+            self.isHealthKitAuthorized = false
+        }
 
-                // i 아이콘이 뜨는 케이스(권한 없음)에 한해, 최초 판단 시 1회 자동 노출
-                if !self.isHealthKitAuthorized && !self.didAutoShowCalorieTooltip {
-                    self.didAutoShowCalorieTooltip = true
-                    self.showCalorieTooltipMessage()
-                }
+        // 0 깜빡임 가드: "권한 없음 + 0"인 일시적 빈 결과로는 화면값을 0으로 덮지 않는다(이전 표시값 유지).
+        // 권한 OK면 무운동(0)·자정 리셋도 정상 반영. (App Group 저장 가드와 동일 의미를 표시값에도 적용)
+        if authorized || newKcal > 0 {
+            self.currentKcal = newKcal
+        }
+        // 서버 경로는 무변경: 가드와 무관하게 원래 newKcal을 그대로 전달.
+        // foreground 단발 re-read는 값이 실제로 바뀐 경우에만 부작용(서버 전송/말풍선)을 발생시킨다.
+        // (init/observer 경로는 기존과 동일하게 무조건 호출 — 동작 불변)
+        if source == .foregroundReRead {
+            if newKcal != previousKcal {
+                self.handleKcalUpdate(newKcal: newKcal)
+            }
+        } else {
+            self.handleKcalUpdate(newKcal: newKcal)
+        }
+
+        // i 아이콘이 뜨는 케이스(권한 없음)에 한해, 최초 판단 시 1회 자동 노출
+        if !self.isHealthKitAuthorized && !self.didAutoShowCalorieTooltip {
+            self.didAutoShowCalorieTooltip = true
+            self.showCalorieTooltipMessage()
+        }
+
+        // 이상 최종 판정(맥락 의존): "전엔 권한 있었는데 지금 비는" observer_gap.
+        // foreground/observer 경로만 대상. 정상0(권한 OK)·첫 진입 미허용은 무발생.
+        if source != .initRead,
+           self.hasSeenHealthKitAuthorized,
+           !authorized,
+           newKcal == 0 {
+            AnalyticsManager.shared.logEvent(event: HealthKitEvent.observerGap(source: source.rawValue))
+        }
+    }
+
+    /// scenePhase .active 진입 시 호출. observer를 재등록하지 않고 단발 read만 수행한다.
+    /// 짧은 시간 내 .active 연타(제어센터/알림센터 스와이프 등)에 대비해 2초 시간 가드를 둔다.
+    @MainActor
+    func refreshActiveEnergyIfNeeded() {
+        let now = Date()
+        if let last = lastForegroundReadAt, now.timeIntervalSince(last) < 2 { return }
+        lastForegroundReadAt = now
+
+        healthKitManager.refreshActiveEnergy(source: .foregroundReRead) { [weak self] kcal, authorized in
+            guard let self else { return }
+            // refreshActiveEnergy → readActiveEnergyBurned는 이미 main으로 콜백하지만,
+            // @MainActor 헬퍼 호출 보장을 위해 main 컨텍스트에서 적용한다.
+            DispatchQueue.main.async {
+                self.applyHealthKitResult(newKcal: Int(kcal), authorized: authorized, source: .foregroundReRead)
             }
         }
     }

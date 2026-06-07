@@ -45,6 +45,7 @@ enum TabType: Int, CaseIterable {
 struct MainTabView: View {
     let coordinator: AppCoordinator
     @Perception.Bindable var store: StoreOf<MainTabReducer>
+    @Environment(\.scenePhase) private var scenePhase
     @State private var didSetupBindings = false
     
     @StateObject private var homeViewModel: HomeViewModel
@@ -108,6 +109,13 @@ struct MainTabView: View {
                 if !didSetupBindings {
                     setupViewModelBindings()
                     didSetupBindings = true
+                }
+            }
+            .onChange(of: scenePhase) { newPhase in
+                // foreground 복귀 시 observer가 끊겼어도 표시값을 따라잡도록 단발 re-read.
+                // HomeView가 아닌 항상 마운트되는 MainTabView에 둬서 탭 언마운트 갭을 피한다.
+                if newPhase == .active {
+                    homeViewModel.refreshActiveEnergyIfNeeded()
                 }
             }
             .onReceive(coordinator.$petChangedSession) { _ in
