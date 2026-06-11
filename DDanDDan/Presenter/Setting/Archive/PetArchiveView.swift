@@ -27,6 +27,7 @@ struct PetArchiveView: View {
                     title: "펫 보관함",
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickBackBtn(touchpoint: "mypage-petbox"))
                         coordinator.pop()
                     }
                 )
@@ -38,9 +39,9 @@ struct PetArchiveView: View {
                 Spacer()
                 GreenButton(action: {
                     if !viewModel.petId.isEmpty {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickSavedCTA(touchPoint: "mypage-petbox"))
                         Task {
                             await viewModel.selectMainPet(id: viewModel.petId)
-                            
                         }
                     } else {
                         viewModel.showToastMessage()
@@ -63,6 +64,7 @@ struct PetArchiveView: View {
         .onChange(of: viewModel.isSelectedMainPet) { newValue in
             if newValue {
                 coordinator.triggerHomeUpdate(trigger: true)
+                coordinator.triggerPetChanged()
                 coordinator.pop()
             }
         }

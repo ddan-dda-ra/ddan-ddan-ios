@@ -54,6 +54,7 @@ actor UserManager: ObservableObject {
         await MainActor.run {
             accessToken = nil
             UserDefaultValue.accessToken = nil
+            UserDefaultValue.refreshToken = nil
             coordinator?.setRoot(to: .login)
         }
     }

@@ -14,7 +14,7 @@ public struct NetworkManager {
     
     public init(withInterceptor:Bool = true) {
         let config = URLSessionConfiguration.default
-        config.requestCachePolicy = .returnCacheDataElseLoad
+        config.requestCachePolicy = .useProtocolCachePolicy
         self.session = Session(configuration: config, interceptor: withInterceptor ? TokenInterceptor() : nil)
     }
     
@@ -26,6 +26,11 @@ public struct NetworkManager {
         if !excludeAuth, let accessToken = UserDefaultValue.accessToken {
             headers["Authorization"] = "Bearer \(accessToken)"
         }
+        
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            headers["X-iOS-Version"] = appVersion
+        }
+
         
         if let additionalHeaders = additionalHeaders {
             for header in additionalHeaders {

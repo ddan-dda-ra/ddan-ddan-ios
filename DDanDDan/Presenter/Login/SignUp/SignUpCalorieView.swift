@@ -46,6 +46,7 @@ struct SignUpCalorieView<ViewModel: SignUpViewModelProtocol>: View {
                 Spacer()
                 
                 GreenButton(action: {
+                    AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-goal"))
                     Task {
                         //TODO: 실패처리
                         await viewModel.updateCalorie(calorie: calorie)

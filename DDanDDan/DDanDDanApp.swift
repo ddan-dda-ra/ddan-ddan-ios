@@ -37,10 +37,13 @@ struct DDanDDanApp: App {
                 .environmentObject(deepLinkManager)
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                        AuthController.handleOpenUrl(url: url)
+                       _ = AuthController.handleOpenUrl(url: url)
+                    } else {
+                        ChottuLink.handleLink(url)
                     }
-                    
-                    ChottuLink.handleLink(url)
+                }
+                .task {
+                    _ = await RemoteConfigManager.shared.fetchAndActivate()
                 }
         }
     }
@@ -95,13 +98,23 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print(error.localizedDescription)
     }
+
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+           let url = userActivity.webpageURL {
+            ChottuLink.handleLink(url)
+            return true
+        }
+        return false
+    }
 }
 
 
 extension AppDelegate: MessagingDelegate{
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
         print("---- receive fcmToken ----")
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         print(dataDict)
@@ -147,15 +160,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 extension AppDelegate: ChottuLinkDelegate {
     func chottuLink(didResolveDeepLink link: URL, metadata: [String : Any]?) {
-        if let metadata = metadata {
-            print("📦 Metadata: \(metadata)")
-            let originURL = metadata["originalURL"] as? String
-            if let originURL = originURL {
-                if let code = extractChottuInviteCode(from: originURL) {
-                    DispatchQueue.main.async {
-                        DeepLinkManager.shared.handleFriendInvite(code: code)
-                    }
-                }
+        let code: String? = {
+            if let originalURL = metadata?["originalURL"] as? String,
+               let extracted = extractChottuInviteCode(from: originalURL) {
+                return extracted
+            }
+            return extractChottuInviteCode(from: link.absoluteString)
+        }()
+
+        if let code {
+            DispatchQueue.main.async {
+                DeepLinkManager.shared.handleFriendInvite(code: code)
             }
         }
     }
@@ -169,18 +184,16 @@ extension AppDelegate: ChottuLinkDelegate {
         let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let url = URL(string: trimmed),
               let host = url.host,
-              host.hasSuffix(allowedHostSuffix) else { return nil }
-        
-        var path = url.path
-        while path.last == "/" { path.removeLast() }
-        guard !path.isEmpty else { return nil }
-        
-        let rawCode = (path as NSString).lastPathComponent
+              host.hasSuffix(allowedHostSuffix),
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let rawCode = components.queryItems?.first(where: { $0.name == "code" })?.value,
+              !rawCode.isEmpty else { return nil }
+
         let code = rawCode.removingPercentEncoding ?? rawCode
-        
-        let pattern = #"^[A-Za-z0-9_-]{4,64}$"#
-        if code.range(of: pattern, options: .regularExpression) == nil { return nil }
-        
+
+        let pattern = #"^[A-Za-z0-9]{4,64}$"#
+        guard code.range(of: pattern, options: .regularExpression) != nil else { return nil }
+
         return code
     }
     
@@ -190,7 +203,8 @@ extension AppDelegate: ChottuLinkDelegate {
 struct ContentView: View {
     @EnvironmentObject var coordinator: AppCoordinator
     @EnvironmentObject var user: UserManager
-    
+    @State private var mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
+
     var body: some View {
         user.coordinator = coordinator
         return NavigationStack(path: $coordinator.navigationPath) {
@@ -200,11 +214,16 @@ struct ContentView: View {
             case .signUp:
                 SignUpTermView(viewModel: SignUpViewModel(repository: SignUpRepository()), coordinator: coordinator)
             case .mainTab:
-                MainTabView(coordinator: coordinator, store: Store(initialState: MainTabReducer.State()) { MainTabReducer() })
+                MainTabView(coordinator: coordinator, store: mainTabStore)
             case .onboarding:
                 OnboardingView(coordinator: coordinator)
             case .login:
                 LoginView(viewModel: LoginViewModel(repository: LoginRepository(), appCoordinator: coordinator))
+            }
+        }
+        .onChange(of: coordinator.rootView) { newValue in
+            if newValue == .mainTab {
+                mainTabStore = Store(initialState: MainTabReducer.State()) { MainTabReducer() }
             }
         }
     }

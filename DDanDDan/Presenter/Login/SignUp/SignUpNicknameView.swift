@@ -41,10 +41,10 @@ public struct SignUpNicknameView<ViewModel: SignUpViewModelProtocol>: View {
                 Spacer()
                 
                 GreenButton(action: {
+                    AnalyticsManager.shared.logEvent(event: SignUpEvent.clickNextCTA)
                     Task {
                         if await viewModel.updateNickname(name: nickname) {
                             coordinator.push(to: .calorie)
-                            
                         }
                     }
                 }, title: "다음", disabled: buttonDisabled)

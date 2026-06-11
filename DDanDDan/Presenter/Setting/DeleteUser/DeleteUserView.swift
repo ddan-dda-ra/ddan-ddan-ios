@@ -23,6 +23,7 @@ struct DeleteUserView: View {
                         title: "",
                         leftButtonImage: Image(.arrow),
                         leftButtonAction: {
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickBackBtn(touchpoint: "mypage-delect-account"))
                             coordinator.pop()
                         }
                     )
@@ -33,6 +34,7 @@ struct DeleteUserView: View {
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 32, trailing: 20))
                     List(viewStore.reasons, id: \.self) { reason in
                         DeleteUserReasonButton(title: reason, isSelected: viewStore.selectedReason.contains(reason)) {
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickCheckboxReason())
                             viewStore.send(.selectReason(reason))
                         }
                         .foregroundStyle(.white)
@@ -44,6 +46,7 @@ struct DeleteUserView: View {
                     .scrollDisabled(true)
                     Spacer()
                     GreenButton(action: {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickCTABtn())
                         coordinator.push(to: .deleteUserConfirm(store: store))
                     }, title: "탈퇴하기", disabled: viewStore.selectedReason.isEmpty)
                     .padding(.bottom, 20)

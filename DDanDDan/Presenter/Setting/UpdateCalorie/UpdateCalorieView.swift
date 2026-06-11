@@ -33,6 +33,7 @@ struct UpdateCalorieView: View {
                         .padding(.horizontal, 20)
                     HStack(alignment: .center) {
                         Button {
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickMinusBtn())
                             viewStore.send(.decreaseCalorie)
                         } label: {
                             Image("minusButtonRounded")
@@ -44,6 +45,7 @@ struct UpdateCalorieView: View {
                             .background(.backgroundGray)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         Button {
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickPlusBtn())
                             viewStore.send(.increaseCalorie)
                         } label: {
                             Image("plusButtonRounded")
@@ -54,6 +56,7 @@ struct UpdateCalorieView: View {
                     Spacer()
                     
                     GreenButton(action: {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickSavedCTA(touchPoint: "mypage-change-goal"))
                         viewStore.send(.requestUpdate)
                     }, title: "변경 완료", disabled: false)
                 }

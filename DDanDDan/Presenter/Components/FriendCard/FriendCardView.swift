@@ -62,6 +62,7 @@ struct FriendCardView: View {
                 .frame(width: 136, height: 56)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
+                .disabled(store.isAddingFriend)
             }
 
         }
@@ -113,6 +114,7 @@ struct FriendCardView: View {
                 Image(.close)
                     .padding(16)
                     .onTapGesture {
+                        AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCloseBtn())
                         store.send(.setDismiss)
                     }
             }
@@ -122,12 +124,12 @@ struct FriendCardView: View {
     
     var cardContentView: some View {
         VStack(spacing: 0) {
-            
+
             HStack(spacing: 8) {
                 Text(store.entity?.userName ?? "")
                     .font(.neoDunggeunmo22)
                     .foregroundStyle(.textHeadlinePrimary)
-                
+
                 Text("LV.\(store.entity?.mainPet.level ?? 0)")
                     .font(.neoDunggeunmo16)
                     .foregroundStyle(.textHeadlinePrimary)
@@ -137,47 +139,52 @@ struct FriendCardView: View {
                     .background(.elevationLevel02)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
             }
-            HStack(alignment: .center, spacing: 0) {
-                Image(.fire)
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                
-                Text("받은 응원")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textBodyTeritary)
-                    .padding(.leading, 2)
-                
-                Text("\(store.entity?.monthlyReceivedCheerCount ?? 0)")
-                    .font(.neoDunggeunmo24)
-                    .baselineOffset(-2)
-                    .foregroundStyle(.textBodyTeritary)
-                    .padding(.leading, 8)
-                    
-            }
-            .padding(.vertical, 4)
-            .padding(.horizontal, 12)
-            .background(.elevationLevel02)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .padding(.top, 13)
-            
-            Rectangle()
-                .fill(.elevationLevel02)
-                .frame(height: 1)
-                .padding(.vertical, 20)
-            
-            VStack(spacing: 3) {
-                Text("오늘 소모 칼로리")
-                    .font(.body1_regular16)
-                    .foregroundStyle(.textBodyTeritary)
-                HStack(spacing: 2) {
-                    Text("\(store.entity?.todayCalorie ?? 0)")
-                        .font(.neoDunggeunmo20)
-                        .foregroundStyle(.textHeadlinePrimary)
-                    Text("kcal")
-                        .font(.neoDunggeunmo14)
-                        .foregroundStyle(.textHeadlinePrimary)
+
+            if case .pendingInvite = store.type {
+                EmptyView()
+            } else {
+                HStack(alignment: .center, spacing: 0) {
+                    Image(.fire)
+                        .resizable()
+                        .frame(width: 20, height: 20)
+
+                    Text("받은 응원")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textBodyTeritary)
+                        .padding(.leading, 2)
+
+                    Text("\(store.entity?.monthlyReceivedCheerCount ?? 0)")
+                        .font(.neoDunggeunmo24)
+                        .baselineOffset(-2)
+                        .foregroundStyle(.textBodyTeritary)
+                        .padding(.leading, 8)
+
                 }
-                
+                .padding(.vertical, 4)
+                .padding(.horizontal, 12)
+                .background(.elevationLevel02)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .padding(.top, 13)
+
+                Rectangle()
+                    .fill(.elevationLevel02)
+                    .frame(height: 1)
+                    .padding(.vertical, 20)
+
+                VStack(spacing: 3) {
+                    Text("오늘 소모 칼로리")
+                        .font(.body1_regular16)
+                        .foregroundStyle(.textBodyTeritary)
+                    HStack(spacing: 2) {
+                        Text("\(store.entity?.todayCalorie ?? 0)")
+                            .font(.neoDunggeunmo20)
+                            .foregroundStyle(.textHeadlinePrimary)
+                        Text("kcal")
+                            .font(.neoDunggeunmo14)
+                            .foregroundStyle(.textHeadlinePrimary)
+                    }
+
+                }
             }
         }
         .padding(.vertical, 28)
@@ -189,7 +196,11 @@ struct FriendCardView: View {
         case .invite:
             store.send(.onTapButton)
             store.send(.setDismiss)
+        case .pendingInvite:
+            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickAddFriendDialogCTA())
+            store.send(.onTapButton)
         case .cheer:
+            AnalyticsManager.shared.logEvent(event: FriendsEvent.clickCheerupBtn)
             store.send(.onTapButton)
             let generator = UIImpactFeedbackGenerator(style: .medium)
             generator.impactOccurred()

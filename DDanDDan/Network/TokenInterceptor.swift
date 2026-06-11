@@ -12,7 +12,7 @@ public final class TokenInterceptor: RequestInterceptor {
     
     private let maxRetryCount = 3
     private var retryCount = 0
-    private let tokenRefreshManager = TokenRefreshManager()
+    private let tokenRefreshManager = TokenRefreshManager.shared
 
     public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         

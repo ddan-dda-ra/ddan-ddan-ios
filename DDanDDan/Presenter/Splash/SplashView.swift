@@ -9,7 +9,11 @@ import SwiftUI
 
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
-    
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var showUpdateAlert = false
+    @State private var needsForceUpdate = false
+    @State private var isCheckingUpdate = false
+
     var body: some View {
         ZStack {
             Color(.backgroundBlack)
@@ -21,8 +25,36 @@ struct SplashView: View {
                 Image(.splashStart)
             }
         }
-        .onAppear {
-            viewModel.navigateToNextScreen()
+        .alert("업데이트 필요", isPresented: $showUpdateAlert) {
+            Button("업데이트") {
+                if let url = viewModel.getAppStoreURL() {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text(viewModel.updateAlertMessage)
+        }
+        .task {
+            if await viewModel.checkForceUpdate() {
+                needsForceUpdate = true
+                showUpdateAlert = true
+            } else {
+                viewModel.navigateToNextScreen()
+            }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active, needsForceUpdate, !isCheckingUpdate {
+                isCheckingUpdate = true
+                Task {
+                    if await viewModel.checkForceUpdate() {
+                        showUpdateAlert = true
+                    } else {
+                        needsForceUpdate = false
+                        viewModel.navigateToNextScreen()
+                    }
+                    isCheckingUpdate = false
+                }
+            }
         }
     }
 }

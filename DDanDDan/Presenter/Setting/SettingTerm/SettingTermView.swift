@@ -37,6 +37,7 @@ struct SettingTermView: View {
                     title: "약관 및 개인정보 처리 동의",
                     leftButtonImage: Image(.arrow),
                     leftButtonAction: {
+                        AnalyticsManager.shared.logEvent(event: SettingEvent.clickBackBtn(touchpoint: "mypage-terms"))
                         coordinator.pop()
                     }
                 )
@@ -47,6 +48,14 @@ struct SettingTermView: View {
                     .foregroundStyle(Color.textHeadlinePrimary)
                     .listRowBackground(Color.backgroundBlack)
                     .listRowSeparator(.hidden)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        switch item {
+                        case .service:
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickServiceTermBtn())
+                        case .privacy:
+                            AnalyticsManager.shared.logEvent(event: SettingEvent.clickPrivacyTermBtn())
+                        }
+                    })
                 }
                 .listStyle(.plain)
             }

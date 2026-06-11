@@ -53,6 +53,15 @@ public struct UserDefaultValue {
     @UserDefault(key: "isFirstRandomTicket", defaultValue: true)
     static public var isFirstRandomTicket: Bool
 
+    @UserDefault(key: "isFirstHomeCoachMarkShown", defaultValue: true)
+    static public var isFirstHomeCoachMarkShown: Bool
+
+    // 강제 업데이트 캐시
+    @UserDefault(key: "cachedMinimumVersion", defaultValue: nil)
+    static public var cachedMinimumVersion: String?
+    @UserDefault(key: "cachedUpdateMessage", defaultValue: "새로운 버전이 출시되었습니다. 원활한 사용을 위해 업데이트해 주세요.")
+    static public var cachedUpdateMessage: String
+
     
 }
 

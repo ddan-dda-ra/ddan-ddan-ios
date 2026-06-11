@@ -10,17 +10,18 @@ import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
     static var allCases: [SettingPath] {
-        [.petArchive, .updateNickname, .updateCalorie, .notification, .updateTerms, .deleteUser, .logout]
+        [.petArchive, .updateNickname, .updateCalorie, .notification, .inquiry, .updateTerms, .deleteUser, .logout]
     }
     
     static var myInfoSection: [SettingPath] { [.petArchive, .updateNickname, updateCalorie] }
     static var notificationSection: [SettingPath] { [.notification] }
-    static var bottomSection: [SettingPath] { [.updateTerms, .deleteUser, .logout] }
+    static var bottomSection: [SettingPath] { [.inquiry, .updateTerms, .deleteUser, .logout] }
     
     case petArchive
     case updateNickname
     case updateCalorie
     case notification
+    case inquiry
     case updateTerms
     case deleteUser
     case deleteUserConfirm(store: StoreOf<DeleteUserReducer>)
@@ -32,6 +33,7 @@ enum SettingPath: Hashable, CaseIterable {
         case .updateNickname: "내 별명 수정"
         case .updateCalorie: "목표 칼로리 수정"
         case .notification: "전체 푸시 알림"
+        case .inquiry: "문의하기"
         case .updateTerms: "약관 및 개인정보 처리 동의"
         case .deleteUser: "탈퇴하기"
         case .logout: "로그아웃"
@@ -61,7 +63,7 @@ struct SettingView: View {
     
     var body: some View {
         WithViewStore(store) { $0 } content: { viewStore in
-            
+
             let logoutDialogBinding = viewStore.binding(get: \.showLogoutDialog,
                                                         send: SettingViewReducer.Action.showLogoutDialog)
             let notificationStateBinding = viewStore.binding(get: \.notificationState,
@@ -104,6 +106,9 @@ struct SettingView: View {
                         }
                     }
                 }
+            }
+            .onAppear {
+                viewStore.send(.onAppear)
             }
         }
         .navigationBarHidden(true)
@@ -171,8 +176,17 @@ extension SettingView {
         private func handleAction(for item: SettingPath) {
             switch item {
             case .notification:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickPushAlarm())
                 notificationState.toggle()
-                break
+            case .petArchive:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickPetBox())
+                coordinator.push(to: item)
+            case .updateNickname:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickChangeName())
+                coordinator.push(to: item)
+            case .updateCalorie:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickChangeGoal())
+                coordinator.push(to: item)
             default:
                 coordinator.push(to: item)
             }
@@ -217,7 +231,18 @@ extension SettingView {
         private func handleAction(for item: SettingPath) {
             switch item {
             case .logout:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickLogout())
                 showLogoutDialog.toggle()
+            case .updateTerms:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickTerms(touchPoint: "mypage"))
+                coordinator.push(to: item)
+            case .deleteUser:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
+                coordinator.push(to: item)
+            case .inquiry:
+                if let url = URL(string: "https://tally.so/r/Gx1GEe") {
+                    UIApplication.shared.open(url)
+                }
             default:
                 coordinator.push(to: item)
             }

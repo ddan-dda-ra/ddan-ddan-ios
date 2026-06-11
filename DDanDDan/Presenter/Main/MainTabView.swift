@@ -31,6 +31,15 @@ enum TabType: Int, CaseIterable {
         case .setting: return .iconTabSetting
         }
     }
+
+    var analyticsEvent: MainTabEvent {
+        switch self {
+        case .home:    return .clickHomeBottomNavi
+        case .rank:    return .clickRankingBottomNavi
+        case .friends: return .clickFriendBottomNavi
+        case .setting: return .clickMypageBottomNavi
+        }
+    }
 }
 
 struct MainTabView: View {
@@ -100,6 +109,9 @@ struct MainTabView: View {
                     setupViewModelBindings()
                     didSetupBindings = true
                 }
+            }
+            .onReceive(coordinator.$petChangedSession) { _ in
+                store.send(.petChanged)
             }
             .onReceive(NotificationCenter.default.publisher(for: .friendInviteDeepLink)) { notification in
                 if let inviteCode = notification.object as? String {
@@ -203,6 +215,7 @@ struct RoundedTabBar: View {
                     title: tab.title,
                     isSelected: selectedTab == tab
                 ) {
+                    AnalyticsManager.shared.logEvent(event: tab.analyticsEvent)
                     selectedTab = tab
                 }
             }

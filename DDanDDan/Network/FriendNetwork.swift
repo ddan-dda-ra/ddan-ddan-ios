@@ -22,6 +22,16 @@ public struct FriendNetwork {
         )
     }
     
+    public func fetchInviteCodeInfo(accessToken: String, inviteCode: String) async -> Result<InviteCodeInfo, NetworkError> {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]
+
+        return await manager.request(
+            url: PathString.Friend.inviteCodeInfo + inviteCode,
+            method: .get,
+            headers: headers
+        )
+    }
+
     // MARK: - POST
     public func createInviteCode(accessToken: String) async -> Result<InviteCode, NetworkError> {
         let headers: HTTPHeaders = ["Authorization": "Bearer " + accessToken]

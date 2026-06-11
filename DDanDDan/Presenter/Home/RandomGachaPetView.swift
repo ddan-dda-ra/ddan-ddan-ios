@@ -58,6 +58,7 @@ struct RandomGachaPetView: View {
                         
                         HStack {
                             Button("닫기") {
+                                AnalyticsManager.shared.logEvent(event: HomeEvent.clickCancelBtn())
                                 viewModel.tapDisMissButton()
                             }
                             .buttonStyle(SecondaryButtonStyle())
@@ -69,6 +70,7 @@ struct RandomGachaPetView: View {
                                 .buttonStyle(PrimaryButtonStyle())
                             } else {
                                 Button("선택하기") {
+                                    AnalyticsManager.shared.logEvent(event: HomeEvent.clickBtn())
                                     viewModel.tapSelectButton()
                                 }
                                 .buttonStyle(PrimaryButtonStyle())

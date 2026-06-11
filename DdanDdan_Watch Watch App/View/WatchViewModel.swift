@@ -29,7 +29,7 @@ final class WatchViewModel: ObservableObject {
     
     
     func observeHealthKitData() {
-        healthKitManager.observeActiveEnergyBurned { [weak self] newKcal in
+        healthKitManager.observeActiveEnergyBurned { [weak self] newKcal, _ in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.currentKcal = Int(newKcal)
