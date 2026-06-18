@@ -56,6 +56,7 @@ actor UserManager: ObservableObject {
             accessToken = nil
             UserDefaultValue.accessToken = nil
             UserDefaultValue.refreshToken = nil
+            UserDefaultValue.userId = ""
             coordinator?.setRoot(to: .login)
         }
     }
