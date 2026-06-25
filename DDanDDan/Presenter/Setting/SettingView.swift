@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
@@ -259,9 +260,33 @@ extension SettingView {
         private var inquiryURL: URL? {
             var components = URLComponents(string: "https://tally.so/r/Gx1GEe")
             components?.queryItems = [
-                URLQueryItem(name: "userId", value: UserDefaultValue.userId)
+                URLQueryItem(name: "userId", value: UserDefaultValue.userId),
+                URLQueryItem(name: "deviceModel", value: deviceModel),
+                URLQueryItem(name: "osVersion", value: UIDevice.current.systemVersion),
+                URLQueryItem(name: "appVersion", value: appVersion)
             ]
             return components?.url
+        }
+
+        private var deviceModel: String {
+            #if targetEnvironment(simulator)
+            return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"]
+                ?? UIDevice.current.model
+            #else
+            var systemInfo = utsname()
+            uname(&systemInfo)
+
+            return withUnsafePointer(to: &systemInfo.machine) {
+                $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                    String(cString: $0)
+                }
+            }
+            #endif
+        }
+
+        private var appVersion: String {
+            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+                ?? "unknown"
         }
     }
 }
