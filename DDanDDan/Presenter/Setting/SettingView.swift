@@ -248,16 +248,23 @@ extension SettingView {
                 AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
                 coordinator.push(to: item)
             case .inquiry:
-                if let url = URL(string: "https://tally.so/r/Gx1GEe") {
+                if let url = inquiryURL {
                     UIApplication.shared.open(url)
                 }
             default:
                 coordinator.push(to: item)
             }
         }
+
+        private var inquiryURL: URL? {
+            var components = URLComponents(string: "https://tally.so/r/Gx1GEe")
+            components?.queryItems = [
+                URLQueryItem(name: "userId", value: UserDefaultValue.userId)
+            ]
+            return components?.url
+        }
     }
 }
 #Preview {
     SettingView(coordinator: AppCoordinator(), store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
 }
-
