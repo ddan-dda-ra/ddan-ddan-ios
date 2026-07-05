@@ -6,57 +6,74 @@
 //
 
 import Foundation
+
+public enum AuthenticatedBootstrapState: Equatable {
+    case idle
+    case loading
+    case failed(String)
+}
+
+@MainActor
 final class SplashViewModel: ObservableObject {
     private let coordinator: AppCoordinator
-    private let homeRepository: HomeRepository
+    private let homeRepository: HomeRepositoryProtocol
+    private let catalogRepository: any PetCatalogRepositoryProtocol
     
     @Published var updateAlertMessage: String = ""
+    @Published private(set) var bootstrapState: AuthenticatedBootstrapState = .idle
     
     init(
         coordinator: AppCoordinator,
-        homeRepository: HomeRepository
+        homeRepository: HomeRepositoryProtocol,
+        catalogRepository: any PetCatalogRepositoryProtocol = PetCatalogRepository.shared
     ) {
         self.coordinator = coordinator
         self.homeRepository = homeRepository
+        self.catalogRepository = catalogRepository
     }
     
     func performInitialSetup() async {
+        guard bootstrapState != .loading else { return }
+        bootstrapState = .loading
         do {
             let userData = try await unwrapResult(homeRepository.getUserInfo())
-
-            await MainActor.run {
-                self.coordinator.userInfo = userData
-                UserDefaultValue.userId = userData.id
-                UserDefaultValue.purposeKcal = userData.purposeCalorie
-            }
-
             let petData = try await unwrapResult(homeRepository.getMainPetInfo())
-
-            await MainActor.run {
-                self.coordinator.petInfo = petData
-                UserDefaultValue.petType = petData.mainPet.type.rawValue
-                UserDefaultValue.petId = petData.mainPet.id
-                UserDefaultValue.level = petData.mainPet.level
-                
-                
-                let sharedDefaults = UserDefaults(suiteName: "group.com.DdanDdan")
-                sharedDefaults?.set(petData.mainPet.type.rawValue, forKey: "petType")
-                sharedDefaults?.set(petData.mainPet.level, forKey: "petLevel")
-                sharedDefaults?.synchronize()
-
-                let info: [String: Any] = [
-                    "purposeKcal": userData.purposeCalorie,
-                    "petType": petData.mainPet.type.rawValue,
-                    "level": petData.mainPet.level
-                ]
-                WatchConnectivityManager.shared.transferUserInfo(info: info)
-                self.coordinator.setRoot(to: .mainTab)
+            let catalogBootstrap = await catalogRepository.prepareForMain(
+                petType: petData.mainPet.type,
+                level: petData.mainPet.level
+            )
+            guard case .success = catalogBootstrap else {
+                bootstrapState = .failed("펫 데이터를 준비하지 못했어요. 다시 시도해 주세요.")
+                return
             }
+
+            UserDefaultValue.userId = userData.id
+            UserDefaultValue.purposeKcal = userData.purposeCalorie
+            UserDefaultValue.petType = petData.mainPet.type
+            UserDefaultValue.petId = petData.mainPet.id
+            UserDefaultValue.level = petData.mainPet.level
+
+            let sharedDefaults = UserDefaults(suiteName: "group.com.DdanDdan")
+            sharedDefaults?.set(petData.mainPet.type, forKey: "petType")
+            sharedDefaults?.set(petData.mainPet.level, forKey: "petLevel")
+            sharedDefaults?.synchronize()
+
+            let info: [String: Any] = [
+                "purposeKcal": userData.purposeCalorie,
+                "petType": petData.mainPet.type,
+                "level": petData.mainPet.level
+            ]
+            WatchConnectivityManager.shared.transferUserInfo(info: info)
+            coordinator.commitAuthenticatedBootstrap(userInfo: userData, petInfo: petData)
+            bootstrapState = .idle
         } catch {
-            await MainActor.run {
-                self.coordinator.setRoot(to: .login)
-            }
+            bootstrapState = .failed("정보를 불러오지 못했어요. 다시 시도해 주세요.")
         }
+    }
+
+    func retryInitialSetup() async {
+        guard bootstrapState != .loading else { return }
+        await performInitialSetup()
     }
     
     @MainActor

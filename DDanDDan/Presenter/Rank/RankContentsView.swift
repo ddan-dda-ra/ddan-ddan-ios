@@ -168,10 +168,9 @@ extension RankContentsView {
             
             ZStack {
                 Circle()
-                    .fill(rank.mainPetType.color)
+                    .fill(CatalogPetColor.resolve(type: rank.mainPetType))
                     .frame(width: 48, height: 48)
-                Image(rank.mainPetType.image(for: rank.petLevel))
-                    .resizable()
+                CatalogPetView(type: rank.mainPetType, level: rank.petLevel)
                     .frame(width: 38, height: 38)
                     .offset(y: rank.petLevel > 3 ? 0 : -3)
                     .padding(3)
@@ -230,10 +229,9 @@ extension RankContentsView {
                         .padding(.trailing, 12)
                     ZStack {
                         Circle()
-                            .fill(myRanking?.mainPetType.color ?? .blueGraphics)
+                            .fill(myRanking.map { CatalogPetColor.resolve(type: $0.mainPetType) } ?? Color(.borderGray))
                             .frame(width: 48, height: 48)
-                        Image(myRanking?.mainPetType.image(for: myRanking?.petLevel ?? 0) ?? .blueEgg)
-                            .resizable()
+                        CatalogPetView(type: myRanking?.mainPetType ?? "", level: myRanking?.petLevel ?? 0)
                             .frame(width: 42, height: 42)
                             .offset(y: -3)
                     }
@@ -293,8 +291,7 @@ struct RankCard: View {
     var body: some View {
         ZStack {
             VStack {
-                Image(ranking.mainPetType.image(for: ranking.petLevel))
-                    .resizable()
+                CatalogPetView(type: ranking.mainPetType, level: ranking.petLevel)
                     .frame(width: 64, height: 64)
                     .padding(.bottom, 10)
                 VStack {

@@ -123,7 +123,7 @@ final class PetArchiveViewModel: ObservableObject {
         let result = await homeRepository.updateMainPet(petId: id)
         if case .success(let pet) = result {
             UserDefaultValue.petId = pet.mainPet.id
-            UserDefaultValue.petType = pet.mainPet.type.rawValue
+            UserDefaultValue.petType = pet.mainPet.type
             // 메인 펫이 바뀌었으므로 보관함 캐시 무효화 — 다음 진입 시 새 fetch.
             await cache.invalidate()
             await MainActor.run { [weak self] in

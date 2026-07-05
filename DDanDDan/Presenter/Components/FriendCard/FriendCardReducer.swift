@@ -32,7 +32,7 @@ struct FriendCardReducer {
         }
         var petLottieStrng: String {
             guard let entity else { return "" }
-            return entity.mainPet.type.lottieString(level: entity.mainPet.level)
+            return entity.mainPet.type
         }
         var hideButton: Bool {
             switch type {

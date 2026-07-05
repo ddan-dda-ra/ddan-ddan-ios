@@ -11,14 +11,23 @@ import KakaoSDKCommon
 
 public class LoginViewModel: NSObject, ObservableObject {
     private let repository: LoginRepositoryProtocol
+    private let catalogRepository: any PetCatalogRepositoryProtocol
+    private let homeRepository: HomeRepositoryProtocol
     let appCoordinator: AppCoordinator
     
     @Published var toastMessage: String = "로그인에 실패했습니다."
     @Published var showToast: Bool = false
     
-    init(repository: LoginRepositoryProtocol, appCoordinator: AppCoordinator) {
+    init(
+        repository: LoginRepositoryProtocol,
+        appCoordinator: AppCoordinator,
+        catalogRepository: any PetCatalogRepositoryProtocol = PetCatalogRepository.shared,
+        homeRepository: HomeRepositoryProtocol = HomeRepository()
+    ) {
         self.repository = repository
         self.appCoordinator = appCoordinator
+        self.catalogRepository = catalogRepository
+        self.homeRepository = homeRepository
     }
     
     func appleLogin() {
@@ -62,6 +71,28 @@ public class LoginViewModel: NSObject, ObservableObject {
             switch result {
             case .success(let loginData):
                 await UserManager.shared.login(loginData: loginData)
+                if loginData.isOnboardingComplete {
+                    guard case let .success(mainPet) = await homeRepository.getMainPetInfo() else {
+                        DispatchQueue.main.async { [weak self] in self?.showToastMessage() }
+                        return
+                    }
+                    let bootstrap = await catalogRepository.prepareForMain(
+                        petType: mainPet.mainPet.type,
+                        level: mainPet.mainPet.level
+                    )
+                    guard case .success = bootstrap else {
+                        DispatchQueue.main.async { [weak self] in self?.showToastMessage() }
+                        return
+                    }
+                    await MainActor.run { [weak self] in
+                        self?.appCoordinator.petInfo = mainPet
+                        UserDefaultValue.petType = mainPet.mainPet.type
+                        UserDefaultValue.petId = mainPet.mainPet.id
+                        UserDefaultValue.level = mainPet.mainPet.level
+                    }
+                } else {
+                    await catalogRepository.startAuthenticatedRefresh()
+                }
                 await MainActor.run { [weak self] in
                     self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {

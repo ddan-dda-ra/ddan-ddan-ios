@@ -18,7 +18,7 @@ public protocol HomeRepositoryProtocol {
     func updateMainPet(petId: String) async -> Result<MainPet, NetworkError>
     func feedPet(petId: String) async -> Result<UserPetData, NetworkError>
     func playPet(petId: String) async -> Result<UserPetData, NetworkError>
-    func addNewPet(petType: PetType) async -> Result<Pet, NetworkError>
+    func addNewPet(petType: String) async -> Result<Pet, NetworkError>
     func addNewRandomPet() async -> Result<Pet, NetworkError>
     func addNewGachaRandomPet() async -> Result<Pet, NetworkError>
     
@@ -107,7 +107,7 @@ public struct HomeRepository: HomeRepositoryProtocol {
         return result
     }
     
-    public func addNewPet(petType: PetType) async -> Result<Pet, NetworkError> {
+    public func addNewPet(petType: String) async -> Result<Pet, NetworkError> {
         guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
         
         let result = await petNetwork.addPet(accessToken: accessToken, petType: petType)

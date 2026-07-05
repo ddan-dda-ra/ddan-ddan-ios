@@ -13,8 +13,8 @@ import Lottie
 enum HomePath: Hashable {
     case successThreeDay(totalKcal: Int)
     case newPet
-    case upgradePet(level: Int, petType: PetType, newPetTicket: Bool)
-    case addFriend(level: Int, petType: PetType)
+    case upgradePet(level: Int, petType: String, newPetTicket: Bool)
+    case addFriend(level: Int, petType: String)
 }
 
 struct HomeView: View {
@@ -190,12 +190,12 @@ extension HomeView {
         ZStack {
             if isSEDevice {
                 PetBackground(
-                    pet: viewModel.homePetModel.petType,
+                    colorCode: viewModel.petPresentation.colorCode,
                     surface: .homeCompact
                 )
             } else {
                 PetBackground(
-                    pet: viewModel.homePetModel.petType,
+                    colorCode: viewModel.petPresentation.colorCode,
                     surface: .home
                 )
                 .frame(width: 254.adjusted, height: 370.adjusted)
@@ -219,15 +219,11 @@ extension HomeView {
     
     var petImage: some View {
         Group {
-            if viewModel.isPlayingSpecialAnimation {
-                LottieView(animation: .named(viewModel.currentLottieAnimation))
-                    .playing(loopMode: .loop)
-                    .frame(width: 100.adjusted, height: 100.adjusted)
-            } else {
-                LottieView(animation: .named(viewModel.homePetModel.petType.lottieString(level: viewModel.homePetModel.level)))
-                    .playing(loopMode: .loop)
-                    .frame(width: 100.adjusted, height: 100.adjusted)
-            }
+            RemotePetAssetView(
+                presentation: viewModel.petPresentation,
+                motion: viewModel.isPlayingSpecialAnimation ? .playEat : .normal
+            )
+            .frame(width: 100.adjusted, height: 100.adjusted)
         }
     }
     
@@ -260,7 +256,7 @@ extension HomeView {
                     ForEach(0..<25, id: \.self) { index in
                         if index < expCount {
                             Rectangle()
-                                .fill(viewModel.homePetModel.petType.color)
+                                .fill(viewModel.petPresentation.colorCode.map(Color.init(hex:)) ?? Color(.borderGray))
                                 .frame(width: 8.adjusted, height: 12)
                         } else {
                             Rectangle()

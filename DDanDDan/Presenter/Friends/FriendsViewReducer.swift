@@ -27,7 +27,7 @@ struct FriendsViewReducer {
         var errorMessage: String?
         var myProfilePet: ProfileModel = .init(
             name: UserDefaultValue.nickName,
-            petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+            petType: UserDefaultValue.petType,
             level: UserDefaultValue.level
         )
         var inviteCode: String = ""
@@ -75,7 +75,7 @@ struct FriendsViewReducer {
             case .onAppear:
                 state.myProfilePet = .init(
                     name: UserDefaultValue.nickName,
-                    petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+                    petType: UserDefaultValue.petType,
                     level: UserDefaultValue.level
                 )
                 guard !state.hasLoadedOnce && !state.isLoading else {

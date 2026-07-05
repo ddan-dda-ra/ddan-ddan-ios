@@ -30,15 +30,24 @@ struct SignUpSuccessView<ViewModel: SignUpViewModelProtocol>: View {
                 .frame(maxWidth: .infinity)
                 .padding(.top, 64)
                 Spacer()
-                
+                if case let .failed(message) = viewModel.bootstrapState {
+                    Text(message)
+                        .font(.body2_regular14)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                }
                 GreenButton(action: {
                     AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-start"))
                     Task {
-                        await viewModel.login()
+                        guard await viewModel.login() else { return }
+                        coordinator.petInfo = viewModel.preparedMainPet
                         coordinator.triggerHomeUpdate(trigger: true)
                         coordinator.setRoot(to: .mainTab)
                     }
-                }, title: "시작하기", disabled: false)
+                }, title: viewModel.bootstrapState == .loading ? "준비 중..." : "시작하기", disabled: viewModel.bootstrapState == .loading)
             }
         }
         .navigationBarHidden(true)

@@ -9,12 +9,19 @@ import ComposableArchitecture
 import SwiftUI
 import Lottie
 
+@MainActor
 struct FriendCardView: View {
     let store: StoreOf<FriendCardReducer>
+    @ObservedObject private var catalogStore: PetCatalogStore
     @Environment(\.dismiss) var dismiss
     
-    init(store: StoreOf<FriendCardReducer>) {
+    init(store: StoreOf<FriendCardReducer>, catalogStore: PetCatalogStore) {
         self.store = store
+        self._catalogStore = ObservedObject(wrappedValue: catalogStore)
+    }
+
+    init(store: StoreOf<FriendCardReducer>) {
+        self.init(store: store, catalogStore: .shared)
     }
     
     var body: some View {
@@ -90,7 +97,12 @@ struct FriendCardView: View {
     var cardImageView: some View {
         Group {
             if let petType = store.entity?.mainPet.type {
-                PetBackground(pet: petType, surface: .friendCard)
+                let presentation = FriendCardCatalogResolver.presentation(
+                    petType: petType,
+                    petLevel: store.entity?.mainPet.level ?? 1,
+                    snapshot: catalogStore.snapshot
+                )
+                PetBackground(colorCode: presentation.colorCode, surface: .friendCard)
             } else {
                 Color.clear
             }
@@ -108,9 +120,7 @@ struct FriendCardView: View {
             }
         }
         .overlay(alignment: .bottom) {
-            LottieView(
-                animation: .named(store.petLottieStrng))
-            .playing(loopMode: .loop)
+            CatalogPetView(type: store.entity?.mainPet.type ?? "", level: store.entity?.mainPet.level ?? 0)
             .frame(width: 100, height: 100)
             .padding(.bottom, 23)
         }
@@ -212,6 +222,16 @@ struct FriendCardView: View {
     }
 }
 
+enum FriendCardCatalogResolver {
+    static func presentation(
+        petType: String,
+        petLevel: Int,
+        snapshot: PetCatalogSnapshot
+    ) -> PetPresentation {
+        .resolve(petType: petType, petLevel: petLevel, snapshot: snapshot)
+    }
+}
+
 // MARK: - Fire Emitter View
 struct FireEmitterView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
@@ -279,7 +299,7 @@ struct FireEmitterView: UIViewRepresentable {
         store: Store(
             initialState: FriendCardReducer.State(
                 userID: "67cc3acbb0b10655fa4a37d6",
-                entity: .init(userId: "67cc3acbb0b10655fa4a37d6", userName: "지희", mainPet: .init(id: "", type: .greenHam, level: 2, expPercent: 29), todayCalorie: 100, monthlyReceivedCheerCount: 12, isFriend: true, isCheeredToday: false), type: .cheer
+                entity: .init(userId: "67cc3acbb0b10655fa4a37d6", userName: "지희", mainPet: .init(id: "", type: "HAMSTER", level: 2, expPercent: 29), todayCalorie: 100, monthlyReceivedCheerCount: 12, isFriend: true, isCheeredToday: false), type: .cheer
             )
         ) {
             FriendCardReducer()

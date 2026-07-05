@@ -30,9 +30,9 @@ public struct PetsNetwork {
     
     // MARK: - POST
     
-    public func addPet(accessToken: String, petType: PetType) async -> Result<Pet, NetworkError> {
+    public func addPet(accessToken: String, petType: String) async -> Result<Pet, NetworkError> {
         let parameter: Parameters = [
-            "petType": petType.rawValue
+            "petType": petType
         ]
         
         return await manager.request(
@@ -73,4 +73,3 @@ public struct PetsNetwork {
         )
     }
 }
-

@@ -33,7 +33,7 @@ public struct Ranking: Codable, Equatable, Identifiable {
     
     let rank: Int
     let userID, userName: String
-    let mainPetType: PetType
+    let mainPetType: String
     let petLevel, totalCalories, totalSucceededDays: Int
 
     enum CodingKeys: String, CodingKey {
@@ -65,4 +65,3 @@ struct TabRanking: Equatable {
     let kcal: RankInfo
     let goal: RankInfo
 }
-

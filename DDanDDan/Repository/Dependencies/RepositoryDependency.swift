@@ -12,4 +12,9 @@ extension DependencyValues {
         get { self[FriendCardRepository.self] }
         set { self[FriendCardRepository.self] = newValue }
     }
+
+    var petCatalogRepository: PetCatalogRepository {
+        get { self[PetCatalogRepository.self] }
+        set { self[PetCatalogRepository.self] = newValue }
+    }
 }

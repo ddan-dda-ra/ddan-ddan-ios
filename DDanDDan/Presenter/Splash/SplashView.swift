@@ -23,6 +23,20 @@ struct SplashView: View {
                 Image(.splashLogo)
                 Spacer()
                 Image(.splashStart)
+                if case let .failed(message) = viewModel.bootstrapState {
+                    Text(message)
+                        .font(.body2_regular14)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 12)
+                    GreenButton(
+                        action: { Task { await viewModel.retryInitialSetup() } },
+                        title: "다시 시도",
+                        disabled: false
+                    )
+                    .padding(.horizontal, 20)
+                }
             }
         }
         .alert("업데이트 필요", isPresented: $showUpdateAlert) {

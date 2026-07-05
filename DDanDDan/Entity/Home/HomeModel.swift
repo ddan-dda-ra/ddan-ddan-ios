@@ -8,13 +8,53 @@
 import SwiftUI
 
 struct HomeModel {
-    var petType: PetType
+    var petType: String
     var level: Int
     var exp: Double
     var goalKcal: Int
     var feedCount: Int
     var toyCount: Int
     var ticket: Int
+}
+
+struct HomePetInteractionResponse: Equatable {
+    let petID: String
+    let petType: String
+    let level: Int
+    let expPercent: Double
+    let foodQuantity: Int
+    let toyQuantity: Int
+}
+
+struct HomePetInteractionState: Equatable {
+    let petID: String
+    let petType: String
+    let level: Int
+    let expPercent: Double
+    let foodQuantity: Int
+    let toyQuantity: Int
+    let presentation: PetPresentation
+}
+
+enum HomePetInteractionReducer {
+    static func reduce(
+        response: HomePetInteractionResponse,
+        catalog: PetCatalogSnapshot
+    ) -> HomePetInteractionState {
+        .init(
+            petID: response.petID,
+            petType: response.petType,
+            level: response.level,
+            expPercent: response.expPercent,
+            foodQuantity: response.foodQuantity,
+            toyQuantity: response.toyQuantity,
+            presentation: .resolve(
+                petType: response.petType,
+                petLevel: response.level,
+                snapshot: catalog
+            )
+        )
+    }
 }
 
 enum LottieMode {

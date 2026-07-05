@@ -37,8 +37,21 @@ struct PetBackground: View {
     /// SVG 내 형태 fill의 원본 토큰. 모든 배경 SVG에서 동일하게 사용한다.
     private static let templateColorToken = "#FD85FF"
 
-    let pet: PetType
+    private let colorHex: String
+    private let fallbackColor: Color
     let surface: BackgroundSurface
+
+    init(pet: PetType, surface: BackgroundSurface) {
+        self.colorHex = pet.colorHex
+        self.fallbackColor = pet.color
+        self.surface = surface
+    }
+
+    init(colorCode: String?, surface: BackgroundSurface) {
+        self.colorHex = colorCode ?? "#D0DAE4"
+        self.fallbackColor = colorCode.map(Color.init(hex:)) ?? Color(.borderGray)
+        self.surface = surface
+    }
 
     var body: some View {
         Group {
@@ -48,7 +61,7 @@ struct PetBackground: View {
                     .allowsHitTesting(false)
             } else {
                 // 폴백: 번들 누락/디코딩 실패 시 펫 베이스 색 단색 표시
-                pet.color
+                fallbackColor
             }
         }
         .clipped()
@@ -66,7 +79,7 @@ struct PetBackground: View {
         // `#FD85FF`는 SVG 내 형태 fill에만 등장(white/#050000/none과 비충돌, 대문자 단일).
         return rawSVG.replacingOccurrences(
             of: Self.templateColorToken,
-            with: pet.colorHex
+            with: colorHex
         )
     }
 }
