@@ -54,11 +54,7 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
-        let latestIdentity = WatchPetSyncMetadata(
-            dictionary: session.receivedApplicationContext
-        )?.assetIdentity
         guard let metadata = file.metadata.flatMap(WatchPetSyncMetadata.init(dictionary:)),
-              latestIdentity == nil || latestIdentity == metadata.assetIdentity,
               let data = try? Data(contentsOf: file.fileURL),
               let svg = String(data: data, encoding: .utf8),
               svg.lowercased().contains("<svg"),
@@ -72,14 +68,10 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
             try? data.write(to: cacheURL, options: .atomic)
         }
         defaults?.set(metadata.assetIdentity, forKey: Self.cachedAssetIdentityKey)
-        persist(metadata)
 
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            if let latestIdentity = WatchPetSyncMetadata(
-                dictionary: session.receivedApplicationContext
-            )?.assetIdentity, latestIdentity != metadata.assetIdentity { return }
-            apply(metadata)
+            guard assetIdentity == metadata.assetIdentity else { return }
             petSVG = svg
         }
     }
@@ -92,7 +84,9 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
 
     private func apply(_ metadata: WatchPetSyncMetadata) {
         if assetIdentity != metadata.assetIdentity {
-            petSVG = nil
+            petSVG = cachedSVG(for: metadata.assetIdentity)
+        } else if petSVG == nil {
+            petSVG = cachedSVG(for: metadata.assetIdentity)
         }
         purposeKcal = Double(metadata.purposeKcal)
         petType = metadata.petType
@@ -109,11 +103,16 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         guard let defaults,
               let metadata = WatchPetSyncMetadata(dictionary: defaults.dictionaryRepresentation()) else { return }
         apply(metadata)
-        guard defaults.string(forKey: Self.cachedAssetIdentityKey) == metadata.assetIdentity,
+    }
+
+    private func cachedSVG(for identity: String) -> String? {
+        guard defaults?.string(forKey: Self.cachedAssetIdentityKey) == identity,
               let cacheURL = cachedAssetURL(),
               let data = try? Data(contentsOf: cacheURL),
-              let svg = String(data: data, encoding: .utf8) else { return }
-        petSVG = svg
+              let svg = String(data: data, encoding: .utf8),
+              svg.lowercased().contains("<svg"),
+              svg.lowercased().contains("</svg>") else { return nil }
+        return svg
     }
 
     private func cachedAssetURL() -> URL? {

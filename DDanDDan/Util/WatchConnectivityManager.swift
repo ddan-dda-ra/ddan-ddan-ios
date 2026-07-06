@@ -27,6 +27,7 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
     )
     @MainActor private var pendingPetMetadata: WatchPetSyncMetadata?
     @MainActor private var pendingPetFileURL: URL?
+    @MainActor private var lastTransferredAssetIdentity: String?
     
     // MARK: - Init
     
@@ -108,8 +109,10 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
               let metadata = pendingPetMetadata else { return }
         do {
             try session.updateApplicationContext(metadata.dictionary)
-            if let pendingPetFileURL {
+            if lastTransferredAssetIdentity != metadata.assetIdentity,
+               let pendingPetFileURL {
                 session.transferFile(pendingPetFileURL, metadata: metadata.dictionary)
+                lastTransferredAssetIdentity = metadata.assetIdentity
             }
             self.pendingPetMetadata = nil
             self.pendingPetFileURL = nil
@@ -129,6 +132,17 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
 
     func sessionWatchStateDidChange(_ session: WCSession) {
         Task { @MainActor [weak self] in self?.flushPendingPetSyncIfPossible() }
+    }
+
+    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: (any Error)?) {
+        guard error != nil,
+              let identity = fileTransfer.file.metadata
+                .flatMap(WatchPetSyncMetadata.init(dictionary:))?
+                .assetIdentity else { return }
+        Task { @MainActor [weak self] in
+            guard self?.lastTransferredAssetIdentity == identity else { return }
+            self?.lastTransferredAssetIdentity = nil
+        }
     }
     
     
