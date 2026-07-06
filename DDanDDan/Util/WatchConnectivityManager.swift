@@ -7,10 +7,17 @@
 
 import WatchConnectivity
 import SwiftUI
+import OSLog
 
 /// WatchConnectivity 관리하는 클래스, iOS - Watch 간 데이터 통신 담당
 final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     static let shared = WatchConnectivityManager()
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "DDanDDan",
+        category: "WatchConnectivity"
+    )
+    @MainActor private var pendingPetMetadata: WatchPetSyncMetadata?
+    @MainActor private var pendingPetFileURL: URL?
     
     // MARK: - Init
     
@@ -49,6 +56,58 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
             print("WCSession is not activated")
         }
     }
+
+    /// 현재 메인 펫 상태와 서버 카탈로그 SVG를 Watch에 동기화한다.
+    /// 메타데이터는 최신 상태만 유지하고, SVG는 큰 데이터 전송에 적합한 transferFile을 사용한다.
+    func syncPet(
+        purposeKcal: Int,
+        petType: String,
+        level: Int,
+        presentation: PetPresentation
+    ) async {
+        let imageURL = presentation.level?.imageURL
+        let identity = [
+            PetCatalogSnapshot.canonicalType(petType),
+            String(level),
+            imageURL?.absoluteString ?? "placeholder"
+        ].joined(separator: "|")
+        let metadata = WatchPetSyncMetadata(
+            purposeKcal: purposeKcal,
+            petType: petType,
+            level: level,
+            colorCode: presentation.colorCode ?? "#D0DAE4",
+            assetIdentity: identity
+        )
+
+        let localURL: URL?
+        if let imageURL {
+            localURL = await PetAssetCache.shared.localURL(for: imageURL)
+        } else {
+            localURL = nil
+        }
+        await MainActor.run {
+            pendingPetMetadata = metadata
+            pendingPetFileURL = localURL
+            flushPendingPetSyncIfPossible()
+        }
+    }
+
+    @MainActor
+    private func flushPendingPetSyncIfPossible() {
+        let session = WCSession.default
+        guard session.activationState == .activated,
+              let metadata = pendingPetMetadata else { return }
+        do {
+            try session.updateApplicationContext(metadata.dictionary)
+            if let pendingPetFileURL {
+                session.transferFile(pendingPetFileURL, metadata: metadata.dictionary)
+            }
+            self.pendingPetMetadata = nil
+            self.pendingPetFileURL = nil
+        } catch {
+            Self.logger.error("Failed to update Watch context: \(error.localizedDescription, privacy: .public)")
+        }
+    }
     
     
     // MARK: - 필수 구현 메서드 및 Delegate 메서드
@@ -56,6 +115,11 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
     /// WCSessionDelegate 프로토콜 메서드 - 세션 활성화 완료 시 호출
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
         print("WCSession activation completed with state: \(activationState)")
+        Task { @MainActor [weak self] in self?.flushPendingPetSyncIfPossible() }
+    }
+
+    func sessionWatchStateDidChange(_ session: WCSession) {
+        Task { @MainActor [weak self] in self?.flushPendingPetSyncIfPossible() }
     }
     
     

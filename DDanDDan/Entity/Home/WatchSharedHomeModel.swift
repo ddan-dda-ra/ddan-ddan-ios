@@ -7,6 +7,55 @@
 
 import SwiftUI
 
+enum WatchPetSyncKey {
+    static let purposeKcal = "purposeKcal"
+    static let petType = "petType"
+    static let level = "level"
+    static let colorCode = "petColorCode"
+    static let assetIdentity = "petAssetIdentity"
+}
+
+struct WatchPetSyncMetadata: Equatable {
+    let purposeKcal: Int
+    let petType: String
+    let level: Int
+    let colorCode: String
+    let assetIdentity: String
+
+    var dictionary: [String: Any] {
+        [
+            WatchPetSyncKey.purposeKcal: purposeKcal,
+            WatchPetSyncKey.petType: petType,
+            WatchPetSyncKey.level: level,
+            WatchPetSyncKey.colorCode: colorCode,
+            WatchPetSyncKey.assetIdentity: assetIdentity
+        ]
+    }
+
+    init(purposeKcal: Int, petType: String, level: Int, colorCode: String, assetIdentity: String) {
+        self.purposeKcal = purposeKcal
+        self.petType = petType
+        self.level = level
+        self.colorCode = colorCode
+        self.assetIdentity = assetIdentity
+    }
+
+    init?(dictionary: [String: Any]) {
+        guard let purposeKcal = dictionary[WatchPetSyncKey.purposeKcal] as? NSNumber,
+              let petType = dictionary[WatchPetSyncKey.petType] as? String,
+              let level = dictionary[WatchPetSyncKey.level] as? NSNumber,
+              let colorCode = dictionary[WatchPetSyncKey.colorCode] as? String,
+              let assetIdentity = dictionary[WatchPetSyncKey.assetIdentity] as? String else { return nil }
+        self.init(
+            purposeKcal: purposeKcal.intValue,
+            petType: petType,
+            level: level.intValue,
+            colorCode: colorCode,
+            assetIdentity: assetIdentity
+        )
+    }
+}
+
 struct WatchPetModel: Codable {
     var petType: PetType
     var goalKcal: Int
@@ -80,5 +129,4 @@ public enum PetType: String, Codable {
         }
     }
 }
-
 

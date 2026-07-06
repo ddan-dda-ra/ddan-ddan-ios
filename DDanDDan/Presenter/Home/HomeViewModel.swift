@@ -194,13 +194,12 @@ final class HomeViewModel: ObservableObject {
             enableRandomPet = userInfo.tickets > 0
             resolvePresentation()
             
-            let info: [String: Any] = [
-                "purposeKcal": userInfo.purposeCalorie,
-                "petType": petInfo.mainPet.type,
-                "level": petInfo.mainPet.level
-            ]
-            
-            WatchConnectivityManager.shared.transferUserInfo(info: info)
+            await WatchConnectivityManager.shared.syncPet(
+                purposeKcal: userInfo.purposeCalorie,
+                petType: petInfo.mainPet.type,
+                level: petInfo.mainPet.level,
+                presentation: petPresentation
+            )
             
             
         }

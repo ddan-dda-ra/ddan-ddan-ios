@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10F00100000000000000010 /* SVGView in Frameworks */ = {isa = PBXBuildFile; productRef = A10F00110000000000000011 /* SVGView */; };
 		A10F00010000000000000001 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A10F00030000000000000003 /* Alamofire */; };
 		A10F00020000000000000002 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A10F00040000000000000004 /* Alamofire */; };
 		0CD4DC0635E949E8BE598F2C /* bg_diamond_sm.svg in Resources */ = {isa = PBXBuildFile; fileRef = 8596780C2BD446B684A40536 /* bg_diamond_sm.svg */; };
@@ -615,6 +616,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10F00100000000000000010 /* SVGView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,6 +1357,9 @@
 				36A9D7422DED8D7500A9169A /* PBXTargetDependency */,
 			);
 			name = "DdanDdan_Watch Watch App";
+			packageProductDependencies = (
+				A10F00110000000000000011 /* SVGView */,
+			);
 			productName = "DdanDdan_Watch Watch App";
 			productReference = 36E0196C2CCA830A00383318 /* DdanDdan_Watch Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -2575,6 +2580,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A10F00110000000000000011 /* SVGView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 091CA7D7629843AC8F8D1F95 /* XCRemoteSwiftPackageReference "SVGView" */;
+			productName = SVGView;
+		};
 		A10F00030000000000000003 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A10F00050000000000000005 /* XCRemoteSwiftPackageReference "Alamofire" */;
