@@ -32,6 +32,7 @@ struct LoginView: View {
                         .foregroundColor(.black)
                         .padding(.horizontal, 20)
                 }
+                .opacity(viewModel.isLoading ? 0.5 : 1)
                 .disabled(viewModel.isLoading)
                 .padding(.bottom, 9)
                 Button {
@@ -46,6 +47,7 @@ struct LoginView: View {
                         .border(.white, width: 1)
                         .padding(.horizontal, 20)
                 }
+                .opacity(viewModel.isLoading ? 0.5 : 1)
                 .disabled(viewModel.isLoading)
             }
             .padding(.bottom, 40)
