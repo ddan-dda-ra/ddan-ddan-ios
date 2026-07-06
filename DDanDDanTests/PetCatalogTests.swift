@@ -678,6 +678,26 @@ final class PetCatalogTests: XCTestCase {
     }
 
     @MainActor
+    func testSplashFetchesUserAndMainPetConcurrently() async {
+        let coordinator = AppCoordinator()
+        let repository = ConcurrentBootstrapHomeRepository()
+        let snapshot = PetCatalogSnapshot(revision: "ready", pets: [item(type: "CAT", levels: [1])])
+        let viewModel = SplashViewModel(
+            coordinator: coordinator,
+            homeRepository: repository,
+            catalogRepository: SignUpCatalogStub(
+                response: .init(revision: snapshot.revision, pets: snapshot.pets)
+            )
+        )
+
+        await viewModel.performInitialSetup()
+
+        let maximumConcurrentRequests = await repository.maximumConcurrentRequests
+        XCTAssertEqual(maximumConcurrentRequests, 2)
+        XCTAssertEqual(coordinator.rootView, .mainTab)
+    }
+
+    @MainActor
     func testFriendCardBackgroundResolverUsesPublishedCatalogColor() async {
         let store = PetCatalogStore()
         let before = FriendCardCatalogResolver.presentation(petType: "CAT", petLevel: 1, snapshot: store.snapshot)
@@ -761,6 +781,38 @@ private struct SplashHomeRepositoryStub: HomeRepositoryProtocol {
     func getMainPetInfo() async -> Result<MainPet, NetworkError> {
         .success(.init(mainPet: .init(id: "pet", type: "CAT", level: 1, expPercent: 0)))
     }
+    func getPetArchive() async -> Result<PetArchiveModel, NetworkError> { .failure(.requestFailed("unused")) }
+    func getSpecificPet(petId: String) async -> Result<Pet, NetworkError> { .failure(.requestFailed("unused")) }
+    func updateMainPet(petId: String) async -> Result<MainPet, NetworkError> { .failure(.requestFailed("unused")) }
+    func feedPet(petId: String) async -> Result<UserPetData, NetworkError> { .failure(.requestFailed("unused")) }
+    func playPet(petId: String) async -> Result<UserPetData, NetworkError> { .failure(.requestFailed("unused")) }
+    func addNewPet(petType: String) async -> Result<Pet, NetworkError> { .failure(.requestFailed("unused")) }
+    func addNewRandomPet() async -> Result<Pet, NetworkError> { .failure(.requestFailed("unused")) }
+    func addNewGachaRandomPet() async -> Result<Pet, NetworkError> { .failure(.requestFailed("unused")) }
+    func updateDailyKcal(calorie: Int) async -> Result<DailyUserData, NetworkError> { .failure(.requestFailed("unused")) }
+}
+
+private actor ConcurrentBootstrapHomeRepository: HomeRepositoryProtocol {
+    private var activeRequests = 0
+    private(set) var maximumConcurrentRequests = 0
+
+    func getUserInfo() async -> Result<HomeUserInfo, NetworkError> {
+        await recordRequest()
+        return .success(.init(id: "user", purposeCalorie: 100, foodQuantity: 1, toyQuantity: 1, tickets: 0))
+    }
+
+    func getMainPetInfo() async -> Result<MainPet, NetworkError> {
+        await recordRequest()
+        return .success(.init(mainPet: .init(id: "pet", type: "CAT", level: 1, expPercent: 0)))
+    }
+
+    private func recordRequest() async {
+        activeRequests += 1
+        maximumConcurrentRequests = max(maximumConcurrentRequests, activeRequests)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        activeRequests -= 1
+    }
+
     func getPetArchive() async -> Result<PetArchiveModel, NetworkError> { .failure(.requestFailed("unused")) }
     func getSpecificPet(petId: String) async -> Result<Pet, NetworkError> { .failure(.requestFailed("unused")) }
     func updateMainPet(petId: String) async -> Result<MainPet, NetworkError> { .failure(.requestFailed("unused")) }

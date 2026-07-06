@@ -169,9 +169,10 @@ final class HomeViewModel: ObservableObject {
 
     @MainActor
     func fetchHomeInfo() async {
-        
-        let userData = await homeRepository.getUserInfo()
-        let mainPetData = await homeRepository.getMainPetInfo()
+        async let userInfoResult = homeRepository.getUserInfo()
+        async let mainPetResult = homeRepository.getMainPetInfo()
+        let userData = await userInfoResult
+        let mainPetData = await mainPetResult
         
         if case .success(let userInfo) = userData,
            case .success(let petInfo) = mainPetData {

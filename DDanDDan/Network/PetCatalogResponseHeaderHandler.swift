@@ -16,6 +16,7 @@ public struct PetCatalogResponseHeaderHandler: PetCatalogResponseHeaderHandling,
         let path = requestURL.path
         guard path.hasPrefix("/v1/"),
               path != PathString.Auth.login,
+              path != PathString.Auth.reissue,
               path != PathString.Pet.catalog,
               headerValue(in: response)?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "true"
         else { return }

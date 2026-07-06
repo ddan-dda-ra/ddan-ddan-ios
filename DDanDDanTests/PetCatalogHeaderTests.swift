@@ -99,6 +99,54 @@ final class PetCatalogHeaderTests: XCTestCase {
         XCTAssertEqual(count, 0)
     }
 
+    func testReissueTrueDoesNotRefreshCatalog() async {
+        let coordinator = RefreshSpy()
+        let handler = PetCatalogResponseHeaderHandler(coordinator: coordinator)
+        await handler.handle(
+            response: response(headers: [PetCatalogResponseHeaderHandler.downloadRequiredHeader: "true"]),
+            requestURL: url("/v1/auth/reissue")
+        )
+        let count = await coordinator.count
+        XCTAssertEqual(count, 0)
+    }
+
+    func testFailedRefreshIsSharedWithLate401ForSameAccessToken() async {
+        let originalAccessToken = UserDefaultValue.accessToken
+        let originalRefreshToken = UserDefaultValue.refreshToken
+        defer {
+            UserDefaultValue.accessToken = originalAccessToken
+            UserDefaultValue.refreshToken = originalRefreshToken
+        }
+        let counter = Counter()
+        let manager = TokenRefreshManager(
+            reissue: { _ in
+                await counter.started()
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                return .failure(.requestFailed("expired refresh token"))
+            },
+            applyReissue: { _ in },
+            logout: {}
+        )
+        UserDefaultValue.accessToken = "expired-access"
+        UserDefaultValue.refreshToken = "expired-refresh"
+
+        await withTaskGroup(of: Bool.self) { group in
+            for _ in 0..<10 {
+                group.addTask {
+                    await manager.refresh(failedRequestAuthorization: "Bearer expired-access")
+                }
+            }
+            for await result in group {
+                XCTAssertFalse(result)
+            }
+        }
+        let lateResult = await manager.refresh(failedRequestAuthorization: "Bearer expired-access")
+        let count = await counter.count
+
+        XCTAssertFalse(lateResult)
+        XCTAssertEqual(count, 1)
+    }
+
     func testConcurrentTrueResponsesRefreshOnlyOnce() async throws {
         let counter = Counter()
         let coordinator = PetCatalogRefreshCoordinator {

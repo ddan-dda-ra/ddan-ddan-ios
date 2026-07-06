@@ -11,7 +11,6 @@ import Alamofire
 public final class TokenInterceptor: RequestInterceptor {
     
     private let maxRetryCount = 3
-    private var retryCount = 0
     private let tokenRefreshManager = TokenRefreshManager.shared
 
     public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
@@ -42,9 +41,8 @@ public final class TokenInterceptor: RequestInterceptor {
         
         print("🔹 Response Status Code: \(response.statusCode)")
         
-        if retryCount >= maxRetryCount {
+        if request.retryCount >= maxRetryCount {
             print("🔻 최대 재시도 횟수 초과: 로그아웃 처리")
-            retryCount = 0
             Task {
                 await UserManager.shared.logout()
             }
@@ -52,18 +50,15 @@ public final class TokenInterceptor: RequestInterceptor {
             return
         }
         
-        retryCount += 1
-        
-        
         Task {
-            let refreshSuccess = await tokenRefreshManager.refresh()
+            let refreshSuccess = await tokenRefreshManager.refresh(
+                failedRequestAuthorization: request.request?.value(forHTTPHeaderField: "Authorization")
+            )
             
             await MainActor.run {
                 if refreshSuccess {
-                    self.retryCount = 0
                     completion(.retry)
                 } else {
-                    self.retryCount = 0
                     completion(.doNotRetry)
                 }
             }

@@ -38,8 +38,10 @@ final class SplashViewModel: ObservableObject {
         guard bootstrapState != .loading else { return }
         bootstrapState = .loading
         do {
-            let userData = try await unwrapResult(homeRepository.getUserInfo())
-            let petData = try await unwrapResult(homeRepository.getMainPetInfo())
+            async let userInfoResult = homeRepository.getUserInfo()
+            async let mainPetResult = homeRepository.getMainPetInfo()
+            let userData = try await unwrapResult(userInfoResult)
+            let petData = try await unwrapResult(mainPetResult)
             let catalogBootstrap = await catalogRepository.prepareForMain(
                 petType: petData.mainPet.type,
                 level: petData.mainPet.level
