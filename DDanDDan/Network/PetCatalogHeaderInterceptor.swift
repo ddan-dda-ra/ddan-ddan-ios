@@ -19,7 +19,7 @@ public final class PetCatalogHeaderInterceptor: RequestInterceptor, @unchecked S
             completion(.success(request))
             return
         }
-        if path == "/v1/auth/login" {
+        if path == PathString.Auth.login {
             request.setValue(nil, forHTTPHeaderField: Self.revisionHeader)
         } else {
             request.setValue(revisionProvider.currentRevision, forHTTPHeaderField: Self.revisionHeader)

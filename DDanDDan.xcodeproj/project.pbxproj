@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10F00010000000000000001 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A10F00030000000000000003 /* Alamofire */; };
+		A10F00020000000000000002 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A10F00040000000000000004 /* Alamofire */; };
 		0CD4DC0635E949E8BE598F2C /* bg_diamond_sm.svg in Resources */ = {isa = PBXBuildFile; fileRef = 8596780C2BD446B684A40536 /* bg_diamond_sm.svg */; };
 		242C2A240FB540AB94305D76 /* bg_diamond.svg in Resources */ = {isa = PBXBuildFile; fileRef = 9AA318A13D254D0687720811 /* bg_diamond.svg */; };
 		2DF8EAA557AEE22DC06BFDE5 /* PetCatalogResponseHeaderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A543F461AFC15F8A86202158 /* PetCatalogResponseHeaderHandler.swift */; };
@@ -634,6 +636,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10F00020000000000000002 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +644,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10F00010000000000000001 /* Alamofire in Frameworks */,
 				364195502D4D18890065C400 /* FirebaseMessaging in Frameworks */,
 				3641954E2D4D18890065C400 /* FirebaseAnalytics in Frameworks */,
 				36465D752CF7F28100784E8A /* Lottie in Frameworks */,
@@ -1405,6 +1409,9 @@
 				C0D4A0090000000000000009 /* PBXTargetDependency */,
 			);
 			name = DDanDDanTests;
+			packageProductDependencies = (
+				A10F00040000000000000004 /* Alamofire */,
+			);
 			productName = DDanDDanTests;
 			productReference = C0D4A0040000000000000004 /* DDanDDanTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1430,6 +1437,7 @@
 			);
 			name = DDanDDan;
 			packageProductDependencies = (
+				A10F00030000000000000003 /* Alamofire */,
 				F8C10C0C2C5782720037D6A5 /* KakaoSDK */,
 				F8C10C0E2C5782720037D6A5 /* KakaoSDKAuth */,
 				F8C10C102C5782720037D6A5 /* KakaoSDKCommon */,
@@ -1493,6 +1501,7 @@
 			);
 			mainGroup = F8AB33212C2EAD2E00BC16C9;
 			packageReferences = (
+				A10F00050000000000000005 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F8C10C0B2C5782720037D6A5 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				36465D732CF7F28100784E8A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				F9E421782D0ED49C005A5795 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
@@ -2515,6 +2524,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A10F00050000000000000005 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
 		091CA7D7629843AC8F8D1F95 /* XCRemoteSwiftPackageReference "SVGView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/SVGView";
@@ -2558,6 +2575,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A10F00030000000000000003 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10F00050000000000000005 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		A10F00040000000000000004 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10F00050000000000000005 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		3641954D2D4D18890065C400 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3641954C2D4D18890065C400 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

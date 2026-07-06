@@ -53,8 +53,12 @@ public actor PetAssetCache: PetAssetCaching {
     }
 
     public func data(for url: URL) -> Data? {
-        guard let local = localURL(for: url) else { return nil }
-        return try? Data(contentsOf: local)
+        let local = fileURL(for: url)
+        guard let data = try? Data(contentsOf: local), Self.isValid(data, for: url) else {
+            try? FileManager.default.removeItem(at: local)
+            return nil
+        }
+        return data
     }
 
     public func download(_ url: URL) async -> URL? {

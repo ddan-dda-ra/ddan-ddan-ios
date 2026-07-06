@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 public enum AuthenticatedBootstrapState: Equatable {
     case idle
@@ -15,6 +16,7 @@ public enum AuthenticatedBootstrapState: Equatable {
 
 @MainActor
 final class SplashViewModel: ObservableObject {
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DDanDDan", category: "Splash")
     private let coordinator: AppCoordinator
     private let homeRepository: HomeRepositoryProtocol
     private let catalogRepository: any PetCatalogRepositoryProtocol
@@ -43,6 +45,7 @@ final class SplashViewModel: ObservableObject {
                 level: petData.mainPet.level
             )
             guard case .success = catalogBootstrap else {
+                Self.logger.error("Pet catalog bootstrap failed: \(String(describing: catalogBootstrap), privacy: .public)")
                 bootstrapState = .failed("펫 데이터를 준비하지 못했어요. 다시 시도해 주세요.")
                 return
             }
@@ -67,6 +70,7 @@ final class SplashViewModel: ObservableObject {
             coordinator.commitAuthenticatedBootstrap(userInfo: userData, petInfo: petData)
             bootstrapState = .idle
         } catch {
+            Self.logger.error("Initial setup failed: \(error.localizedDescription, privacy: .public)")
             bootstrapState = .failed("정보를 불러오지 못했어요. 다시 시도해 주세요.")
         }
     }

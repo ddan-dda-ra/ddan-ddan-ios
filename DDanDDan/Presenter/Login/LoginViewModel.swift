@@ -17,6 +17,9 @@ public class LoginViewModel: NSObject, ObservableObject {
     
     @Published var toastMessage: String = "로그인에 실패했습니다."
     @Published var showToast: Bool = false
+    @Published private(set) var bootstrapState: AuthenticatedBootstrapState = .idle
+
+    var isLoading: Bool { bootstrapState == .loading }
     
     init(
         repository: LoginRepositoryProtocol,
@@ -65,7 +68,8 @@ public class LoginViewModel: NSObject, ObservableObject {
     private func login(token: String?, tokenType: String) {
         guard let token = token else { return }
         
-        Task {
+        Task { [weak self] in
+            guard let self, await self.beginLogin() else { return }
             await saveToken(token: token, tokenType: tokenType)
             let result = await repository.login(token: token, tokenType: tokenType)
             switch result {
@@ -73,7 +77,7 @@ public class LoginViewModel: NSObject, ObservableObject {
                 await UserManager.shared.login(loginData: loginData)
                 if loginData.isOnboardingComplete {
                     guard case let .success(mainPet) = await homeRepository.getMainPetInfo() else {
-                        DispatchQueue.main.async { [weak self] in self?.showToastMessage() }
+                        await failLogin(message: "메인 펫 정보를 확인하지 못했어요. 다시 시도해 주세요.")
                         return
                     }
                     let bootstrap = await catalogRepository.prepareForMain(
@@ -81,7 +85,7 @@ public class LoginViewModel: NSObject, ObservableObject {
                         level: mainPet.mainPet.level
                     )
                     guard case .success = bootstrap else {
-                        DispatchQueue.main.async { [weak self] in self?.showToastMessage() }
+                        await failLogin(message: "펫 데이터를 준비하지 못했어요. 다시 시도해 주세요.")
                         return
                     }
                     await MainActor.run { [weak self] in
@@ -94,6 +98,7 @@ public class LoginViewModel: NSObject, ObservableObject {
                     await catalogRepository.startAuthenticatedRefresh()
                 }
                 await MainActor.run { [weak self] in
+                    self?.bootstrapState = .idle
                     self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {
                         self?.appCoordinator.setRoot(to: .mainTab)
@@ -110,11 +115,26 @@ public class LoginViewModel: NSObject, ObservableObject {
                         break
                     }
                     self?.showToastMessage()
+                    self?.bootstrapState = .failed(self?.toastMessage ?? "로그인에 실패했습니다.")
                 }
                 print(error)
                 
             }
         }
+    }
+
+    @MainActor
+    private func beginLogin() -> Bool {
+        guard bootstrapState != .loading else { return false }
+        bootstrapState = .loading
+        return true
+    }
+
+    @MainActor
+    private func failLogin(message: String) {
+        toastMessage = message
+        bootstrapState = .failed(message)
+        showToastMessage()
     }
     
     @MainActor

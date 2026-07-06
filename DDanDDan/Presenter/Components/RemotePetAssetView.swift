@@ -88,8 +88,9 @@ struct RemotePetAssetView: View {
     }
 
     private var assetIdentity: String {
-        guard let level = presentation.level else { return "placeholder" }
-        return motion == .normal ? level.lottieDefaultUrl : level.lottiePlayEatUrl
+        guard let level = presentation.level else { return "\(presentation.type)-placeholder" }
+        let url = motion == .normal ? level.lottieDefaultUrl : level.lottiePlayEatUrl
+        return "\(presentation.type)-\(level.level)-\(motion)-\(url)"
     }
 
     @MainActor
@@ -103,7 +104,9 @@ struct RemotePetAssetView: View {
         let lottieURL = motion == .normal ? level.defaultLottieURL : level.playEatLottieURL
         if let url = lottieURL,
            let data = await RemotePetAssetLoader.data(for: url, cache: PetAssetCache.shared),
-           let decoded = try? LottieAnimation.from(data: data) {
+           let decoded = await Task.detached(priority: .userInitiated, operation: {
+               try? LottieAnimation.from(data: data)
+           }).value {
             guard !Task.isCancelled, identity == assetIdentity else { return }
             loadState.commit(animation: decoded, identity: identity)
             return
@@ -148,6 +151,10 @@ struct CatalogPetColor {
 
     static func resolve(type: String, snapshot: PetCatalogSnapshot) -> Color {
         let presentation = PetPresentation.resolve(petType: type, petLevel: 1, snapshot: snapshot)
-        return presentation.colorCode.map(Color.init(hex:)) ?? Color(.borderGray)
+        return resolve(presentation: presentation)
+    }
+
+    static func resolve(presentation: PetPresentation) -> Color {
+        presentation.colorCode.map(Color.init(hex:)) ?? Color(.borderGray)
     }
 }

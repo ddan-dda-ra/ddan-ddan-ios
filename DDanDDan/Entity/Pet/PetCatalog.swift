@@ -33,9 +33,7 @@ public struct PetCatalogLevel: Codable, Equatable, Sendable {
     public let lottiePlayEatUrl: String
 
     public var assetURLs: Set<URL> {
-        Set([imageUrl, lottieDefaultUrl, lottiePlayEatUrl].compactMap {
-            Self.absoluteHTTPURL($0)
-        })
+        Set([imageURL, defaultLottieURL, playEatLottieURL].compactMap { $0 })
     }
 
     public var imageURL: URL? { Self.absoluteHTTPURL(imageUrl, expectedExtension: "svg") }

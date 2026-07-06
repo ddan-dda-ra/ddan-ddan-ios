@@ -256,7 +256,7 @@ extension HomeView {
                     ForEach(0..<25, id: \.self) { index in
                         if index < expCount {
                             Rectangle()
-                                .fill(viewModel.petPresentation.colorCode.map(Color.init(hex:)) ?? Color(.borderGray))
+                                .fill(CatalogPetColor.resolve(presentation: viewModel.petPresentation))
                                 .frame(width: 8.adjusted, height: 12)
                         } else {
                             Rectangle()

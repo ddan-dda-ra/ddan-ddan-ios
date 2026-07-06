@@ -101,7 +101,7 @@ public actor PetCatalogRepository: PetCatalogRepositoryProtocol {
         if !local.pets.isEmpty {
             let presentation = PetPresentation.resolve(petType: petType, petLevel: level, snapshot: local)
             guard let selectedLevel = presentation.level else {
-                return .failure(.requestFailed("메인 펫 카탈로그를 찾을 수 없습니다."))
+                return await sync()
             }
             let requiredURLs = selectedLevel.assetURLs
             guard requiredURLs.count == 3 else {
@@ -158,11 +158,12 @@ public actor PetCatalogRepository: PetCatalogRepositoryProtocol {
         guard !candidate.pets.isEmpty else {
             return .failure(.invalidResponse)
         }
-        let expectedAssetCount = catalog.pets.reduce(0) { $0 + ($1.levels.count * 3) }
-        guard expectedAssetCount > 0,
-              candidate.assetURLs.count == expectedAssetCount else {
+        let allLevels = catalog.pets.flatMap(\.levels)
+        guard !allLevels.isEmpty,
+              allLevels.allSatisfy({ $0.assetURLs.count == 3 }) else {
             return .failure(.invalidResponse)
         }
+        let expectedAssetCount = candidate.assetURLs.count
         let urlsToDownload = await candidate.assetURLs.asyncFilter {
             let isNewURL = !oldSnapshot.assetURLs.contains($0)
             if isNewURL { return true }

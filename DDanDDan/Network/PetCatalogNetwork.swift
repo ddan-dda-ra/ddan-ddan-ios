@@ -13,9 +13,13 @@ public protocol PetCatalogNetworking: Sendable {
 }
 
 public struct PetCatalogNetwork: PetCatalogNetworking, Sendable {
-    public init() {}
+    private let manager: NetworkManager
+
+    public init(manager: NetworkManager = NetworkManager()) {
+        self.manager = manager
+    }
 
     public func fetchCatalog() async -> Result<PetCatalogResponse, NetworkError> {
-        await NetworkManager().request(url: PathString.Pet.catalog, method: .get)
+        await manager.request(url: PathString.Pet.catalog, method: .get)
     }
 }

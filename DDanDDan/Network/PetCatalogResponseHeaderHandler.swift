@@ -15,8 +15,8 @@ public struct PetCatalogResponseHeaderHandler: PetCatalogResponseHeaderHandling,
     public func handle(response: HTTPURLResponse, requestURL: URL) async {
         let path = requestURL.path
         guard path.hasPrefix("/v1/"),
-              path != "/v1/auth/login",
-              path != "/v1/pets/catalog",
+              path != PathString.Auth.login,
+              path != PathString.Pet.catalog,
               headerValue(in: response)?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "true"
         else { return }
         await coordinator.requestRefresh()

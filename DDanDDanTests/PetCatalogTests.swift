@@ -61,6 +61,43 @@ final class PetCatalogTests: XCTestCase {
         XCTAssertNil(stored)
     }
 
+    func testFreshCatalogAllowsAssetsSharedAcrossLevels() async {
+        let sharedImage = "https://a/shared.svg"
+        let levels = [
+            PetCatalogLevel(
+                level: 1,
+                imageUrl: sharedImage,
+                lottieDefaultUrl: "https://a/1-default.json",
+                lottiePlayEatUrl: "https://a/1-play.json"
+            ),
+            PetCatalogLevel(
+                level: 2,
+                imageUrl: sharedImage,
+                lottieDefaultUrl: "https://a/2-default.json",
+                lottiePlayEatUrl: "https://a/2-play.json"
+            )
+        ]
+        let response = PetCatalogResponse(
+            revision: "shared",
+            pets: [.init(type: "CAT", name: "cat", colorCode: "#112233", displayOrder: 0, levels: levels)]
+        )
+        let storage = StorageSpy(value: nil)
+        let cache = CacheSpy()
+        let repository = PetCatalogRepository(
+            network: NetworkStub(result: .success(response)),
+            storage: storage,
+            cache: cache
+        )
+
+        guard case .success = await repository.sync() else {
+            return XCTFail("shared assets across levels should be valid")
+        }
+        let downloaded = await cache.downloaded
+        XCTAssertEqual(downloaded.count, 5)
+        let saveCount = await storage.saveCount
+        XCTAssertEqual(saveCount, 1)
+    }
+
     func testRevisionAssetFailurePreservesStoredCatalog() async {
         let old = PetCatalogResponse(revision: "old", pets: [item(type: "CAT", levels: [1], host: "old")])
         let new = PetCatalogResponse(revision: "new", pets: [item(type: "CAT", levels: [1], host: "new")])
@@ -94,6 +131,24 @@ final class PetCatalogTests: XCTestCase {
         }
         let downloaded = await cache.downloaded
         XCTAssertEqual(downloaded, local.pets[0].levels[1].assetURLs)
+    }
+
+    func testCachedLaunchSyncsWhenMainPetIsMissingLocally() async {
+        let local = PetCatalogResponse(revision: "local", pets: [item(type: "CAT", levels: [1])])
+        let remote = PetCatalogResponse(revision: "remote", pets: [item(type: "DOG", levels: [1])])
+        let storage = StorageSpy(value: local)
+        let repository = PetCatalogRepository(
+            network: NetworkStub(result: .success(remote)),
+            storage: storage,
+            cache: CacheSpy()
+        )
+
+        guard case let .success(snapshot) = await repository.prepareForMain(petType: "DOG", level: 1) else {
+            return XCTFail("missing local pet should recover through sync")
+        }
+        XCTAssertNotNil(snapshot.catalogByType["DOG"])
+        let stored = await storage.load()
+        XCTAssertEqual(stored?.revision, "remote")
     }
 
     @MainActor
@@ -259,7 +314,13 @@ final class PetCatalogTests: XCTestCase {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let storage = PetCatalogStorage(fileURL: directory.appendingPathComponent("catalog.json"))
+        let suite = "pet-catalog-storage-tests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let storage = PetCatalogStorage(
+            fileURL: directory.appendingPathComponent("catalog.json"),
+            revisionStore: PetCatalogRevisionStore(defaults: defaults)
+        )
         let expected = PetCatalogResponse(revision: "r2", pets: [item(type: "CAT", levels: [1, 5])])
         try await storage.save(expected)
         let loaded = await storage.load()
@@ -420,6 +481,12 @@ final class PetCatalogTests: XCTestCase {
 
     @MainActor
     func testSignUpReadinessUsesSetMainPetInsteadOfStaleDefaults() async {
+        let originalPetType = UserDefaultValue.petType
+        let originalLevel = UserDefaultValue.level
+        defer {
+            UserDefaultValue.petType = originalPetType
+            UserDefaultValue.level = originalLevel
+        }
         UserDefaultValue.petType = "DOG"
         UserDefaultValue.level = 5
         let response = PetCatalogResponse(revision: "signup", pets: [item(type: "CAT", levels: [1])])
