@@ -30,7 +30,15 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
                 }
                 
                 Spacer()
-                
+                if case let .failed(message) = viewModel.bootstrapState {
+                    Text(message)
+                        .font(.body2_regular14)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                }
                 GreenButton(action: {
                     AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-select-pet"))
                     guard let selectedEgg = selectedEgg else { return }
@@ -40,7 +48,7 @@ public struct SignUpEggView<ViewModel: SignUpViewModelProtocol>: View {
                         }
                     }
 
-                }, title: "다음", disabled: buttonDisabled)
+                }, title: viewModel.bootstrapState == .loading ? "설정 중..." : "다음", disabled: buttonDisabled || viewModel.bootstrapState == .loading)
                 .onChange(of: selectedEgg) { newValue in
                     buttonDisabled = selectedEgg == nil
                 }

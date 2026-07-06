@@ -18,6 +18,56 @@ final class PetCatalogTests: XCTestCase {
         XCTAssertEqual(downloadCount, 6)
     }
 
+    func testFirstMainPreparationDownloadsOnlySelectedPetAssets() async {
+        let response = PetCatalogResponse(revision: "fresh", pets: [
+            item(type: "CAT", levels: [1, 2]),
+            item(type: "DOG", levels: [1, 2], host: "dog")
+        ])
+        let storage = StorageSpy(value: nil)
+        let cache = CacheSpy()
+        let repository = PetCatalogRepository(
+            network: NetworkStub(result: .success(response)),
+            storage: storage,
+            cache: cache
+        )
+
+        guard case .success = await repository.prepareForMain(petType: "CAT", level: 1) else {
+            return XCTFail("selected pet assets should prepare successfully")
+        }
+        let downloaded = await cache.downloaded
+        XCTAssertEqual(downloaded, response.pets[0].levels[0].assetURLs)
+        let stored = await storage.load()
+        XCTAssertEqual(stored?.revision, "fresh")
+    }
+
+    func testMainPreparationRejectsCatalogWithoutSelectedPet() async {
+        let response = PetCatalogResponse(revision: "fresh", pets: [item(type: "DOG", levels: [1])])
+        let repository = PetCatalogRepository(
+            network: NetworkStub(result: .success(response)),
+            storage: StorageSpy(value: nil),
+            cache: CacheSpy()
+        )
+
+        guard case .failure = await repository.prepareForMain(petType: "CAT", level: 1) else {
+            return XCTFail("catalog without selected pet must fail bootstrap")
+        }
+    }
+
+    func testSameRevisionMainPreparationFailsWhenRequiredAssetCannotDownload() async {
+        let response = PetCatalogResponse(revision: "same", pets: [item(type: "CAT", levels: [1])])
+        let failedURL = response.pets[0].levels[0].imageURL!
+        let repository = PetCatalogRepository(
+            network: NetworkStub(result: .success(response)),
+            storage: StorageSpy(value: response),
+            cache: CacheSpy(alwaysFail: [failedURL])
+        )
+
+        _ = await repository.loadLocal()
+        guard case .failure = await repository.sync() else {
+            return XCTFail("required asset failure must not report readiness")
+        }
+    }
+
     func testFreshCatalogAssetFailureBlocksSaveAndPublish() async {
         let response = PetCatalogResponse(revision: "fresh", pets: [item(type: "CAT", levels: [1])])
         let failedURL = URL(string: "https://a/1d.json")!
@@ -348,6 +398,24 @@ final class PetCatalogTests: XCTestCase {
         XCTAssertTrue(revisions.allSatisfy { $0 == "new" })
     }
 
+    func testFullSyncFollowingMainPreparationDownloadsRemainingAssets() async {
+        let response = PetCatalogResponse(revision: "new", pets: [item(type: "CAT", levels: [1, 2])])
+        let network = DelayedNetwork(response: response)
+        let cache = CacheSpy()
+        let repository = PetCatalogRepository(network: network, storage: StorageSpy(value: nil), cache: cache)
+
+        let mainPreparation = Task {
+            await repository.prepareForMain(petType: "CAT", level: 1)
+        }
+        try? await Task.sleep(nanoseconds: 5_000_000)
+        let fullSync = await repository.sync()
+        _ = await mainPreparation.value
+
+        guard case .success = fullSync else { return XCTFail("full sync should follow selected asset sync") }
+        let downloaded = await cache.downloaded
+        XCTAssertEqual(downloaded, PetCatalogSnapshot(revision: response.revision, pets: response.pets).assetURLs)
+    }
+
     func testOlderResponseCannotOverwriteNewerLocalGeneration() async {
         let oldResponse = PetCatalogResponse(revision: "old-server", pets: [item(type: "OLD", levels: [1])])
         let newerLocal = PetCatalogResponse(revision: "new-local", pets: [item(type: "NEW", levels: [1])])
@@ -435,7 +503,9 @@ final class PetCatalogTests: XCTestCase {
         let catalog = SignUpCatalogStub(response: response)
         let successViewModel = SignUpViewModel(
             repository: SignUpRepositoryStub(loginResult: .success(makeLoginData())),
-            catalogRepository: catalog
+            catalogRepository: catalog,
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
         )
         let didSetSuccessPet = await successViewModel.updatePet(petType: .pinkCat)
         XCTAssertTrue(didSetSuccessPet)
@@ -447,7 +517,9 @@ final class PetCatalogTests: XCTestCase {
         let failedCatalog = SignUpCatalogStub(response: response)
         let failureViewModel = SignUpViewModel(
             repository: SignUpRepositoryStub(loginResult: .failure(.requestFailed("login failed"))),
-            catalogRepository: failedCatalog
+            catalogRepository: failedCatalog,
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
         )
         let loginFailed = await failureViewModel.login()
         let failedSyncCount = await failedCatalog.syncCount
@@ -457,7 +529,9 @@ final class PetCatalogTests: XCTestCase {
         let bootstrapFailure = SignUpCatalogStub(result: .failure(.requestFailed("catalog failed")))
         let bootstrapFailureViewModel = SignUpViewModel(
             repository: SignUpRepositoryStub(loginResult: .success(makeLoginData())),
-            catalogRepository: bootstrapFailure
+            catalogRepository: bootstrapFailure,
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
         )
         let didSetFailurePet = await bootstrapFailureViewModel.updatePet(petType: .pinkCat)
         XCTAssertTrue(didSetFailurePet)
@@ -469,7 +543,9 @@ final class PetCatalogTests: XCTestCase {
         let emptyBootstrap = SignUpCatalogStub(response: .init(revision: "empty", pets: []))
         let emptyViewModel = SignUpViewModel(
             repository: SignUpRepositoryStub(loginResult: .success(makeLoginData())),
-            catalogRepository: emptyBootstrap
+            catalogRepository: emptyBootstrap,
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
         )
         let didSetEmptyPet = await emptyViewModel.updatePet(petType: .pinkCat)
         XCTAssertTrue(didSetEmptyPet)
@@ -493,7 +569,9 @@ final class PetCatalogTests: XCTestCase {
         let catalog = SignUpCatalogStub(response: response)
         let viewModel = SignUpViewModel(
             repository: SignUpRepositoryStub(loginResult: .success(makeLoginData())),
-            catalogRepository: catalog
+            catalogRepository: catalog,
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
         )
 
         let didSetPet = await viewModel.updatePet(petType: .pinkCat)
@@ -504,6 +582,76 @@ final class PetCatalogTests: XCTestCase {
         let prepared = await catalog.preparedPet()
         XCTAssertEqual(prepared?.type, "CAT")
         XCTAssertEqual(prepared?.level, 1)
+    }
+
+    @MainActor
+    func testAppleSignUpUsesOriginalCredentialAndSyncsWatch() async {
+        let response = PetCatalogResponse(revision: "signup", pets: [item(type: "CAT", levels: [1])])
+        let watch = WatchSyncSpy()
+        let viewModel = SignUpViewModel(
+            repository: SignUpRepositoryStub(
+                loginResult: .success(makeLoginData()),
+                credential: .init(token: "apple-token", tokenType: "APPLE")
+            ),
+            catalogRepository: SignUpCatalogStub(response: response),
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: watch
+        )
+
+        let didSetPet = await viewModel.updatePet(petType: .pinkCat)
+        let didLogin = await viewModel.login()
+        XCTAssertTrue(didSetPet)
+        XCTAssertTrue(didLogin)
+        let watchSyncCount = await watch.syncCount
+        let watchPetType = await watch.lastPetType
+        XCTAssertEqual(watchSyncCount, 1)
+        XCTAssertEqual(watchPetType, "CAT")
+        XCTAssertEqual(viewModel.preparedUserInfo?.id, "user")
+    }
+
+    @MainActor
+    func testCompletedLoginCommitsUserPetCatalogAndWatchAtomically() async {
+        let coordinator = AppCoordinator()
+        let watch = WatchSyncSpy()
+        let response = PetCatalogResponse(revision: "login", pets: [item(type: "CAT", levels: [1])])
+        let viewModel = LoginViewModel(
+            repository: LoginRepositoryStub(),
+            appCoordinator: coordinator,
+            catalogRepository: SignUpCatalogStub(response: response),
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: watch
+        )
+
+        let didBootstrap = await viewModel.bootstrapCompletedUser()
+        XCTAssertTrue(didBootstrap)
+        XCTAssertEqual(coordinator.rootView, .mainTab)
+        XCTAssertEqual(coordinator.userInfo?.id, "user")
+        XCTAssertEqual(coordinator.petInfo?.mainPet.type, "CAT")
+        let watchSyncCount = await watch.syncCount
+        XCTAssertEqual(watchSyncCount, 1)
+    }
+
+    @MainActor
+    func testSignUpCalorieFailureDoesNotOverwriteLocalValue() async {
+        let original = UserDefaultValue.purposeKcal
+        defer { UserDefaultValue.purposeKcal = original }
+        UserDefaultValue.purposeKcal = 100
+        let viewModel = SignUpViewModel(
+            repository: SignUpRepositoryStub(
+                loginResult: .success(makeLoginData()),
+                updateResult: .failure(.requestFailed("update failed"))
+            ),
+            catalogRepository: SignUpCatalogStub(response: .init(revision: "unused", pets: [])),
+            homeRepository: SplashHomeRepositoryStub(),
+            watchSyncer: WatchSyncSpy()
+        )
+
+        let didUpdate = await viewModel.updateCalorie(calorie: 500)
+        XCTAssertFalse(didUpdate)
+        XCTAssertEqual(UserDefaultValue.purposeKcal, 100)
+        guard case .failed = viewModel.bootstrapState else {
+            return XCTFail("failure must remain visible")
+        }
     }
 
     @MainActor
@@ -626,14 +774,42 @@ private struct SplashHomeRepositoryStub: HomeRepositoryProtocol {
 
 private struct SignUpRepositoryStub: SignUpRepositoryProtocol {
     let loginResult: Result<LoginData, NetworkError>
-    func update(name: String?, purposeCalorie: Int?) async -> Result<UserData, NetworkError> { .failure(.requestFailed("unused")) }
-    func getKakaoToken() -> String? { "token" }
-    func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> { loginResult }
+    var credential = LoginCredential(token: "token", tokenType: "KAKAO")
+    var updateResult: Result<UserData, NetworkError> = .failure(.requestFailed("unused"))
+    func update(name: String?, purposeCalorie: Int?) async -> Result<UserData, NetworkError> { updateResult }
+    func getLoginCredential() -> LoginCredential? { credential }
+    func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
+        guard token == credential.token, tokenType == credential.tokenType else {
+            return .failure(.requestFailed("credential mismatch"))
+        }
+        return loginResult
+    }
     func addPet(petType: String) async -> Result<Pet, NetworkError> {
         .success(.init(id: "new-pet", type: petType, level: 1, expPercent: 0))
     }
     func setMainPet(petID: String) async -> Result<MainPet, NetworkError> {
         .success(.init(mainPet: .init(id: petID, type: "CAT", level: 1, expPercent: 0)))
+    }
+}
+
+private struct LoginRepositoryStub: LoginRepositoryProtocol {
+    func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
+        .failure(.requestFailed("unused"))
+    }
+}
+
+private actor WatchSyncSpy: WatchPetSyncing {
+    private(set) var syncCount = 0
+    private(set) var lastPetType: String?
+
+    func syncPet(
+        purposeKcal: Int,
+        petType: String,
+        level: Int,
+        presentation: PetPresentation
+    ) {
+        syncCount += 1
+        lastPetType = petType
     }
 }
 

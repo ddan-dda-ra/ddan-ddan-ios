@@ -43,9 +43,9 @@ struct SignUpSuccessView<ViewModel: SignUpViewModelProtocol>: View {
                     AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-start"))
                     Task {
                         guard await viewModel.login() else { return }
-                        coordinator.petInfo = viewModel.preparedMainPet
-                        coordinator.triggerHomeUpdate(trigger: true)
-                        coordinator.setRoot(to: .mainTab)
+                        guard let userInfo = viewModel.preparedUserInfo,
+                              let mainPet = viewModel.preparedMainPet else { return }
+                        coordinator.commitAuthenticatedBootstrap(userInfo: userInfo, petInfo: mainPet)
                     }
                 }, title: viewModel.bootstrapState == .loading ? "준비 중..." : "시작하기", disabled: viewModel.bootstrapState == .loading)
             }

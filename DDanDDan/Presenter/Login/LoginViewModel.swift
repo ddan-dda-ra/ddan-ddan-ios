@@ -13,6 +13,7 @@ public class LoginViewModel: NSObject, ObservableObject {
     private let repository: LoginRepositoryProtocol
     private let catalogRepository: any PetCatalogRepositoryProtocol
     private let homeRepository: HomeRepositoryProtocol
+    private let watchSyncer: any WatchPetSyncing
     let appCoordinator: AppCoordinator
     
     @Published var toastMessage: String = "로그인에 실패했습니다."
@@ -25,12 +26,14 @@ public class LoginViewModel: NSObject, ObservableObject {
         repository: LoginRepositoryProtocol,
         appCoordinator: AppCoordinator,
         catalogRepository: any PetCatalogRepositoryProtocol = PetCatalogRepository.shared,
-        homeRepository: HomeRepositoryProtocol = HomeRepository()
+        homeRepository: HomeRepositoryProtocol = HomeRepository(),
+        watchSyncer: any WatchPetSyncing = WatchConnectivityManager.shared
     ) {
         self.repository = repository
         self.appCoordinator = appCoordinator
         self.catalogRepository = catalogRepository
         self.homeRepository = homeRepository
+        self.watchSyncer = watchSyncer
     }
     
     func appleLogin() {
@@ -76,51 +79,76 @@ public class LoginViewModel: NSObject, ObservableObject {
             case .success(let loginData):
                 await UserManager.shared.login(loginData: loginData)
                 if loginData.isOnboardingComplete {
-                    guard case let .success(mainPet) = await homeRepository.getMainPetInfo() else {
-                        await failLogin(message: "메인 펫 정보를 확인하지 못했어요. 다시 시도해 주세요.")
-                        return
-                    }
-                    let bootstrap = await catalogRepository.prepareForMain(
-                        petType: mainPet.mainPet.type,
-                        level: mainPet.mainPet.level
-                    )
-                    guard case .success = bootstrap else {
-                        await failLogin(message: "펫 데이터를 준비하지 못했어요. 다시 시도해 주세요.")
-                        return
-                    }
-                    await MainActor.run { [weak self] in
-                        self?.appCoordinator.petInfo = mainPet
-                        UserDefaultValue.petType = mainPet.mainPet.type
-                        UserDefaultValue.petId = mainPet.mainPet.id
-                        UserDefaultValue.level = mainPet.mainPet.level
-                    }
+                    guard await bootstrapCompletedUser() else { return }
+                    return
                 } else {
                     await catalogRepository.startAuthenticatedRefresh()
                 }
-                await MainActor.run { [weak self] in
-                    self?.bootstrapState = .idle
-                    self?.appCoordinator.triggerHomeUpdate(trigger: true)
-                    if loginData.isOnboardingComplete {
-                        self?.appCoordinator.setRoot(to: .mainTab)
-                    } else {
-                        self?.appCoordinator.setRoot(to: .signUp)
-                    }
-                }
+                await routeToSignUp()
             case .failure(let error):
-                await MainActor.run { [weak self] in
-                    switch error {
-                    case .serverError(_, let message):
-                        self?.toastMessage = "오류가 발생했습니다.: \(message)"
-                    case .dataNil, .encodingError, .failToDecode, .invalidResponse, .requestFailed, .urlError:
-                        break
-                    }
-                    self?.showToastMessage()
-                    self?.bootstrapState = .failed(self?.toastMessage ?? "로그인에 실패했습니다.")
-                }
+                await handleLoginFailure(error)
                 print(error)
                 
             }
         }
+    }
+
+    @MainActor
+    private func routeToSignUp() {
+        bootstrapState = .idle
+        appCoordinator.setRoot(to: .signUp)
+    }
+
+    @MainActor
+    private func handleLoginFailure(_ error: NetworkError) {
+        if case let .serverError(_, message) = error {
+            toastMessage = "오류가 발생했습니다.: \(message)"
+        }
+        showToastMessage()
+        bootstrapState = .failed(toastMessage)
+    }
+
+    @MainActor
+    func bootstrapCompletedUser() async -> Bool {
+        bootstrapState = .loading
+        async let userInfoResult = homeRepository.getUserInfo()
+        async let mainPetResult = homeRepository.getMainPetInfo()
+        guard case let .success(userInfo) = await userInfoResult,
+              case let .success(mainPet) = await mainPetResult else {
+            failLogin(message: "사용자와 메인 펫 정보를 확인하지 못했어요. 다시 시도해 주세요.")
+            return false
+        }
+        let bootstrap = await catalogRepository.prepareForMain(
+            petType: mainPet.mainPet.type,
+            level: mainPet.mainPet.level
+        )
+        guard case let .success(snapshot) = bootstrap else {
+            failLogin(message: "펫 데이터를 준비하지 못했어요. 다시 시도해 주세요.")
+            return false
+        }
+        let presentation = PetPresentation.resolve(
+            petType: mainPet.mainPet.type,
+            petLevel: mainPet.mainPet.level,
+            snapshot: snapshot
+        )
+        guard presentation.level?.assetURLs.count == 3 else {
+            failLogin(message: "메인 펫 데이터를 찾을 수 없어요. 다시 시도해 주세요.")
+            return false
+        }
+        await watchSyncer.syncPet(
+            purposeKcal: userInfo.purposeCalorie,
+            petType: mainPet.mainPet.type,
+            level: mainPet.mainPet.level,
+            presentation: presentation
+        )
+        UserDefaultValue.petType = mainPet.mainPet.type
+        UserDefaultValue.petId = mainPet.mainPet.id
+        UserDefaultValue.level = mainPet.mainPet.level
+        UserDefaultValue.userId = userInfo.id
+        UserDefaultValue.purposeKcal = userInfo.purposeCalorie
+        appCoordinator.commitAuthenticatedBootstrap(userInfo: userInfo, petInfo: mainPet)
+        bootstrapState = .idle
+        return true
     }
 
     @MainActor
@@ -139,13 +167,17 @@ public class LoginViewModel: NSObject, ObservableObject {
     
     @MainActor
     private func saveToken(token: String, tokenType: String) {
+        UserManager.shared.loginCredential = .init(token: token, tokenType: tokenType)
         if tokenType == "KAKAO" {
             UserManager.shared.kakaoToken = token
+            UserManager.shared.appleToken = nil
         } else if tokenType == "APPLE" {
             UserManager.shared.appleToken = token
+            UserManager.shared.kakaoToken = nil
         }
     }
     
+    @MainActor
     private func showToastMessage() {
         showToast = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
@@ -153,6 +185,7 @@ public class LoginViewModel: NSObject, ObservableObject {
         }
     }
     
+    @MainActor
     private func hideToastMessage() {
         showToast = false
     }

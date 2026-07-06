@@ -9,8 +9,17 @@ import WatchConnectivity
 import SwiftUI
 import OSLog
 
+protocol WatchPetSyncing: Sendable {
+    func syncPet(
+        purposeKcal: Int,
+        petType: String,
+        level: Int,
+        presentation: PetPresentation
+    ) async
+}
+
 /// WatchConnectivity 관리하는 클래스, iOS - Watch 간 데이터 통신 담당
-final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
+final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate, WatchPetSyncing, @unchecked Sendable {
     static let shared = WatchConnectivityManager()
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "DDanDDan",
