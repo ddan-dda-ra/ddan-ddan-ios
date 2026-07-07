@@ -1,0 +1,94 @@
+name: Deploy to TestFlight
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+# GITHUB_TOKEN 권한 최소화 (public 레포 안전 조치)
+permissions:
+  contents: read
+
+concurrency:
+  group: testflight-deploy
+  cancel-in-progress: false
+
+jobs:
+  testflight:
+    # 포크에서 워크플로우가 헛돌지 않도록 원본 레포에서만 실행
+    if: github.repository_owner == 'ddan-dda-ra'
+    runs-on: macos-26
+    timeout-minutes: 60
+    # Environment 보호 규칙(배포 브랜치 제한, 시크릿 격리)을 적용하려면
+    # GitHub Settings > Environments 에 testflight 환경을 만들고 시크릿을 옮긴다
+    environment: testflight
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Config*.xcconfig는 gitignore 대상이라 Secrets에서 복원한다
+      - name: Restore xcconfig files
+        env:
+          CONFIG_XCCONFIG: ${{ secrets.CONFIG_XCCONFIG }}
+          CONFIG_DEV_XCCONFIG: ${{ secrets.CONFIG_DEV_XCCONFIG }}
+        run: |
+          printf '%s\n' "$CONFIG_XCCONFIG" > Config.xcconfig
+          printf '%s\n' "$CONFIG_DEV_XCCONFIG" > Config_dev.xcconfig
+
+      # App Store Connect API 키 (.p8)를 워크스페이스 밖 임시 디렉토리에 복원
+      - name: Restore App Store Connect API key
+        env:
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }} # .p8 파일의 base64
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          printf '%s' "$ASC_KEY_CONTENT" | base64 --decode > "$RUNNER_TEMP/asc/AuthKey.p8"
+
+      # 클라우드 서명: -allowProvisioningUpdates + ASC API 키로 Xcode가
+      # 인증서/프로파일을 자동 생성·관리한다 (match, p12 시크릿 불필요).
+      # pbxproj에는 match 수동 서명이 남아 있지만 커맨드라인 오버라이드가 우선한다.
+      - name: Archive
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project DDanDDan.xcodeproj \
+            -scheme DDanDDan \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/DDanDDan.xcarchive" \
+            -onlyUsePackageVersionsFromResolvedFile \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGN_IDENTITY="Apple Development" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM=65NSM7Z327 \
+            | xcbeautify --renderer github-actions
+
+      # ExportOptions.plist의 destination=upload 로 export와 동시에
+      # TestFlight 업로드까지 수행한다 (빌드 번호는 ASC 기준 자동 +1)
+      - name: Export and upload to TestFlight
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          set -o pipefail
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/DDanDDan.xcarchive" \
+            -exportOptionsPlist .github/ExportOptions.plist \
+            -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            | xcbeautify --renderer github-actions
+
+      - name: Clean up API key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/asc"
