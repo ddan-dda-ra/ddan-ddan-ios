@@ -51,9 +51,15 @@ jobs:
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TF_MARKETING_VERSION: ${{ vars.TESTFLIGHT_MARKETING_VERSION }}
         run: |
           set -o pipefail
+          EXTRA_ARGS=()
+          if [ -n "$TF_MARKETING_VERSION" ]; then
+            EXTRA_ARGS+=("MARKETING_VERSION=$TF_MARKETING_VERSION")
+          fi
           xcodebuild archive \
+            "${EXTRA_ARGS[@]}" \
             -project DDanDDan.xcodeproj \
             -scheme DDanDDan \
             -configuration Release \
