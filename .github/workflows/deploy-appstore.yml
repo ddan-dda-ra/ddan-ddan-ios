@@ -2,11 +2,13 @@ name: Deploy to App Store
 
 on:
   push:
-    branches: [main]
+    # v1.3.3 형식의 태그 푸시에만 실행. 태그 커밋이 main에 포함되는지는
+    # 잡 안에서 별도 검증한다 (태그는 브랜치 조건을 걸 수 없음)
+    tags: ["v*.*.*"]
   workflow_dispatch:
     inputs:
       marketing_version:
-        description: "마케팅 버전 (예: 1.3.3). 비우면 APPSTORE_MARKETING_VERSION 변수 → pbxproj 순으로 사용"
+        description: "마케팅 버전 (예: 1.3.3). 비우면 태그(v*.*.*) → APPSTORE_MARKETING_VERSION 변수 → pbxproj 순으로 사용"
         type: string
         required: false
 
@@ -24,12 +26,25 @@ jobs:
     if: github.repository_owner == 'ddan-dda-ra'
     runs-on: macos-26
     timeout-minutes: 60
-    # GitHub Settings > Environments 에 appstore 환경을 만들고
-    # 시크릿 5개 등록 + deployment branch를 main으로 제한한다
+    # GitHub Settings > Environments 에 appstore 환경을 만들고 시크릿 5개 등록,
+    # deployment 규칙은 태그 패턴 v*.*.* (+ 수동 실행용 main 브랜치) 허용으로 설정한다
     environment: appstore
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # main 포함 여부 검증을 위해 전체 히스토리를 받는다
+          fetch-depth: 0
+
+      # 릴리즈 태그가 main에 머지된 커밋을 가리키는지 검증한다.
+      # main 밖의 커밋에 태그를 달아 배포하는 실수/우회를 차단.
+      - name: Verify tag commit is on main
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::이 커밋($GITHUB_SHA)은 main에 포함되어 있지 않습니다. main 머지 후 태그를 푸시하세요."
+            exit 1
+          fi
 
       # Config*.xcconfig는 gitignore 대상이라 Secrets에서 복원한다.
       # 실배포는 항상 프로덕션 설정(Config.xcconfig)으로만 빌드한다.
@@ -57,13 +72,21 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           # 버전을 pbxproj 커밋 없이 덮어쓸 수 있다. 우선순위:
-          # 수동 실행 입력 > APPSTORE_MARKETING_VERSION 변수 > pbxproj
+          # 수동 실행 입력 > 태그 이름(v1.3.3 → 1.3.3) > APPSTORE_MARKETING_VERSION 변수 > pbxproj
           MARKETING_VERSION_OVERRIDE: ${{ inputs.marketing_version || vars.APPSTORE_MARKETING_VERSION }}
         run: |
           set -o pipefail
+          VERSION="${{ inputs.marketing_version }}"
+          if [ -z "$VERSION" ] && [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+            echo "::notice::태그에서 버전 추출: $VERSION"
+          fi
+          if [ -z "$VERSION" ]; then
+            VERSION="$MARKETING_VERSION_OVERRIDE"
+          fi
           EXTRA_ARGS=()
-          if [ -n "$MARKETING_VERSION_OVERRIDE" ]; then
-            EXTRA_ARGS+=("MARKETING_VERSION=$MARKETING_VERSION_OVERRIDE")
+          if [ -n "$VERSION" ]; then
+            EXTRA_ARGS+=("MARKETING_VERSION=$VERSION")
           fi
           xcodebuild archive \
             "${EXTRA_ARGS[@]}" \
