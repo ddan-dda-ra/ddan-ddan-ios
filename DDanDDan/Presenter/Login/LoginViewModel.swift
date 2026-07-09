@@ -62,7 +62,7 @@ public class LoginViewModel: NSObject, ObservableObject {
             switch result {
             case .success(let loginData):
                 await UserManager.shared.login(loginData: loginData)
-                DispatchQueue.main.async { [weak self] in
+                await MainActor.run { [weak self] in
                     self?.appCoordinator.triggerHomeUpdate(trigger: true)
                     if loginData.isOnboardingComplete {
                         self?.appCoordinator.setRoot(to: .mainTab)
@@ -71,7 +71,7 @@ public class LoginViewModel: NSObject, ObservableObject {
                     }
                 }
             case .failure(let error):
-                DispatchQueue.main.async { [weak self] in
+                await MainActor.run { [weak self] in
                     switch error {
                     case .serverError(_, let message):
                         self?.toastMessage = "오류가 발생했습니다.: \(message)"
