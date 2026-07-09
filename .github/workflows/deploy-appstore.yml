@@ -1,18 +1,12 @@
-name: Deploy to TestFlight
+name: Deploy to App Store
 
 on:
   push:
-    # TODO: CI 테스트용 임시 트리거 — 검증 끝나면 chore/xcode26-library-update 제거
-    branches: [develop, chore/xcode26-library-update]
+    branches: [main]
   workflow_dispatch:
     inputs:
-      config:
-        description: "빌드 설정 (prod = Config.xcconfig, dev = Config_dev.xcconfig)"
-        type: choice
-        options: [prod, dev]
-        default: prod
       marketing_version:
-        description: "마케팅 버전 (예: 1.3.3). 비우면 TESTFLIGHT_MARKETING_VERSION 변수 → pbxproj 순으로 사용"
+        description: "마케팅 버전 (예: 1.3.3). 비우면 APPSTORE_MARKETING_VERSION 변수 → pbxproj 순으로 사용"
         type: string
         required: false
 
@@ -21,38 +15,30 @@ permissions:
   contents: read
 
 concurrency:
-  group: testflight-deploy
+  group: appstore-deploy
   cancel-in-progress: false
 
 jobs:
-  testflight:
+  appstore:
     # 포크에서 워크플로우가 헛돌지 않도록 원본 레포에서만 실행
     if: github.repository_owner == 'ddan-dda-ra'
     runs-on: macos-26
     timeout-minutes: 60
-    # Environment 보호 규칙(배포 브랜치 제한, 시크릿 격리)을 적용하려면
-    # GitHub Settings > Environments 에 testflight 환경을 만들고 시크릿을 옮긴다
-    environment: testflight
+    # GitHub Settings > Environments 에 appstore 환경을 만들고
+    # 시크릿 5개 등록 + deployment branch를 main으로 제한한다
+    environment: appstore
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       # Config*.xcconfig는 gitignore 대상이라 Secrets에서 복원한다.
-      # 아카이브(Release)는 Config.xcconfig를 참조하므로, 수동 실행에서
-      # dev를 고르면 Config.xcconfig 자리에 dev 내용을 채워 빌드한다.
-      # push(develop 머지) 트리거는 항상 prod로 빌드된다.
+      # 실배포는 항상 프로덕션 설정(Config.xcconfig)으로만 빌드한다.
       - name: Restore xcconfig files
         env:
           CONFIG_XCCONFIG: ${{ secrets.CONFIG_XCCONFIG }}
           CONFIG_DEV_XCCONFIG: ${{ secrets.CONFIG_DEV_XCCONFIG }}
-          BUILD_CONFIG: ${{ inputs.config || 'prod' }}
         run: |
-          if [ "$BUILD_CONFIG" = "dev" ]; then
-            echo "::notice::Config_dev.xcconfig 설정으로 빌드합니다"
-            printf '%s\n' "$CONFIG_DEV_XCCONFIG" > Config.xcconfig
-          else
-            printf '%s\n' "$CONFIG_XCCONFIG" > Config.xcconfig
-          fi
+          printf '%s\n' "$CONFIG_XCCONFIG" > Config.xcconfig
           printf '%s\n' "$CONFIG_DEV_XCCONFIG" > Config_dev.xcconfig
 
       # App Store Connect API 키 (.p8)를 워크스페이스 밖 임시 디렉토리에 복원
@@ -70,15 +56,14 @@ jobs:
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          # App Store에 이미 출시된 버전으로는 TestFlight 업로드가 거부되므로
-          # 버전을 pbxproj 커밋 없이 덮어쓴다. 우선순위:
-          # 수동 실행 입력 > TESTFLIGHT_MARKETING_VERSION 변수 > pbxproj
-          TF_MARKETING_VERSION: ${{ inputs.marketing_version || vars.TESTFLIGHT_MARKETING_VERSION }}
+          # 버전을 pbxproj 커밋 없이 덮어쓸 수 있다. 우선순위:
+          # 수동 실행 입력 > APPSTORE_MARKETING_VERSION 변수 > pbxproj
+          MARKETING_VERSION_OVERRIDE: ${{ inputs.marketing_version || vars.APPSTORE_MARKETING_VERSION }}
         run: |
           set -o pipefail
           EXTRA_ARGS=()
-          if [ -n "$TF_MARKETING_VERSION" ]; then
-            EXTRA_ARGS+=("MARKETING_VERSION=$TF_MARKETING_VERSION")
+          if [ -n "$MARKETING_VERSION_OVERRIDE" ]; then
+            EXTRA_ARGS+=("MARKETING_VERSION=$MARKETING_VERSION_OVERRIDE")
           fi
           xcodebuild archive \
             "${EXTRA_ARGS[@]}" \
@@ -101,8 +86,10 @@ jobs:
             | xcbeautify --renderer github-actions
 
       # ExportOptions.plist의 destination=upload 로 export와 동시에
-      # TestFlight 업로드까지 수행한다 (빌드 번호는 ASC 기준 자동 +1)
-      - name: Export and upload to TestFlight
+      # App Store Connect로 업로드한다 (빌드 번호는 ASC 기준 자동 +1).
+      # 업로드 후 App Store 버전에 빌드를 연결하고 심사 제출하는 것은
+      # App Store Connect에서 수동으로 진행한다.
+      - name: Export and upload to App Store Connect
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
