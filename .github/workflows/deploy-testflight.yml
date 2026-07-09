@@ -2,8 +2,7 @@ name: Deploy to TestFlight
 
 on:
   push:
-    # TODO: CI 테스트용 임시 트리거 — 검증 끝나면 chore/xcode26-library-update 제거
-    branches: [develop, chore/xcode26-library-update]
+    branches: [develop]
   workflow_dispatch:
     inputs:
       config:
