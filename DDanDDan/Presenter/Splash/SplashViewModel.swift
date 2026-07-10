@@ -24,7 +24,7 @@ final class SplashViewModel: ObservableObject {
         do {
             let userData = try await unwrapResult(homeRepository.getUserInfo())
 
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.coordinator.userInfo = userData
                 UserDefaultValue.userId = userData.id
                 UserDefaultValue.purposeKcal = userData.purposeCalorie
@@ -32,7 +32,7 @@ final class SplashViewModel: ObservableObject {
 
             let petData = try await unwrapResult(homeRepository.getMainPetInfo())
 
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.coordinator.petInfo = petData
                 UserDefaultValue.petType = petData.mainPet.type.rawValue
                 UserDefaultValue.petId = petData.mainPet.id
@@ -53,7 +53,7 @@ final class SplashViewModel: ObservableObject {
                 self.coordinator.setRoot(to: .mainTab)
             }
         } catch {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.coordinator.setRoot(to: .login)
             }
         }
