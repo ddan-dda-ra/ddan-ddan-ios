@@ -51,10 +51,12 @@ actor UserManager: ObservableObject {
     
     func logout() async {
         refreshToken = nil
+        await PetArchiveCache.shared.invalidate()
         await MainActor.run {
             accessToken = nil
             UserDefaultValue.accessToken = nil
             UserDefaultValue.refreshToken = nil
+            UserDefaultValue.userId = ""
             coordinator?.setRoot(to: .login)
         }
     }

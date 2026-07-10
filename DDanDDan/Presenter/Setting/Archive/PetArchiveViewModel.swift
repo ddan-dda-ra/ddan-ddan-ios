@@ -10,27 +10,31 @@ import HealthKit
 
 final class PetArchiveViewModel: ObservableObject {
     private let homeRepository: HomeRepositoryProtocol
+    private let cache: PetArchiveCache
     private var firstSelectedIndex: Int? = nil
 
     @Published var petList: [Pet] = []
     @Published var selectedIndex: Int? = nil
     @Published var petId: String = ""
     @Published var isSelectedMainPet: Bool = false
+    /// 변경된 메인 펫 정보 — 홈에 petType/level을 즉시 동기 반영하기 위해 보관.
+    @Published private(set) var selectedMainPet: Pet? = nil
     @Published var showToast = false
     @Published var gridItemCount: Int = 9
     @Published var toastMessage: String = "새로운 펫을 준비 중이에요!"
-    
 
-    
+
+
     var isButtonDisable: Bool {
         guard let firstSelectedIndex, let selectedIndex else { return true }
         return firstSelectedIndex == selectedIndex
     }
-    
-    init(repository: HomeRepositoryProtocol) {
+
+    init(repository: HomeRepositoryProtocol, cache: PetArchiveCache = .shared) {
         self.homeRepository = repository
+        self.cache = cache
     }
-    
+
     func setSelectedPet() {
         for (index, pet) in petList.enumerated() {
             if pet.id == UserDefaultValue.petId {
@@ -39,32 +43,46 @@ final class PetArchiveViewModel: ObservableObject {
             }
         }
     }
-    
+
     func toggleSelection(for index: Int) {
         if selectedIndex == index {
             selectedIndex = nil
         } else {
             selectedIndex = index
         }
-        
+
         if let selectedPet = petList[safe: index] {
             petId = selectedPet.id
         }
     }
-    
-    func fetchPetArchive() async {
-        let petArchiveModel = await homeRepository.getPetArchive()
-        
-        if case .success(let petArchive) = petArchiveModel {
-            await selectedFirstPetIndex(pets: petArchive.pets)
 
-            UserDefaultValue.userId = petArchive.ownerUserId
-            await updatePetList(with: petArchive.pets)
-            
-            if checkIsMaxLevel(pets: petArchive.pets) {
+    /// 진입 시 호출: 캐시가 있으면 즉시 UI에 반영(stale-while-revalidate)하고,
+    /// 동시에 백그라운드로 최신 데이터를 fetch해 한 번 더 반영한다.
+    func fetchPetArchive() async {
+        // 1) 캐시 hit이면 즉시 그린다 — placeholder 깜빡임 제거.
+        if let cached = await cache.cachedValue() {
+            await applyArchive(cached)
+        }
+
+        // 2) 백그라운드 갱신(or in-flight join). 캐시가 신선해도 호출하여 stale-while-revalidate를 보장.
+        let repo = homeRepository
+        let result = await cache.fetch {
+            await repo.getPetArchive()
+        }
+        if case .success(let fresh) = result {
+            await applyArchive(fresh)
+
+            if checkIsMaxLevel(pets: fresh.pets) {
                 await addNewRandomPet()
             }
         }
+    }
+
+    /// 캐시 값/네트워크 응답 어느 쪽이든 동일하게 UI 반영.
+    private func applyArchive(_ archive: PetArchiveModel) async {
+        await selectedFirstPetIndex(pets: archive.pets)
+        UserDefaultValue.userId = archive.ownerUserId
+        await updatePetList(with: archive.pets)
     }
     
     @MainActor
@@ -85,6 +103,8 @@ final class PetArchiveViewModel: ObservableObject {
        let newRandomPet = await homeRepository.addNewRandomPet()
         if case .success(let newPet) = newRandomPet {
             petList.append(newPet)
+            // 새 펫이 추가되었으므로 보관함 캐시 무효화 — 다음 진입 시 새 fetch로 stale 회피.
+            await cache.invalidate()
         }
     }
     
@@ -104,7 +124,10 @@ final class PetArchiveViewModel: ObservableObject {
         if case .success(let pet) = result {
             UserDefaultValue.petId = pet.mainPet.id
             UserDefaultValue.petType = pet.mainPet.type.rawValue
-            DispatchQueue.main.async { [weak self] in
+            // 메인 펫이 바뀌었으므로 보관함 캐시 무효화 — 다음 진입 시 새 fetch.
+            await cache.invalidate()
+            await MainActor.run { [weak self] in
+                self?.selectedMainPet = pet.mainPet
                 self?.isSelectedMainPet = true
             }
         }

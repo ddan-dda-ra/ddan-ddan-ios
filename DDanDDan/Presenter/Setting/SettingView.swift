@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
@@ -109,6 +110,14 @@ struct SettingView: View {
             }
             .onAppear {
                 viewStore.send(.onAppear)
+
+                // 펫 보관함 진입 체감 로딩을 줄이기 위한 prefetch.
+                // TTL/in-flight 가드는 캐시 내부에서 처리한다.
+                Task {
+                    await PetArchiveCache.shared.prefetchIfNeeded {
+                        await HomeRepository().getPetArchive()
+                    }
+                }
             }
         }
         .navigationBarHidden(true)
@@ -240,16 +249,47 @@ extension SettingView {
                 AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
                 coordinator.push(to: item)
             case .inquiry:
-                if let url = URL(string: "https://tally.so/r/Gx1GEe") {
+                if let url = inquiryURL {
                     UIApplication.shared.open(url)
                 }
             default:
                 coordinator.push(to: item)
             }
         }
+
+        private var inquiryURL: URL? {
+            var components = URLComponents(string: "https://tally.so/r/Gx1GEe")
+            components?.queryItems = [
+                URLQueryItem(name: "userId", value: UserDefaultValue.userId),
+                URLQueryItem(name: "deviceModel", value: deviceModel),
+                URLQueryItem(name: "osVersion", value: UIDevice.current.systemVersion),
+                URLQueryItem(name: "appVersion", value: appVersion)
+            ]
+            return components?.url
+        }
+
+        private var deviceModel: String {
+            #if targetEnvironment(simulator)
+            return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"]
+                ?? UIDevice.current.model
+            #else
+            var systemInfo = utsname()
+            uname(&systemInfo)
+
+            return withUnsafePointer(to: &systemInfo.machine) {
+                $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                    String(cString: $0)
+                }
+            }
+            #endif
+        }
+
+        private var appVersion: String {
+            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+                ?? "unknown"
+        }
     }
 }
 #Preview {
     SettingView(coordinator: AppCoordinator(), store: Store(initialState: SettingViewReducer.State(), reducer: { SettingViewReducer(repository: SettingRepository()) }))
 }
-

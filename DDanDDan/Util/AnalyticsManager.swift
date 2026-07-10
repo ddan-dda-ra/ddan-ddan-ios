@@ -313,3 +313,31 @@ enum SettingEvent: AnalyticsEvent {
         }
     }
 }
+
+// MARK: - HealthKit
+
+/// 활동에너지 read/observer 진단 텔레메트리. "이상 상황"에서만 발생시킨다(정상 0은 기록하지 않음).
+enum HealthKitEvent: AnalyticsEvent {
+    /// read 결과 데이터 없음 + 권한 거부(denied) 계열 HKError. errorNoData/정상0은 제외.
+    case readFailed(source: String, hkErrorCode: Int)
+    /// 이전에 권한이 관측됐는데 지금 read가 비는(authorized==false && kcal==0) "전엔 됐는데 지금 안 됨" 상황.
+    case observerGap(source: String)
+    /// enableBackgroundDelivery 실패.
+    case backgroundDeliveryFailed(hkErrorCode: Int)
+
+    var title: String {
+        switch self {
+        case .readFailed:               return "health_read_failed"
+        case .observerGap:              return "health_observer_gap"
+        case .backgroundDeliveryFailed: return "health_background_delivery_failed"
+        }
+    }
+
+    var parameter: [String: Any] {
+        switch self {
+        case let .readFailed(source, code):       return ["source": source, "hk_error_code": code]
+        case let .observerGap(source):            return ["source": source]
+        case let .backgroundDeliveryFailed(code): return ["hk_error_code": code]
+        }
+    }
+}
