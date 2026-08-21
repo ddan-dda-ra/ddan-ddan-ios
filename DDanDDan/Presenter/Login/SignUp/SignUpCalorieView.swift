@@ -44,15 +44,23 @@ struct SignUpCalorieView<ViewModel: SignUpViewModelProtocol>: View {
                     .padding(.top, 56)
                 
                 Spacer()
-                
+                if case let .failed(message) = viewModel.bootstrapState {
+                    Text(message)
+                        .font(.body2_regular14)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                }
                 GreenButton(action: {
                     AnalyticsManager.shared.logEvent(event: SignUpEvent.clickCTA(touchpoint: "sign-up-goal"))
                     Task {
-                        //TODO: 실패처리
-                        await viewModel.updateCalorie(calorie: calorie)
-                        coordinator.push(to: .egg)
+                        if await viewModel.updateCalorie(calorie: calorie) {
+                            coordinator.push(to: .egg)
+                        }
                     }
-                }, title: "다음", disabled: false)
+                }, title: viewModel.bootstrapState == .loading ? "저장 중..." : "다음", disabled: viewModel.bootstrapState == .loading)
             }
             .navigationBarHidden(true)
         }

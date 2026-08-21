@@ -15,6 +15,7 @@ final class WatchViewModel: ObservableObject {
     @Published var currentKcal: Int
     @Published var currentKcalProgress: Double = 0.0
     @Published var viewConfig: (ImageResource, Color)?
+    @Published var petSVG: String?
     @Published var showLoginAlert = false
     
     private let healthKitManager: HealthKitManager = .shared
@@ -48,9 +49,10 @@ final class WatchViewModel: ObservableObject {
         return currentKcal >= goalKcal ?? 0
     }
     
-    /// petType에 따른 UI 설정
-    public func configureUI(petType: PetType, level: Int) -> (ImageResource, Color) {
-        return (petType.image(for: level), petType.color)
+    /// 서버 카탈로그 색상과 번들 폴백 이미지로 UI를 설정한다.
+    public func configureUI(petType: String, level: Int, colorCode: String) -> (ImageResource, Color) {
+        let fallbackImage = PetType(rawValue: petType)?.image(for: level) ?? .blueEgg
+        return (fallbackImage, Color(hex: colorCode))
     }
     
     /// 도달률 계산
@@ -74,11 +76,29 @@ final class WatchViewModel: ObservableObject {
             
             // 데이터 통합 처리
             self.goalKcal = Int(purposeKcal)
-            if let petTypeEnum = PetType(rawValue: petType) {
-                self.viewConfig = self.configureUI(petType: petTypeEnum, level: level)
-            }
+            self.viewConfig = self.configureUI(
+                petType: petType,
+                level: level,
+                colorCode: self.watchConnectivityManager.colorCode
+            )
             self.updateProgress()
         }
         .store(in: &cancellables)
+
+        watchConnectivityManager.$colorCode
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] colorCode in
+                guard let self else { return }
+                self.viewConfig = self.configureUI(
+                    petType: self.watchConnectivityManager.petType,
+                    level: self.watchConnectivityManager.level,
+                    colorCode: colorCode
+                )
+            }
+            .store(in: &cancellables)
+
+        watchConnectivityManager.$petSVG
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$petSVG)
     }
 }

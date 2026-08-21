@@ -39,7 +39,15 @@ public struct SignUpNicknameView<ViewModel: SignUpViewModelProtocol>: View {
                 .padding(.horizontal, 20)
                 
                 Spacer()
-                
+                if case let .failed(message) = viewModel.bootstrapState {
+                    Text(message)
+                        .font(.body2_regular14)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                }
                 GreenButton(action: {
                     AnalyticsManager.shared.logEvent(event: SignUpEvent.clickNextCTA)
                     Task {
@@ -47,7 +55,7 @@ public struct SignUpNicknameView<ViewModel: SignUpViewModelProtocol>: View {
                             coordinator.push(to: .calorie)
                         }
                     }
-                }, title: "다음", disabled: buttonDisabled)
+                }, title: viewModel.bootstrapState == .loading ? "저장 중..." : "다음", disabled: buttonDisabled || viewModel.bootstrapState == .loading)
                 .onChange(of: nickname) { newValue in
                     buttonDisabled = nickname.isEmpty
                 }

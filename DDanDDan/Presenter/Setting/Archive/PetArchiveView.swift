@@ -88,8 +88,7 @@ struct PetArchiveView: View {
                         
                     
                     if let pet = pet {
-                        Image(pet.type.image(for: pet.level))
-                            .resizable()
+                        CatalogPetView(type: pet.type, level: pet.level)
                             .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: 80, maxHeight: 80)
                     } else {

@@ -10,13 +10,13 @@ import SwiftUI
 struct LevelUpView: View {
     @ObservedObject var coordinator: AppCoordinator
     private let level: Int
-    private let petType: PetType
+    private let petType: String
     private let newRandomPet: Bool
     
     init(
         coordinator: AppCoordinator,
         level: Int,
-        petType: PetType,
+        petType: String,
         newRandomPet: Bool = false
     ) {
         self.coordinator = coordinator
@@ -64,8 +64,7 @@ struct LevelUpView: View {
     var imageView: some View {
         ZStack {
             Image(.pangGraphics)
-            Image(petType.image(for: level))
-                .resizable()
+            CatalogPetView(type: petType, level: level)
                 .frame(width: 96, height: 96)
                 .aspectRatio(contentMode: .fill)
         }
@@ -73,5 +72,5 @@ struct LevelUpView: View {
 }
 
 #Preview {
-    LevelUpView(coordinator: .init(), level: 4, petType: .bluePenguin)
+    LevelUpView(coordinator: .init(), level: 4, petType: "PENGUIN")
 }

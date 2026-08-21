@@ -10,8 +10,16 @@ import Testing
 
 struct DdanDdan_Watch_Watch_AppTests {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    @Test func petSyncMetadataRoundTrip() {
+        let expected = WatchPetSyncMetadata(
+            purposeKcal: 500,
+            petType: "NEW_PET",
+            level: 3,
+            colorCode: "#123456",
+            assetIdentity: "NEW_PET|3|asset"
+        )
+
+        #expect(WatchPetSyncMetadata(dictionary: expected.dictionary) == expected)
     }
 
 }
