@@ -9,13 +9,27 @@ import Foundation
 import Alamofire
 
 public struct NetworkManager {
-    private let baseURL = Config.baseURL
+    private let baseURL: String
     private let session: Session
+    private let responseHeaderHandler: any PetCatalogResponseHeaderHandling
     
-    public init(withInterceptor:Bool = true) {
-        let config = URLSessionConfiguration.default
+    public init(
+        withInterceptor: Bool = true,
+        revisionProvider: any PetCatalogRevisionProviding = PetCatalogRevisionStore.shared,
+        responseHeaderHandler: any PetCatalogResponseHeaderHandling = PetCatalogResponseHeaderHandler(),
+        configuration: URLSessionConfiguration = .default,
+        baseURL: String? = nil
+    ) {
+        let config = configuration
         config.requestCachePolicy = .useProtocolCachePolicy
-        self.session = Session(configuration: config, interceptor: withInterceptor ? TokenInterceptor() : nil)
+        let catalogInterceptor = PetCatalogHeaderInterceptor(revisionProvider: revisionProvider)
+        let interceptor = DDanDDanRequestInterceptor(
+            catalog: catalogInterceptor,
+            token: withInterceptor ? TokenInterceptor() : nil
+        )
+        self.session = Session(configuration: config, interceptor: interceptor)
+        self.responseHeaderHandler = responseHeaderHandler
+        self.baseURL = baseURL ?? Config.baseURL
     }
     
     private func createHeaders(excludeAuth: Bool = false, additionalHeaders: HTTPHeaders? = nil) -> HTTPHeaders {
@@ -74,6 +88,10 @@ public struct NetworkManager {
             result = await dataTask.serializingData(emptyResponseCodes: [200]).response
         } else {
             result = await dataTask.serializingData().response
+        }
+
+        if let response = result.response {
+            await responseHeaderHandler.handle(response: response, requestURL: url)
         }
         
         // 응답 로그 출력

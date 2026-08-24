@@ -12,6 +12,7 @@ import Combine
 import HealthKit
 
 
+@MainActor
 final class HomeViewModel: ObservableObject {
     
     private struct Loading {
@@ -19,7 +20,7 @@ final class HomeViewModel: ObservableObject {
     }
     
     @Published var homePetModel: HomeModel = .init(
-        petType: PetType(rawValue: UserDefaultValue.petType) ?? .pinkCat,
+        petType: UserDefaultValue.petType,
         level: UserDefaultValue.level,
         exp: 0,
         goalKcal: UserDefaultValue.purposeKcal,
@@ -30,6 +31,11 @@ final class HomeViewModel: ObservableObject {
     
     @Published var isPlayingSpecialAnimation: Bool = false
     @Published var currentLottieAnimation: String = ""
+    @Published private(set) var petPresentation: PetPresentation = .resolve(
+        petType: UserDefaultValue.petType,
+        petLevel: UserDefaultValue.level,
+        snapshot: .empty
+    )
     
     @Published var isGoalMet: Bool = false
     @Published var isMaxLevel: Bool = false
@@ -64,6 +70,7 @@ final class HomeViewModel: ObservableObject {
     private var petId = ""
     private var previousKcal: Int = 0
     private var cancellables = Set<AnyCancellable>()
+    private let catalogStore: PetCatalogStore
     private var calorieTooltipToken: UUID?
     private var didAutoShowCalorieTooltip = false
     private var hasSeenHealthKitAuthorized = false
@@ -78,9 +85,11 @@ final class HomeViewModel: ObservableObject {
     init(
         repository: HomeRepositoryProtocol,
         userInfo: HomeUserInfo? = nil,
-        petInfo: MainPet? = nil
+        petInfo: MainPet? = nil,
+        catalogStore: PetCatalogStore = .shared
     ) {
         self.homeRepository = repository
+        self.catalogStore = catalogStore
         
         // 권한 체크
         checkHealthKitAuthorization()
@@ -101,6 +110,12 @@ final class HomeViewModel: ObservableObject {
             
             enableRandomPet = userInfo.tickets > 0
         }
+
+        catalogStore.$snapshot
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.resolvePresentation() }
+            .store(in: &cancellables)
+        resolvePresentation()
         
         observeHealthKitData()
     }
@@ -110,7 +125,7 @@ final class HomeViewModel: ObservableObject {
         guard !isPlayingSpecialAnimation else { return }
         
         isPlayingSpecialAnimation = true
-        currentLottieAnimation = homePetModel.petType.lottieString(level: homePetModel.level, mode: action)
+        currentLottieAnimation = action == .eatPlay ? "remote-play-eat" : "remote-default"
 
         // 햅틱
         let hapticDuration: Double = 1.0
@@ -142,25 +157,27 @@ final class HomeViewModel: ObservableObject {
     /// 이어 호출되는 fetchHomeInfo()가 일괄 덮어쓴다. 이 사이의 짧은 윈도우에서
     /// 위 카운트 필드들이 이전 값일 수 있다.
     @MainActor
-    func applyPetChange(petType: PetType, level: Int, expPercent: Double) {
+    func applyPetChange(petType: String, level: Int, expPercent: Double) {
         homePetModel.petType = petType
         homePetModel.level = level
         homePetModel.exp = expPercent
         // 변경 직후 이전 펫 애니메이션이 남지 않도록 특수 애니메이션 상태를 초기화한다.
         isPlayingSpecialAnimation = false
         currentLottieAnimation = ""
+        resolvePresentation()
     }
 
     @MainActor
     func fetchHomeInfo() async {
-        
-        let userData = await homeRepository.getUserInfo()
-        let mainPetData = await homeRepository.getMainPetInfo()
+        async let userInfoResult = homeRepository.getUserInfo()
+        async let mainPetResult = homeRepository.getMainPetInfo()
+        let userData = await userInfoResult
+        let mainPetData = await mainPetResult
         
         if case .success(let userInfo) = userData,
            case .success(let petInfo) = mainPetData {
             UserDefaultValue.userId = userInfo.id
-            UserDefaultValue.petType = petInfo.mainPet.type.rawValue
+            UserDefaultValue.petType = petInfo.mainPet.type
             UserDefaultValue.petId = petInfo.mainPet.id
             UserDefaultValue.purposeKcal = userInfo.purposeCalorie
             
@@ -176,14 +193,14 @@ final class HomeViewModel: ObservableObject {
             )
             
             enableRandomPet = userInfo.tickets > 0
+            resolvePresentation()
             
-            let info: [String: Any] = [
-                "purposeKcal": userInfo.purposeCalorie,
-                "petType": petInfo.mainPet.type.rawValue,
-                "level": petInfo.mainPet.level
-            ]
-            
-            WatchConnectivityManager.shared.transferUserInfo(info: info)
+            await WatchConnectivityManager.shared.syncPet(
+                purposeKcal: userInfo.purposeCalorie,
+                petType: petInfo.mainPet.type,
+                level: petInfo.mainPet.level,
+                presentation: petPresentation
+            )
             
             
         }
@@ -203,7 +220,7 @@ final class HomeViewModel: ObservableObject {
             loadingState.feed = false
             switch result {
             case let .success(petData):
-                try await playFeedPet(petData: petData)
+                try await playFeedPet(petData: petData, bubble: .eat)
             case let .failure(error) :
                 await failToPlayWithPet(error: error)
             }
@@ -223,7 +240,7 @@ final class HomeViewModel: ObservableObject {
             let result = await homeRepository.playPet(petId: petId)
             switch result {
             case let .success(petData):
-                try await playFeedPet(petData: petData)
+                try await playFeedPet(petData: petData, bubble: .play)
             case let .failure(error) :
                 await failToPlayWithPet(error: error)
             }
@@ -242,29 +259,55 @@ final class HomeViewModel: ObservableObject {
     }
     
     @MainActor
-    private func playFeedPet(petData: UserPetData) async throws {
-        
-        self.homePetModel.toyCount = petData.user.toyQuantity
-        self.homePetModel.feedCount = petData.user.foodQuantity
-        self.homePetModel.exp = petData.pet.expPercent
+    private func playFeedPet(petData: UserPetData, bubble: bubbleTextType) async throws {
+        let interaction = HomePetInteractionReducer.reduce(
+            response: .init(
+                petID: petData.pet.id,
+                petType: petData.pet.type,
+                level: petData.pet.level,
+                expPercent: petData.pet.expPercent,
+                foodQuantity: petData.user.foodQuantity,
+                toyQuantity: petData.user.toyQuantity
+            ),
+            catalog: catalogStore.snapshot
+        )
+
+        self.homePetModel.toyCount = interaction.toyQuantity
+        self.homePetModel.feedCount = interaction.foodQuantity
+        self.homePetModel.exp = interaction.expPercent
+        self.petId = interaction.petID
+        UserDefaultValue.petId = interaction.petID
+        UserDefaultValue.petType = interaction.petType
         
         UserDefaultValue.level = petData.pet.level
         
         // 레벨 변화 확인
-        if self.homePetModel.level != petData.pet.level {
-            self.homePetModel.level = petData.pet.level
+        if self.homePetModel.level != interaction.level {
+            self.homePetModel.level = interaction.level
             self.isLevelUp = true
             self.isPlayingSpecialAnimation = false
             
-            if petData.pet.level == 5 {
+            if interaction.level == 5 {
                 self.isPlayingSpecialAnimation = false
                 self.isMaxLevel = true
             }
             
         }
 
-        self.showRandomBubble(type: .play)
+        self.homePetModel.petType = interaction.petType
+        self.petPresentation = interaction.presentation
+
+        self.showRandomBubble(type: bubble)
         try await self.updateLottieAnimation(for: .eatPlay)
+    }
+
+    @MainActor
+    private func resolvePresentation() {
+        petPresentation = PetPresentation.resolve(
+            petType: homePetModel.petType,
+            petLevel: homePetModel.level,
+            snapshot: catalogStore.snapshot
+        )
     }
     
     

@@ -10,6 +10,6 @@ import Foundation
 // MARK: myProfile Model
 public struct ProfileModel: Equatable {
     let name: String
-    let petType: PetType
+    let petType: String
     let level: Int
 }

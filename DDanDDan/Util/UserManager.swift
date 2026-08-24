@@ -7,12 +7,18 @@
 
 import Foundation
 
+struct LoginCredential: Equatable, Sendable {
+    let token: String
+    let tokenType: String
+}
+
 actor UserManager: ObservableObject {
     static let shared = UserManager()
     
     @MainActor @Published var accessToken: String? = UserDefaultValue.accessToken
     @MainActor public var kakaoToken: String?
     @MainActor public var appleToken: String?
+    @MainActor public var loginCredential: LoginCredential?
     @MainActor public var coordinator: AppCoordinator?
     
     private var refreshToken: String? = UserDefaultValue.refreshToken
@@ -54,6 +60,9 @@ actor UserManager: ObservableObject {
         await PetArchiveCache.shared.invalidate()
         await MainActor.run {
             accessToken = nil
+            kakaoToken = nil
+            appleToken = nil
+            loginCredential = nil
             UserDefaultValue.accessToken = nil
             UserDefaultValue.refreshToken = nil
             UserDefaultValue.userId = ""

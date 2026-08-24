@@ -9,7 +9,7 @@ import Foundation
 
 public struct Pet: Decodable, Equatable {
     let id: String
-    let type: PetType
+    let type: String
     let level: Int
     let expPercent: Double
 }

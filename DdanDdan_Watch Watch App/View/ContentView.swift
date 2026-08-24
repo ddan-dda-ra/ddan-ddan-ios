@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SVGView
 
 struct ContentView: View {
     @State private var isTapped: Bool = false
@@ -38,10 +39,18 @@ struct ContentView: View {
     }
     
     var imageView: some View {
-        Image(viewModel.viewConfig?.0 ?? .blueEgg)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 100, height: 100) 
+        Group {
+            if let petSVG = viewModel.petSVG {
+                SVGView(string: petSVG)
+                    .scaledToFit()
+            } else {
+                Image(viewModel.viewConfig?.0 ?? .blueEgg)
+                    .resizable()
+                    .scaledToFit()
+            }
+        }
+        .frame(width: 100, height: 100)
+        .accessibilityLabel("메인 펫")
     }
     
     var body: some View {

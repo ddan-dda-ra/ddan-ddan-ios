@@ -16,7 +16,7 @@ public struct FriendList: Decodable {
 public struct Friend: Decodable, Equatable, Hashable {
     public let id: String
     public let name: String
-    public let mainPetType: PetType
+    public let mainPetType: String
     public let petLevel: Int
 }
 
@@ -36,7 +36,7 @@ public struct AddedFriend: Decodable, Equatable {
 public struct FriendUser: Decodable, Equatable {
     let id: String
     let name: String
-    let mainPetType: PetType
+    let mainPetType: String
     let petLevel: Int
 }
 

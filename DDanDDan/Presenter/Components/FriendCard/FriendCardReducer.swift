@@ -30,9 +30,9 @@ struct FriendCardReducer {
         var showToast: Bool {
             !toastMessage.isEmpty
         }
-        var petLottieStrng: String {
+        var petType: String {
             guard let entity else { return "" }
-            return entity.mainPet.type.lottieString(level: entity.mainPet.level)
+            return entity.mainPet.type
         }
         var hideButton: Bool {
             switch type {

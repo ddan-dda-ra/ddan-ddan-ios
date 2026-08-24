@@ -9,7 +9,11 @@ import Foundation
 import Alamofire
 
 public struct AuthNetwork {
-    private let manager = NetworkManager(withInterceptor: false)
+    private let manager: NetworkManager
+
+    public init(manager: NetworkManager = NetworkManager(withInterceptor: false)) {
+        self.manager = manager
+    }
     
     public func login(token: String, tokenType: String, deviceToken: String?) async -> Result<LoginData, NetworkError> {
         var parameter: Parameters = [

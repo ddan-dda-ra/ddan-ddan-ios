@@ -126,10 +126,9 @@ struct FriendListView: View {
         HStack {
             ZStack {
                 Circle()
-                    .fill(friend.mainPetType.color)
+                    .fill(CatalogPetColor.resolve(type: friend.mainPetType))
                     .frame(width: 48, height: 48)
-                Image(friend.mainPetType.image(for: friend.petLevel))
-                    .resizable()
+                CatalogPetView(type: friend.mainPetType, level: friend.petLevel)
                     .frame(width: 38, height: 38)
                     .padding(3)
             }
@@ -170,10 +169,9 @@ struct FriendListView: View {
             HStack(alignment: .center) {
                 ZStack {
                     Circle()
-                        .fill(store.myProfilePet.petType.color)
+                        .fill(CatalogPetColor.resolve(type: store.myProfilePet.petType))
                         .frame(width: 48, height: 48)
-                    Image(store.myProfilePet.petType.image(for: store.myProfilePet.level))
-                        .resizable()
+                    CatalogPetView(type: store.myProfilePet.petType, level: store.myProfilePet.level)
                         .frame(width: 42, height: 42)
                         .offset(y: -3)
                 }

@@ -32,6 +32,8 @@ struct LoginView: View {
                         .foregroundColor(.black)
                         .padding(.horizontal, 20)
                 }
+                .opacity(viewModel.isLoading ? 0.5 : 1)
+                .disabled(viewModel.isLoading)
                 .padding(.bottom, 9)
                 Button {
                     AnalyticsManager.shared.logEvent(event: LoginEvent.clickAppleBtn())
@@ -45,8 +47,19 @@ struct LoginView: View {
                         .border(.white, width: 1)
                         .padding(.horizontal, 20)
                 }
+                .opacity(viewModel.isLoading ? 0.5 : 1)
+                .disabled(viewModel.isLoading)
             }
             .padding(.bottom, 40)
+            if viewModel.isLoading {
+                ProgressView("펫 데이터를 준비하는 중이에요")
+                    .tint(.white)
+                    .foregroundStyle(.white)
+                    .padding(24)
+                    .background(Color(.backgroundBlack).opacity(0.85))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .accessibilityLabel("로그인 정보를 불러오는 중")
+            }
             TransparentOverlayView(isPresented: viewModel.showToast) {
                 VStack {
                     ToastView(message: viewModel.toastMessage, toastType: .info)

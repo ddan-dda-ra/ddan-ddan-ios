@@ -19,7 +19,7 @@ enum AppPath: Hashable {
 
 /// 메인 펫 변경 시 홈에 즉시 반영할 새 펫 정보.
 struct PetChangePayload: Equatable {
-    let petType: PetType
+    let petType: String
     let level: Int
     let expPercent: Double
 }
@@ -66,6 +66,16 @@ final class AppCoordinator: ObservableObject {
             navigationPath.removeLast(navigationPath.count)
             rootView = path
         }
+    }
+
+    /// 인증 bootstrap 결과를 한 MainActor transaction에서 반영한다.
+    /// Splash가 반환된 뒤에도 이전 root가 남는 비동기 전환 구간을 만들지 않는다.
+    @MainActor
+    func commitAuthenticatedBootstrap(userInfo: HomeUserInfo, petInfo: MainPet) {
+        self.userInfo = userInfo
+        self.petInfo = petInfo
+        navigationPath.removeLast(navigationPath.count)
+        rootView = .mainTab
     }
     
     func pop() {

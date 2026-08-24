@@ -11,12 +11,12 @@ import Lottie
 struct FriendAddView: View {
     @ObservedObject var coordinator: AppCoordinator
     private let level: Int
-    private let petType: PetType
+    private let petType: String
     
     init(
         coordinator: AppCoordinator,
         level: Int,
-        petType: PetType
+        petType: String
     ) {
         self.coordinator = coordinator
         self.level = level
@@ -54,9 +54,7 @@ struct FriendAddView: View {
     var imageView: some View {
         ZStack {
             Image(.pangGraphics)
-            LottieView(animation: .named(petType.lottieString(level: level)))
-                .playing(loopMode: .playOnce)
-                .resizable()
+            CatalogPetView(type: petType, level: level)
                 .frame(width: 96, height: 96)
                 .aspectRatio(contentMode: .fill)
         }
@@ -65,5 +63,5 @@ struct FriendAddView: View {
 
 
 #Preview {
-    FriendAddView(coordinator: .init(), level: 2, petType: .bluePenguin)
+    FriendAddView(coordinator: .init(), level: 2, petType: "PENGUIN")
 }

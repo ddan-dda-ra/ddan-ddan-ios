@@ -9,9 +9,9 @@ import Foundation
 
 protocol SignUpRepositoryProtocol {
     func update(name: String?, purposeCalorie: Int?) async -> Result<UserData, NetworkError>
-    func getKakaoToken() -> String?
+    @MainActor func getLoginCredential() -> LoginCredential?
     func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError>
-    func addPet(petType: PetType) async -> Result<Pet, NetworkError>
+    func addPet(petType: String) async -> Result<Pet, NetworkError>
     func setMainPet(petID: String) async -> Result<MainPet, NetworkError>
 }
 
@@ -31,8 +31,8 @@ public struct SignUpRepository: SignUpRepositoryProtocol {
     }
     
     @MainActor
-    public func getKakaoToken() -> String? {
-        return UserManager.shared.kakaoToken
+    func getLoginCredential() -> LoginCredential? {
+        UserManager.shared.loginCredential
     }
     
     public func login(token: String, tokenType: String) async -> Result<LoginData, NetworkError> {
@@ -40,7 +40,7 @@ public struct SignUpRepository: SignUpRepositoryProtocol {
         return await authNetwork.login(token: token, tokenType: tokenType, deviceToken: deviceToken)
     }
     
-    public func addPet(petType: PetType) async -> Result<Pet, NetworkError> {
+    public func addPet(petType: String) async -> Result<Pet, NetworkError> {
         guard let accessToken = await UserManager.shared.accessToken else { return .failure(.requestFailed("Access Token Nil"))}
         return await petsNetwork.addPet(accessToken: accessToken, petType: petType)
     }
