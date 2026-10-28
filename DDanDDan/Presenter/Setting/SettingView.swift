@@ -11,17 +11,18 @@ import ComposableArchitecture
 
 enum SettingPath: Hashable, CaseIterable {
     static var allCases: [SettingPath] {
-        [.petArchive, .updateNickname, .updateCalorie, .notification, .inquiry, .updateTerms, .deleteUser, .logout]
+        [.petArchive, .updateNickname, .updateCalorie, .notification, .instagram, .inquiry, .updateTerms, .deleteUser, .logout]
     }
     
     static var myInfoSection: [SettingPath] { [.petArchive, .updateNickname, updateCalorie] }
     static var notificationSection: [SettingPath] { [.notification] }
-    static var bottomSection: [SettingPath] { [.inquiry, .updateTerms, .deleteUser, .logout] }
+    static var bottomSection: [SettingPath] { [.instagram, .inquiry, .updateTerms, .deleteUser, .logout] }
     
     case petArchive
     case updateNickname
     case updateCalorie
     case notification
+    case instagram
     case inquiry
     case updateTerms
     case deleteUser
@@ -34,6 +35,7 @@ enum SettingPath: Hashable, CaseIterable {
         case .updateNickname: "내 별명 수정"
         case .updateCalorie: "목표 칼로리 수정"
         case .notification: "전체 푸시 알림"
+        case .instagram: "딴딴 인스타그램"
         case .inquiry: "문의하기"
         case .updateTerms: "약관 및 개인정보 처리 동의"
         case .deleteUser: "탈퇴하기"
@@ -248,6 +250,10 @@ extension SettingView {
             case .deleteUser:
                 AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
                 coordinator.push(to: item)
+            case .instagram:
+                if let url = URL(string: "https://www.instagram.com/ddanddan.app/") {
+                    UIApplication.shared.open(url)
+                }
             case .inquiry:
                 if let url = inquiryURL {
                     UIApplication.shared.open(url)
