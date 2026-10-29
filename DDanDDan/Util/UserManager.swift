@@ -57,6 +57,7 @@ actor UserManager: ObservableObject {
     
     func logout() async {
         refreshToken = nil
+        AnalyticsManager.shared.resetUser()
         await PetArchiveCache.shared.invalidate()
         await MainActor.run {
             accessToken = nil

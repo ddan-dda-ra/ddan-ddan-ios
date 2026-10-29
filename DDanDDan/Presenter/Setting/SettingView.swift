@@ -251,6 +251,7 @@ extension SettingView {
                 AnalyticsManager.shared.logEvent(event: SettingEvent.clickDeleteAccount())
                 coordinator.push(to: item)
             case .instagram:
+                AnalyticsManager.shared.logEvent(event: SettingEvent.clickInstagram())
                 if let url = URL(string: "https://www.instagram.com/ddanddan.app/") {
                     UIApplication.shared.open(url)
                 }
