@@ -17,7 +17,18 @@ class AnalyticsManager {
     }
 
     public func setUserProperty(property: UserProperty) {
-        Analytics.setUserProperty(property.value, forName: property.name)
+        switch property {
+        case .userID(let id):
+            // user_id는 Firebase 예약 속성명이라 setUserProperty로는 기록되지 않는다.
+            Analytics.setUserID(id)
+        default:
+            Analytics.setUserProperty(property.value, forName: property.name)
+        }
+    }
+
+    public func resetUser() {
+        Analytics.setUserID(nil)
+        Analytics.setUserProperty(nil, forName: UserProperty.userName("").name)
     }
 }
 
@@ -180,8 +191,8 @@ enum RankingEvent: AnalyticsEvent {
 
     var title: String {
         switch self {
-        case .clickTab:    return "click-tab"
-        case .clickTooltip: return "click-tooltip"
+        case .clickTab:    return "click_tab"
+        case .clickTooltip: return "click_tooltip"
         case .clickMyRanking:  return "click_my_ranking"
         }
     }
@@ -222,7 +233,7 @@ enum FriendsEvent: AnalyticsEvent {
         case .clickCancelDialogCTA:    return "click_cancel_dialog_CTA"
         case .clickDeleteDialogCTA:    return "click_delete_dialog_CTA"
         case .clickAddFriendDialogCTA: return "click_add_friend_dialog_CTA"
-        case .clickBackBtn:            return "click-back-btn"
+        case .clickBackBtn:            return "click_back_btn"
         }
     }
 
@@ -259,6 +270,7 @@ enum SettingEvent: AnalyticsEvent {
     case clickTerms(touchPoint: String)
     case clickDeleteAccount(touchPoint: String = "mypage")
     case clickLogout(touchPoint: String = "mypage")
+    case clickInstagram(touchPoint: String = "mypage")
     // mypage-petbox / mypage-change-name / mypage-change-goal
     case clickSavedCTA(touchPoint: String)
     // mypage-terms
@@ -275,21 +287,22 @@ enum SettingEvent: AnalyticsEvent {
 
     var title: String {
         switch self {
-        case .clickPetBox:         return "click-petbox"
-        case .clickChangeName:     return "click-change-name"
-        case .clickChangeGoal:     return "click-change-goal"
-        case .clickPushAlarm:      return "click-push-alarm"
-        case .clickTerms:          return "click-terms"
-        case .clickDeleteAccount:  return "click-delete-account"
-        case .clickLogout:         return "click-logout"
-        case .clickSavedCTA:       return "click-saved-cta"
-        case .clickServiceTermBtn: return "click-service-terms-btn"
-        case .clickPrivacyTermBtn: return "click-privacy-terms-btn"
-        case .clickCTABtn:         return "click-CTA-btn"
-        case .clickCheckboxReason: return "click-checkbox-reason"
-        case .clickMinusBtn:       return "click-minus-btn"
-        case .clickPlusBtn:        return "click-plus-btn"
-        case .clickBackBtn:        return "click-back-btn"
+        case .clickPetBox:         return "click_petbox"
+        case .clickChangeName:     return "click_change_name"
+        case .clickChangeGoal:     return "click_change_goal"
+        case .clickPushAlarm:      return "click_push_alarm"
+        case .clickTerms:          return "click_terms"
+        case .clickDeleteAccount:  return "click_delete_account"
+        case .clickLogout:         return "click_logout"
+        case .clickInstagram:      return "click_instagram"
+        case .clickSavedCTA:       return "click_saved_cta"
+        case .clickServiceTermBtn: return "click_service_terms_btn"
+        case .clickPrivacyTermBtn: return "click_privacy_terms_btn"
+        case .clickCTABtn:         return "click_CTA_btn"
+        case .clickCheckboxReason: return "click_checkbox_reason"
+        case .clickMinusBtn:       return "click_minus_btn"
+        case .clickPlusBtn:        return "click_plus_btn"
+        case .clickBackBtn:        return "click_back_btn"
         }
     }
 
@@ -302,6 +315,7 @@ enum SettingEvent: AnalyticsEvent {
         case let .clickTerms(touchPoint):          return ["touchpoint": touchPoint]
         case let .clickDeleteAccount(touchPoint):  return ["touchpoint": touchPoint]
         case let .clickLogout(touchPoint):         return ["touchpoint": touchPoint]
+        case let .clickInstagram(touchPoint):      return ["touchpoint": touchPoint]
         case let .clickSavedCTA(touchPoint):       return ["touchpoint": touchPoint]
         case let .clickServiceTermBtn(touchPoint): return ["touchpoint": touchPoint]
         case let .clickPrivacyTermBtn(touchPoint): return ["touchpoint": touchPoint]

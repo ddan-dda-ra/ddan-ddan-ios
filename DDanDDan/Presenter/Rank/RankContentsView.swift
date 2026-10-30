@@ -59,6 +59,9 @@ struct RankContentsView: View {
             }
         }
         .onChange(of: tabType) { newTab in
+            // 탭은 kcal/goal 두 개뿐이라 변경 전 탭은 newTab의 반대편이다.
+            let previousTab: Tab = newTab == .kcal ? .goal : .kcal
+            AnalyticsManager.shared.logEvent(event: RankingEvent.clickTab(touchPoint: rankingTouchPoint(previousTab)))
             store.send(.tabChanged(newTab))
         }
         .onChange(of: scenePhase) { newPhase in
@@ -86,6 +89,7 @@ extension RankContentsView {
                     ZStack {
                         Button(
                             action: {
+                                AnalyticsManager.shared.logEvent(event: RankingEvent.clickTooltip(touchPoint: rankingTouchPoint(tabType)))
                                 store.send(.toolkitButtonTapped)
                             },
                             label: {
@@ -259,6 +263,7 @@ extension RankContentsView {
                 .padding(.vertical, 12)
             }
             .onTapGesture {
+                AnalyticsManager.shared.logEvent(event: RankingEvent.clickMyRanking(touchPoint: rankingTouchPoint(tabType)))
                 store.send(.focusMyRank(index: myRanking?.rank ?? 0))
             }
         }
@@ -273,6 +278,10 @@ extension RankContentsView {
         (tabType == .kcal ? store.kcalRanking?.ranking : store.goalRanking?.ranking) ?? []
     }
     
+    private func rankingTouchPoint(_ tab: Tab) -> String {
+        tab == .kcal ? "ranking-kcal" : "ranking-goal"
+    }
+
     private var currentMyRanking: Ranking? {
         tabType == .kcal ? store.kcalRanking?.myRanking : store.goalRanking?.myRanking
     }
