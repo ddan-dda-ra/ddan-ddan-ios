@@ -62,13 +62,12 @@ jobs:
           mkdir -p "$RUNNER_TEMP/asc"
           printf '%s' "$ASC_KEY_CONTENT" | base64 --decode > "$RUNNER_TEMP/asc/AuthKey.p8"
 
-      # 클라우드 서명: -allowProvisioningUpdates + ASC API 키로 Xcode가
-      # 인증서/프로파일을 자동 생성·관리한다 (match, p12 시크릿 불필요).
-      # pbxproj에는 match 수동 서명이 남아 있지만 커맨드라인 오버라이드가 우선한다.
+      # 임시 서명: 아카이브는 ad-hoc(CODE_SIGN_IDENTITY="-")으로 만들고, 실제 배포 서명은
+      # export 단계에서 ExportOptions.plist(app-store-connect, automatic)에 따라 클라우드
+      # 배포 인증서로 다시 한다. 러너는 매번 새 환경이라 여기서 Development 인증서를
+      # 자동 생성하면 팀 인증서 한도에 걸리므로, 아카이브 단계에서는 인증서를 만들지 않는다.
       - name: Archive
         env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           # App Store에 이미 출시된 버전으로는 TestFlight 업로드가 거부되므로
           # 버전을 pbxproj 커밋 없이 덮어쓴다. 우선순위:
           # 수동 실행 입력 > TESTFLIGHT_MARKETING_VERSION 변수 > pbxproj
@@ -89,12 +88,8 @@ jobs:
             -onlyUsePackageVersionsFromResolvedFile \
             -skipPackagePluginValidation \
             -skipMacroValidation \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
-            -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
-            CODE_SIGN_STYLE=Automatic \
-            CODE_SIGN_IDENTITY="Apple Development" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="-" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM=65NSM7Z327 \
             | xcbeautify --renderer github-actions
